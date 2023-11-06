@@ -1,9 +1,10 @@
-import { Shopify } from '@/types/viper'
+import { Shopify, Viper } from '@/types/viper'
 import type { NextAuthConfig } from 'next-auth'
 import GitHub from '@auth/core/providers/github'
 import Auth0 from '@auth/core/providers/auth0'
 import Google from '@auth/core/providers/google'
-import Twitter from '@auth/core/providers/twitter'
+import { clientPromise } from '@/services/servicesInitializer'
+import { ObjectId } from 'mongodb'
 
 declare module 'next-auth' {
    interface Session {
@@ -18,9 +19,74 @@ declare module 'next-auth' {
    }
 }
 
+type NewViper = {
+   name: string
+   username: string
+   email: string
+   image: string
+   location: string
+   bio: string
+}
+const populateNewUser = async (newViper: Partial<NewViper>) => {
+   const { name, username, email, image, location, bio } = newViper
+
+   // const newViper = await viperService.create
+   const client = await clientPromise
+   const viperCol = client.db('viperDb').collection<Viper>('users')
+
+   let unTakenUsername: string = ''
+   if (typeof username === 'string') {
+      const isUsernameTaken = await viperCol.findOne<Viper>({ username: username })
+      if (isUsernameTaken) {
+         const randomNumber = Math.floor(Math.random() * 100000)
+         unTakenUsername = `${username}${randomNumber}`
+      } else {
+         unTakenUsername = username
+      }
+   }
+
+   const viper = await viperCol.insertOne({
+      _id: new ObjectId(),
+      location: location ?? '',
+      contact_info: {
+         phone: null,
+         address: '',
+         website: '',
+      },
+      // we might want to create a basic image or place a gradient, that's cool having that conditional
+      // might not make the code look great, handling a basic Image might be a better approach
+      backgroundImage: image ?? '',
+      bio: bio ?? '',
+      blogs: {
+         personal: [],
+         likes: [],
+         with_replies: [],
+      },
+      email: email ?? '',
+      emailVerified: null,
+      username: unTakenUsername,
+      name: name ?? '',
+      image: image ?? '',
+      shopify: {
+         customerAccessToken: '',
+         customerId: '',
+      },
+      events: {
+         created: [],
+         collection: [],
+         likes: [],
+      },
+      followers: [],
+      followings: [],
+   })
+}
+
 export default {
    debug: false,
-   providers: [GitHub, Google, Twitter],
+   providers: [GitHub, Google, Auth0],
+   pages: {
+      signIn: '/auth/signin',
+   },
    callbacks: {
       // async authorized({ request, auth }) {
       //    const pathname = request.nextUrl
@@ -34,7 +100,31 @@ export default {
       //       // }
       //    }
       // },
-      async session({ session, user, trigger, newSession }) {
+      async signIn({ user, account, profile, email }) {
+         if (!user && profile) {
+            const newViper: Partial<NewViper> = {}
+            Object.assign(newViper, {
+               name: profile.name,
+               email: profile.email,
+            })
+            if (account?.provider === 'github') {
+               Object.assign(newViper, {
+                  username: profile.login as string,
+                  image: profile.avatar_url as string,
+                  location: profile.location as string,
+                  bio: profile.bio,
+               })
+            } else if (account?.provider === 'google') {
+               Object.assign(newViper, {
+                  username: profile.name?.trim().toLowerCase().replace(/\\s+/g, ''),
+                  image: profile.picture as string,
+               })
+            }
+            await populateNewUser({ ...newViper })
+         }
+         return true
+      },
+      async session({ session, token, user, trigger, newSession }) {
          if (trigger && newSession?.shopify) {
             session.user.shopify = newSession.shopify
          } else if (trigger && newSession?.image && newSession?.location && newSession?.image) {

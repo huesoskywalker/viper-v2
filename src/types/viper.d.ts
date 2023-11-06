@@ -4,21 +4,24 @@ import { Session } from 'next-auth'
 
 export type Viper = {
    readonly _id: _ID
-   username: Username
-   address: Address
+   location: Location
+   contact_info: ContactInfo
    backgroundImage: Image
-   biography: Biography
+   bio: Biography
    blogs: Blog
    email: Email
    emailVerified: null
+   username: Username
    name: Name
    image: Image
    shopify: Shopify
-   myEvents: MyEvents
+   events: MyEvents
    followers: Follow[]
-   follows: Follow[]
+   followings: Follow[]
 }
+
 type Username = string
+
 type Image = string
 
 type Biography = string
@@ -28,10 +31,9 @@ type Email = string
 type Name = string
 
 export type MyEvents = {
-   readonly _id: _ID
    created: CreatedEvent[]
    collection: EventCollection[]
-   liked: Likes[]
+   likes: Like[]
 }
 export type CreatedEvent = {
    readonly _id: _ID
@@ -40,41 +42,40 @@ export type EventCollection = {
    readonly _id: _ID
    readonly checkoutId: string
 }
-export type Likes = {
+export type Like = {
    readonly _id: _ID
 }
 export type Follow = {
    readonly _id: _ID
 }
-export type Address = {
-   // phone in here? non sense. make an additional contact {} email and phone ...props
-   // phone: number | null | string
+export type ContactInfo = {
+   phone: number | null
    address: string
-   province: string
-   country: string
-   zip: number | null | string
-   city: string
+   // city: string
+   // zip: string
+   website: string
 }
+export type Location = string
 
 export type Blog = {
    personal: PersonalBlog[]
-   liked: ExternalBlog[]
-   commented: ExternalBlog[]
+   likes: ExternalBlog[]
+   with_replies: ExternalBlog[]
 }
 
 export type PersonalBlog = {
    readonly _id: _ID
    content: string
-   likes: Likes[]
-   comments: BlogComment[]
+   likes: Like[]
+   replies: Reply[]
    timestamp: number
 }
 
-export type BlogComment = {
+export type Reply = {
    readonly _id: _ID
    viperId: _ID
    content: string
-   likes: Likes[]
+   likes: Like[]
    // if we want to keep nesting we should uncomment the following
    // comments: BlogComment[]
    timestamp: number
@@ -116,9 +117,9 @@ export type ViperBasicProps = Pick<
    | 'backgroundImage'
    | 'email'
    | 'address'
-   | 'biography'
+   | 'bio'
    | 'followers'
-   | 'follows'
+   | 'followings'
 >
 
 // most probably we should do something like this -> (_id needed?)
@@ -126,7 +127,7 @@ export type ViperBasicProps = Pick<
 export type UpdateViper = Partial<UpdateViperType>
 type UpdateViperPick = Pick<
    Viper,
-   '_id' | 'name' | 'biography' | 'image' | 'backgroundImage' | 'location'
+   '_id' | 'name' | 'bio' | 'image' | 'backgroundImage' | 'location'
 >
 
 export type Hex24String = `${

@@ -11,13 +11,14 @@ export const Auth = ({ children }: PageProps) => {
    const isUser = session?.user
    useEffect(() => {
       if (status === 'loading') return
-      if (status === 'unauthenticated') {
-         router.push('/')
-      }
-      if (!isUser) {
-         router.push('/')
-      }
-   }, [isUser, status])
+      // if (status === 'unauthenticated') {
+      // router.push('/')
+      // }
+      // if (!isUser) {
+      // router.push('/')
+      // }
+   }, [status])
+   // }, [isUser, status])
 
    return <>{children}</>
 }

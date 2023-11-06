@@ -1,10 +1,13 @@
+import { Viper } from './viper'
+
 interface ViperCRUDRepository {
+   // create(viper: Partial<Viper>): Promise<WithId<Viper> | null>
+   update(viper: UpdateViper): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<ViperBasicProps[]>
-   update(viper: UpdateViper): Promise<WithId<Viper> | null>
 }
 
 interface ViperFollowRepository {
@@ -12,14 +15,14 @@ interface ViperFollowRepository {
    // should we add getFollowers? check if the function already
    // getFollowers(viperId: string): Promise<Follow[]>
    // =========================================
-   getFollows(viperId: string): Promise<Follow[]>
-   isViperFollowed(viperId: string, currentViperId: string): Promise<boolean>
+   getFollowings(viperId: string): Promise<Follow[]>
+   isViperFollowing(viperId: string, currentViperId: string): Promise<boolean>
    toggleFollower(
       isFollowed: boolean,
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null>
-   toggleFollow(
+   toggleFollowing(
       isFollowed: boolean,
       viperId: string,
       currentViperId: string,
@@ -38,19 +41,19 @@ interface ViperBlogRepository {
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null>
-   toggleFeedLikedBlog(
+   toggleFeedBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null>
-   addBlogComment(
+   addBlogReply(
       blogId: string,
       viperId: string,
       currentViperId: string,
       comment: string,
    ): Promise<WithId<Viper> | null>
-   addFeedCommentedBlog(
+   addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
       currentViperId: string,

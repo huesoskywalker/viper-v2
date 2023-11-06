@@ -9,7 +9,7 @@ import authConfig from '../../auth.config'
 // This signIn works when passing a provider and on server components
 // Probably to make a custom LogIn Form
 export const { handlers, auth, signIn, signOut, update } = NextAuth({
-   adapter: MongoDBAdapter(clientPromise as Promise<MongoClient>),
+   adapter: MongoDBAdapter(clientPromise as Promise<MongoClient>, { databaseName: 'viperDb' }),
    session: {
       strategy: 'database',
       maxAge: 30 * 24 * 60 * 60,

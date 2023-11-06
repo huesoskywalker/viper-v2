@@ -3,7 +3,7 @@ import {
    CreatedEvent,
    EventCollection,
    Follow,
-   Likes,
+   Like,
    UpdateViper,
    Viper,
    ViperBasicProps,
@@ -52,14 +52,14 @@ export class ViperRepository implements ViperRepositorySource {
                   image: 1,
                   backgroundImage: 1,
                   email: 1,
-                  address: 1,
-                  biography: 1,
+                  location: 1,
+                  bio: 1,
                   followers: 1,
                   follows: 1,
                },
             },
          )
-         return viperBasicProps
+         return viperBasicProps as Partial<Viper> as ViperBasicProps
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Viper basic Props, ${error}`)
       }
@@ -88,8 +88,8 @@ export class ViperRepository implements ViperRepositorySource {
                      image: 1,
                      backgroundImage: 1,
                      email: 1,
-                     address: 1,
-                     biography: 1,
+                     location: 1,
+                     bio: 1,
                      followers: 1,
                      follows: 1,
                   },
@@ -97,7 +97,7 @@ export class ViperRepository implements ViperRepositorySource {
             )
             .toArray()
 
-         return vipers
+         return vipers as Partial<Viper>[] as ViperBasicProps[]
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to find Viper by Username, ${error}`)
       }
@@ -105,7 +105,7 @@ export class ViperRepository implements ViperRepositorySource {
 
    async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
       try {
-         const { _id, name, biography, image, backgroundImage, location } = viper
+         const { _id, name, bio, image, backgroundImage, location } = viper
          const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(_id as string),
@@ -113,7 +113,7 @@ export class ViperRepository implements ViperRepositorySource {
             {
                $set: {
                   name: name,
-                  biography: biography,
+                  bio: bio,
                   image: image,
                   backgroundImage: backgroundImage,
                   location: location,
@@ -127,9 +127,9 @@ export class ViperRepository implements ViperRepositorySource {
    }
 
    // We don't have a getFollowers?
-   async getFollows(viperId: string): Promise<Follow[]> {
+   async getFollowings(viperId: string): Promise<Follow[]> {
       try {
-         const viperFollows: Follow[] = await this.viperCollection
+         const viperFollowings: Follow[] = await this.viperCollection
             .aggregate<Follow>([
                {
                   $match: { _id: new ObjectId(viperId) },
@@ -144,13 +144,13 @@ export class ViperRepository implements ViperRepositorySource {
                },
             ])
             .toArray()
-         return viperFollows
+         return viperFollowings
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Viper follows, ${error}`)
       }
    }
 
-   async isViperFollowed(viperId: string, currentViperId: string): Promise<boolean> {
+   async isViperFollowing(viperId: string, currentViperId: string): Promise<boolean> {
       try {
          const isFollowed: WithId<Viper> | null = await this.viperCollection.findOne(
             {
@@ -195,7 +195,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async toggleFollow(
+   async toggleFollowing(
       isFollowed: boolean,
       viperId: string,
       currentViperId: string,
@@ -237,7 +237,7 @@ export class ViperRepository implements ViperRepositorySource {
                      _id: '$blogs.personal._id',
                      content: '$blogs.personal.content',
                      likes: '$blogs.personal.likes',
-                     comments: '$blogs.personal.comments',
+                     comments: '$blogs.personal.replies',
                      timestamp: '$blogs.personal.timestamp',
                   },
                },
@@ -263,8 +263,8 @@ export class ViperRepository implements ViperRepositorySource {
                      _id: new ObjectId(),
                      content: comment,
                      likes: [],
-                     comments: [],
-                     rePosts: [],
+                     replies: [],
+                     // rePosts: [],
                      timestamp: Date.now(),
                   },
                },
@@ -323,7 +323,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async toggleFeedLikedBlog(
+   async toggleFeedBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
@@ -337,7 +337,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                [operation]: {
-                  'blogs.liked': {
+                  'blogs.likes': {
                      _id: new ObjectId(blogId),
                      viperId: new ObjectId(viperId),
                   },
@@ -350,21 +350,22 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async addBlogComment(
+   async addBlogReply(
       blogId: string,
       viperId: string,
       currentViperId: string,
+      // change this to reply or content when the time comes
       comment: string,
    ): Promise<WithId<Viper> | null> {
       try {
-         const addComment: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+         const reply: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(viperId),
                'blogs._id': new ObjectId(blogId),
             },
             {
                $push: {
-                  'blogs.$.comments': {
+                  'blogs.$.replies': {
                      _id: new ObjectId(),
                      viperId: new ObjectId(currentViperId),
                      content: comment,
@@ -375,14 +376,14 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         return addComment
+         return reply
       } catch (error: unknown) {
          // we should manage to split the errors based on the request
          throw new Error(`Repository Error: Failed to add comment to blog, ${error}`)
       }
    }
 
-   async addFeedCommentedBlog(
+   async addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
       currentViperId: string,
@@ -394,7 +395,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                $push: {
-                  'blogs.commented': {
+                  'blogs.with_replies': {
                      _id: new ObjectId(blogId),
                      viperId: new ObjectId(viperId),
                   },
@@ -433,10 +434,10 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getLikedEvents(viperId: string): Promise<Likes[]> {
+   async getLikedEvents(viperId: string): Promise<Like[]> {
       try {
-         const likedEvents: Likes[] = await this.viperCollection
-            .aggregate<Likes>([
+         const likedEvents: Like[] = await this.viperCollection
+            .aggregate<Like>([
                {
                   $match: { _id: new ObjectId(viperId) },
                },
