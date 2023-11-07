@@ -20,7 +20,9 @@ export function GlobalNavItem({
    const profileName = viperName ? viperName : 'Welcome'
 
    return (
+      // add the icons based on the slug and fill solid, none based on the activeness
       <Link
+         // add the button variant in here
          data-test="nav-item"
          onClick={close}
          href={`/${item.slug}`}

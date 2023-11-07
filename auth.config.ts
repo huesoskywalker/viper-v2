@@ -48,7 +48,7 @@ const populateNewUser = async (newViper: Partial<NewViper>) => {
    const viper = await viperCol.insertOne({
       _id: new ObjectId(),
       location: location ?? '',
-      contact_info: {
+      contactInfo: {
          phone: null,
          address: '',
          website: '',
@@ -60,7 +60,7 @@ const populateNewUser = async (newViper: Partial<NewViper>) => {
       blogs: {
          personal: [],
          likes: [],
-         with_replies: [],
+         withReplies: [],
       },
       email: email ?? '',
       emailVerified: null,
@@ -100,28 +100,34 @@ export default {
       //       // }
       //    }
       // },
+      // async redirect({ baseUrl, url }) {
+      //    console.log(`========redirect`)
+      //    console.log(baseUrl)
+      //    console.log(url)
+      //    return '/'
+      // },
       async signIn({ user, account, profile, email }) {
-         if (!user && profile) {
-            const newViper: Partial<NewViper> = {}
-            Object.assign(newViper, {
-               name: profile.name,
-               email: profile.email,
-            })
-            if (account?.provider === 'github') {
-               Object.assign(newViper, {
-                  username: profile.login as string,
-                  image: profile.avatar_url as string,
-                  location: profile.location as string,
-                  bio: profile.bio,
-               })
-            } else if (account?.provider === 'google') {
-               Object.assign(newViper, {
-                  username: profile.name?.trim().toLowerCase().replace(/\\s+/g, ''),
-                  image: profile.picture as string,
-               })
-            }
-            await populateNewUser({ ...newViper })
-         }
+         // if (!user && profile) {
+         //    const newViper: Partial<NewViper> = {}
+         //    Object.assign(newViper, {
+         //       name: profile.name,
+         //       email: profile.email,
+         //    })
+         //    if (account?.provider === 'github') {
+         //       Object.assign(newViper, {
+         //          username: profile.login as string,
+         //          image: profile.avatar_url as string,
+         //          location: profile.location as string,
+         //          bio: profile.bio,
+         //       })
+         //    } else if (account?.provider === 'google') {
+         //       Object.assign(newViper, {
+         //          username: profile.name?.trim().toLowerCase().replace(/\\s+/g, ''),
+         //          image: profile.picture as string,
+         //       })
+         //    }
+         //    await populateNewUser({ ...newViper })
+         // }
          return true
       },
       async session({ session, token, user, trigger, newSession }) {

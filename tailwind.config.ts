@@ -24,10 +24,14 @@ const config: Config = {
             viper: {
                pink: '#FF0080',
                blue: '#0070F3',
+               dodgerblue: '#1e90ff',
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
+               background: 'rgb(24 24 27)',
             },
+            // this-me
+
             // this is shadcn
             border: 'hsl(var(--border))',
             input: 'hsl(var(--input))',
@@ -176,6 +180,7 @@ const config: Config = {
       animation: {
          'accordion-down': 'accordion-down 0.2s ease-out',
          'accordion-up': 'accordion-up 0.2s ease-out',
+         'spin-slow': 'spin 2s linear infinite',
       },
    },
    plugins: [require('tailwindcss-animate')],

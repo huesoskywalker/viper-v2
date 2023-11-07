@@ -5,7 +5,7 @@ import { Session } from 'next-auth'
 export type Viper = {
    readonly _id: _ID
    location: Location
-   contact_info: ContactInfo
+   contactInfo: ContactInfo
    backgroundImage: Image
    bio: Biography
    blogs: Blog
@@ -60,7 +60,7 @@ export type Location = string
 export type Blog = {
    personal: PersonalBlog[]
    likes: ExternalBlog[]
-   with_replies: ExternalBlog[]
+   withReplies: ExternalBlog[]
 }
 
 export type PersonalBlog = {

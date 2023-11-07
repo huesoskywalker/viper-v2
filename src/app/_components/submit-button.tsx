@@ -7,7 +7,7 @@ import { useFormStatus } from 'react-dom'
 const SubmitButton = ({ provider }: { provider: string }) => {
    const { pending } = useFormStatus()
 
-   const iconClass = 'mr-2 h-4 w-4'
+   const iconClass = 'mr-2 h-5 w-5'
    const getIcon = () => {
       switch (provider) {
          case 'Google':
@@ -19,8 +19,9 @@ const SubmitButton = ({ provider }: { provider: string }) => {
       }
    }
    return (
-      <Button variant="outline" type="submit" disabled={pending}>
-         {pending ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : getIcon()} {provider}
+      <Button variant="signin" type="submit" disabled={pending}>
+         {pending ? <Icons.spinner className={`${iconClass} animate-spin-slow`} /> : getIcon()}{' '}
+         Sign up with {provider}
       </Button>
    )
 }
