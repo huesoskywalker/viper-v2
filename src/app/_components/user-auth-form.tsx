@@ -1,63 +1,52 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import { useHandleProvider } from '../_hooks/useHandleProvider'
 import SubmitButton from './submit-button'
-import { useHandleEmail } from '../_hooks/useHandleEmail'
 import TermsAndConditions from './terms-and-conditions'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ children, className, ...props }: UserAuthFormProps) {
    return (
-      <div
-         className={cn('grid space-y-1 w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 ', className)}
-         {...props}
-      >
+      <div className={cn('grid w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 ', className)} {...props}>
          <div className="grid gap-3">
             <form action={useHandleProvider}>
                <input type="hidden" id="github" name="provider" value="google" />
                <SubmitButton provider={'Google'} />
             </form>
-            <form
-               action={useHandleProvider}
-               className="inline-flex justify-center whitespace-nowrap"
-            >
+            <form action={useHandleProvider}>
                <input type="hidden" id="github" name="provider" value="github" />
                <SubmitButton provider={'Github'} />
             </form>
          </div>
-         <div className="relative">
+         <div className="relative my-[6px] w-[300px]">
             <div className="absolute inset-0 flex items-center">
-               <span className="w-full border-t-2 border-secondary " />
+               <span className="w-full border-t-[1.5px] border-secondary" />
             </div>
-            <div className="relative flex justify-center text-sm">
-               <span className="bg-background px-2 text-primary">or</span>
+            <div className="relative flex justify-center">
+               <span className="bg-background px-2 text-sm text-primary">or</span>
             </div>
          </div>
-         <Link href="/" className={cn(buttonVariants({ variant: 'signup' }))}>
+         <Link
+            href="/i/flow/signup"
+            className={cn(buttonVariants({ variant: 'signup' }), 'w-[300px] h-[44px] mb-2')}
+         >
             Create an account
          </Link>
-         {/* <form action={useHandleEmail}>
-            <div className="grid gap-3">
-               <Label className="sr-only" htmlFor="email">
-                  Email
-               </Label>
-               <Input
-                  id="email"
-                  placeholder="name@example.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-               />
-               <SubmitButton provider={'Email'} />
-            </div>
-         </form> */}
          <TermsAndConditions />
+         <div className="mt-9">
+            <div className="mb-4">
+               <span className="text-primary text-base font-medium">Already have an account?</span>
+            </div>
+            <Link
+               href="/i/flow/singin"
+               className={cn(buttonVariants({ variant: 'signup' }), 'w-[300px] h-[44px] mb-2')}
+            >
+               Sign in
+            </Link>
+         </div>
       </div>
    )
 }

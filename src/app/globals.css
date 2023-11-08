@@ -3,6 +3,35 @@
 @tailwind utilities;
 
 @layer base {
+   :root {
+      --background: 240 10% 3.9%;
+      --foreground: 0 0% 98%;
+
+      --card: 240 10% 3.9%;
+      --card-foreground: 0 0% 98%;
+
+      --popover: 240 10% 3.9%;
+      --popover-foreground: 0 0% 98%;
+
+      --primary: 0 0% 98%;
+      --primary-foreground: 240 5.9% 10%;
+
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+
+      --muted: 240 3.7% 15.9%;
+      --muted-foreground: 240 5% 50%;
+
+      --accent: 240 3.7% 15.9%;
+      --accent-foreground: 0 0% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
+
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 240 4.9% 83.9%;
+   }
    /* .dark {
       --background: 0 0% 100%;
       --foreground: 240 10% 3.9%;
@@ -34,34 +63,39 @@
 
       --radius: 0.5rem;
    } */
+}
 
-   :root {
-      --background: 240 10% 3.9%;
-      --foreground: 0 0% 98%;
+/* AutoComplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+   border: none;
+   -webkit-text-fill-color: #fff;
+   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+   transition: background-color 5000s ease-in-out 0s;
+}
 
-      --card: 240 10% 3.9%;
-      --card-foreground: 0 0% 98%;
+/* Scroll bar */
+::-webkit-scrollbar {
+   width: 5px;
+}
 
-      --popover: 240 10% 3.9%;
-      --popover-foreground: 0 0% 98%;
+::-webkit-scrollbar-track {
+   background: #9d9b9b;
+   border-radius: 5px;
+}
 
-      --primary: 0 0% 98%;
-      --primary-foreground: 240 5.9% 10%;
+::-webkit-scrollbar-thumb {
+   background: #434242;
+   border-radius: 5px;
+}
 
-      --secondary: 240 3.7% 15.9%;
-      --secondary-foreground: 0 0% 98%;
-
-      --muted: 240 3.7% 15.9%;
-      --muted-foreground: 240 5% 64.9%;
-
-      --accent: 240 3.7% 15.9%;
-      --accent-foreground: 0 0% 98%;
-
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 0 0% 98%;
-
-      --border: 240 3.7% 15.9%;
-      --input: 240 3.7% 15.9%;
-      --ring: 240 4.9% 83.9%;
-   }
+::-webkit-scrollbar-thumb:hover {
+   background: #555;
 }

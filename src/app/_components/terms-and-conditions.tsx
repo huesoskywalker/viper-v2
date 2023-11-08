@@ -4,12 +4,12 @@ import React from 'react'
 const TermsAndConditions = () => {
    return (
       <div>
-         <p className="text-start text-xs text-muted-foreground ">
-            By clicking continue, you agree to our{' '}
+         <p className="text-start text-[12px] leading-[13px] text-muted-foreground ">
+            By signin up, you agree to the{' '}
             <Link
                href="/terms"
                target="_blank"
-               className="text-viper-blue hover:underline hover:underline-offset-4 "
+               className="text-viper-dodgerblue hover:underline hover:underline-offset-4 "
             >
                Terms of Service
             </Link>{' '}
@@ -17,7 +17,7 @@ const TermsAndConditions = () => {
             <Link
                href="/privacy"
                target="_blank"
-               className="text-viper-blue hover:underline hover:underline-offset-4 "
+               className="text-viper-dodgerblue hover:underline hover:underline-offset-4 "
             >
                Privacy Policy
             </Link>

@@ -24,11 +24,12 @@ const config: Config = {
             viper: {
                pink: '#FF0080',
                blue: '#0070F3',
-               dodgerblue: '#1e90ff',
+               dodgerblue: 'rgb(29, 155, 240)',
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
                background: 'rgb(24 24 27)',
+               'background-dialog': 'rgba(91, 112, 131)',
             },
             // this-me
 
@@ -183,6 +184,6 @@ const config: Config = {
          'spin-slow': 'spin 2s linear infinite',
       },
    },
-   plugins: [require('tailwindcss-animate')],
+   plugins: [require('tailwindcss-animate'), require('autoprefixer')],
 }
 export default config

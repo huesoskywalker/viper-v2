@@ -1,5 +1,3 @@
-import Image from 'next/image'
-import { UserAuthForm } from './_components/user-auth-form'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 
