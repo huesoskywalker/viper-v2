@@ -24,15 +24,15 @@ const config: Config = {
             viper: {
                pink: '#FF0080',
                blue: '#0070F3',
-               dodgerblue: 'rgb(29, 155, 240)',
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
                background: 'rgb(24 24 27)',
+               // this-me
+               red: 'hsl(var(--error-message))',
                'background-dialog': 'rgba(91, 112, 131)',
+               'dodger-blue': 'rgb(var(--dodger-blue))',
             },
-            // this-me
-
             // this is shadcn
             border: 'hsl(var(--border))',
             input: 'hsl(var(--input))',
@@ -66,6 +66,11 @@ const config: Config = {
             card: {
                DEFAULT: 'hsl(var(--card))',
                foreground: 'hsl(var(--card-foreground))',
+            },
+            // this me
+            'dark-link': {
+               DEFAULT: 'hsl(0, 0%, 0%)',
+               foreground: 'rgba(var(--dodger-blue-foreground))',
             },
             //   this is next.js
          },

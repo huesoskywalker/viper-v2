@@ -10,7 +10,8 @@ import {
 } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import SignUpInput from './sign-up-input'
+import FormInput from './form-input'
+import BirthSelector from './birth-selector'
 
 const SignUpForm = () => {
    const [open, setOpen] = useState(false)
@@ -37,11 +38,14 @@ const SignUpForm = () => {
                <DialogDescription className="text-primary text-3xl font-bold mb-8">
                   Create your account
                </DialogDescription>
-               <SignUpInput id="name" type="text" label="Name" />
-               <SignUpInput id="email" type="email" label="Email" />
+               <FormInput id="name" type="text" label="Name" variant="viper" />
+               <FormInput id="email" type="email" label="Email" variant="viper" />
+               <BirthSelector />
             </div>
             <DialogFooter className=" w-full p-4">
-               <Button type="submit">Next step</Button>
+               <Button type="submit" variant={'outline'}>
+                  Next step
+               </Button>
             </DialogFooter>
          </DialogContent>
       </Dialog>
