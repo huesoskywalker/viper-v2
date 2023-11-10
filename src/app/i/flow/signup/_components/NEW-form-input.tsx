@@ -1,25 +1,48 @@
-'use client'
-
 import { FormControl, FormLabel, useFormField } from '@/components/ui/form'
 import { Input, InputProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import React, { useState } from 'react'
+import debounce from 'lodash/debounce'
+import React, { ChangeEvent, useCallback } from 'react'
+import useInputStates from '../_hooks/use-input-states'
 
 const NewFormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
-   ({ type, label, variant, ...props }, ref) => {
-      const [isFocused, setIsFocused] = useState(false)
-      const [hasValue, setHasValue] = useState<boolean>(false)
+   ({ label, variant, ...props }, ref) => {
+      const { isFocused, handleFocus, hasValue, handleBlur } = useInputStates()
 
-      const handleInputFocus = () => {
-         setIsFocused(true)
-      }
+      const { error, clearErrors } = useFormField()
 
-      const handleInputBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
-         setIsFocused(false)
-         const isValue = event.target.value ? true : false
-         setHasValue(isValue)
+      const handleDebounce = useCallback(
+         debounce((event: ChangeEvent<HTMLInputElement>) => {
+            if (props.onChange) {
+               if (props.name === 'email' && !event.target.value) {
+                  clearErrors(props.name)
+               } else {
+                  props.onChange(event)
+               }
+            }
+         }, 700),
+         [],
+      )
+
+      // const checkAvailability = async (value: string) => {
+      //    const res = await fetch(`http://localhost:3000/i/flow/signup/api?email=${value}`, {
+      //       headers: {
+      //          'content-type': 'application/json',
+      //       },
+      //       method: 'GET',
+      //    })
+      //    const viper = await res.json()
+      //    if (!res.ok) {
+      //       throw new Error(`Unable to check availability`)
+      //    }
+      //    return viper
+      // }
+
+      const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+         clearErrors(props.name)
+         // const isAvailable = await checkAvailability(event.target.value)
+         handleDebounce(event)
       }
-      const { error } = useFormField()
 
       return (
          <div
@@ -46,15 +69,14 @@ const NewFormInput = React.forwardRef<HTMLInputElement, InputProps & { label: st
                   <Input
                      id={props.id}
                      autoCapitalize="none"
-                     type={type}
                      autoComplete={props.id}
                      autoCorrect="off"
                      variant={variant}
                      className="self-end "
-                     onFocus={handleInputFocus}
-                     onBlurCapture={handleInputBlur}
-                     ref={ref}
-                     {...props}
+                     onFocus={handleFocus}
+                     onBlur={handleBlur}
+                     onChange={handleChange}
+                     // {...props}
                   />
                </FormControl>
             </div>

@@ -1,10 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
    Form,
@@ -14,6 +9,7 @@ import {
    FormItem,
    FormLabel,
    FormMessage,
+   useFormField,
 } from '@/components/ui/form'
 import {
    Select,
@@ -31,38 +27,17 @@ import {
    DialogHeader,
    DialogTitle,
 } from '@/components/ui/dialog'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import debounce from 'lodash/debounce'
+import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 // import { toast } from '@/components/ui/use-toast'
 
-const FormSchema = z.object({
-   name: z
-      .string()
-      .min(1, {
-         message: "What's your name?",
-      })
-      .max(30, {
-         message: 'Name must not be longer than 30 characters.',
-      }),
-
-   email: z
-      .string({
-         required_error: 'Please select an email to display.',
-      })
-      .email(),
-})
-
 export function NewSignUpForm() {
-   const form = useForm<z.infer<typeof FormSchema>>({
-      resolver: zodResolver(FormSchema),
-      defaultValues: {
-         name: '',
-         email: '',
-      },
-      mode: 'onChange',
-   })
+   const { form } = useSignUpForm()
+   const [open, setOpen] = useState(false)
 
-   function onSubmit(data: z.infer<typeof FormSchema>) {
+   function onSubmit(data: SignUpFormValues) {
       console.log(`----on submit`)
       console.log(data)
       //   toast({
@@ -74,7 +49,6 @@ export function NewSignUpForm() {
       //      ),
       //   })
    }
-   const [open, setOpen] = useState(false)
    // check this signal, super interesting
    // const open = new Signal(false)
    const router = useRouter()
@@ -90,16 +64,21 @@ export function NewSignUpForm() {
 
    return (
       <Dialog open={open} onOpenChange={handleClose}>
-         <DialogContent className="flex flex-col justify-between items-start max-w-[600px] max-h-[575px] border-none rounded-lg py-4  px-16">
-            <DialogHeader>
-               <DialogTitle className=" text-primary text-base">Step 1 of 5</DialogTitle>
-            </DialogHeader>
-            <DialogDescription className="text-primary text-3xl font-bold mb-8">
-               Create your account
-            </DialogDescription>
+         <DialogContent className="flex flex-col justify-center items-start max-w-[600px] w-[600px] h-[650px] border-none rounded-lg py-9  px-16">
             <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-                  <div className="max-h-[350px] px-5 space-y-8 overflow-y-scroll">
+               <DialogHeader>
+                  <DialogTitle className=" text-gray-300 font-semibold text-base">
+                     Step 1 of 5
+                  </DialogTitle>
+               </DialogHeader>
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col justify-between items-start h-full w-full space-y-0 pt-3 px-2"
+               >
+                  <DialogDescription className="text-primary text-3xl font-bold mb-8">
+                     Create your account
+                  </DialogDescription>
+                  <div className="h-[450px] w-full space-y-8 overflow-y-auto">
                      <FormField
                         control={form.control}
                         name="name"
@@ -121,15 +100,13 @@ export function NewSignUpForm() {
                         name="email"
                         render={({ field }) => (
                            <FormItem>
-                              <FormControl>
-                                 <NewFormInput
-                                    id="email"
-                                    type="email"
-                                    variant={'viper'}
-                                    label="Email"
-                                    {...field}
-                                 />
-                              </FormControl>
+                              <NewFormInput
+                                 id="email"
+                                 type="email"
+                                 variant={'viper'}
+                                 label="Email"
+                                 {...field}
+                              />
                               <FormMessage className="absolute" />
                            </FormItem>
                         )}
@@ -187,8 +164,8 @@ export function NewSignUpForm() {
                )}
             /> */}
                   </div>
-                  <DialogFooter className=" w-full p-4">
-                     <Button type="submit" variant={'outline'}>
+                  <DialogFooter className=" w-full pb-2">
+                     <Button type="submit" variant={'sign-up'}>
                         Next
                      </Button>
                   </DialogFooter>
