@@ -10,6 +10,7 @@ export type Viper = {
    bio: Biography
    blogs: Blog
    email: Email
+   email: Email
    emailVerified: null
    username: Username
    name: Name

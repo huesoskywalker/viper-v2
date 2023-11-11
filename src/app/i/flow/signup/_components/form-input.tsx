@@ -1,48 +1,17 @@
 import { FormControl, FormLabel, useFormField } from '@/components/ui/form'
 import { Input, InputProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import debounce from 'lodash/debounce'
-import React, { ChangeEvent, useCallback } from 'react'
+import React from 'react'
 import useInputStates from '../_hooks/use-input-states'
+import useOnChangeState from '../_hooks/use-on-change-state'
 
-const NewFormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
+const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
    ({ label, variant, ...props }, ref) => {
+      const { error } = useFormField()
+
       const { isFocused, handleFocus, hasValue, handleBlur } = useInputStates()
 
-      const { error, clearErrors } = useFormField()
-
-      const handleDebounce = useCallback(
-         debounce((event: ChangeEvent<HTMLInputElement>) => {
-            if (props.onChange) {
-               if (props.name === 'email' && !event.target.value) {
-                  clearErrors(props.name)
-               } else {
-                  props.onChange(event)
-               }
-            }
-         }, 700),
-         [],
-      )
-
-      // const checkAvailability = async (value: string) => {
-      //    const res = await fetch(`http://localhost:3000/i/flow/signup/api?email=${value}`, {
-      //       headers: {
-      //          'content-type': 'application/json',
-      //       },
-      //       method: 'GET',
-      //    })
-      //    const viper = await res.json()
-      //    if (!res.ok) {
-      //       throw new Error(`Unable to check availability`)
-      //    }
-      //    return viper
-      // }
-
-      const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-         clearErrors(props.name)
-         // const isAvailable = await checkAvailability(event.target.value)
-         handleDebounce(event)
-      }
+      const { handleOnChange } = useOnChangeState(props.onChange, props.name)
 
       return (
          <div
@@ -75,8 +44,7 @@ const NewFormInput = React.forwardRef<HTMLInputElement, InputProps & { label: st
                      className="self-end "
                      onFocus={handleFocus}
                      onBlur={handleBlur}
-                     onChange={handleChange}
-                     // {...props}
+                     onChange={handleOnChange}
                   />
                </FormControl>
             </div>
@@ -85,4 +53,4 @@ const NewFormInput = React.forwardRef<HTMLInputElement, InputProps & { label: st
    },
 )
 
-export default NewFormInput
+export default FormInput

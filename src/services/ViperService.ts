@@ -1,6 +1,7 @@
 import {
    Blog,
    CreatedEvent,
+   Email,
    EventCollection,
    Follow,
    Like,
@@ -52,6 +53,15 @@ export class ViperService implements ViperRepositorySource {
             username,
          )
          return vipers
+      } catch (error: unknown) {
+         throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
+      }
+   }
+
+   async findByEmail(email: string): Promise<{ email: Email } | null> {
+      try {
+         const viperEmail: { email: Email } | null = await this.viperRepository.findByEmail(email)
+         return viperEmail
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
       }

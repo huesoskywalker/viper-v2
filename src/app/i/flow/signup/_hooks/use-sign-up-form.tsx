@@ -18,7 +18,9 @@ const SignUpFormSchema = z.object({
       .string({
          required_error: 'Please provide an email',
       })
-      .email(),
+      .email({
+         message: 'Please enter a valid email.',
+      }),
 })
 
 export const useSignUpForm = () => {
@@ -27,10 +29,10 @@ export const useSignUpForm = () => {
       email: '',
    }
 
-   const form = useForm<SignUpFormValues>({
+   const signUpForm = useForm<SignUpFormValues>({
       resolver: zodResolver(SignUpFormSchema),
       defaultValues,
       mode: 'onChange',
    })
-   return { form }
+   return { signUpForm }
 }

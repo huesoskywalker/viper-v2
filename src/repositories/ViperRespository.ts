@@ -1,6 +1,7 @@
 import {
    Blog,
    CreatedEvent,
+   Email,
    EventCollection,
    Follow,
    Like,
@@ -100,6 +101,25 @@ export class ViperRepository implements ViperRepositorySource {
          return vipers as Partial<Viper>[] as ViperBasicProps[]
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to find Viper by Username, ${error}`)
+      }
+   }
+
+   async findByEmail(email: string) {
+      try {
+         const viper: WithId<Partial<Viper>> | null = await this.viperCollection.findOne(
+            {
+               email: email,
+            },
+            {
+               projection: {
+                  _id: 0,
+                  email: 1,
+               },
+            },
+         )
+         return viper as { email: Email }
+      } catch (error: unknown) {
+         throw new Error(`Repository Error: Failed to find Viper by Email, ${error}`)
       }
    }
 

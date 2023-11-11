@@ -1,4 +1,4 @@
-import { Viper } from './viper'
+import { Email, Viper } from './viper'
 
 interface ViperCRUDRepository {
    // create(viper: Partial<Viper>): Promise<WithId<Viper> | null>
@@ -8,6 +8,7 @@ interface ViperCRUDRepository {
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<ViperBasicProps[]>
+   findByEmail(email: string): Promise<{ email: Email } | null>
 }
 
 interface ViperFollowRepository {

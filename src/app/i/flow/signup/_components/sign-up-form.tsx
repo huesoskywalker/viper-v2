@@ -18,7 +18,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/components/ui/select'
-import NewFormInput from './NEW-form-input'
+import FormInput from './form-input'
 import {
    Dialog,
    DialogContent,
@@ -27,14 +27,13 @@ import {
    DialogHeader,
    DialogTitle,
 } from '@/components/ui/dialog'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import debounce from 'lodash/debounce'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 // import { toast } from '@/components/ui/use-toast'
 
-export function NewSignUpForm() {
-   const { form } = useSignUpForm()
+export function SignUpForm() {
+   const { signUpForm } = useSignUpForm()
    const [open, setOpen] = useState(false)
 
    function onSubmit(data: SignUpFormValues) {
@@ -65,14 +64,15 @@ export function NewSignUpForm() {
    return (
       <Dialog open={open} onOpenChange={handleClose}>
          <DialogContent className="flex flex-col justify-center items-start max-w-[600px] w-[600px] h-[650px] border-none rounded-lg py-9  px-16">
-            <Form {...form}>
+            <Form {...signUpForm}>
                <DialogHeader>
                   <DialogTitle className=" text-gray-300 font-semibold text-base">
                      Step 1 of 5
                   </DialogTitle>
                </DialogHeader>
+               {/* make this a server action? */}
                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={signUpForm.handleSubmit(onSubmit)}
                   className="flex flex-col justify-between items-start h-full w-full space-y-0 pt-3 px-2"
                >
                   <DialogDescription className="text-primary text-3xl font-bold mb-8">
@@ -80,11 +80,11 @@ export function NewSignUpForm() {
                   </DialogDescription>
                   <div className="h-[450px] w-full space-y-8 overflow-y-auto">
                      <FormField
-                        control={form.control}
+                        control={signUpForm.control}
                         name="name"
                         render={({ field }) => (
                            <FormItem>
-                              <NewFormInput
+                              <FormInput
                                  id="name"
                                  type="text"
                                  variant={'viper'}
@@ -96,11 +96,11 @@ export function NewSignUpForm() {
                         )}
                      />
                      <FormField
-                        control={form.control}
+                        control={signUpForm.control}
                         name="email"
                         render={({ field }) => (
                            <FormItem>
-                              <NewFormInput
+                              <FormInput
                                  id="email"
                                  type="email"
                                  variant={'viper'}
@@ -112,7 +112,7 @@ export function NewSignUpForm() {
                         )}
                      />
                      {/* <FormField
-               control={form.control}
+               control={signUpForm.control}
                name="email"
                render={({ field }) => (
                   <FormItem>
@@ -138,7 +138,7 @@ export function NewSignUpForm() {
                )}
             />
             <FormField
-               control={form.control}
+               control={signUpForm.control}
                name="email"
                render={({ field }) => (
                   <FormItem>
