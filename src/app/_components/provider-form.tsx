@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHandleProvider } from '../_hooks/useHandleProvider'
+import { useHandleProvider } from '../_hooks/use-handle-provider'
 import ProviderButton from './provider-button'
 
 const ProviderForm = ({ provider, label }: { provider: string; label: string }) => {

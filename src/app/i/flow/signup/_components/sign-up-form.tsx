@@ -18,7 +18,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/components/ui/select'
-import FormInput from './form-input'
+import FormInput from '../../../../_components/form-input'
 import {
    Dialog,
    DialogContent,
@@ -29,11 +29,15 @@ import {
 } from '@/components/ui/dialog'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useFormState } from 'react-hook-form'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
+// ------------------
 // import { toast } from '@/components/ui/use-toast'
 
 export function SignUpForm() {
    const { signUpForm } = useSignUpForm()
+   const { isValid } = useFormState(signUpForm)
+
    const [open, setOpen] = useState(false)
 
    function onSubmit(data: SignUpFormValues) {
@@ -111,61 +115,61 @@ export function SignUpForm() {
                            </FormItem>
                         )}
                      />
+                     <FormField
+                        control={signUpForm.control}
+                        name="email"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                    <SelectTrigger>
+                                       <SelectValue placeholder="Select a verified email to display" />
+                                    </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
+                                    <SelectItem value="m@google.com">m@google.com</SelectItem>
+                                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                 </SelectContent>
+                              </Select>
+                              {/* <FormDescription>
+                                 You can manage email addresses in your{' '}
+                                 <Link href="/examples/forms">email settings</Link>.
+                              </FormDescription> */}
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
                      {/* <FormField
-               control={signUpForm.control}
-               name="email"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Email</FormLabel>
-                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                           <SelectTrigger>
-                              <SelectValue placeholder="Select a verified email to display" />
-                           </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                           <SelectItem value="m@example.com">m@example.com</SelectItem>
-                           <SelectItem value="m@google.com">m@google.com</SelectItem>
-                           <SelectItem value="m@support.com">m@support.com</SelectItem>
-                        </SelectContent>
-                     </Select>
-                     <FormDescription>
-                        You can manage email addresses in your{' '}
-                        <Link href="/examples/forms">email settings</Link>.
-                     </FormDescription>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-            <FormField
-               control={signUpForm.control}
-               name="email"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Email</FormLabel>
-                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                           <SelectTrigger>
-                              <SelectValue placeholder="Select a verified email to display" />
-                           </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                           <SelectItem value="m@example.com">m@example.com</SelectItem>
-                           <SelectItem value="m@google.com">m@google.com</SelectItem>
-                           <SelectItem value="m@support.com">m@support.com</SelectItem>
-                        </SelectContent>
-                     </Select>
-                     <FormDescription>
-                        You can manage email addresses in your{' '}
-                        <Link href="/examples/forms">email settings</Link>.
-                     </FormDescription>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            /> */}
+                        control={signUpForm.control}
+                        name="email"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <FormControl>
+                                    <SelectTrigger>
+                                       <SelectValue placeholder="Select a verified email to display" />
+                                    </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
+                                    <SelectItem value="m@google.com">m@google.com</SelectItem>
+                                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                 </SelectContent>
+                              </Select>
+                              <FormDescription>
+                                 You can manage email addresses in your{' '}
+                                 <Link href="/examples/forms">email settings</Link>.
+                              </FormDescription>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     /> */}
                   </div>
                   <DialogFooter className=" w-full pb-2">
-                     <Button type="submit" variant={'sign-up'}>
+                     <Button type="submit" variant={'sign-up'} disabled={!isValid}>
                         Next
                      </Button>
                   </DialogFooter>
