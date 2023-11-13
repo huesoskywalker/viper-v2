@@ -16,6 +16,7 @@ const SignUpStep1 = ({
          month: string
          day: string
          year: string
+         contentDiscovery?: boolean
       },
       any
    >

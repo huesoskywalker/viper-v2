@@ -1,6 +1,5 @@
 import FormInput from '../../../../_components/form-input'
-import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import FormSelect from '@/app/_components/form-select'
+import { FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Control } from 'react-hook-form'
 
 const SignUpStep3 = ({
@@ -13,6 +12,7 @@ const SignUpStep3 = ({
          month: string
          day: string
          year: string
+         contentDiscovery?: boolean
       },
       any
    >

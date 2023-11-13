@@ -62,11 +62,11 @@ export function SignUpForm() {
       <Dialog open={open} onOpenChange={handleDialog}>
          <DialogContent
             defaultValue={step}
-            className="flex flex-col justify-center items-start w-[600px] h-[650px] border-none rounded-lg pt-4 "
+            className="flex flex-col justify-center items-start max-w-[600px] h-[650px] border-none rounded-lg pt-2 "
          >
             <Form {...signUpForm}>
                <DialogHeader>
-                  <DialogTitle className=" text-gray-300 font-semibold text-base pl-14">
+                  <DialogTitle className=" text-gray-300 font-semibold text-lg pl-16">
                      Step {step} of 5
                   </DialogTitle>
                </DialogHeader>
@@ -83,7 +83,7 @@ export function SignUpForm() {
                   >
                      {renderSteps}
                   </div>
-                  <DialogFooter className=" w-full mb-8 px-16">
+                  <DialogFooter className=" w-full mb-6 px-16">
                      <Button
                         className="rounded-3xl text-md font-semibold"
                         type="button"

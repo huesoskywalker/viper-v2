@@ -36,6 +36,8 @@ const SignUpFormSchema = z.object({
    month: z.string({ required_error: 'Please select a month.' }),
    day: z.string({ required_error: 'Please select a day.' }),
    year: z.string({ required_error: 'Please select a day.' }),
+   // we need to manage this in the database
+   contentDiscovery: z.boolean().optional(),
 })
 
 export const useSignUpForm = () => {

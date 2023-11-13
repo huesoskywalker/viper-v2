@@ -13,6 +13,7 @@ export const useSignUpSteps = (
          month: string
          day: string
          year: string
+         content?: boolean
       },
       any,
       undefined
@@ -24,7 +25,7 @@ export const useSignUpSteps = (
          case 1:
             return <SignUpStep1 formControl={control} />
          case 2:
-            return <SignUpStep2 />
+            return <SignUpStep2 formControl={control} />
          case 3:
             return <SignUpStep3 formControl={control} />
          default:
