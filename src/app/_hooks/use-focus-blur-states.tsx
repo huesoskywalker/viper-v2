@@ -6,9 +6,10 @@ type ButtonEvent = React.FocusEvent<HTMLButtonElement, Element>
 
 type EventTypes = InputEvent | ButtonEvent
 
-const useFocusBlurState = () => {
+const useFocusBlurState = (defaultValue: string | undefined) => {
+   const value = !!defaultValue
    const [isFocused, setIsFocused] = useState<boolean>(false)
-   const [hasValue, setHasValue] = useState<boolean>(false)
+   const [hasValue, setHasValue] = useState<boolean>(value)
 
    const handleOnFocus = () => {
       setIsFocused(true)

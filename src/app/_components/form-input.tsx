@@ -9,7 +9,9 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
    ({ label, className, variant, ...props }, ref) => {
       const { error } = useFormField()
 
-      const { isFocused, handleOnFocus, hasValue, handleOnBlur } = useFocusBlurState()
+      const { isFocused, handleOnFocus, hasValue, handleOnBlur } = useFocusBlurState(
+         props.value as string,
+      )
       const { handleOnChange } = useOnChangeState(props.onChange, props.name)
 
       return (
@@ -40,6 +42,7 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
                      autoComplete={props.id}
                      autoCorrect="off"
                      variant={variant}
+                     defaultValue={props.value}
                      className="self-end "
                      onFocus={handleOnFocus}
                      onBlur={handleOnBlur}
@@ -52,4 +55,5 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
    },
 )
 
+FormInput.displayName = 'FormInput'
 export default FormInput

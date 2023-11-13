@@ -1,37 +1,29 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import FormInput from '../../../../_components/form-input'
+import { Form } from '@/components/ui/form'
 import {
    Dialog,
    DialogContent,
-   DialogDescription,
    DialogFooter,
    DialogHeader,
    DialogTitle,
 } from '@/components/ui/dialog'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useFormState } from 'react-hook-form'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
-import FormSelect from '@/app/_components/form-select'
 import { cn } from '@/lib/utils'
-import getMonths from '../_utils/get-months'
-import getDays from '../_utils/get-days'
-import getYears from '../_utils/get-years'
+import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
 export function SignUpForm() {
    const { signUpForm } = useSignUpForm()
-   const { isValid } = useFormState(signUpForm)
-
-   const { months } = getMonths()
-   const { days } = getDays()
-   const { years } = getYears()
+   const { formState } = signUpForm
+   const { isValid } = formState
 
    const [open, setOpen] = useState(false)
+   const [step, setStep] = useState<number>(1)
 
    function onSubmit(data: SignUpFormValues) {
       console.log(`----on submit`)
@@ -45,28 +37,37 @@ export function SignUpForm() {
       //      ),
       //   })
    }
-   // check this signal, super interesting
-   // const open = new Signal(false)
 
+   // check new Signal from preact
    useEffect(() => {
       setOpen(true)
    }, [])
 
+   const { renderSteps } = useSignUpSteps(step, signUpForm)
+
    const router = useRouter()
 
-   const handleClose = () => {
+   const handleDialog = () => {
+      if (step !== 1) return setStep((prevStep) => prevStep - 1)
+
       setOpen(false)
       router.push('/')
    }
-   // -------------------------------
+
+   const handleStepForward = () => {
+      setStep((prevStep) => prevStep + 1)
+   }
 
    return (
-      <Dialog open={open} onOpenChange={handleClose}>
-         <DialogContent className="flex flex-col justify-center items-start w-[600px] h-[650px] border-none rounded-lg pt-4 ">
+      <Dialog open={open} onOpenChange={handleDialog}>
+         <DialogContent
+            defaultValue={step}
+            className="flex flex-col justify-center items-start w-[600px] h-[650px] border-none rounded-lg pt-4 "
+         >
             <Form {...signUpForm}>
                <DialogHeader>
                   <DialogTitle className=" text-gray-300 font-semibold text-base pl-14">
-                     Step 1 of 5
+                     Step {step} of 5
                   </DialogTitle>
                </DialogHeader>
                {/* make this a server action? */}
@@ -80,109 +81,13 @@ export function SignUpForm() {
                         `,
                      )}
                   >
-                     <DialogDescription className="text-primary  text-3xl font-bold mt-3">
-                        Create your account
-                     </DialogDescription>
-                     <FormField
-                        control={signUpForm.control}
-                        name="name"
-                        render={({ field }) => (
-                           <FormItem>
-                              <FormInput
-                                 id="name"
-                                 type="text"
-                                 variant={'viper'}
-                                 label="Name"
-                                 {...field}
-                              />
-                              <FormMessage />
-                           </FormItem>
-                        )}
-                     />
-                     <FormField
-                        control={signUpForm.control}
-                        name="email"
-                        render={({ field }) => (
-                           <FormItem>
-                              <FormInput
-                                 id="email"
-                                 type="email"
-                                 variant={'viper'}
-                                 label="Email"
-                                 {...field}
-                              />
-                              <FormMessage />
-                           </FormItem>
-                        )}
-                     />
-                     <div className="space-y-4">
-                        <FormDescription className="flex flex-col justify-center items-start gap-1">
-                           <span className="text-primary text-md font-semibold">
-                              Date of birth
-                           </span>
-                           <span className="text-xs font-normal">
-                              Protected in privacy, unveil the secret of your age, whether it's for
-                              business, a beloved pet, or any other venture.
-                           </span>
-                        </FormDescription>
-                        <div className="flex flex-row w-full items-start gap-2">
-                           <FormField
-                              control={signUpForm.control}
-                              name="month"
-                              render={({ field }) => (
-                                 <FormItem className="w-4/5">
-                                    <FormSelect
-                                       id="month"
-                                       label="Month"
-                                       options={months}
-                                       variant={'viper'}
-                                       {...field}
-                                    />
-
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />{' '}
-                           <FormField
-                              control={signUpForm.control}
-                              name="day"
-                              render={({ field }) => (
-                                 <FormItem className="w-2/6">
-                                    <FormSelect
-                                       id="day"
-                                       label="Day"
-                                       options={days}
-                                       variant={'viper'}
-                                       {...field}
-                                    />
-
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />{' '}
-                           <FormField
-                              control={signUpForm.control}
-                              name="year"
-                              render={({ field }) => (
-                                 <FormItem className="w-2/5">
-                                    <FormSelect
-                                       id="year"
-                                       label="Year"
-                                       options={years}
-                                       variant={'viper'}
-                                       {...field}
-                                    />
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />
-                        </div>
-                     </div>
+                     {renderSteps}
                   </div>
                   <DialogFooter className=" w-full mb-8 px-16">
                      <Button
                         className="rounded-3xl text-md font-semibold"
-                        type="submit"
+                        type="button"
+                        onClick={handleStepForward}
                         variant={'default'}
                         disabled={!isValid}
                      >

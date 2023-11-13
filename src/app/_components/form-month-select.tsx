@@ -19,7 +19,9 @@ const MonthSelector = () => {
    return (
       <SelectContent>
          {months.map((month) => (
-            <SelectItem value={month.value}>{month.label}</SelectItem>
+            <SelectItem key={month.value} value={month.value}>
+               {month.label}
+            </SelectItem>
          ))}
       </SelectContent>
    )

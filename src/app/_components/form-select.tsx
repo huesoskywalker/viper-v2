@@ -10,9 +10,10 @@ import {
    selectVariants,
 } from '@/components/ui/select'
 import { VariantProps } from 'class-variance-authority'
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import useFocusBlurState from '../_hooks/use-focus-blur-states'
 import { cn } from '@/lib/utils'
+import useOnChangeState from '../_hooks/use-on-change-state'
 
 export type SelectOptions = {
    value: string
@@ -26,12 +27,13 @@ const FormSelect = React.forwardRef<
    HTMLSelectElement,
    SelectPropsTest & { label: string } & { options: SelectOptions[] }
 >(({ label, options, className, variant, ...props }, ref) => {
-   const handleChange = (event: any) => {
+   // props.onChange does not handle the return string from onValueChange
+   const handleOnChange = (event: any) => {
       if (!props.onChange) return
       props.onChange(event)
    }
-   //   console.log(props.value)
-   const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState()
+
+   const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState(props.value as string)
 
    const { error } = useFormField()
    return (
@@ -52,7 +54,7 @@ const FormSelect = React.forwardRef<
             {label}
          </FormLabel>{' '}
          <div className="flex w-full py-1 mt-3">
-            <Select onValueChange={handleChange}>
+            <Select onValueChange={handleOnChange} defaultValue={props.value as string}>
                <FormControl id={props.id}>
                   <SelectTrigger
                      className="justify-between"
@@ -78,4 +80,5 @@ const FormSelect = React.forwardRef<
    )
 })
 
+FormSelect.displayName = 'FormSelect'
 export default FormSelect

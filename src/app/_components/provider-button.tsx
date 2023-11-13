@@ -4,18 +4,16 @@ import React from 'react'
 import { Icons } from '@/components/ui/icons'
 import { useFormStatus } from 'react-dom'
 
-const iconMap: { [key: string]: (props: React.SVGProps<SVGSVGElement>) => JSX.Element } = {
-   Google: Icons.google,
-   Github: Icons.gitHub,
-   // Email: Icons.email,
-}
+const iconMap = new Map<string, (props: React.SVGProps<SVGSVGElement>) => JSX.Element>([
+   ['Google', Icons.google],
+   ['Github', Icons.gitHub],
+])
 
 const ProviderButton = ({ label }: { label: string }) => {
    const { pending } = useFormStatus()
 
    const iconClass = 'mr-2 h-4 w-4'
-
-   const IconComponent = iconMap[label]
+   const IconComponent = iconMap.get(label)
 
    return (
       <Button
@@ -27,7 +25,7 @@ const ProviderButton = ({ label }: { label: string }) => {
          {pending ? (
             <Icons.spinner className={`${iconClass} animate-spin-slow`} />
          ) : (
-            <IconComponent className={iconClass} />
+            IconComponent && <IconComponent className={iconClass} />
          )}{' '}
          Sign up with {label}
       </Button>

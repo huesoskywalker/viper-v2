@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useEmailAvailability } from './use-check-availability'
-
-const { checkEmail } = useEmailAvailability()
+import { checkEmailAvailability } from '../_utils/check-email-availability'
 
 export type SignUpFormValues = z.infer<typeof SignUpFormSchema>
 
@@ -28,7 +26,7 @@ const SignUpFormSchema = z.object({
          async (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
             if (!emailRegex.test(value)) return
-            const isTaken = await checkEmail(value)
+            const isTaken = await checkEmailAvailability(value)
             return !isTaken
          },
          {

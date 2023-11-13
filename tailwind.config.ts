@@ -32,6 +32,7 @@ const config: Config = {
                overlay: 'hsl(var(--overlay))',
                red: 'hsl(var(--error-message))',
                'dodger-blue': 'hsl(var(--dodger-blue))',
+               'pastel-blue': 'hsl(var(--pastel-blue))',
             },
             // this is shadcn
             border: 'hsl(var(--border))',
