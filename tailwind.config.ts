@@ -29,9 +29,9 @@ const config: Config = {
                violet: '#7928CA',
                background: 'rgb(24 24 27)',
                // this-me
+               overlay: 'hsl(var(--overlay))',
                red: 'hsl(var(--error-message))',
-               'background-dialog': 'rgba(91, 112, 131)',
-               'dodger-blue': 'rgb(var(--dodger-blue))',
+               'dodger-blue': 'hsl(var(--dodger-blue))',
             },
             // this is shadcn
             border: 'hsl(var(--border))',
@@ -68,10 +68,10 @@ const config: Config = {
                foreground: 'hsl(var(--card-foreground))',
             },
             // this me
-            'dark-link': {
-               DEFAULT: 'hsl(0, 0%, 0%)',
-               foreground: 'rgba(var(--dodger-blue-foreground))',
-            },
+            // 'dark-link': {
+            //    DEFAULT: 'hsl(0, 0%, 0%)',
+            //    foreground: 'rgba(var(--dodger-blue-foreground))',
+            // },
             //   this is next.js
          },
          backgroundImage: ({ theme }) => ({

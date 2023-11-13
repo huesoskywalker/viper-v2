@@ -10,9 +10,8 @@ const useOnChangeState = (
 
    const onChangeDebounce = useCallback(
       debounce((event: ChangeEvent<HTMLInputElement>) => {
-         if (onChange) {
-            onChange(event)
-         }
+         if (!onChange) return
+         onChange(event)
       }, 550),
       [],
    )

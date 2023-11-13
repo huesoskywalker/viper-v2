@@ -24,22 +24,20 @@ const SignUpFormSchema = z.object({
       .email({
          message: 'Please enter a valid email.',
       })
-      .min(1)
       .refine(
          async (value) => {
-            if (!value) {
-               return false
-            }
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
-            if (emailRegex.test(value)) {
-               const isTaken = await checkEmail(value)
-               return !isTaken
-            }
+            if (!emailRegex.test(value)) return
+            const isTaken = await checkEmail(value)
+            return !isTaken
          },
          {
             message: 'Email has already been taken.',
          },
       ),
+   month: z.string({ required_error: 'Please select a month.' }),
+   day: z.string({ required_error: 'Please select a day.' }),
+   year: z.string({ required_error: 'Please select a day.' }),
 })
 
 export const useSignUpForm = () => {

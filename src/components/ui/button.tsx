@@ -17,16 +17,13 @@ const buttonVariants = cva(
             secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
             ghost: 'hover:bg-accent hover:text-accent-foreground',
             link: 'text-primary underline-offset-4 hover:underline',
-            // viper: 'text-secondary-foreground hover:bg-accent hover:text-accent-foreground',
             viper: 'h-5 border-none focus-visible:outline-none focus-visible:ring-0 ',
             provider:
                'border rounded-3xl border-input text-secondary hover:text-accent-foreground bg-foreground hover:bg-accent',
             'sign-up':
-               'border rounded-3xl border-input text-primary hover:text-accent-foreground bg-viper-dodger-blue hover:bg-viper-blue ',
-            // got to finish sign-in
-            // make that rgb a color in tailwind and or global.css, not working at the moment
+               'border rounded-3xl border-input text-primary hover:text-accent-foreground bg-viper-dodger-blue hover:bg-viper-dodger-blue/90 ',
             'sign-in':
-               'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-dark-link hover:bg-dark-link-foreground',
+               'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-black hover:bg-viper-dodger-blue/20',
          },
          size: {
             default: 'h-10 px-4 py-2',

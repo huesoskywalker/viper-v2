@@ -1,9 +1,9 @@
 'use client'
 
-import { NavItem } from '@/types/nav-menu'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
+import { NavItem } from '../_utils/get-nav-items'
 
 export function GlobalNavItem({
    item,

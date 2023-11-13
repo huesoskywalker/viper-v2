@@ -16,5 +16,6 @@ export const { handlers, auth, signIn, signOut, update } = NextAuth({
          return randomUUID?.() ?? randomBytes(32).toString('hex')
       },
    },
+
    ...authConfig,
 })

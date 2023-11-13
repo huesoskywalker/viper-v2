@@ -4,16 +4,18 @@
 import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { GlobalNavItem } from './global-nav-items'
-import { getNavMenu } from '../_utils/getNavMenu'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Icons } from '../../components/ui/icons'
 import { buttonVariants } from '@/components/ui/button'
+import getNavItems from '../_utils/get-nav-items'
 
 export function GlobalNav() {
    const { data: session, status } = useSession()
    const [isOpen, setIsOpen] = useState(false)
    const close = () => setIsOpen(false)
+
+   const { navItems } = getNavItems()
    // hover:text-gray-200 hover:bg-gray-800
    // remove this class
    const linkClass =
@@ -53,7 +55,7 @@ export function GlobalNav() {
          >
             <nav className="px-2 pb-24 mt-5">
                <div className="space-y-4">
-                  {getNavMenu().map((item) => (
+                  {navItems.map((item) => (
                      <GlobalNavItem
                         key={item.slug}
                         item={item}

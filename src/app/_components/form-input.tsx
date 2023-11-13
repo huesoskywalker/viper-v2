@@ -2,15 +2,14 @@ import { FormControl, FormLabel, useFormField } from '@/components/ui/form'
 import { Input, InputProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import React from 'react'
-import useInputStates from '../_hooks/use-input-states'
 import useOnChangeState from '../_hooks/use-on-change-state'
+import useFocusBlurState from '../_hooks/use-focus-blur-states'
 
 const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
-   ({ label, variant, ...props }, ref) => {
+   ({ label, className, variant, ...props }, ref) => {
       const { error } = useFormField()
 
-      const { isFocused, handleFocus, hasValue, handleBlur } = useInputStates()
-
+      const { isFocused, handleOnFocus, hasValue, handleOnBlur } = useFocusBlurState()
       const { handleOnChange } = useOnChangeState(props.onChange, props.name)
 
       return (
@@ -42,8 +41,8 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
                      autoCorrect="off"
                      variant={variant}
                      className="self-end "
-                     onFocus={handleFocus}
-                     onBlur={handleBlur}
+                     onFocus={handleOnFocus}
+                     onBlur={handleOnBlur}
                      onChange={handleOnChange}
                   />
                </FormControl>

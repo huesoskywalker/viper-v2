@@ -107,6 +107,8 @@ export default {
       //    return '/'
       // },
       async signIn({ user, account, profile, email }) {
+         // this does not work since it does create a user and throw error
+         // -------
          // if (!user && profile) {
          //    const newViper: Partial<NewViper> = {}
          //    Object.assign(newViper, {
@@ -140,5 +142,12 @@ export default {
          }
          return session
       },
+   },
+   events: {
+      createUser(message) {
+         // message.user.
+      },
+      signIn({ profile, isNewUser }) {},
+      // let's check all this
    },
 } satisfies NextAuthConfig
