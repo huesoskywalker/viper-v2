@@ -14,8 +14,7 @@ import { useRouter } from 'next/navigation'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 import { cn } from '@/lib/utils'
 import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
-import useStepsState from '../_hooks/use-steps-state'
-import { FocusElement, useFocusElement } from '../_hooks/use-focus-element'
+import { FocusElement, useSignUpStore } from '../_stores/sign-up-store'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
@@ -28,11 +27,9 @@ export function SignUpForm() {
 
    const [openDialog, setOpenDialog] = useState(false)
 
-   const { step, handlePrevStep, handleNextStep } = useStepsState()
+   const { step, prevStep, nextStep, focusElem } = useSignUpStore()
 
-   const { focusElem, handleFocusElement } = useFocusElement()
-
-   const { renderSteps } = useSignUpSteps(step, signUpForm, handlePrevStep, handleFocusElement)
+   const { renderSteps } = useSignUpSteps(step, signUpForm.control)
 
    const validFocusElem: FocusElement[] = ['email', 'name', 'month']
 
@@ -60,7 +57,7 @@ export function SignUpForm() {
    }
 
    const handleDialog = () => {
-      if (step !== 1) return handlePrevStep()
+      if (step !== 1) return prevStep()
 
       setOpenDialog(false)
       router.push('/')
@@ -99,8 +96,8 @@ export function SignUpForm() {
                   <DialogFooter className=" w-full mb-6 px-16">
                      <Button
                         className="rounded-3xl text-md font-semibold"
-                        type="submit"
-                        onClick={handleNextStep}
+                        type="button"
+                        onClick={nextStep}
                         variant={'default'}
                         disabled={!isValid}
                      >

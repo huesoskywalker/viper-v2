@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
-import { UseFormReturn } from 'react-hook-form'
+import { Control } from 'react-hook-form'
 import SignUpStep1 from '../_components/sign-up-step-1'
 import SignUpStep2 from '../_components/sign-up-step-2'
 import SignUpStep3 from '../_components/sign-up-step-3'
 
 export const useSignUpSteps = (
    step: number,
-   signUpForm: UseFormReturn<
+   formControl: Control<
       {
          name: string
          email: string
@@ -15,28 +15,17 @@ export const useSignUpSteps = (
          year: string
          content?: boolean
       },
-      any,
-      undefined
+      any
    >,
-   handlePrevStep: () => void,
-   handleFocusElement: (value: any) => void,
 ) => {
-   const { control } = signUpForm
-
    const renderSteps = useMemo(() => {
       switch (step) {
          case 1:
-            return <SignUpStep1 formControl={control} />
+            return <SignUpStep1 formControl={formControl} />
          case 2:
-            return <SignUpStep2 formControl={control} />
+            return <SignUpStep2 formControl={formControl} />
          case 3:
-            return (
-               <SignUpStep3
-                  formControl={control}
-                  handlePrevStep={handlePrevStep}
-                  handleFocusElement={handleFocusElement}
-               />
-            )
+            return <SignUpStep3 formControl={formControl} />
          default:
             return null
       }

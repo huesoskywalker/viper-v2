@@ -3,11 +3,10 @@ import { FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Control } from 'react-hook-form'
 import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
+import { useSignUpStore } from '../_stores/sign-up-store'
 
 const SignUpStep3 = ({
    formControl,
-   handlePrevStep,
-   handleFocusElement,
 }: {
    formControl: Control<
       {
@@ -20,12 +19,12 @@ const SignUpStep3 = ({
       },
       any
    >
-   handlePrevStep: (step: number) => void
-   handleFocusElement: (value: any) => void
 }) => {
+   const { redirectStep, setFocusElem } = useSignUpStore()
+
    const handlePrevState = (event: any) => {
-      handlePrevStep(1)
-      handleFocusElement(event.target.id)
+      redirectStep(1)
+      setFocusElem(event.target.id)
    }
 
    return (
