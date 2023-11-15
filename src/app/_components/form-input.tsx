@@ -8,11 +8,12 @@ import useFocusBlurState from '../_hooks/use-focus-blur-states'
 const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
    ({ label, className, variant, ...props }, ref) => {
       const { error } = useFormField()
-
       const { isFocused, handleOnFocus, hasValue, handleOnBlur } = useFocusBlurState(
          props.value as string,
       )
       const { handleOnChange } = useOnChangeState(props.onChange, props.name)
+      // I've add this register from the og
+      const { register } = useFormField()
 
       return (
          <div
@@ -37,16 +38,18 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
             <div className="flex w-full py-1 mt-3">
                <FormControl>
                   <Input
+                     {...register(`${props.id}`)}
                      id={props.id}
                      autoCapitalize="none"
                      autoComplete={props.id}
                      autoCorrect="off"
                      variant={variant}
-                     defaultValue={props.value}
                      className="self-end "
                      onFocus={handleOnFocus}
                      onBlur={handleOnBlur}
                      onChange={handleOnChange}
+                     defaultValue={props.value}
+                     // {...props}
                   />
                </FormControl>
             </div>

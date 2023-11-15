@@ -29,7 +29,7 @@ export const selectVariants = cva(
    },
 )
 
-// I create this
+// I create this interface
 export interface SelectProps
    extends React.SelectHTMLAttributes<HTMLSelectElement>,
       VariantProps<typeof selectVariants> {}
@@ -46,7 +46,7 @@ const SelectTrigger = React.forwardRef<
    >
       {children}
       <SelectPrimitive.Icon asChild>
-         <ChevronDown className="absolute top-3 right-3 h-6 w-6 opacity-50 text-primary " />
+         <ChevronDown className="absolute top-3 right-1 h-6 w-6 opacity-50 text-primary " />
       </SelectPrimitive.Icon>
    </SelectPrimitive.Trigger>
 ))

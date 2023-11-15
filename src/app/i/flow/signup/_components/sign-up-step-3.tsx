@@ -1,9 +1,13 @@
 import FormInput from '../../../../_components/form-input'
 import { FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Control } from 'react-hook-form'
+import { Checkbox } from '@/components/ui/checkbox'
+import React from 'react'
 
 const SignUpStep3 = ({
    formControl,
+   handlePrevStep,
+   handleFocusElement,
 }: {
    formControl: Control<
       {
@@ -16,23 +20,23 @@ const SignUpStep3 = ({
       },
       any
    >
+   handlePrevStep: (step: number) => void
+   handleFocusElement: (value: any) => void
 }) => {
+   const handlePrevState = (event: any) => {
+      handlePrevStep(1)
+      handleFocusElement(event.target.id)
+   }
+
    return (
       <>
          <FormField
             control={formControl}
             name="name"
             render={({ field }) => (
-               <FormItem>
-                  <FormInput
-                     id="name"
-                     type="text"
-                     variant={'viper'}
-                     label="Name"
-                     checked={true}
-                     defaultValue={field.value}
-                     {...field}
-                  />
+               <FormItem onClick={handlePrevState}>
+                  <FormInput id="name" type="text" variant={'viper'} label="Name" {...field} />
+                  {/* <Checkbox onCheckedChange={handleOnChecked} /> */}
                   <FormMessage />
                </FormItem>
             )}
@@ -41,7 +45,7 @@ const SignUpStep3 = ({
             control={formControl}
             name="email"
             render={({ field }) => (
-               <FormItem>
+               <FormItem onClick={handlePrevState}>
                   <FormInput id="email" type="email" variant={'viper'} label="Email" {...field} />
                   <FormMessage />
                </FormItem>

@@ -18,8 +18,11 @@ export const useSignUpSteps = (
       any,
       undefined
    >,
+   handlePrevStep: () => void,
+   handleFocusElement: (value: any) => void,
 ) => {
    const { control } = signUpForm
+
    const renderSteps = useMemo(() => {
       switch (step) {
          case 1:
@@ -27,7 +30,13 @@ export const useSignUpSteps = (
          case 2:
             return <SignUpStep2 formControl={control} />
          case 3:
-            return <SignUpStep3 formControl={control} />
+            return (
+               <SignUpStep3
+                  formControl={control}
+                  handlePrevStep={handlePrevStep}
+                  handleFocusElement={handleFocusElement}
+               />
+            )
          default:
             return null
       }
