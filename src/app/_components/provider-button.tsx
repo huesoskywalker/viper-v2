@@ -18,9 +18,10 @@ const ProviderButton = ({ label }: { label: string }) => {
    return (
       <Button
          variant="provider"
+         size="sign"
          type="submit"
          disabled={pending}
-         className="w-[300px] h-[44px] font-semibold"
+         className="font-semibold"
       >
          {pending ? (
             <Icons.spinner className={`${iconClass} animate-spin-slow`} />

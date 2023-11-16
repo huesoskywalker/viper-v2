@@ -40,9 +40,8 @@ const FormField = <
 const useFormField = () => {
    const fieldContext = React.useContext(FormFieldContext)
    const itemContext = React.useContext(FormItemContext)
-   // I've added clearErrors, setErrors and register
-   // register for the input and be able to focus the element on the sign up
-   const { getFieldState, formState, clearErrors, setError, register } = useFormContext()
+
+   const { getFieldState, formState, clearErrors, setError } = useFormContext()
    const fieldState = getFieldState(fieldContext.name, formState)
 
    if (!fieldContext) {
@@ -59,7 +58,6 @@ const useFormField = () => {
       formMessageId: `${id}-form-item-message`,
       clearErrors,
       setError,
-      register,
       ...fieldState,
    }
 }
@@ -152,7 +150,7 @@ const FormMessage = React.forwardRef<
       <span
          ref={ref}
          id={formMessageId}
-         className={cn('text-xs font-medium text-viper-red ml-3', className)}
+         className={cn('ml-2 text-xs font-medium text-viper-red', className)}
          {...props}
       >
          {body}

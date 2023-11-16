@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import TermsAndConditions from './terms-and-conditions'
-import SignLink from './sign-link'
 import ProviderForm from './provider-form'
+import Link from 'next/link'
+import { buttonVariants } from '@/components/ui/button'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,14 +22,24 @@ export function UserAuthForm({ children, className, ...props }: UserAuthFormProp
             <div className="relative flex justify-center">
                <span className="bg-background px-2 text-sm text-primary">or</span>
             </div>
-         </div>
-         <SignLink href={'/i/flow/signup'} variant="sign-up" label="Create an account" />
-         <TermsAndConditions />
+         </div>{' '}
+         <Link
+            href={'/i/flow/signup'}
+            className={cn(buttonVariants({ variant: 'sign-up', size: 'sign' }), ' mb-2 ')}
+         >
+            Create an account
+         </Link>
+         <TermsAndConditions className="mb-5 text-start text-[12px] leading-[13px] text-muted-foreground" />
          <div className="mt-9">
             <div className="mb-4">
-               <span className="text-primary text-base font-medium">Already have an account?</span>
-            </div>
-            <SignLink href="/i/flow/signin" variant="sign-in" label="Sign in" />
+               <span className="text-base font-medium text-primary">Already have an account?</span>
+            </div>{' '}
+            <Link
+               href={'/i/flow/signin'}
+               className={cn(buttonVariants({ variant: 'sign-in', size: 'sign' }), ' mb-2 ')}
+            >
+               Sign in
+            </Link>
          </div>
       </div>
    )

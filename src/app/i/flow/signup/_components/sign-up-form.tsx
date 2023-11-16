@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Form, FormDescription } from '@/components/ui/form'
 import {
    Dialog,
    DialogContent,
@@ -15,6 +15,8 @@ import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 import { cn } from '@/lib/utils'
 import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 import { FocusElement, useSignUpStore } from '../_stores/sign-up-store'
+import TermsAndConditions from '@/app/_components/terms-and-conditions'
+import Link from 'next/link'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
@@ -27,11 +29,11 @@ export function SignUpForm() {
 
    const [openDialog, setOpenDialog] = useState(false)
 
-   const { step, prevStep, nextStep, focusElem } = useSignUpStore()
+   const { step, prevStep, nextStep, redirectStep, focusElem } = useSignUpStore()
 
    const { renderSteps } = useSignUpSteps(step, signUpForm.control)
 
-   const validFocusElem: FocusElement[] = ['email', 'name', 'month']
+   const validFocusElem: FocusElement[] = ['email', 'name', 'birthDate.month']
 
    useLayoutEffect(() => {
       if (focusElem && validFocusElem.includes(focusElem)) {
@@ -72,37 +74,76 @@ export function SignUpForm() {
          <DialogContent
             onOpenAutoFocus={handleAutoFocus}
             defaultValue={step}
-            className="flex flex-col justify-center items-start max-w-[600px] h-[650px] border-none rounded-lg pt-2 "
+            className="flex h-[650px] max-w-[610px] flex-col items-start justify-center rounded-lg border-none pt-2 "
          >
             <Form {...signUpForm}>
                <DialogHeader>
-                  <DialogTitle className=" text-gray-300 font-semibold text-lg pl-16">
+                  <DialogTitle className=" pl-16 text-lg font-semibold text-gray-300">
                      Step {step} of 5
                   </DialogTitle>
                </DialogHeader>
                {/* make this a server action? */}
                <form
                   onSubmit={signUpForm.handleSubmit(onSubmit)}
-                  className="flex flex-col justify-between items-center h-full w-full px-1 overflow-hidden"
+                  className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
                >
                   <div
                      className={cn(
-                        ` h-[450px] w-full px-16 space-y-5 overflow-y-auto scroll-smooth 
+                        ` h-[450px] w-full space-y-5 overflow-y-auto scroll-smooth px-[88px] 
                         `,
                      )}
                   >
                      {renderSteps}
                   </div>
-                  <DialogFooter className=" w-full mb-6 px-16">
-                     <Button
-                        className="rounded-3xl text-md font-semibold"
-                        type="button"
-                        onClick={nextStep}
-                        variant={'default'}
-                        disabled={!isValid}
-                     >
-                        Next
-                     </Button>
+
+                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                     {step !== 3 ? (
+                        <Button
+                           className="text-md h-11 rounded-3xl font-semibold"
+                           type="button"
+                           onClick={nextStep}
+                           variant={'default'}
+                           disabled={!isValid}
+                        >
+                           Next
+                        </Button>
+                     ) : (
+                        <>
+                           <FormDescription>
+                              <TermsAndConditions className="mb-2 text-[14px] leading-4">
+                                 Twitter may use your contact information, including your email
+                                 address and phone number for purposes outlined in our Privacy
+                                 Policy, like keeping your account secure and personalizing our
+                                 services, including ads.
+                                 <Link
+                                    href="/privacy"
+                                    target="_blank"
+                                    className="text-viper-dodger-blue hover:underline hover:underline-offset-4 "
+                                 >
+                                    Learn more
+                                 </Link>{' '}
+                                 . Others will be able to find you by email or phone number, when
+                                 provided, unless you choose otherwise{' '}
+                                 <button
+                                    className="text-viper-dodger-blue"
+                                    onClick={() => redirectStep(6)}
+                                 >
+                                    here
+                                 </button>
+                                 .
+                              </TermsAndConditions>
+                           </FormDescription>{' '}
+                           <Button
+                              className="text-md h-11 rounded-3xl font-semibold"
+                              type="button"
+                              onClick={nextStep}
+                              variant={'sign-up'}
+                              disabled={!isValid}
+                           >
+                              Sign up
+                           </Button>
+                        </>
+                     )}
                   </DialogFooter>
                </form>
             </Form>

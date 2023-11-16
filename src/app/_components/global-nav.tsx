@@ -53,7 +53,7 @@ export function GlobalNav() {
                hidden: !isOpen,
             })}
          >
-            <nav className="px-2 pb-24 mt-5">
+            <nav className="mt-5 px-2 pb-24">
                <div className="space-y-4">
                   {navItems.map((item) => (
                      <GlobalNavItem

@@ -28,7 +28,7 @@ export function GlobalNavItem({
          href={`/${item.slug}`}
          className={clsx('block rounded-md px-3 py-2 text-sm font-medium hover:text-gray-200 ', {
             'text-gray-300 hover:bg-gray-800': !isActive,
-            'text-white font-bold': isActive,
+            'font-bold text-white': isActive,
          })}
       >
          {item.name === 'Profile' ? profileName : item.name}

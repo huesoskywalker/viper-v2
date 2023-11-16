@@ -5,27 +5,21 @@ import {
    SelectGroup,
    SelectItem,
    SelectLabel,
+   SelectProps,
    SelectTrigger,
    SelectValue,
-   selectVariants,
 } from '@/components/ui/select'
-import { VariantProps } from 'class-variance-authority'
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import useFocusBlurState from '../_hooks/use-focus-blur-states'
 import { cn } from '@/lib/utils'
-import useOnChangeState from '../_hooks/use-on-change-state'
 
 export type SelectOptions = {
    value: string
    label: string
 }
-interface SelectPropsTest
-   extends React.SelectHTMLAttributes<HTMLSelectElement>,
-      VariantProps<typeof selectVariants> {}
-
 const FormSelect = React.forwardRef<
-   HTMLSelectElement,
-   SelectPropsTest & { label: string } & { options: SelectOptions[] }
+   HTMLSelectElement & HTMLButtonElement,
+   SelectProps & { label: string } & { options: SelectOptions[] }
 >(({ label, options, className, variant, ...props }, ref) => {
    // props.onChange does not handle the return string from onValueChange
    const handleOnChange = (event: any) => {
@@ -39,7 +33,7 @@ const FormSelect = React.forwardRef<
    return (
       <div
          className={cn(
-            'relative h-[63px] flex justify-start w-full rounded-[4px] ',
+            'relative flex h-[63px] w-full justify-start rounded-[4px] ',
             isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-gray-600',
             error && 'border-viper-red',
          )}
@@ -47,28 +41,30 @@ const FormSelect = React.forwardRef<
          <FormLabel
             htmlFor={props.id}
             className={cn(
-               'absolute px-3 pt-1 text-sd translate-y-1 ',
+               'absolute translate-y-1 px-2 pt-1 text-sm ',
                isFocused ? ' text-viper-dodger-blue' : '   text-gray-600',
             )}
          >
             {label}
          </FormLabel>{' '}
-         <div className="flex w-full py-1 mt-3">
+         <div className="mt-3 flex w-full py-1">
             <Select onValueChange={handleOnChange} defaultValue={props.value as string}>
                <FormControl id={props.id}>
                   <SelectTrigger
+                     ref={ref}
                      className="justify-between"
                      variant={variant}
+                     onFocus={handleOnFocus}
                      onBlur={handleOnBlur}
                   >
                      <SelectValue />
                   </SelectTrigger>
                </FormControl>
-               <SelectContent id={props.id}>
+               <SelectContent id={props.id} onFocus={handleOnFocus}>
                   <SelectGroup>
                      <SelectLabel className="py-3.5"></SelectLabel>
                      {options.map((item) => (
-                        <SelectItem key={item.value} value={item.value} onFocus={handleOnFocus}>
+                        <SelectItem key={item.value} value={item.value}>
                            {item.label}
                         </SelectItem>
                      ))}

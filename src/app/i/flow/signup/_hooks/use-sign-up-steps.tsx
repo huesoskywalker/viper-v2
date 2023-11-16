@@ -10,10 +10,12 @@ export const useSignUpSteps = (
       {
          name: string
          email: string
-         month: string
-         day: string
-         year: string
-         content?: boolean
+         birthDate: {
+            month: string
+            day: string
+            year: string
+         }
+         contentDiscovery: boolean
       },
       any
    >,

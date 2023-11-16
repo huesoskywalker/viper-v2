@@ -14,7 +14,7 @@ const SelectGroup = SelectPrimitive.Group
 const SelectValue = SelectPrimitive.Value
 
 export const selectVariants = cva(
-   'flex h-10 w-full items-center justify-between  px-3 py-2 text-sm text-primary   disabled:cursor-not-allowed disabled:opacity-50',
+   'flex h-10 w-full items-center justify-between  px-2 py-2 text-sm text-primary   disabled:cursor-not-allowed disabled:opacity-50',
    {
       variants: {
          variant: {
@@ -46,7 +46,7 @@ const SelectTrigger = React.forwardRef<
    >
       {children}
       <SelectPrimitive.Icon asChild>
-         <ChevronDown className="absolute top-3 right-1 h-6 w-6 opacity-50 text-primary " />
+         <ChevronDown className="absolute right-1 top-3 h-6 w-6 text-primary opacity-50 " />
       </SelectPrimitive.Icon>
    </SelectPrimitive.Trigger>
 ))

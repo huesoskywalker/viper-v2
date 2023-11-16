@@ -33,17 +33,43 @@ const SignUpFormSchema = z.object({
             message: 'Email has already been taken.',
          },
       ),
-   month: z.string({ required_error: 'Please select a month.' }),
-   day: z.string({ required_error: 'Please select a day.' }),
-   year: z.string({ required_error: 'Please select a day.' }),
+   birthDate: z
+      .object({
+         month: z.string({ required_error: 'Please select a month.' }),
+         day: z.string({ required_error: 'Please select a day.' }),
+         year: z.string({ required_error: 'Please select a year.' }),
+      })
+      .refine(
+         (value) => {
+            const { month, day, year } = value
+
+            if (month && day && year) {
+               // const dateString = new Date(`${year}-${month}-${day}`).toDateString()
+               // return dateString
+               // return value
+               // return value
+               return true
+            }
+            return false
+         },
+         {
+            message: 'Please select a valid birth date.',
+         },
+      ),
    // we need to manage this in the database
-   contentDiscovery: z.boolean().optional(),
+   contentDiscovery: z.boolean(),
 })
 
 export const useSignUpForm = () => {
    const defaultValues = {
       name: '',
       email: '',
+      birthDate: {
+         month: '',
+         day: '',
+         year: '',
+      },
+      contentDiscovery: true,
    }
 
    const signUpForm = useForm<SignUpFormValues>({

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type FocusElement = 'email' | 'name' | 'month'
+export type FocusElement = 'email' | 'name' | 'birthDate.month'
 
 type SignUpStore = {
    step: number
@@ -12,10 +12,10 @@ type SignUpStore = {
 }
 
 export const useSignUpStore = create<SignUpStore>((set) => ({
-   step: 1,
+   step: 3,
    nextStep: () => set((state) => ({ step: state.step + 1 })),
    prevStep: () => set((state) => ({ step: state.step - 1 })),
-   redirectStep: (newStep: number) => set(() => ({ step: newStep })),
+   redirectStep: (newStep: number) => set({ step: newStep }),
    focusElem: undefined,
-   setFocusElem: (elem: FocusElement) => set(() => ({ focusElem: elem })),
+   setFocusElem: (elem: FocusElement) => set({ focusElem: elem }),
 }))

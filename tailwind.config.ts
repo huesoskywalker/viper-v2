@@ -27,7 +27,10 @@ const config: Config = {
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
-               background: 'rgb(24 24 27)',
+               'forest-green': 'hsl(var(--forest-green))',
+               // green: '#00B77C',
+               background: '#18181B',
+               // background: 'rgb(24 24 27)',
                // this-me
                overlay: 'hsl(var(--overlay))',
                red: 'hsl(var(--error-message))',

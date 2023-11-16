@@ -1,3 +1,4 @@
+import TermsAndConditions from '@/app/_components/terms-and-conditions'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DialogTitle } from '@/components/ui/dialog'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
@@ -12,10 +13,12 @@ const SignUpStep2 = ({
       {
          name: string
          email: string
-         month: string
-         day: string
-         year: string
-         contentDiscovery?: boolean
+         birthDate: {
+            month: string
+            day: string
+            year: string
+         }
+         contentDiscovery: boolean
       },
       any
    >
@@ -23,8 +26,8 @@ const SignUpStep2 = ({
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
 
    return (
-      <div className="flex flex-col space-y-8">
-         <DialogTitle className="text-primary  text-3xl font-semibold mt-3">
+      <div className="flex flex-col space-y-6">
+         <DialogTitle className="mt-3 text-3xl font-semibold text-primary">
             Customize your experience
          </DialogTitle>
          <div className="space-y-2">
@@ -35,12 +38,12 @@ const SignUpStep2 = ({
                   <FormItem className="space-y-2">
                      <FormLabel
                         htmlFor={field.name}
-                        className="text-primary text-lg font-semibold"
+                        className="text-lg font-semibold text-primary"
                      >
                         Discover Viper content across the web.
                      </FormLabel>
                      <div className="flex flex-row gap-6">
-                        <FormDescription className="text-gray-200 font-normal text-sm">
+                        <FormDescription className="text-sm font-normal leading-5 text-gray-200">
                            Viper tailors a personalized experience using this data. This web
                            browsing history will never be stored with your name, email, or phone
                            number.
@@ -48,10 +51,8 @@ const SignUpStep2 = ({
                         <FormControl id={field.name}>
                            <Checkbox
                               checked={field.value}
-                              defaultChecked={true}
                               onCheckedChange={field.onChange}
-                              // should we change this data from the original ?
-                              className="data-[state=checked]:bg-viper-dodger-blue data-[state=checked]:text-primary data-[state=checked]:border-none border-accent-foreground"
+                              className="border-accent-foreground data-[state=checked]:border-none data-[state=checked]:bg-viper-dodger-blue data-[state=checked]:text-primary"
                            />
                         </FormControl>
                      </div>
@@ -59,23 +60,16 @@ const SignUpStep2 = ({
                )}
             />
          </div>
-         <p className=" text-sm leading-4 text-muted-foreground ">
-            By signin up, you agree to our{' '}
-            <Link href="/tos" target="_blank" className={linkClass}>
-               Terms
-            </Link>{' '}
-            ,{' '}
-            <Link href="/privacy" target="_blank" className={linkClass}>
-               Privacy Policy
-            </Link>{' '}
-            and{' '}
-            <Link href="/rules-and-policies/x-cookies" target="_blank" className={linkClass}>
-               Cookie Use
-            </Link>
-            . Viper may use your contact information, including your email address and phone number
-            for purposes outlined in our Privacy Policy.
-            <Link href="/privacy" target="_blank" className={linkClass}></Link>
-         </p>
+         <div>
+            <TermsAndConditions className=" text-sm leading-4 text-muted-foreground ">
+               Viper may use your contact information, including your email address and phone
+               number for purposes outlined in our Privacy Policy.{' '}
+               <Link href="/privacy" target="_blank" className={linkClass}>
+                  Learn more
+               </Link>
+               .
+            </TermsAndConditions>
+         </div>
       </div>
    )
 }

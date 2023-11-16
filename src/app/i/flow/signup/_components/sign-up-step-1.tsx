@@ -13,10 +13,12 @@ const SignUpStep1 = ({
       {
          name: string
          email: string
-         month: string
-         day: string
-         year: string
-         contentDiscovery?: boolean
+         birthDate: {
+            month: string
+            day: string
+            year: string
+         }
+         contentDiscovery: boolean
       },
       any
    >
@@ -27,7 +29,7 @@ const SignUpStep1 = ({
 
    return (
       <>
-         <FormDescription className="text-primary  text-3xl font-bold mt-3">
+         <FormDescription className="mt-3 text-3xl font-bold text-primary ">
             Create your account
          </FormDescription>
          <FormField
@@ -35,7 +37,13 @@ const SignUpStep1 = ({
             name="name"
             render={({ field }) => (
                <FormItem>
-                  <FormInput id="name" type="text" variant={'viper'} label="Name" {...field} />
+                  <FormInput
+                     {...field}
+                     id={field.name}
+                     type="text"
+                     variant={'viper'}
+                     label="Name"
+                  />
                   <FormMessage />
                </FormItem>
             )}
@@ -45,27 +53,33 @@ const SignUpStep1 = ({
             name="email"
             render={({ field }) => (
                <FormItem>
-                  <FormInput id="email" type="email" variant={'viper'} label="Email" {...field} />
+                  <FormInput
+                     {...field}
+                     id={field.name}
+                     type="email"
+                     variant={'viper'}
+                     label="Email"
+                  />
                   <FormMessage />
                </FormItem>
             )}
          />
          <div className="space-y-4">
-            <FormDescription className="flex flex-col justify-center items-start gap-1">
-               <span className="text-primary text-md font-semibold">Date of birth</span>
+            <FormDescription className="flex flex-col items-start justify-center gap-1">
+               <span className="text-md font-semibold text-primary">Date of birth</span>
                <span className="text-xs font-normal">
                   Protected in privacy, unveil the secret of your age, whether it&apos;s for
                   business, a beloved pet, or any other venture.
                </span>
             </FormDescription>
-            <div className="flex flex-row w-full items-start gap-2">
+            <div className="flex w-full flex-row items-start gap-2">
                <FormField
                   control={formControl}
-                  name="month"
+                  name="birthDate.month"
                   render={({ field }) => (
                      <FormItem className="w-4/5">
                         <FormSelect
-                           id="month"
+                           id={field.name}
                            label="Month"
                            options={months}
                            variant={'viper'}
@@ -78,11 +92,11 @@ const SignUpStep1 = ({
                />{' '}
                <FormField
                   control={formControl}
-                  name="day"
+                  name="birthDate.day"
                   render={({ field }) => (
                      <FormItem className="w-2/6">
                         <FormSelect
-                           id="day"
+                           id={'birthDate.day'}
                            label="Day"
                            options={days}
                            variant={'viper'}
@@ -95,11 +109,11 @@ const SignUpStep1 = ({
                />{' '}
                <FormField
                   control={formControl}
-                  name="year"
+                  name="birthDate.year"
                   render={({ field }) => (
                      <FormItem className="w-2/5">
                         <FormSelect
-                           id="year"
+                           id={field.name}
                            label="Year"
                            options={years}
                            variant={'viper'}

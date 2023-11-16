@@ -1,9 +1,11 @@
 import FormInput from '../../../../_components/form-input'
-import { FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Control } from 'react-hook-form'
 import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
 import { useSignUpStore } from '../_stores/sign-up-store'
+import FormSelect from '@/app/_components/form-select'
+import { getBirthDate } from '../_utils/get-birth-date'
 
 const SignUpStep3 = ({
    formControl,
@@ -12,15 +14,19 @@ const SignUpStep3 = ({
       {
          name: string
          email: string
-         month: string
-         day: string
-         year: string
-         contentDiscovery?: boolean
+         birthDate: {
+            month: string
+            day: string
+            year: string
+         }
+         contentDiscovery: boolean
       },
       any
    >
 }) => {
    const { redirectStep, setFocusElem } = useSignUpStore()
+
+   const { dateOfBirth } = getBirthDate()
 
    const handlePrevState = (event: any) => {
       redirectStep(1)
@@ -29,13 +35,25 @@ const SignUpStep3 = ({
 
    return (
       <>
+         <FormDescription className="mt-3  text-3xl font-bold text-primary">
+            Create your account
+         </FormDescription>
          <FormField
             control={formControl}
             name="name"
             render={({ field }) => (
-               <FormItem onClick={handlePrevState}>
-                  <FormInput id="name" type="text" variant={'viper'} label="Name" {...field} />
-                  {/* <Checkbox onCheckedChange={handleOnChecked} /> */}
+               <FormItem className="relative" onFocus={handlePrevState}>
+                  <FormInput
+                     id={field.name}
+                     type="text"
+                     variant={'viper'}
+                     label="Name"
+                     {...field}
+                  />
+                  <Checkbox
+                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
+                     defaultChecked={true}
+                  />
                   <FormMessage />
                </FormItem>
             )}
@@ -44,76 +62,43 @@ const SignUpStep3 = ({
             control={formControl}
             name="email"
             render={({ field }) => (
-               <FormItem onClick={handlePrevState}>
-                  <FormInput id="email" type="email" variant={'viper'} label="Email" {...field} />
+               <FormItem className="relative" onFocus={handlePrevState}>
+                  <FormInput
+                     id={field.name}
+                     type="email"
+                     variant={'viper'}
+                     label="Email"
+                     {...field}
+                  />
+                  <Checkbox
+                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
+                     defaultChecked={true}
+                  />
+                  <FormMessage />
+               </FormItem>
+            )}
+         />{' '}
+         <FormField
+            control={formControl}
+            name="birthDate"
+            render={({ field }) => (
+               <FormItem className="relative" onFocus={handlePrevState}>
+                  <FormInput
+                     {...field}
+                     id={'birthDate.month'}
+                     type="text"
+                     variant={'viper'}
+                     label="Date of birth"
+                     value={dateOfBirth}
+                  />
+                  <Checkbox
+                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
+                     defaultChecked={true}
+                  />
                   <FormMessage />
                </FormItem>
             )}
          />
-         {/* <div className="space-y-4">
-            <FormDescription className="flex flex-col justify-center items-start gap-1">
-               <span className="text-primary text-md font-semibold">Date of birth</span>
-               <span className="text-xs font-normal">
-                  Protected in privacy, unveil the secret of your age, whether it&apos;s for
-                  business, a beloved pet, or any other venture.
-               </span>
-            </FormDescription>
-            <div className="flex flex-row w-full items-start gap-2">
-               <FormField
-                  control={formControl}
-                  name="month"
-                  render={({ field }) => (
-                     <FormItem className="w-4/5">
-                        <FormSelect
-                           id="month"
-                           label="Month"
-                           //   Refactor this once it does work
-                           options={[]}
-                           variant={'viper'}
-                           {...field}
-                        />
-
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />{' '}
-               <FormField
-                  control={formControl}
-                  name="day"
-                  render={({ field }) => (
-                     <FormItem className="w-2/6">
-                        <FormSelect
-                           id="day"
-                           label="Day"
-                           //   Refactor this once it does work
-                           options={[]}
-                           variant={'viper'}
-                           {...field}
-                        />
-
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />{' '}
-               <FormField
-                  control={formControl}
-                  name="year"
-                  render={({ field }) => (
-                     <FormItem className="w-2/5">
-                        <FormSelect
-                           id="year"
-                           label="Year"
-                           //   Refactor this once it does work
-                           options={[]}
-                           variant={'viper'}
-                           {...field}
-                        />
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            </div>
-         </div>{' '} */}
       </>
    )
 }

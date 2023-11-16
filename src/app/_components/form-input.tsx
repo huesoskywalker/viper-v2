@@ -12,13 +12,11 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
          props.value as string,
       )
       const { handleOnChange } = useOnChangeState(props.onChange, props.name)
-      // I've add this register from the og
-      const { register } = useFormField()
 
       return (
          <div
             className={cn(
-               'relative h-[63px] flex justify-start w-full rounded-[4px] ',
+               'relative flex h-[63px] w-full justify-start rounded-[4px] ',
                isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-gray-600',
                error && 'border-viper-red',
             )}
@@ -26,20 +24,20 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
             <FormLabel
                htmlFor={props.id}
                className={cn(
-                  'absolute px-3 pt-1 text-md transition-transform duration-200 transform ',
+                  'text-md absolute transform px-2 pt-1 transition-transform duration-200 ',
                   isFocused
-                     ? 'text-sm translate-y-0  text-viper-dodger-blue'
-                     : 'text-md translate-y-2  text-gray-600',
-                  hasValue && 'text-sm translate-y-0',
+                     ? 'translate-y-0 text-sm  text-viper-dodger-blue'
+                     : 'text-md translate-y-2  text-gray-500',
+                  hasValue && 'translate-y-0 text-sm',
                )}
             >
                {label}
             </FormLabel>
-            <div className="flex w-full py-1 mt-3">
+            <div className="mt-3 flex w-full py-1">
                <FormControl>
                   <Input
-                     {...register(`${props.id}`)}
                      id={props.id}
+                     ref={ref}
                      autoCapitalize="none"
                      autoComplete={props.id}
                      autoCorrect="off"
