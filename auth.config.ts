@@ -1,140 +1,166 @@
 import { Shopify, Viper } from '@/types/viper'
 import type { NextAuthConfig } from 'next-auth'
-import GitHub from '@auth/core/providers/github'
+import GitHub, { type GitHubProfile } from '@auth/core/providers/github'
 import Auth0 from '@auth/core/providers/auth0'
-import Google from '@auth/core/providers/google'
+import Google, { type GoogleProfile } from '@auth/core/providers/google'
+import Email from '@auth/core/providers/email'
 import { clientPromise } from '@/services/servicesInitializer'
 import { ObjectId } from 'mongodb'
+import { checkUsernameAvailability } from './utils/check-username-availability'
+// import transporter from './nodemailerConfig'
 
 declare module 'next-auth' {
    interface Session {
       user: {
+         id: string
+         name: string
          email: string
-      } & User
-   }
-
-   interface User {
-      shopify: Shopify
-      location: string
-   }
-}
-
-type NewViper = {
-   name: string
-   username: string
-   email: string
-   image: string
-   location: string
-   bio: string
-}
-const populateNewUser = async (newViper: Partial<NewViper>) => {
-   const { name, username, email, image, location, bio } = newViper
-
-   // const newViper = await viperService.create
-   const client = await clientPromise
-   const viperCol = client.db('viperDb').collection<Viper>('users')
-
-   let unTakenUsername: string = ''
-   if (typeof username === 'string') {
-      const isUsernameTaken = await viperCol.findOne<Viper>({ username: username })
-      if (isUsernameTaken) {
-         const randomNumber = Math.floor(Math.random() * 100000)
-         unTakenUsername = `${username}${randomNumber}`
-      } else {
-         unTakenUsername = username
+         image: string
+         // shopify: Shopify
+         location: string
       }
    }
 
-   const viper = await viperCol.insertOne({
-      _id: new ObjectId(),
-      location: location ?? '',
-      contactInfo: {
-         phone: null,
-         address: '',
-         website: '',
-      },
-      // we might want to create a basic image or place a gradient, that's cool having that conditional
-      // might not make the code look great, handling a basic Image might be a better approach
-      backgroundImage: image ?? '',
-      bio: bio ?? '',
-      blogs: {
-         personal: [],
-         likes: [],
-         withReplies: [],
-      },
-      email: email ?? '',
-      emailVerified: null,
-      username: unTakenUsername,
-      name: name ?? '',
-      image: image ?? '',
-      shopify: {
-         customerAccessToken: '',
-         customerId: '',
-      },
-      events: {
-         created: [],
-         collection: [],
-         likes: [],
-      },
-      followers: [],
-      followings: [],
-   })
+   interface User extends Viper {}
 }
-
+// if (account?.provider === 'github') {
+//          username: profile.login as string,
+//          image: profile.avatar_url as string,
+//          location: profile.location as string,
+//          bio: profile.bio,
+//       })
 export default {
    debug: false,
-   providers: [GitHub, Google, Auth0],
+   providers: [
+      GitHub({
+         profile: (profile: GitHubProfile) => {
+            console.log(`----github profile`)
+            console.log({ profile })
+            console.log('profile.username???: ', profile.username)
+            return {
+               id: '1',
+               location: profile.location ?? '',
+               contactInfo: {
+                  phone: null,
+                  address: '',
+                  website: '',
+               },
+               email: profile.email,
+               bio: profile.bio ?? '',
+               blogs: {
+                  personal: [],
+                  likes: [],
+                  withReplies: [],
+               },
+               emailVerified: false,
+               // check if this exists in the object it did at some point
+               username: (profile.username as string) ?? '',
+               name: profile.name,
+               image: profile.avatar_url,
+               backgroundImage: '',
+               shopify: {
+                  customerAccessToken: '',
+                  customerId: '',
+               },
+               events: {
+                  created: [],
+                  collection: [],
+                  likes: [],
+               },
+               followers: [],
+               followings: [],
+            }
+         },
+      }),
+      Google({
+         profile: async (profile: GoogleProfile) => {
+            const username = await checkUsernameAvailability(profile.name.trim())
+            return {
+               id: '1',
+               location: '',
+               contactInfo: {
+                  phone: null,
+                  address: '',
+                  website: '',
+               },
+               bio: '',
+               blogs: {
+                  personal: [],
+                  likes: [],
+                  withReplies: [],
+               },
+               email: profile.email,
+               emailVerified: profile.email_verified,
+               username: username,
+               name: profile.name,
+               image: profile.picture,
+               backgroundImage: '',
+               shopify: {
+                  customerAccessToken: '',
+                  customerId: '',
+               },
+               events: {
+                  created: [],
+                  collection: [],
+                  likes: [],
+               },
+               followers: [],
+               followings: [],
+            }
+         },
+      }),
+      Auth0,
+      Email({
+         server: {
+            host: process.env.EMAIL_SERVER_HOST,
+            port: Number(process.env.EMAIL_SERVER_PORT),
+            auth: {
+               user: process.env.EMAIL_SERVER_USER,
+               pass: process.env.EMAIL_SERVER_PASSWORD,
+            },
+         },
+         from: process.env.EMAIL_FROM,
+      }),
+   ],
    pages: {
-      signIn: '/auth/signin',
+      // signIn: '/auth/signin',
    },
    callbacks: {
-      // async authorized({ request, auth }) {
-      //    const pathname = request.nextUrl
+      async authorized({ request, auth }) {
+         console.log(`----callback-authorized`)
+         console.log({ request, auth })
+         const pathname = request.nextUrl
 
-      //    if (request.method === 'POST') {
-      //       const { authToken } = (await request.json()) ?? {}
+         if (request.method === 'POST') {
+            const { authToken } = (await request.json()) ?? {}
+            console.log(`authorized`)
+            console.log({ authToken })
 
-      //       // this is not a built in function
-      //       // const valid = validateAuthToken(authToken)
-      //       // if (valid) {
-      //       // }
-      //    }
-      // },
-      // async redirect({ baseUrl, url }) {
-      //    console.log(`========redirect`)
-      //    console.log(baseUrl)
-      //    console.log(url)
-      //    return '/'
-      // },
+            // this is not a built in function
+            // const valid = validateAuthToken(authToken)
+            // if (valid) {
+            // }
+         }
+         return true
+      },
+      async redirect({ baseUrl, url }) {
+         console.log(`---callback-redirect`)
+         console.log({ url })
+         // console.log(`========redirect`)
+         // console.log(baseUrl)
+         // console.log(url)
+         return '/'
+      },
+      // ----------------------------------
       async signIn({ user, account, profile, email }) {
-         // this does not work since it does create a user and throw error
-         // -------
-         // if (!user && profile) {
-         //    const newViper: Partial<NewViper> = {}
-         //    Object.assign(newViper, {
-         //       name: profile.name,
-         //       email: profile.email,
-         //    })
-         //    if (account?.provider === 'github') {
-         //       Object.assign(newViper, {
-         //          username: profile.login as string,
-         //          image: profile.avatar_url as string,
-         //          location: profile.location as string,
-         //          bio: profile.bio,
-         //       })
-         //    } else if (account?.provider === 'google') {
-         //       Object.assign(newViper, {
-         //          username: profile.name?.trim().toLowerCase().replace(/\\s+/g, ''),
-         //          image: profile.picture as string,
-         //       })
-         //    }
-         //    await populateNewUser({ ...newViper })
-         // }
+         console.log(`----callback-signIn`)
+         console.log({ user })
          return true
       },
       async session({ session, token, user, trigger, newSession }) {
+         console.log(`----callback-session`)
          if (trigger && newSession?.shopify) {
-            session.user.shopify = newSession.shopify
+            // session.user.shopify = newSession.shopify
          } else if (trigger && newSession?.image && newSession?.location && newSession?.image) {
             session.user.name = newSession.name
             session.user.location = newSession.location
@@ -144,10 +170,27 @@ export default {
       },
    },
    events: {
+      session({ session }) {
+         console.log(`-----events--session`)
+         console.log({ session })
+      },
       createUser(message) {
+         console.log(`------events create-user`)
+         console.log({ message })
          // message.user.
       },
-      signIn({ profile, isNewUser }) {},
+      signIn({ profile, isNewUser }) {
+         console.log(`------events signIn `)
+         console.log({ profile, isNewUser })
+      },
+      signOut(message) {
+         console.log(`-----events signOut`)
+         console.log({ message })
+      },
+      updateUser({ user }) {
+         console.log(`------events updateUser`)
+         console.log({ user })
+      },
       // let's check all this
    },
 } satisfies NextAuthConfig

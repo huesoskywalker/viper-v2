@@ -79,7 +79,7 @@ export function SignUpForm() {
             <Form {...signUpForm}>
                <DialogHeader>
                   <DialogTitle className=" pl-16 text-lg font-semibold text-gray-300">
-                     Step {step} of 5
+                     Step {step} of 4
                   </DialogTitle>
                </DialogHeader>
                {/* make this a server action? */}

@@ -1,0 +1,15 @@
+# Ignore build artifacts
+build/
+dist/
+out/
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore coverage reports
+coverage/
+
+# Ignore specific files
+*.log
+# *.json
+# *.md

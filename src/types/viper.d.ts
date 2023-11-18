@@ -3,31 +3,30 @@ import { Event } from './event'
 import { Session } from 'next-auth'
 
 export type Viper = {
-   readonly _id: _ID
+   readonly id: _ID
    location: Location
    contactInfo: ContactInfo
-   backgroundImage: Image
    bio: Biography
    blogs: Blog
+   emailVerified: boolean
    email: Email
-   email: Email
-   emailVerified: null
    username: Username
    name: Name
    image: Image
+   backgroundImage: Image
    shopify: Shopify
    events: MyEvents
    followers: Follow[]
    followings: Follow[]
 }
 
+type Email = string
+
 type Username = string
 
 type Image = string
 
 type Biography = string
-
-type Email = string
 
 type Name = string
 
