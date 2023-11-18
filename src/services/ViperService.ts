@@ -8,6 +8,7 @@ import {
    UpdateViper,
    Viper,
    ViperBasicProps,
+   _ID,
 } from '@/types/viper'
 import { ViperRepositorySource } from '@/types/viper-repository'
 import { WithId } from 'mongodb'
@@ -17,6 +18,29 @@ export class ViperService implements ViperRepositorySource {
 
    constructor(viperRepository: ViperRepositorySource) {
       this.viperRepository = viperRepository
+   }
+
+   async create(
+      _id: _ID,
+      name: string,
+      email: string,
+      image: string,
+   ): Promise<WithId<Viper> | null> {
+      try {
+         const newViper = await this.viperRepository.create(_id, name, email, image)
+         return newViper
+      } catch (error: unknown) {
+         throw new Error(`Model Error: Failed to create Viper, ${error}`)
+      }
+   }
+
+   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+      try {
+         const updateProfile = await this.viperRepository.update(viper)
+         return updateProfile
+      } catch (error: unknown) {
+         throw new Error(`Model Error: Failed to update Viper, ${error}`)
+      }
    }
 
    async getAll(): Promise<Viper[]> {
@@ -49,30 +73,39 @@ export class ViperService implements ViperRepositorySource {
 
    async findByUsername(username: string): Promise<WithId<ViperBasicProps>[]> {
       try {
-         const vipers: WithId<ViperBasicProps>[] = await this.viperRepository.findByUsername(
-            username,
-         )
+         const vipers: WithId<ViperBasicProps>[] =
+            await this.viperRepository.findByUsername(username)
          return vipers
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
       }
    }
 
-   async findByEmail(email: string): Promise<{ email: Email } | null> {
+   async findByEmail(email: string): Promise<WithId<Partial<Viper>> | null> {
       try {
-         const viperEmail: { email: Email } | null = await this.viperRepository.findByEmail(email)
-         return viperEmail
+         const viper: WithId<Partial<Viper>> | null = await this.viperRepository.findByEmail(email)
+         return viper
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
       }
    }
 
-   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+   async checkEmailAvailability(email: string): Promise<boolean> {
       try {
-         const updateProfile = await this.viperRepository.update(viper)
-         return updateProfile
+         const isAvailable: boolean = await this.viperRepository.checkEmailAvailability(email)
+         return isAvailable
       } catch (error: unknown) {
-         throw new Error(`Model Error: Failed to update Viper, ${error}`)
+         throw new Error(`Model Error: Failed to check email availability, ${error}`)
+      }
+   }
+
+   async checkUsernameAvailability(username: string): Promise<boolean> {
+      try {
+         const isAvailable: boolean =
+            await this.viperRepository.checkUsernameAvailability(username)
+         return isAvailable
+      } catch (error: unknown) {
+         throw new Error(`Model Error: Failed to check username availability, ${error}`)
       }
    }
    // We don't have a getFollowers?

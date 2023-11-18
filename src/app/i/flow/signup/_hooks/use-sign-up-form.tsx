@@ -44,10 +44,6 @@ const SignUpFormSchema = z.object({
             const { month, day, year } = value
 
             if (month && day && year) {
-               // const dateString = new Date(`${year}-${month}-${day}`).toDateString()
-               // return dateString
-               // return value
-               // return value
                return true
             }
             return false

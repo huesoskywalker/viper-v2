@@ -1,14 +1,18 @@
-import { Email, Viper } from './viper'
+import { WithId } from 'mongodb'
+import { Email, Viper, _ID } from './viper'
 
 interface ViperCRUDRepository {
-   // create(viper: Partial<Viper>): Promise<WithId<Viper> | null>
+   // we can make a pick interface for this props
+   create(_id: _ID, name: string, email: string, image: string): Promise<WithId<Viper> | null>
    update(viper: UpdateViper): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<ViperBasicProps[]>
-   findByEmail(email: string): Promise<{ email: Email } | null>
+   findByEmail(email: string): Promise<WithId<Partial<Viper>> | null>
+   checkEmailAvailability(email: string): Promise<boolean>
+   checkUsernameAvailability(username: string): Promise<boolean>
 }
 
 interface ViperFollowRepository {

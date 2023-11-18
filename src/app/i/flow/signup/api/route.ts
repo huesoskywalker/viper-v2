@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
    if (!email) return NextResponse.json({ error: 'Email must be provided ' }, { status: 400 })
 
    try {
-      const data = await viperService.findByEmail(email)
+      const data = await viperService.checkEmailAvailability(email)
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
       return NextResponse.json({ error }, { status: 400 })

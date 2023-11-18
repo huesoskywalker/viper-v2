@@ -1,12 +1,10 @@
-import { Shopify, Viper } from '@/types/viper'
+import { _ID } from '@/types/viper'
 import type { NextAuthConfig } from 'next-auth'
 import GitHub, { type GitHubProfile } from '@auth/core/providers/github'
 import Auth0 from '@auth/core/providers/auth0'
 import Google, { type GoogleProfile } from '@auth/core/providers/google'
 import Email from '@auth/core/providers/email'
-import { clientPromise } from '@/services/servicesInitializer'
-import { ObjectId } from 'mongodb'
-import { checkUsernameAvailability } from './utils/check-username-availability'
+import { viperService } from '@/services/servicesInitializer'
 // import transporter from './nodemailerConfig'
 
 declare module 'next-auth' {
@@ -16,99 +14,17 @@ declare module 'next-auth' {
          name: string
          email: string
          image: string
-         // shopify: Shopify
          location: string
       }
    }
-
-   interface User extends Viper {}
+   interface User {}
 }
-// if (account?.provider === 'github') {
-//          username: profile.login as string,
-//          image: profile.avatar_url as string,
-//          location: profile.location as string,
-//          bio: profile.bio,
-//       })
+
 export default {
    debug: false,
    providers: [
-      GitHub({
-         profile: (profile: GitHubProfile) => {
-            console.log(`----github profile`)
-            console.log({ profile })
-            console.log('profile.username???: ', profile.username)
-            return {
-               id: '1',
-               location: profile.location ?? '',
-               contactInfo: {
-                  phone: null,
-                  address: '',
-                  website: '',
-               },
-               email: profile.email,
-               bio: profile.bio ?? '',
-               blogs: {
-                  personal: [],
-                  likes: [],
-                  withReplies: [],
-               },
-               emailVerified: false,
-               // check if this exists in the object it did at some point
-               username: (profile.username as string) ?? '',
-               name: profile.name,
-               image: profile.avatar_url,
-               backgroundImage: '',
-               shopify: {
-                  customerAccessToken: '',
-                  customerId: '',
-               },
-               events: {
-                  created: [],
-                  collection: [],
-                  likes: [],
-               },
-               followers: [],
-               followings: [],
-            }
-         },
-      }),
-      Google({
-         profile: async (profile: GoogleProfile) => {
-            const username = await checkUsernameAvailability(profile.name.trim())
-            return {
-               id: '1',
-               location: '',
-               contactInfo: {
-                  phone: null,
-                  address: '',
-                  website: '',
-               },
-               bio: '',
-               blogs: {
-                  personal: [],
-                  likes: [],
-                  withReplies: [],
-               },
-               email: profile.email,
-               emailVerified: profile.email_verified,
-               username: username,
-               name: profile.name,
-               image: profile.picture,
-               backgroundImage: '',
-               shopify: {
-                  customerAccessToken: '',
-                  customerId: '',
-               },
-               events: {
-                  created: [],
-                  collection: [],
-                  likes: [],
-               },
-               followers: [],
-               followings: [],
-            }
-         },
-      }),
+      GitHub,
+      Google,
       Auth0,
       Email({
          server: {
@@ -123,7 +39,7 @@ export default {
       }),
    ],
    pages: {
-      // signIn: '/auth/signin',
+      newUser: '/new',
    },
    callbacks: {
       async authorized({ request, auth }) {
@@ -133,7 +49,7 @@ export default {
 
          if (request.method === 'POST') {
             const { authToken } = (await request.json()) ?? {}
-            console.log(`authorized`)
+            console.log(`isAuthorized`)
             console.log({ authToken })
 
             // this is not a built in function
@@ -144,21 +60,17 @@ export default {
          return true
       },
       async redirect({ baseUrl, url }) {
-         console.log(`---callback-redirect`)
-         console.log({ url })
-         // console.log(`========redirect`)
-         // console.log(baseUrl)
-         // console.log(url)
          return '/'
       },
-      // ----------------------------------
       async signIn({ user, account, profile, email }) {
-         console.log(`----callback-signIn`)
-         console.log({ user })
          return true
       },
       async session({ session, token, user, trigger, newSession }) {
-         console.log(`----callback-session`)
+         console.log(`auth.config`)
+         console.log({ user })
+         session.user.id = user.id
+         session.user.image = user.image ?? ''
+         // session.user.location = user.location
          if (trigger && newSession?.shopify) {
             // session.user.shopify = newSession.shopify
          } else if (trigger && newSession?.image && newSession?.location && newSession?.image) {
@@ -170,27 +82,24 @@ export default {
       },
    },
    events: {
-      session({ session }) {
-         console.log(`-----events--session`)
-         console.log({ session })
-      },
-      createUser(message) {
-         console.log(`------events create-user`)
-         console.log({ message })
-         // message.user.
-      },
-      signIn({ profile, isNewUser }) {
-         console.log(`------events signIn `)
-         console.log({ profile, isNewUser })
-      },
-      signOut(message) {
-         console.log(`-----events signOut`)
-         console.log({ message })
+      // states of events are global
+      session({ session }) {},
+      signIn({ profile, isNewUser }) {},
+      signOut(message) {},
+      async createUser({ user }) {
+         try {
+            await viperService.create(
+               user.id as _ID,
+               user.name as string,
+               user.email as string,
+               user.image as string,
+            )
+         } catch (error) {
+            throw new Error(`Auth Error, failed to create the user, ${error}`)
+         }
       },
       updateUser({ user }) {
-         console.log(`------events updateUser`)
-         console.log({ user })
+         // gotta check when this update trigger run
       },
-      // let's check all this
    },
 } satisfies NextAuthConfig

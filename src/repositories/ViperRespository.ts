@@ -1,13 +1,13 @@
 import {
    Blog,
    CreatedEvent,
-   Email,
    EventCollection,
    Follow,
    Like,
    UpdateViper,
    Viper,
    ViperBasicProps,
+   _ID,
 } from '@/types/viper'
 import { ViperRepositorySource } from '@/types/viper-repository'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
@@ -17,6 +17,81 @@ export class ViperRepository implements ViperRepositorySource {
 
    constructor(database: Db) {
       this.viperCollection = database.collection<Viper>('users')
+   }
+
+   async create(
+      _id: _ID,
+      name: string,
+      email: string,
+      image: string,
+   ): Promise<WithId<Viper> | null> {
+      try {
+         const newViper = await this.viperCollection.findOneAndUpdate(
+            {
+               _id: new ObjectId(_id),
+            },
+            {
+               $set: {
+                  location: '',
+                  contactInfo: {
+                     phone: null,
+                     address: '',
+                     website: '',
+                  },
+                  email: email,
+                  bio: '',
+                  blogs: {
+                     personal: [],
+                     likes: [],
+                     withReplies: [],
+                  },
+                  emailVerified: false,
+                  // check if this exists in the object it did at some point
+                  username: '',
+                  name: name,
+                  image: image,
+                  backgroundImage: '',
+                  shopify: {
+                     customerAccessToken: '',
+                     customerId: '',
+                  },
+                  events: {
+                     created: [],
+                     collection: [],
+                     likes: [],
+                  },
+                  followers: [],
+                  followings: [],
+               },
+            },
+         )
+         return newViper
+      } catch (error: unknown) {
+         throw new Error(`Repository Error: Failed to create Viper, ${error}`)
+      }
+   }
+
+   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+      try {
+         const { _id, name, bio, image, backgroundImage, location } = viper
+         const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+            {
+               _id: new ObjectId(_id as string),
+            },
+            {
+               $set: {
+                  name: name,
+                  bio: bio,
+                  image: image,
+                  backgroundImage: backgroundImage,
+                  location: location,
+               },
+            },
+         )
+         return updateProfile
+      } catch (error: unknown) {
+         throw new Error(`Repository Error: Failed to update Viper, ${error}`)
+      }
    }
 
    async getAll(): Promise<WithId<Viper>[]> {
@@ -60,7 +135,7 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return viperBasicProps as Partial<Viper> as ViperBasicProps
+         return viperBasicProps as Partial<Viper> as WithId<ViperBasicProps>
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Viper basic Props, ${error}`)
       }
@@ -104,9 +179,31 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async findByEmail(email: string) {
+   async findByEmail(email: string): Promise<WithId<Partial<Viper>> | null> {
       try {
          const viper: WithId<Partial<Viper>> | null = await this.viperCollection.findOne(
+            {
+               email: email,
+            },
+            {
+               projection: {
+                  _id: 1,
+                  name: 1,
+                  image: 1,
+                  email: 1,
+                  // populate more data as needed
+               },
+            },
+         )
+         return viper
+      } catch (error: unknown) {
+         throw new Error(`Repository Error: Failed to find Viper by Email, ${error}`)
+      }
+   }
+
+   async checkEmailAvailability(email: string): Promise<boolean> {
+      try {
+         const isAvailable = await this.viperCollection.findOne(
             {
                email: email,
             },
@@ -117,32 +214,28 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return viper as { email: Email }
+         return !!isAvailable
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to find Viper by Email, ${error}`)
+         throw new Error(`Repository Error: Failed to check email availability, ${error}`)
       }
    }
 
-   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+   async checkUsernameAvailability(username: string): Promise<boolean> {
       try {
-         const { _id, name, bio, image, backgroundImage, location } = viper
-         const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+         const isAvailable = await this.viperCollection.findOne(
             {
-               _id: new ObjectId(_id as string),
+               username: username,
             },
             {
-               $set: {
-                  name: name,
-                  bio: bio,
-                  image: image,
-                  backgroundImage: backgroundImage,
-                  location: location,
+               projection: {
+                  _id: 0,
+                  username: 1,
                },
             },
          )
-         return updateProfile
+         return !!isAvailable
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to update Viper, ${error}`)
+         throw new Error(`Repository Error: Failed to check username availability, ${error}`)
       }
    }
 

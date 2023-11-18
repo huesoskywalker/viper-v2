@@ -3,7 +3,7 @@ import { Event } from './event'
 import { Session } from 'next-auth'
 
 export type Viper = {
-   readonly id: _ID
+   readonly _id: _ID
    location: Location
    contactInfo: ContactInfo
    bio: Biography
