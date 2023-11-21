@@ -61,7 +61,7 @@ const SignUpStep2 = ({
             />
          </div>
          <div>
-            <TermsAndConditions className=" text-sm leading-4 text-muted-foreground ">
+            <TermsAndConditions className="text-sm leading-4">
                Viper may use your contact information, including your email address and phone
                number for purposes outlined in our Privacy Policy.{' '}
                <Link href="/privacy" target="_blank" className={linkClass}>

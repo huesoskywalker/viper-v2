@@ -1,10 +1,10 @@
-import FormInput from '../../../../_components/form-input'
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import FormSelect from '@/app/_components/form-select'
 import getMonths from '../_utils/get-months'
 import getDays from '../_utils/get-days'
 import getYears from '../_utils/get-years'
 import { Control } from 'react-hook-form'
+import FormInput from '@/app/_components/form-input'
 
 const SignUpStep1 = ({
    formControl,
@@ -38,11 +38,11 @@ const SignUpStep1 = ({
             render={({ field }) => (
                <FormItem>
                   <FormInput
-                     {...field}
                      id={field.name}
                      type="text"
                      variant={'viper'}
                      label="Name"
+                     {...field}
                   />
                   <FormMessage />
                </FormItem>
@@ -54,11 +54,11 @@ const SignUpStep1 = ({
             render={({ field }) => (
                <FormItem>
                   <FormInput
-                     {...field}
                      id={field.name}
                      type="email"
                      variant={'viper'}
                      label="Email"
+                     {...field}
                   />
                   <FormMessage />
                </FormItem>

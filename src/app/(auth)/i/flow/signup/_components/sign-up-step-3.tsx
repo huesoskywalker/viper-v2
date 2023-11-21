@@ -1,11 +1,10 @@
-import FormInput from '../../../../_components/form-input'
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Control } from 'react-hook-form'
 import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
 import { useSignUpStore } from '../_stores/sign-up-store'
-import FormSelect from '@/app/_components/form-select'
 import { getBirthDate } from '../_utils/get-birth-date'
+import FormInput from '@/app/_components/form-input'
 
 const SignUpStep3 = ({
    formControl,

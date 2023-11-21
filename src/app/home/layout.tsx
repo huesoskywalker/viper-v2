@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { PageProps } from '@/types/page-props'
+import type { PropsWithChildren } from 'react'
 
 export const metadata: Metadata = {
    title: 'Viper',
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 // check what can we do with this layout
-export default function RootLayout({ children }: PageProps) {
+export default function RootLayout({ children }: PropsWithChildren) {
    return (
       <>
          {/* <html> */}
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: PageProps) {
          {/* <GlobalNav /> */}
          {/* <div className="lg:pl-44"> */}
          <div className="mx-auto max-w-4xl space-y-8 px-2 pt-20 lg:px-8 lg:py-8">
-            <div className="bg-vc-border-gradient rounded-lg p-px shadow-lg shadow-black/20">
+            <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
                <div className="rounded-lg bg-black p-3.5 lg:p-6">{children}</div>
             </div>
          </div>

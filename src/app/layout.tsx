@@ -2,11 +2,11 @@ import './globals.css'
 import AuthProvider from './_providers/auth-provider'
 import { Metadata } from 'next'
 import { GlobalNav } from './_components/global-nav'
-import { PageProps } from '@/types/page-props'
 import { Inter } from 'next/font/google'
 import { auth } from '@/lib/auth'
 import Image from 'next/image'
 import { UserAuthForm } from './_components/user-auth-form'
+import type { PropsWithChildren } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
    description: 'The best application to find events and schedule your week with fun',
 }
 
-export default async function RootLayout({ children }: PageProps) {
+export default async function RootLayout({ children }: PropsWithChildren) {
    const session = await auth()
 
    return (

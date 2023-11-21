@@ -12,11 +12,13 @@ import {
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
-import { cn } from '@/lib/utils'
 import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 import { FocusElement, useSignUpStore } from '../_stores/sign-up-store'
 import TermsAndConditions from '@/app/_components/terms-and-conditions'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { handleEmailProvider } from '../_utils/NOT-USING-handle-email-provider'
+import { signIn } from 'next-auth/react'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
@@ -45,9 +47,12 @@ export function SignUpForm() {
       setOpenDialog(true)
    }, [])
 
-   function onSubmit(data: SignUpFormValues) {
-      console.log(`----on submit`)
+   const onSubmit = async (data: SignUpFormValues) => {
+      console.log(`----on Submit `)
       console.log(data)
+      const asdf = await signIn('email', { email: data.email })
+      console.log(`---asdfo`)
+      console.log(asdf)
       //   toast({
       //      title: 'You submitted the following values:',
       //      description: (
@@ -82,7 +87,7 @@ export function SignUpForm() {
                      Step {step} of 4
                   </DialogTitle>
                </DialogHeader>
-               {/* make this a server action? */}
+               {/* make this a server action? a bit hard to handle react hook form*/}
                <form
                   onSubmit={signUpForm.handleSubmit(onSubmit)}
                   className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
@@ -109,34 +114,32 @@ export function SignUpForm() {
                         </Button>
                      ) : (
                         <>
-                           <FormDescription>
-                              <TermsAndConditions className="mb-2 text-[14px] leading-4">
-                                 Twitter may use your contact information, including your email
-                                 address and phone number for purposes outlined in our Privacy
-                                 Policy, like keeping your account secure and personalizing our
-                                 services, including ads.
-                                 <Link
-                                    href="/privacy"
-                                    target="_blank"
-                                    className="text-viper-dodger-blue hover:underline hover:underline-offset-4 "
-                                 >
-                                    Learn more
-                                 </Link>{' '}
-                                 . Others will be able to find you by email or phone number, when
-                                 provided, unless you choose otherwise{' '}
-                                 <button
-                                    className="text-viper-dodger-blue"
-                                    onClick={() => redirectStep(6)}
-                                 >
-                                    here
-                                 </button>
-                                 .
-                              </TermsAndConditions>
-                           </FormDescription>{' '}
+                           <TermsAndConditions className="mb-2 text-[14px] leading-4">
+                              Twitter may use your contact information, including your email
+                              address and phone number for purposes outlined in our Privacy Policy,
+                              like keeping your account secure and personalizing our services,
+                              including ads.
+                              <Link
+                                 href="/privacy"
+                                 target="_blank"
+                                 className="text-viper-dodger-blue hover:underline hover:underline-offset-4 "
+                              >
+                                 Learn more
+                              </Link>{' '}
+                              . Others will be able to find you by email or phone number, when
+                              provided, unless you choose otherwise{' '}
+                              <button
+                                 className="text-viper-dodger-blue"
+                                 onClick={() => redirectStep(6)}
+                              >
+                                 here
+                              </button>
+                              .
+                           </TermsAndConditions>
                            <Button
                               className="text-md h-11 rounded-3xl font-semibold"
-                              type="button"
-                              onClick={nextStep}
+                              type="submit"
+                              // onClick={nextStep}
                               variant={'sign-up'}
                               disabled={!isValid}
                            >

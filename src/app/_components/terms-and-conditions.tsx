@@ -11,7 +11,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
 }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
    return (
-      <p className={cn('w-full', className)}>
+      <p className={cn('w-full text-muted-foreground', className)}>
          By signin up, you agree to the{' '}
          <Link href="/tos" target="_blank" className={linkClass}>
             Terms of Service

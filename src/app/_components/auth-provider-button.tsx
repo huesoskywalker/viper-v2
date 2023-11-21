@@ -9,7 +9,7 @@ const iconMap = new Map<string, (props: React.SVGProps<SVGSVGElement>) => JSX.El
    ['Github', Icons.gitHub],
 ])
 
-const ProviderButton = ({ label }: { label: string }) => {
+const AuthProviderButton = ({ label }: { label: string }) => {
    const { pending } = useFormStatus()
 
    const iconClass = 'mr-2 h-4 w-4'
@@ -33,4 +33,4 @@ const ProviderButton = ({ label }: { label: string }) => {
    )
 }
 
-export default ProviderButton
+export default AuthProviderButton

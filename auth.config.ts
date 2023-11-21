@@ -5,7 +5,8 @@ import Auth0 from '@auth/core/providers/auth0'
 import Google, { type GoogleProfile } from '@auth/core/providers/google'
 import Email from '@auth/core/providers/email'
 import { viperService } from '@/services/servicesInitializer'
-// import transporter from './nodemailerConfig'
+import { type EmailConfig } from 'next-auth/providers'
+import resendConfig from './resend.config'
 
 declare module 'next-auth' {
    interface Session {
@@ -27,22 +28,57 @@ export default {
       Google,
       Auth0,
       Email({
-         server: {
-            host: process.env.EMAIL_SERVER_HOST,
-            port: Number(process.env.EMAIL_SERVER_PORT),
-            auth: {
-               user: process.env.EMAIL_SERVER_USER,
-               pass: process.env.EMAIL_SERVER_PASSWORD,
-            },
+         server: resendConfig,
+         from: process.env.RESEND_FROM,
+         // -----------------------
+         //  how con we get the max age to tell in the email?
+         maxAge: 60 * 60 * 2,
+         generateVerificationToken: () => {
+            return 'viper'
          },
-         from: process.env.EMAIL_FROM,
+         // sendVerificationRequest: async ({ token }) => {},
+         //    async sendVerificationRequest({
+         //       identifier: email,
+         //       url,
+         //       token,
+         //       expires,
+         //       provider,
+         //       request,
+         //       theme,
+         //    }) {
+         //       console.log(`-----sendVerificationRequest`)
+         //       console.log({ token, expires, provider })
+
+         //       const { host } = new URL(url)
+
+         //       console.log(`---url`)
+         //       console.log({ url })
+
+         //       let mailOptions = {
+         //          from: 'huesoskywalker@gmail.com',
+         //          to: email,
+         //          subject: 'Nodemailer Project',
+         //          text: text({ url, host }),
+         //          html: html({ url, host, email, token }),
+         //       }
+
+         //       transporter.sendMail(mailOptions, function (err: any, data: any) {
+         //          if (err) {
+         //             console.log('Error ' + err)
+         //          } else {
+         //             console.log('Email sent successfully')
+         //          }
+         //       })
+         //       // http://localhost:3000/api/auth/verify-request?provider=email&type=email
+         //    },
       }),
    ],
    pages: {
       newUser: '/new',
+      verifyRequest: '/verify',
    },
    callbacks: {
-      async authorized({ request, auth }) {
+      authorized: async ({ request, auth }) => {
          console.log(`----callback-authorized`)
          console.log({ request, auth })
          const pathname = request.nextUrl
@@ -59,17 +95,20 @@ export default {
          }
          return true
       },
-      async redirect({ baseUrl, url }) {
+      redirect: async ({ baseUrl, url }) => {
          return '/'
       },
-      async signIn({ user, account, profile, email }) {
+      signIn: async ({ user, account, profile, email }) => {
+         console.log(`-----callback signIn`)
+         console.log({ user })
          return true
       },
-      async session({ session, token, user, trigger, newSession }) {
-         console.log(`auth.config`)
-         console.log({ user })
+      session: async ({ session, token, user, trigger, newSession }) => {
+         // Let's check if we can grab the token from the verification email in here.
+         console.log(`------callback session`)
+         console.log({ session })
          session.user.id = user.id
-         session.user.image = user.image ?? ''
+         // session.user.image = user.image ?? ''
          // session.user.location = user.location
          if (trigger && newSession?.shopify) {
             // session.user.shopify = newSession.shopify
@@ -83,11 +122,22 @@ export default {
    },
    events: {
       // states of events are global
-      session({ session }) {},
-      signIn({ profile, isNewUser }) {},
-      signOut(message) {},
-      async createUser({ user }) {
+      session: ({ session }) => {
+         console.log(`-----events session`)
+         console.log({ session })
+      },
+      signIn: ({ profile, isNewUser }) => {
+         // let's check somewhere in here if we can grab the email_verified and replace it by the emailVerified
+         console.log(`-----events signIn`)
+         console.log({ isNewUser })
+      },
+      signOut: (message) => {},
+      createUser: async ({ user }) => {
+         console.log(`----events--create user`)
+         console.log({ user })
          try {
+            // Change the create for populate?
+            // add password as optional
             await viperService.create(
                user.id as _ID,
                user.name as string,
@@ -98,7 +148,7 @@ export default {
             throw new Error(`Auth Error, failed to create the user, ${error}`)
          }
       },
-      updateUser({ user }) {
+      updateUser: async ({ user }) => {
          // gotta check when this update trigger run
       },
    },

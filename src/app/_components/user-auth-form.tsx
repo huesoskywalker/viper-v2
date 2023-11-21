@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import TermsAndConditions from './terms-and-conditions'
-import ProviderForm from './provider-form'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import AuthProviderForm from './auth-provider-form'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,8 +11,8 @@ export function UserAuthForm({ children, className, ...props }: UserAuthFormProp
    return (
       <div className={cn('grid w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 ', className)} {...props}>
          <div className="grid gap-3">
-            <ProviderForm provider="google" label="Google" />
-            <ProviderForm provider="github" label="Github" />
+            <AuthProviderForm provider="google" label="Google" />
+            <AuthProviderForm provider="github" label="Github" />
          </div>
          {/* make this span abstract in a class */}
          <div className="relative my-[6px] w-[300px]">
@@ -29,7 +29,7 @@ export function UserAuthForm({ children, className, ...props }: UserAuthFormProp
          >
             Create an account
          </Link>
-         <TermsAndConditions className="mb-5 text-start text-[12px] leading-[13px] text-muted-foreground" />
+         <TermsAndConditions className="mb-5 text-start text-[12px] leading-[13px]" />
          <div className="mt-9">
             <div className="mb-4">
                <span className="text-base font-medium text-primary">Already have an account?</span>
