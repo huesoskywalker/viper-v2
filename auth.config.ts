@@ -33,10 +33,14 @@ export default {
          // -----------------------
          //  how con we get the max age to tell in the email?
          maxAge: 60 * 60 * 2,
-         generateVerificationToken: () => {
-            return 'viper'
+         generateVerificationToken: async () => {
+            const max = 1000000
+            const number = Math.floor(Math.random() * max)
+            const token = number.toString().padStart(6, '0')
+            return token
          },
-         // sendVerificationRequest: async ({ token }) => {},
+         // sendVerificationRequest: async ({ token }) => {
+         // },
          //    async sendVerificationRequest({
          //       identifier: email,
          //       url,
@@ -79,14 +83,10 @@ export default {
    },
    callbacks: {
       authorized: async ({ request, auth }) => {
-         console.log(`----callback-authorized`)
-         console.log({ request, auth })
          const pathname = request.nextUrl
 
          if (request.method === 'POST') {
             const { authToken } = (await request.json()) ?? {}
-            console.log(`isAuthorized`)
-            console.log({ authToken })
 
             // this is not a built in function
             // const valid = validateAuthToken(authToken)
@@ -98,15 +98,10 @@ export default {
       redirect: async ({ baseUrl, url }) => {
          return '/'
       },
-      signIn: async ({ user, account, profile, email }) => {
-         console.log(`-----callback signIn`)
-         console.log({ user })
+      signIn: async ({ user, account, profile, email, credentials }) => {
          return true
       },
       session: async ({ session, token, user, trigger, newSession }) => {
-         // Let's check if we can grab the token from the verification email in here.
-         console.log(`------callback session`)
-         console.log({ session })
          session.user.id = user.id
          // session.user.image = user.image ?? ''
          // session.user.location = user.location
@@ -122,19 +117,12 @@ export default {
    },
    events: {
       // states of events are global
-      session: ({ session }) => {
-         console.log(`-----events session`)
-         console.log({ session })
-      },
+      session: ({ session, token }) => {},
       signIn: ({ profile, isNewUser }) => {
          // let's check somewhere in here if we can grab the email_verified and replace it by the emailVerified
-         console.log(`-----events signIn`)
-         console.log({ isNewUser })
       },
       signOut: (message) => {},
       createUser: async ({ user }) => {
-         console.log(`----events--create user`)
-         console.log({ user })
          try {
             // Change the create for populate?
             // add password as optional

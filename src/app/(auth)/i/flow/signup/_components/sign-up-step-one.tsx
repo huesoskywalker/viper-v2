@@ -3,26 +3,10 @@ import FormSelect from '@/app/_components/form-select'
 import getMonths from '../_utils/get-months'
 import getDays from '../_utils/get-days'
 import getYears from '../_utils/get-years'
-import { Control } from 'react-hook-form'
 import FormInput from '@/app/_components/form-input'
+import { SignUpFomControl } from '../_hooks/use-sign-up-form'
 
-const SignUpStep1 = ({
-   formControl,
-}: {
-   formControl: Control<
-      {
-         name: string
-         email: string
-         birthDate: {
-            month: string
-            day: string
-            year: string
-         }
-         contentDiscovery: boolean
-      },
-      any
-   >
-}) => {
+const SignUpStepOne = ({ formControl }: { formControl: SignUpFomControl }) => {
    const { months } = getMonths()
    const { days } = getDays()
    const { years } = getYears()
@@ -44,7 +28,6 @@ const SignUpStep1 = ({
                      label="Name"
                      {...field}
                   />
-                  <FormMessage />
                </FormItem>
             )}
          />
@@ -60,7 +43,6 @@ const SignUpStep1 = ({
                      label="Email"
                      {...field}
                   />
-                  <FormMessage />
                </FormItem>
             )}
          />
@@ -129,4 +111,4 @@ const SignUpStep1 = ({
    )
 }
 
-export default SignUpStep1
+export default SignUpStepOne

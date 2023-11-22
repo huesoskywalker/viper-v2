@@ -1,16 +1,20 @@
 import { useFormField } from '@/components/ui/form'
 import debounce from 'lodash/debounce'
-import { ChangeEvent, useCallback } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 const useOnChangeState = (
    onChange: React.ChangeEventHandler<HTMLInputElement> | undefined,
    name: string | undefined,
 ) => {
+   const [isChanging, setIsChanging] = useState<boolean>(false)
+
    const { clearErrors, invalid } = useFormField()
 
    const onChangeDebounce = useCallback(
       debounce((event: ChangeEvent<HTMLInputElement>) => {
          if (!onChange) return
+         clearErrors(name)
+         setIsChanging(false)
          onChange(event)
       }, 550),
       [],
@@ -18,12 +22,12 @@ const useOnChangeState = (
 
    const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
       if (invalid) {
-         clearErrors(name)
+         setIsChanging(true)
       }
       onChangeDebounce(event)
    }
 
-   return { handleOnChange }
+   return { handleOnChange, isChanging }
 }
 
 export default useOnChangeState

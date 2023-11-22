@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormDescription } from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import {
    Dialog,
    DialogContent,
@@ -10,22 +10,25 @@ import {
    DialogTitle,
 } from '@/components/ui/dialog'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 import { FocusElement, useSignUpStore } from '../_stores/sign-up-store'
 import TermsAndConditions from '@/app/_components/terms-and-conditions'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { handleEmailProvider } from '../_utils/NOT-USING-handle-email-provider'
-import { signIn } from 'next-auth/react'
+import { handleEmailProvider } from '../_utils/handle-email-provider'
+import { checkFieldStateValidation } from '../_utils/check-field-state-validation'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
 export function SignUpForm() {
    const { signUpForm } = useSignUpForm()
-   const { formState, setFocus } = signUpForm
+   const { formState, setFocus, getFieldState } = signUpForm
+
    const { isValid } = formState
+
+   const { isStepOneValid, isStepFourValid } = checkFieldStateValidation(getFieldState)
 
    const router = useRouter()
 
@@ -50,9 +53,9 @@ export function SignUpForm() {
    const onSubmit = async (data: SignUpFormValues) => {
       console.log(`----on Submit `)
       console.log(data)
-      const asdf = await signIn('email', { email: data.email })
+      // const asdf = await signIn('email', { email: data.email })
       console.log(`---asdfo`)
-      console.log(asdf)
+      // console.log(asdf)
       //   toast({
       //      title: 'You submitted the following values:',
       //      description: (
@@ -74,6 +77,9 @@ export function SignUpForm() {
       if (step !== 1) e.preventDefault()
    }
 
+   const buttonType = step !== 5 ? 'button' : 'submit'
+   const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
+
    return (
       <Dialog open={openDialog} onOpenChange={handleDialog}>
          <DialogContent
@@ -84,7 +90,7 @@ export function SignUpForm() {
             <Form {...signUpForm}>
                <DialogHeader>
                   <DialogTitle className=" pl-16 text-lg font-semibold text-gray-300">
-                     Step {step} of 4
+                     Step {step} of 5
                   </DialogTitle>
                </DialogHeader>
                {/* make this a server action? a bit hard to handle react hook form*/}
@@ -102,13 +108,61 @@ export function SignUpForm() {
                   </div>
 
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                     {/* {step !== 3 && (
+                        <Button
+                           className="text-md h-11 rounded-3xl font-semibold"
+                           type={buttonType}
+                           onClick={nextStep}
+                           variant={'default'}
+                           disabled={disabledButton}
+                        >
+                           Next
+                        </Button>
+                     )} */}
+                     {/* {step === 3 && (
+                        <>
+                           <TermsAndConditions className="mb-2 text-[14px] leading-4">
+                              Twitter may use your contact information, including your email
+                              address and phone number for purposes outlined in our Privacy Policy,
+                              like keeping your account secure and personalizing our services,
+                              including ads.
+                              <Link
+                                 href="/privacy"
+                                 target="_blank"
+                                 className="text-viper-dodger-blue hover:underline hover:underline-offset-4 "
+                              >
+                                 Learn more
+                              </Link>{' '}
+                              . Others will be able to find you by email or phone number, when
+                              provided, unless you choose otherwise{' '}
+                              <button
+                                 className="text-viper-dodger-blue"
+                                 onClick={() => redirectStep(6)}
+                              >
+                                 here
+                              </button>
+                              .
+                           </TermsAndConditions>
+                           <Button
+                              className="text-md h-11 rounded-3xl font-semibold"
+                              type="button"
+                              onClick={() =>
+                                 handleEmailProvider(signUpForm.getValues('email'), nextStep)
+                              }
+                              variant={'sign-up'}
+                              disabled={!isValid}
+                           >
+                              Sign up
+                           </Button>
+                        </>
+                     )} */}
                      {step !== 3 ? (
                         <Button
                            className="text-md h-11 rounded-3xl font-semibold"
-                           type="button"
+                           type={buttonType}
                            onClick={nextStep}
                            variant={'default'}
-                           disabled={!isValid}
+                           disabled={disableButton}
                         >
                            Next
                         </Button>
@@ -138,10 +192,12 @@ export function SignUpForm() {
                            </TermsAndConditions>
                            <Button
                               className="text-md h-11 rounded-3xl font-semibold"
-                              type="submit"
-                              // onClick={nextStep}
+                              type={buttonType}
+                              onClick={() =>
+                                 handleEmailProvider(signUpForm.getValues('email'), nextStep)
+                              }
                               variant={'sign-up'}
-                              disabled={!isValid}
+                              disabled={disableButton}
                            >
                               Sign up
                            </Button>

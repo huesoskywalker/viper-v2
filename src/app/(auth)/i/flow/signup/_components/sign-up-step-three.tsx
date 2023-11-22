@@ -1,28 +1,12 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Control } from 'react-hook-form'
 import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
 import { useSignUpStore } from '../_stores/sign-up-store'
 import { getBirthDate } from '../_utils/get-birth-date'
 import FormInput from '@/app/_components/form-input'
+import { SignUpFomControl } from '../_hooks/use-sign-up-form'
 
-const SignUpStep3 = ({
-   formControl,
-}: {
-   formControl: Control<
-      {
-         name: string
-         email: string
-         birthDate: {
-            month: string
-            day: string
-            year: string
-         }
-         contentDiscovery: boolean
-      },
-      any
-   >
-}) => {
+const SignUpStepThree = ({ formControl }: { formControl: SignUpFomControl }) => {
    const { redirectStep, setFocusElem } = useSignUpStore()
 
    const { dateOfBirth } = getBirthDate()
@@ -53,7 +37,6 @@ const SignUpStep3 = ({
                      className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
                      defaultChecked={true}
                   />
-                  <FormMessage />
                </FormItem>
             )}
          />
@@ -64,7 +47,7 @@ const SignUpStep3 = ({
                <FormItem className="relative" onFocus={handlePrevState}>
                   <FormInput
                      id={field.name}
-                     type="email"
+                     type="text"
                      variant={'viper'}
                      label="Email"
                      {...field}
@@ -73,7 +56,6 @@ const SignUpStep3 = ({
                      className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
                      defaultChecked={true}
                   />
-                  <FormMessage />
                </FormItem>
             )}
          />{' '}
@@ -94,7 +76,6 @@ const SignUpStep3 = ({
                      className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
                      defaultChecked={true}
                   />
-                  <FormMessage />
                </FormItem>
             )}
          />
@@ -102,4 +83,4 @@ const SignUpStep3 = ({
    )
 }
 
-export default SignUpStep3
+export default SignUpStepThree

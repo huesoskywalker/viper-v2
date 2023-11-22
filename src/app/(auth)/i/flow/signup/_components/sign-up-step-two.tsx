@@ -1,35 +1,19 @@
 import TermsAndConditions from '@/app/_components/terms-and-conditions'
 import { Checkbox } from '@/components/ui/checkbox'
-import { DialogTitle } from '@/components/ui/dialog'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import React from 'react'
-import { Control } from 'react-hook-form'
+import { SignUpFomControl } from '../_hooks/use-sign-up-form'
 
-const SignUpStep2 = ({
-   formControl,
-}: {
-   formControl: Control<
-      {
-         name: string
-         email: string
-         birthDate: {
-            month: string
-            day: string
-            year: string
-         }
-         contentDiscovery: boolean
-      },
-      any
-   >
-}) => {
+const SignUpStepTwo = ({ formControl }: { formControl: SignUpFomControl }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
 
    return (
       <div className="flex flex-col space-y-6">
-         <DialogTitle className="mt-3 text-3xl font-semibold text-primary">
+         <DialogDescription className="mt-3 text-3xl font-semibold text-primary">
             Customize your experience
-         </DialogTitle>
+         </DialogDescription>
          <div className="space-y-2">
             <FormField
                control={formControl}
@@ -74,4 +58,4 @@ const SignUpStep2 = ({
    )
 }
 
-export default SignUpStep2
+export default SignUpStepTwo

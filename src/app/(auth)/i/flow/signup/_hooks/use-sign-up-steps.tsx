@@ -1,33 +1,21 @@
 import React, { useMemo } from 'react'
-import { Control } from 'react-hook-form'
-import SignUpStep1 from '../_components/sign-up-step-1'
-import SignUpStep2 from '../_components/sign-up-step-2'
-import SignUpStep3 from '../_components/sign-up-step-3'
+import SignUpStepOne from '../_components/sign-up-step-one'
+import SignUpStepTwo from '../_components/sign-up-step-two'
+import SignUpStepThree from '../_components/sign-up-step-three'
+import SignUpStepFour from '../_components/sign-up-step-four'
+import { SignUpFomControl } from './use-sign-up-form'
 
-export const useSignUpSteps = (
-   step: number,
-   formControl: Control<
-      {
-         name: string
-         email: string
-         birthDate: {
-            month: string
-            day: string
-            year: string
-         }
-         contentDiscovery: boolean
-      },
-      any
-   >,
-) => {
+export const useSignUpSteps = (step: number, formControl: SignUpFomControl) => {
    const renderSteps = useMemo(() => {
       switch (step) {
          case 1:
-            return <SignUpStep1 formControl={formControl} />
+            return <SignUpStepOne formControl={formControl} />
          case 2:
-            return <SignUpStep2 formControl={formControl} />
+            return <SignUpStepTwo formControl={formControl} />
          case 3:
-            return <SignUpStep3 formControl={formControl} />
+            return <SignUpStepThree formControl={formControl} />
+         case 4:
+            return <SignUpStepFour formControl={formControl} />
          default:
             return null
       }
