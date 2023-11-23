@@ -61,6 +61,7 @@ const SignUpFormSchema = z.object({
             message: 'Please select a valid birth date.',
          },
       ),
+   contentDiscovery: z.boolean(),
    token: z
       .string({
          required_error: 'Please provide the token',
@@ -69,36 +70,55 @@ const SignUpFormSchema = z.object({
       .max(6, { message: 'Token must be at most 6 digits' })
       .refine(
          async (value) => {
-            const searchParams = new URLSearchParams(window.location.search)
-            const email = searchParams.get('email')
-            if (value.length === 6) {
-               const verification = await UseVerificationToken(email)
+            if (value.length !== 6) return
+            // const searchParams = new URLSearchParams(window.location.search)
+            // const email = searchParams.get('email')
+            // const verification = await UseVerificationToken(email)
 
-               const expirationDate = new Date(verification.expires)
-               const currentDate = new Date()
+            // const expirationDate = new Date(verification.expires)
+            // const currentDate = new Date()
 
-               if (currentDate > expirationDate) {
-                  return false
-               }
+            // if (currentDate > expirationDate) {
+            //    return false
+            // }
 
-               const secret = process.env.NEXT_PUBLIC_SECRET
+            // const secret = process.env.NEXT_PUBLIC_SECRET
 
-               const hashedInputToken = crypto
-                  .createHash('sha256')
-                  .update(value + secret)
-                  .digest('hex')
+            // const hashedInputToken = crypto
+            //    .createHash('sha256')
+            //    .update(value + secret)
+            //    .digest('hex')
 
-               const tokensMatch = hashedInputToken === verification.token
+            // const tokensMatch = hashedInputToken === verification.token
 
-               return tokensMatch
-            }
+            // return tokensMatch
+            return true
          },
          {
             message: 'Invalid verification token',
          },
       ),
+   password: z
+      .string({
+         required_error: 'Please provide a password',
+      })
+      .min(8, {
+         message: 'Password must be at least 8 characters',
+      })
+      .refine((value) => /[A-Z]/.test(value), {
+         message: 'Include at least one uppercase letter',
+      })
+      .refine((value) => /[a-z]/.test(value), {
+         message: 'Include at least one lowercase letter',
+      })
+      .refine((value) => /\d/.test(value), {
+         message: 'Include at least one digit',
+      })
+      .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
+         message: 'Include at least one special character',
+      }),
+
    // we need to manage this in the database
-   contentDiscovery: z.boolean(),
 })
 
 export const useSignUpForm = () => {
@@ -112,6 +132,7 @@ export const useSignUpForm = () => {
       },
       contentDiscovery: true,
       token: '',
+      password: '',
    }
 
    const signUpForm = useForm<SignUpFormValues>({

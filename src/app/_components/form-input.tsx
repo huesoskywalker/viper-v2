@@ -1,9 +1,11 @@
 import { FormControl, FormLabel, FormMessage, useFormField } from '@/components/ui/form'
 import { Input, InputProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import React from 'react'
+import React, { useState } from 'react'
 import useOnChangeState from '../_hooks/use-on-change-state'
 import useFocusBlurState from '../_hooks/use-focus-blur-states'
+import { PasswordToggle } from './password-toggle'
+import useShowPassword from '../_hooks/use-show-password'
 
 const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: string }>(
    ({ label, className, variant, ...props }, ref) => {
@@ -12,6 +14,9 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
          props.value as string,
       )
       const { handleOnChange, isChanging } = useOnChangeState(props.onChange, props.name)
+      const { showPassword, handleShowPassword } = useShowPassword()
+
+      const inputType = props.type === 'password' ? showPassword : props.type
 
       return (
          <>
@@ -40,6 +45,7 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
                      <Input
                         id={props.id}
                         ref={ref}
+                        type={inputType}
                         autoCapitalize="none"
                         autoComplete={props.id}
                         autoCorrect="off"
@@ -53,6 +59,9 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps & { label: strin
                         // {...props}
                      />
                   </FormControl>
+                  {props.type === 'password' && (
+                     <PasswordToggle showPassword={showPassword} onToggle={handleShowPassword} />
+                  )}
                </div>
             </div>
             {!isChanging && <FormMessage />}

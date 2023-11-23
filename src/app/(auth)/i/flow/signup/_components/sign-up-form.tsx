@@ -50,24 +50,34 @@ export function SignUpForm() {
       setOpenDialog(true)
    }, [])
 
-   const onSubmit = async (data: SignUpFormValues) => {
-      router.push(
-         `http://localhost:3000/api/auth/callback/email?callbackUrl=%2F&token=${data.token}&email=${data.email}`,
-      )
-      // fix this so the user can be created before we find for it
-      const res = await fetch(`http://localhost:3000/api/viper`, {
-         headers: {
-            'content-type': 'application/json',
-         },
-         method: 'POST',
-         body: JSON.stringify({
-            data,
-         }),
-      })
-      if (!res.ok) {
-         const { error } = await res.json()
-         throw new Error(error)
-      }
+   const onSubmit = async (formData: SignUpFormValues) => {
+      console.log({ step })
+      console.log(`----submitting`)
+      // const magicLink = await fetch(
+      //    `http://localhost:3000/api/auth/callback/email?callbackUrl=%2F&token=${formData.token}&email=${formData.email}`,
+      // )
+      // if (!magicLink.ok) {
+      //    const { error } = await magicLink.json()
+      //    throw new Error(error)
+      // }
+      // // const { data } = await magicLink.json()
+
+      // --------------------------------
+      // const updateViper = await fetch(`http://localhost:3000/api/viper`, {
+      //    headers: {
+      //       'content-type': 'application/json',
+      //    },
+      //    method: 'POST',
+      //    body: JSON.stringify({
+      // // // this will trigger the user?
+      // // magicLink
+      //       formData,
+      //    }),
+      // })
+      // if (!updateViper.ok) {
+      //    const { error } = await updateViper.json()
+      //    throw new Error(error)
+      // }
       //   toast({
       //      title: 'You submitted the following values:',
       //      description: (
@@ -89,7 +99,6 @@ export function SignUpForm() {
       if (step !== 1) e.preventDefault()
    }
 
-   const buttonType = step !== 5 ? 'button' : 'submit'
    // const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
    const disableButton = false
 
@@ -124,7 +133,8 @@ export function SignUpForm() {
                      {step !== 3 ? (
                         <Button
                            className="text-md h-11 rounded-3xl font-semibold"
-                           type={buttonType}
+                           // will need to modify this
+                           type={step === 6 ? 'submit' : 'button'}
                            onClick={nextStep}
                            variant={'default'}
                            disabled={disableButton}
@@ -162,7 +172,7 @@ export function SignUpForm() {
                            </TermsAndConditions>
                            <Button
                               className="text-md h-11 rounded-3xl font-semibold"
-                              type={buttonType}
+                              type={'button'}
                               onClick={() => {
                                  nextStep()
                                  // signIn('email', {
