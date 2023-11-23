@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/config/env'
+
 export const UseVerificationToken = async (
    email: string | null,
 ): Promise<{ token: string; expires: string }> => {
@@ -5,7 +7,7 @@ export const UseVerificationToken = async (
    // and revalidate option for 2 hours
    if (!email) throw new Error('Email must be provided')
    try {
-      const res = await fetch(`http://localhost:3000/i/flow/signup/api`, {
+      const res = await fetch(`${BASE_URL}/i/flow/signup/api`, {
          headers: {
             'content-type': 'application/json',
          },

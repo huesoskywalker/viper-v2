@@ -5,8 +5,12 @@ import { MongoClient } from 'mongodb'
 import { clientPromise } from '@/services/servicesInitializer'
 import authConfig from '../../auth.config'
 
+const mongoAdapter = MongoDBAdapter(clientPromise as Promise<MongoClient>, {
+   databaseName: 'viperDb',
+})
+
 export const { handlers, auth, signIn, signOut, update } = NextAuth({
-   adapter: MongoDBAdapter(clientPromise as Promise<MongoClient>, { databaseName: 'viperDb' }),
+   adapter: mongoAdapter,
    session: {
       strategy: 'database',
       maxAge: 30 * 24 * 60 * 60,

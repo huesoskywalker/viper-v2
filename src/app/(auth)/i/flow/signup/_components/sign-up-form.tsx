@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { checkFieldStateValidation } from '../_utils/check-field-state-validation'
 import { signIn } from 'next-auth/react'
+import { BASE_URL } from '@/config/env'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
@@ -51,33 +52,27 @@ export function SignUpForm() {
    }, [])
 
    const onSubmit = async (formData: SignUpFormValues) => {
-      console.log({ step })
-      console.log(`----submitting`)
-      // const magicLink = await fetch(
-      //    `http://localhost:3000/api/auth/callback/email?callbackUrl=%2F&token=${formData.token}&email=${formData.email}`,
-      // )
-      // if (!magicLink.ok) {
-      //    const { error } = await magicLink.json()
-      //    throw new Error(error)
-      // }
-      // // const { data } = await magicLink.json()
+      const magicLink = await fetch(
+         `${BASE_URL}/api/auth/callback/email?callbackUrl=%2F&token=${formData.token}&email=${formData.email}`,
+      )
+      if (!magicLink.ok) {
+         const { error } = await magicLink.json()
+         throw new Error(error)
+      }
 
-      // --------------------------------
-      // const updateViper = await fetch(`http://localhost:3000/api/viper`, {
-      //    headers: {
-      //       'content-type': 'application/json',
-      //    },
-      //    method: 'POST',
-      //    body: JSON.stringify({
-      // // // this will trigger the user?
-      // // magicLink
-      //       formData,
-      //    }),
-      // })
-      // if (!updateViper.ok) {
-      //    const { error } = await updateViper.json()
-      //    throw new Error(error)
-      // }
+      const updateViper = await fetch(`${BASE_URL}/api/viper`, {
+         headers: {
+            'content-type': 'application/json',
+         },
+         method: 'POST',
+         body: JSON.stringify({
+            formData,
+         }),
+      })
+      if (!updateViper.ok) {
+         const { error } = await updateViper.json()
+         throw new Error(error)
+      }
       //   toast({
       //      title: 'You submitted the following values:',
       //      description: (
@@ -99,8 +94,8 @@ export function SignUpForm() {
       if (step !== 1) e.preventDefault()
    }
 
-   // const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
-   const disableButton = false
+   const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
+   // const disableButton = false
 
    return (
       <Dialog open={openDialog} onOpenChange={handleDialog}>
@@ -175,10 +170,10 @@ export function SignUpForm() {
                               type={'button'}
                               onClick={() => {
                                  nextStep()
-                                 // signIn('email', {
-                                 //    redirect: false,
-                                 //    email: getValues('email'),
-                                 // })
+                                 signIn('email', {
+                                    redirect: false,
+                                    email: getValues('email'),
+                                 })
                               }}
                               variant={'sign-up'}
                               disabled={disableButton}

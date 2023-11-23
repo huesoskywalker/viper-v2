@@ -70,29 +70,28 @@ const SignUpFormSchema = z.object({
       .max(6, { message: 'Token must be at most 6 digits' })
       .refine(
          async (value) => {
-            if (value.length !== 6) return
-            // const searchParams = new URLSearchParams(window.location.search)
-            // const email = searchParams.get('email')
-            // const verification = await UseVerificationToken(email)
+            if (value.length !== 6) return false
+            const searchParams = new URLSearchParams(window.location.search)
+            const email = searchParams.get('email')
+            const verification = await UseVerificationToken(email)
 
-            // const expirationDate = new Date(verification.expires)
-            // const currentDate = new Date()
+            const expirationDate = new Date(verification.expires)
+            const currentDate = new Date()
 
-            // if (currentDate > expirationDate) {
-            //    return false
-            // }
+            if (currentDate > expirationDate) {
+               return false
+            }
 
-            // const secret = process.env.NEXT_PUBLIC_SECRET
+            const secret = process.env.NEXT_PUBLIC_SECRET
 
-            // const hashedInputToken = crypto
-            //    .createHash('sha256')
-            //    .update(value + secret)
-            //    .digest('hex')
+            const hashedInputToken = crypto
+               .createHash('sha256')
+               .update(value + secret)
+               .digest('hex')
 
-            // const tokensMatch = hashedInputToken === verification.token
+            const tokensMatch = hashedInputToken === verification.token
 
-            // return tokensMatch
-            return true
+            return tokensMatch
          },
          {
             message: 'Invalid verification token',

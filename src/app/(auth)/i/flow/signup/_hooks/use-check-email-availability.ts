@@ -1,6 +1,8 @@
+import { BASE_URL } from '@/config/env'
+
 export const useCheckEmailAvailability = async (value: string): Promise<boolean> => {
    try {
-      const res = await fetch(`http://localhost:3000/i/flow/signup/api?email=${value}`, {
+      const res = await fetch(`${BASE_URL}/i/flow/signup/api?email=${value}`, {
          headers: {
             'content-type': 'application/json',
          },

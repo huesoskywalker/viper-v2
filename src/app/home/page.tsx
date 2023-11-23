@@ -1,6 +1,7 @@
 // import crypto from 'crypto'
 
-export default async function HomePage() {
+// remove async
+export default function HomePage() {
    // const urlToken = '1ccb65e2a1bb6dc35e1da28a3be3f4b745450259f279aaddc156df38012072f8'
    // const dbToken = '20bb30ee5c5888b9a793d2fbbb637c013e11cd4494552b67a4ecad1d6d926e46'
    // const secret = '4d45e66bd8a8cd2f0bd47d2ba92d069b'

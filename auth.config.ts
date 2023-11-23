@@ -7,6 +7,9 @@ import Email from '@auth/core/providers/email'
 import { viperService } from '@/services/servicesInitializer'
 import { type EmailConfig } from 'next-auth/providers'
 import resendConfig from './resend.config'
+import nodemailer from 'nodemailer'
+import { signUpEmailHTML } from './utils/signup-email-html'
+import { remainingExpirationTime } from './utils/remaining-expiration-time'
 
 declare module 'next-auth' {
    interface Session {
@@ -22,7 +25,6 @@ declare module 'next-auth' {
       emailVerified: boolean | Date
    }
 }
-
 export default {
    debug: false,
    providers: [
@@ -32,8 +34,6 @@ export default {
       Email({
          server: resendConfig,
          from: process.env.RESEND_FROM,
-         // -----------------------
-         //  how con we get the max age to tell in the email?
          maxAge: 60 * 60 * 2,
          generateVerificationToken: async () => {
             const max = 1000000
@@ -41,42 +41,28 @@ export default {
             const token = number.toString().padStart(6, '0')
             return token
          },
-         // sendVerificationRequest: async ({ token }) => {
-         // },
-         //    async sendVerificationRequest({
-         //       identifier: email,
-         //       url,
-         //       token,
-         //       expires,
-         //       provider,
-         //       request,
-         //       theme,
-         //    }) {
-         //       console.log(`-----sendVerificationRequest`)
-         //       console.log({ token, expires, provider })
+         async sendVerificationRequest({
+            identifier: email,
+            url,
+            token,
+            expires,
+            provider: { server, from },
+            request,
+            theme,
+         }) {
+            const transport = nodemailer.createTransport(server)
 
-         //       const { host } = new URL(url)
+            const remainingHours = remainingExpirationTime(expires)
 
-         //       console.log(`---url`)
-         //       console.log({ url })
+            const mailOptions = {
+               from: from,
+               to: email,
+               subject: `${token} is your Viper verification code`,
+               html: signUpEmailHTML({ token, remainingHours, theme }),
+            }
 
-         //       let mailOptions = {
-         //          from: 'huesoskywalker@gmail.com',
-         //          to: email,
-         //          subject: 'Nodemailer Project',
-         //          text: text({ url, host }),
-         //          html: html({ url, host, email, token }),
-         //       }
-
-         //       transporter.sendMail(mailOptions, function (err: any, data: any) {
-         //          if (err) {
-         //             console.log('Error ' + err)
-         //          } else {
-         //             console.log('Email sent successfully')
-         //          }
-         //       })
-         //       // http://localhost:3000/api/auth/verify-request?provider=email&type=email
-         //    },
+            await transport.sendMail(mailOptions)
+         },
       }),
    ],
    pages: {
