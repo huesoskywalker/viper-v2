@@ -20,14 +20,21 @@ export class ViperService implements ViperRepositorySource {
       this.viperRepository = viperRepository
    }
 
-   async create(
+   async populateNewViper(
       _id: _ID,
-      name: string,
+      name: string | undefined,
       email: string,
-      image: string,
+      image: string | undefined,
+      emailVerified: boolean | Date,
    ): Promise<WithId<Viper> | null> {
       try {
-         const newViper = await this.viperRepository.create(_id, name, email, image)
+         const newViper = await this.viperRepository.populateNewViper(
+            _id,
+            name,
+            email,
+            image,
+            emailVerified,
+         )
          return newViper
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to create Viper, ${error}`)

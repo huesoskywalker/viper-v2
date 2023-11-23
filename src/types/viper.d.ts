@@ -8,9 +8,10 @@ export type Viper = {
    contactInfo: ContactInfo
    bio: Biography
    blogs: Blog
-   emailVerified: boolean
+   emailVerified: boolean | Date
    email: Email
    username: Username
+   password: string | undefined
    name: Name
    image: Image
    backgroundImage: Image

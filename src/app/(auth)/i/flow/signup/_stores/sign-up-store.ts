@@ -12,7 +12,7 @@ type SignUpStore = {
 }
 
 export const useSignUpStore = create<SignUpStore>((set) => ({
-   step: 4,
+   step: 1,
    nextStep: () => set((state) => ({ step: state.step + 1 })),
    prevStep: () => set((state) => ({ step: state.step - 1 })),
    redirectStep: (newStep: number) => set({ step: newStep }),

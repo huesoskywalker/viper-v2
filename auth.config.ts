@@ -18,7 +18,9 @@ declare module 'next-auth' {
          location: string
       }
    }
-   interface User {}
+   interface User {
+      emailVerified: boolean | Date
+   }
 }
 
 export default {
@@ -124,13 +126,14 @@ export default {
       signOut: (message) => {},
       createUser: async ({ user }) => {
          try {
-            // Change the create for populate?
+            // Change  create for populate?
             // add password as optional
-            await viperService.create(
+            await viperService.populateNewViper(
                user.id as _ID,
-               user.name as string,
+               user.name ?? undefined,
                user.email as string,
-               user.image as string,
+               user.image ?? undefined,
+               user.emailVerified,
             )
          } catch (error) {
             throw new Error(`Auth Error, failed to create the user, ${error}`)

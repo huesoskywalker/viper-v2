@@ -2,9 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Control, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import crypto from 'crypto'
-import { checkEmailAvailability } from '../_utils/check-email-availability'
-import { clientPromise } from '@/services/servicesInitializer'
-import { useSearchParams } from 'next/navigation'
+import { useCheckEmailAvailability } from './use-check-email-availability'
+import { UseVerificationToken } from './use-verification-token'
 
 export type SignUpFormValues = z.infer<typeof SignUpFormSchema>
 
@@ -30,8 +29,14 @@ const SignUpFormSchema = z.object({
          async (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
             if (!emailRegex.test(value)) return
-            const isTaken = await checkEmailAvailability(value)
+            // try {
+            const isTaken = await useCheckEmailAvailability(value)
             return !isTaken
+            // } catch (error) {
+            // throw ner Error ?
+            // return error?
+            // return false?
+            // }
          },
          {
             message: 'Email has already been taken.',
@@ -60,42 +65,38 @@ const SignUpFormSchema = z.object({
       .string({
          required_error: 'Please provide the token',
       })
-      .min(6)
-      .max(6)
-      .refine(async (value) => {
-         console.log(`token schema`)
-         // const client = await clientPromise
-         // const collection = client.db('viperDb').collection('verification_tokens')
-         // const request = collection.findOne(
-         //    {
-         // const searchParams = useSearchParams()
-         // console.log(`----use sign up form`)
-         // console.log({ searchParams })
-         //       email: email,
-         //    },
-         //    {
-         //       projection: {
-         //          token: 1,
-         //       },
-         //    },
-         // )
-         // console.log(value.length)  const urlToken = '1ccb65e2a1bb6dc35e1da28a3be3f4b745450259f279aaddc156df38012072f8'
-         const dbToken = '20bb30ee5c5888b9a793d2fbbb637c013e11cd4494552b67a4ecad1d6d926e46'
-         const secret = process.env.AUTH_SECRET
+      .min(6, { message: 'Token must be at least 6 digits' })
+      .max(6, { message: 'Token must be at most 6 digits' })
+      .refine(
+         async (value) => {
+            const searchParams = new URLSearchParams(window.location.search)
+            const email = searchParams.get('email')
+            if (value.length === 6) {
+               const verification = await UseVerificationToken(email)
 
-         // Hash the URL token
-         const hashedInputToken = crypto
-            .createHash('sha256')
-            .update(value + secret)
-            .digest('hex')
+               const expirationDate = new Date(verification.expires)
+               const currentDate = new Date()
 
-         // Compare hashed tokens
+               if (currentDate > expirationDate) {
+                  return false
+               }
 
-         // const tokensMatch = hashedInputToken === dbToken
-         // console.log(`------tokens match`)
-         // console.log(tokensMatch)
-         return value
-      }),
+               const secret = process.env.NEXT_PUBLIC_SECRET
+
+               const hashedInputToken = crypto
+                  .createHash('sha256')
+                  .update(value + secret)
+                  .digest('hex')
+
+               const tokensMatch = hashedInputToken === verification.token
+
+               return tokensMatch
+            }
+         },
+         {
+            message: 'Invalid verification token',
+         },
+      ),
    // we need to manage this in the database
    contentDiscovery: z.boolean(),
 })

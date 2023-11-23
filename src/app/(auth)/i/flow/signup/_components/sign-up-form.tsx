@@ -10,21 +10,21 @@ import {
    DialogTitle,
 } from '@/components/ui/dialog'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { SignUpFormValues, useSignUpForm } from '../_hooks/use-sign-up-form'
 import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 import { FocusElement, useSignUpStore } from '../_stores/sign-up-store'
 import TermsAndConditions from '@/app/_components/terms-and-conditions'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { handleEmailProvider } from '../_utils/handle-email-provider'
 import { checkFieldStateValidation } from '../_utils/check-field-state-validation'
+import { signIn } from 'next-auth/react'
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
 
 export function SignUpForm() {
    const { signUpForm } = useSignUpForm()
-   const { formState, setFocus, getFieldState } = signUpForm
+   const { formState, setFocus, getFieldState, getValues } = signUpForm
 
    const { isValid } = formState
 
@@ -51,11 +51,23 @@ export function SignUpForm() {
    }, [])
 
    const onSubmit = async (data: SignUpFormValues) => {
-      console.log(`----on Submit `)
-      console.log(data)
-      // const asdf = await signIn('email', { email: data.email })
-      console.log(`---asdfo`)
-      // console.log(asdf)
+      router.push(
+         `http://localhost:3000/api/auth/callback/email?callbackUrl=%2F&token=${data.token}&email=${data.email}`,
+      )
+      // fix this so the user can be created before we find for it
+      const res = await fetch(`http://localhost:3000/api/viper`, {
+         headers: {
+            'content-type': 'application/json',
+         },
+         method: 'POST',
+         body: JSON.stringify({
+            data,
+         }),
+      })
+      if (!res.ok) {
+         const { error } = await res.json()
+         throw new Error(error)
+      }
       //   toast({
       //      title: 'You submitted the following values:',
       //      description: (
@@ -78,7 +90,8 @@ export function SignUpForm() {
    }
 
    const buttonType = step !== 5 ? 'button' : 'submit'
-   const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
+   // const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
+   const disableButton = false
 
    return (
       <Dialog open={openDialog} onOpenChange={handleDialog}>
@@ -108,18 +121,19 @@ export function SignUpForm() {
                   </div>
 
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-                     {/* {step !== 3 && (
+                     {step !== 3 ? (
                         <Button
                            className="text-md h-11 rounded-3xl font-semibold"
                            type={buttonType}
                            onClick={nextStep}
                            variant={'default'}
-                           disabled={disabledButton}
+                           disabled={disableButton}
                         >
                            Next
                         </Button>
-                     )} */}
-                     {/* {step === 3 && (
+                     ) : (
+                        // }
+                        // {step === 3 &&
                         <>
                            <TermsAndConditions className="mb-2 text-[14px] leading-4">
                               Twitter may use your contact information, including your email
@@ -135,28 +149,42 @@ export function SignUpForm() {
                               </Link>{' '}
                               . Others will be able to find you by email or phone number, when
                               provided, unless you choose otherwise{' '}
-                              <button
-                                 className="text-viper-dodger-blue"
+                              <Button
+                                 variant={'link'}
+                                 size={'link'}
+                                 className="text-[14px] font-normal leading-4"
                                  onClick={() => redirectStep(6)}
                               >
+                                 {' '}
                                  here
-                              </button>
+                              </Button>
                               .
                            </TermsAndConditions>
                            <Button
                               className="text-md h-11 rounded-3xl font-semibold"
-                              type="button"
-                              onClick={() =>
-                                 handleEmailProvider(signUpForm.getValues('email'), nextStep)
-                              }
+                              type={buttonType}
+                              onClick={() => {
+                                 nextStep()
+                                 // signIn('email', {
+                                 //    redirect: false,
+                                 //    email: getValues('email'),
+                                 // })
+                              }}
                               variant={'sign-up'}
-                              disabled={!isValid}
+                              disabled={disableButton}
                            >
-                              Sign up
+                              <Link
+                                 href={`?${new URLSearchParams({
+                                    email: getValues('email'),
+                                 })}`}
+                                 className="h-full w-full"
+                              >
+                                 Sign up
+                              </Link>
                            </Button>
                         </>
-                     )} */}
-                     {step !== 3 ? (
+                     )}
+                     {/* {step !== 3 ? (
                         <Button
                            className="text-md h-11 rounded-3xl font-semibold"
                            type={buttonType}
@@ -202,7 +230,7 @@ export function SignUpForm() {
                               Sign up
                            </Button>
                         </>
-                     )}
+                     )} */}
                   </DialogFooter>
                </form>
             </Form>

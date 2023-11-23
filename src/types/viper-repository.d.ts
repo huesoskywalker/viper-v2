@@ -3,7 +3,13 @@ import { Email, Viper, _ID } from './viper'
 
 interface ViperCRUDRepository {
    // we can make a pick interface for this props
-   create(_id: _ID, name: string, email: string, image: string): Promise<WithId<Viper> | null>
+   populateNewViper(
+      _id: _ID,
+      name: string | undefined,
+      email: string,
+      image: string | undefined,
+      emailVerified: boolean | date,
+   ): Promise<WithId<Viper> | null>
    update(viper: UpdateViper): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>

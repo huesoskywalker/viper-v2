@@ -19,13 +19,15 @@ export class ViperRepository implements ViperRepositorySource {
       this.viperCollection = database.collection<Viper>('users')
    }
 
-   async create(
+   async populateNewViper(
       _id: _ID,
-      name: string,
+      name: string | undefined,
       email: string,
-      image: string,
+      image: string | undefined,
+      emailVerified: boolean | Date,
    ): Promise<WithId<Viper> | null> {
       try {
+         // we might need to find by email instead of id because of the Email Provider
          const newViper = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(_id),
@@ -38,16 +40,17 @@ export class ViperRepository implements ViperRepositorySource {
                      address: '',
                      website: '',
                   },
-                  email: email,
                   bio: '',
                   blogs: {
                      personal: [],
                      likes: [],
                      withReplies: [],
                   },
-                  emailVerified: false,
+                  emailVerified: emailVerified,
+                  email: email,
                   // check if this exists in the object it did at some point
                   username: '',
+                  password: undefined,
                   name: name,
                   image: image,
                   backgroundImage: '',
