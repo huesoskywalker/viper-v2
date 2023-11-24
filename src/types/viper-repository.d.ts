@@ -1,5 +1,15 @@
 import { WithId } from 'mongodb'
-import { Email, Viper, _ID } from './viper'
+import {
+   Blog,
+   CreatedEvent,
+   Email,
+   EventCollection,
+   Follow,
+   UpdateViper,
+   Viper,
+   ViperBasicProps,
+   _ID,
+} from './viper'
 
 interface ViperCRUDRepository {
    // we can make a pick interface for this props
@@ -8,9 +18,9 @@ interface ViperCRUDRepository {
       name: string | undefined,
       email: string,
       image: string | undefined,
-      emailVerified: boolean | date,
+      emailVerified: Date | null,
    ): Promise<WithId<Viper> | null>
-   update(viper: UpdateViper): Promise<WithId<Viper> | null>
+   update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
@@ -78,7 +88,7 @@ interface ViperEventRepository {
       viperId: string,
    ): Promise<WithId<Viper> | null>
    getLikedEvents(viperId: string): Promise<Likes[]>
-   getEventsCollection(viperId: string): Promise<Collection[]>
+   getEventsCollection(viperId: string): Promise<EventCollection[]>
    isEventParticipationRequested(viperId: string, eventId: string): Promise<boolean>
    requestEventParticipation(
       viperId: string,

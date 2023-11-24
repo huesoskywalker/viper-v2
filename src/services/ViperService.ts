@@ -25,7 +25,7 @@ export class ViperService implements ViperRepositorySource {
       name: string | undefined,
       email: string,
       image: string | undefined,
-      emailVerified: boolean | Date,
+      emailVerified: Date | null,
    ): Promise<WithId<Viper> | null> {
       try {
          const newViper = await this.viperRepository.populateNewViper(
@@ -41,9 +41,9 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+   async update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null> {
       try {
-         const updateProfile = await this.viperRepository.update(viper)
+         const updateProfile = await this.viperRepository.update(_id, updateProps)
          return updateProfile
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to update Viper, ${error}`)

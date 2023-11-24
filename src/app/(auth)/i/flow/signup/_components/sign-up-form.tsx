@@ -52,8 +52,9 @@ export function SignUpForm() {
    }, [])
 
    const onSubmit = async (formData: SignUpFormValues) => {
+      const { token, email, ...restForm } = formData
       const magicLink = await fetch(
-         `${BASE_URL}/api/auth/callback/email?callbackUrl=%2F&token=${formData.token}&email=${formData.email}`,
+         `${BASE_URL}/api/auth/callback/email?callbackUrl=%2F&token=${token}&email=${email}`,
       )
       if (!magicLink.ok) {
          const { error } = await magicLink.json()
@@ -66,11 +67,12 @@ export function SignUpForm() {
          },
          method: 'POST',
          body: JSON.stringify({
-            formData,
+            restForm,
          }),
       })
       if (!updateViper.ok) {
          const { error } = await updateViper.json()
+         // this should trigger the closest error.js
          throw new Error(error)
       }
       //   toast({
@@ -95,7 +97,6 @@ export function SignUpForm() {
    }
 
    const disableButton = step <= 3 ? !isStepOneValid : step === 4 ? !isStepFourValid : !isValid
-   // const disableButton = false
 
    return (
       <Dialog open={openDialog} onOpenChange={handleDialog}>
@@ -137,8 +138,6 @@ export function SignUpForm() {
                            Next
                         </Button>
                      ) : (
-                        // }
-                        // {step === 3 &&
                         <>
                            <TermsAndConditions className="mb-2 text-[14px] leading-4">
                               Twitter may use your contact information, including your email
@@ -166,7 +165,7 @@ export function SignUpForm() {
                               .
                            </TermsAndConditions>
                            <Button
-                              className="text-md h-11 rounded-3xl font-semibold"
+                              className="text-md m-0 h-11 rounded-3xl font-semibold"
                               type={'button'}
                               onClick={() => {
                                  nextStep()
@@ -182,60 +181,13 @@ export function SignUpForm() {
                                  href={`?${new URLSearchParams({
                                     email: getValues('email'),
                                  })}`}
-                                 className="h-full w-full"
+                                 className="m-0 h-full w-full"
                               >
                                  Sign up
                               </Link>
                            </Button>
                         </>
                      )}
-                     {/* {step !== 3 ? (
-                        <Button
-                           className="text-md h-11 rounded-3xl font-semibold"
-                           type={buttonType}
-                           onClick={nextStep}
-                           variant={'default'}
-                           disabled={disableButton}
-                        >
-                           Next
-                        </Button>
-                     ) : (
-                        <>
-                           <TermsAndConditions className="mb-2 text-[14px] leading-4">
-                              Twitter may use your contact information, including your email
-                              address and phone number for purposes outlined in our Privacy Policy,
-                              like keeping your account secure and personalizing our services,
-                              including ads.
-                              <Link
-                                 href="/privacy"
-                                 target="_blank"
-                                 className="text-viper-dodger-blue hover:underline hover:underline-offset-4 "
-                              >
-                                 Learn more
-                              </Link>{' '}
-                              . Others will be able to find you by email or phone number, when
-                              provided, unless you choose otherwise{' '}
-                              <button
-                                 className="text-viper-dodger-blue"
-                                 onClick={() => redirectStep(6)}
-                              >
-                                 here
-                              </button>
-                              .
-                           </TermsAndConditions>
-                           <Button
-                              className="text-md h-11 rounded-3xl font-semibold"
-                              type={buttonType}
-                              onClick={() =>
-                                 handleEmailProvider(signUpForm.getValues('email'), nextStep)
-                              }
-                              variant={'sign-up'}
-                              disabled={disableButton}
-                           >
-                              Sign up
-                           </Button>
-                        </>
-                     )} */}
                   </DialogFooter>
                </form>
             </Form>

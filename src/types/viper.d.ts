@@ -7,8 +7,9 @@ export type Viper = {
    location: Location
    contactInfo: ContactInfo
    bio: Biography
+   birthDate: BirthDate
    blogs: Blog
-   emailVerified: boolean | Date
+   emailVerified: Date | null
    email: Email
    username: Username
    password: string | undefined
@@ -19,6 +20,45 @@ export type Viper = {
    events: MyEvents
    followers: Follow[]
    followings: Follow[]
+   contentDiscovery: boolean
+}
+
+export type Hex24String = `${
+   | '0'
+   | '1'
+   | '2'
+   | '3'
+   | '4'
+   | '5'
+   | '6'
+   | '7'
+   | '8'
+   | '9'
+   | 'a'
+   | 'b'
+   | 'c'
+   | 'd'
+   | 'e'
+   | 'f'}{24}`
+
+export type _ID = ObjectId | Hex24String
+
+export type Location = string
+
+export type ContactInfo = {
+   phone: number | null
+   address: string
+   // city: string
+   // zip: string
+   website: string
+}
+
+type Biography = string
+
+type BirthDate = {
+   day: string
+   month: string
+   year: string
 }
 
 type Email = string
@@ -26,8 +66,6 @@ type Email = string
 type Username = string
 
 type Image = string
-
-type Biography = string
 
 type Name = string
 
@@ -39,24 +77,19 @@ export type MyEvents = {
 export type CreatedEvent = {
    readonly _id: _ID
 }
+
 export type EventCollection = {
    readonly _id: _ID
    readonly checkoutId: string
 }
+
 export type Like = {
    readonly _id: _ID
 }
+
 export type Follow = {
    readonly _id: _ID
 }
-export type ContactInfo = {
-   phone: number | null
-   address: string
-   // city: string
-   // zip: string
-   website: string
-}
-export type Location = string
 
 export type Blog = {
    personal: PersonalBlog[]
@@ -128,29 +161,9 @@ export type ViperBasicProps = Pick<
 export type UpdateViper = Partial<UpdateViperType>
 type UpdateViperPick = Pick<
    Viper,
-   '_id' | 'name' | 'bio' | 'image' | 'backgroundImage' | 'location'
+   'name' | 'password' | '' | 'bio' | 'image' | 'backgroundImage' | 'location'
 >
 
-export type Hex24String = `${
-   | '0'
-   | '1'
-   | '2'
-   | '3'
-   | '4'
-   | '5'
-   | '6'
-   | '7'
-   | '8'
-   | '9'
-   | 'a'
-   | 'b'
-   | 'c'
-   | 'd'
-   | 'e'
-   | 'f'}{24}`
-// export type Hex24String = string & { length: 24 }
-
-export type _ID = ObjectId | Hex24String
 export type UploadViperImage = {
    data: { url } | null
    error: string | null

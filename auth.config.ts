@@ -10,6 +10,7 @@ import resendConfig from './resend.config'
 import nodemailer from 'nodemailer'
 import { signUpEmailHTML } from './utils/signup-email-html'
 import { remainingExpirationTime } from './utils/remaining-expiration-time'
+import { Viper } from '@/types/viper'
 
 declare module 'next-auth' {
    interface Session {
@@ -21,15 +22,17 @@ declare module 'next-auth' {
          location: string
       }
    }
-   interface User {
-      emailVerified: boolean | Date
-   }
+   interface User extends Viper {}
 }
 export default {
    debug: false,
    providers: [
       GitHub,
-      Google,
+      Google({
+         profile: (user) => {
+            return { ...user }
+         },
+      }),
       Auth0,
       Email({
          server: resendConfig,
@@ -112,8 +115,6 @@ export default {
       signOut: (message) => {},
       createUser: async ({ user }) => {
          try {
-            // Change  create for populate?
-            // add password as optional
             await viperService.populateNewViper(
                user.id as _ID,
                user.name ?? undefined,

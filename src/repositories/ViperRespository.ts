@@ -24,7 +24,7 @@ export class ViperRepository implements ViperRepositorySource {
       name: string | undefined,
       email: string,
       image: string | undefined,
-      emailVerified: boolean | Date,
+      emailVerified: Date | null,
    ): Promise<WithId<Viper> | null> {
       try {
          // we might need to find by email instead of id because of the Email Provider
@@ -41,6 +41,11 @@ export class ViperRepository implements ViperRepositorySource {
                      website: '',
                   },
                   bio: '',
+                  birthDate: {
+                     day: '',
+                     month: '',
+                     year: '',
+                  },
                   blogs: {
                      personal: [],
                      likes: [],
@@ -65,6 +70,7 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                   followers: [],
                   followings: [],
+                  contentDiscovery: true,
                },
             },
          )
@@ -74,21 +80,14 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async update(viper: UpdateViper): Promise<WithId<Viper> | null> {
+   async update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null> {
       try {
-         const { _id, name, bio, image, backgroundImage, location } = viper
          const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
-               _id: new ObjectId(_id as string),
+               _id: new ObjectId(_id),
             },
             {
-               $set: {
-                  name: name,
-                  bio: bio,
-                  image: image,
-                  backgroundImage: backgroundImage,
-                  location: location,
-               },
+               $set: updateProps,
             },
          )
          return updateProfile
