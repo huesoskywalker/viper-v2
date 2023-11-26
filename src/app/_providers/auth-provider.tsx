@@ -1,26 +1,13 @@
 'use client'
 import { SessionProvider } from 'next-auth/react'
-import { PageProps } from '@/types/page-props'
 import { useSession } from 'next-auth/react'
-import { redirect, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { PropsWithChildren, useEffect } from 'react'
 
-export const Auth = ({ children }: PageProps) => {
-   const { push } = useRouter()
-   const { data: session, status } = useSession()
-   const isUser = session?.user
+export const Auth = ({ children }: PropsWithChildren) => {
+   const { status } = useSession()
    useEffect(() => {
       if (status === 'loading') return
-      if (status === 'unauthenticated') {
-         // having issues with redirect. check
-         // redirect('/')
-         push('/')
-      }
-      if (!isUser) {
-         // redirect('/')
-         push('/')
-      }
-   }, [isUser, status])
+   }, [status])
 
    return <>{children}</>
 }

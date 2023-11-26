@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
    const session = await auth()
 
+   // check if we should warp the whole entry point with the AuthProvider
    return (
       <html>
          <body className={`${inter.className} overflow-y-scroll bg-viper-background `}>
@@ -34,7 +35,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                      <div className="flex items-center justify-center lg:w-1/3 lg:p-6 xl:w-1/2">
                         <Image
                            src={'/viper.png'}
-                           alt="Dragon flying"
+                           alt="Viper logo"
                            width={300}
                            height={400}
                            sizes="(min-width: 1040px) calc(25.05vw - 49px), (min-width: 800px) calc(4.55vw + 4px), (min-width: 760px) calc(-185vw + 1481px), (min-width: 580px) 16.25vw, (min-width: 340px) 18.64vw, calc(-175vw + 619px)"

@@ -1,11 +1,13 @@
-import { SignUpFormValues } from '@/app/(auth)/i/flow/signup/_hooks/use-sign-up-form'
 import { viperService } from '@/services/servicesInitializer'
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcrypt'
 import { auth } from '@/lib/auth'
+import { CreateAccountFormValues } from '@/app/(auth)/i/flow/signup/_hooks/use-create-account-form'
 
+// let's implement middleware
+// This is a PATCH request or PUT
 export async function POST(request: NextRequest) {
-   const { restForm }: { restForm: Omit<SignUpFormValues, 'token' | 'email'> } =
+   const { restForm }: { restForm: Omit<CreateAccountFormValues, 'token' | 'email'> } =
       await request.json()
    const session = await auth()
 

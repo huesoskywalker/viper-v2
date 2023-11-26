@@ -1,9 +1,8 @@
 import { UseFormGetFieldState } from 'react-hook-form'
-import { SignUpFormValues } from '../_hooks/use-sign-up-form'
+import { CreateAccountFormValues } from '../_hooks/use-create-account-form'
 
-// Validity?
-export const checkFieldStateValidation = (
-   getFieldState: UseFormGetFieldState<SignUpFormValues>,
+export const checkFieldStateValidity = (
+   getFieldState: UseFormGetFieldState<CreateAccountFormValues>,
 ) => {
    const nameFieldState = getFieldState('name')
    const emailFieldState = getFieldState('email')

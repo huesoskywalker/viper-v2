@@ -27,11 +27,11 @@ declare module 'next-auth' {
 export default {
    debug: false,
    providers: [
-      GitHub,
+      GitHub({
+         allowDangerousEmailAccountLinking: true,
+      }),
       Google({
-         profile: (user) => {
-            return { ...user }
-         },
+         allowDangerousEmailAccountLinking: true,
       }),
       Auth0,
       Email({
@@ -74,6 +74,7 @@ export default {
    },
    callbacks: {
       authorized: async ({ request, auth }) => {
+         console.log(`--authorized`)
          const pathname = request.nextUrl
 
          if (request.method === 'POST') {
@@ -86,9 +87,9 @@ export default {
          }
          return true
       },
-      redirect: async ({ baseUrl, url }) => {
-         return '/'
-      },
+      // redirect: async ({ baseUrl, url }) => {
+      // return '/'
+      // },
       signIn: async ({ user, account, profile, email, credentials }) => {
          return true
       },
@@ -113,6 +114,10 @@ export default {
          // let's check somewhere in here if we can grab the email_verified and replace it by the emailVerified
       },
       signOut: (message) => {},
+      linkAccount: ({ account, profile, user }) => {
+         console.log(`---linkAccount`)
+         console.log({ account, profile, user })
+      },
       createUser: async ({ user }) => {
          try {
             await viperService.populateNewViper(

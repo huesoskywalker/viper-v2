@@ -4,9 +4,9 @@ import getMonths from '../_utils/get-months'
 import getDays from '../_utils/get-days'
 import getYears from '../_utils/get-years'
 import FormInput from '@/app/_components/form-input'
-import { SignUpFomControl } from '../_hooks/use-sign-up-form'
+import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
 
-const SignUpStepOne = ({ formControl }: { formControl: SignUpFomControl }) => {
+const SignUpStepOne = ({ formControl }: { formControl: CreateAccountFormControl }) => {
    const { months } = getMonths()
    const { days } = getDays()
    const { years } = getYears()

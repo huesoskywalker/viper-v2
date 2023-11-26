@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export type FocusElement = 'email' | 'name' | 'birthDate.month'
 
-type SignUpStore = {
+type CreateAccountStore = {
    step: number
    prevStep: () => void
    nextStep: () => void
@@ -11,7 +11,7 @@ type SignUpStore = {
    setFocusElem: (elem: FocusElement) => void
 }
 
-export const useSignUpStore = create<SignUpStore>((set) => ({
+export const useCreateAccountStore = create<CreateAccountStore>((set) => ({
    step: 1,
    nextStep: () => set((state) => ({ step: state.step + 1 })),
    prevStep: () => set((state) => ({ step: state.step - 1 })),

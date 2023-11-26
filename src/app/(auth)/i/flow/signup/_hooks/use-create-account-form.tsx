@@ -5,11 +5,11 @@ import crypto from 'crypto'
 import { useCheckEmailAvailability } from './use-check-email-availability'
 import { UseVerificationToken } from './use-verification-token'
 
-export type SignUpFormValues = z.infer<typeof SignUpFormSchema>
+export type CreateAccountFormValues = z.infer<typeof createAccountSchema>
 
-export type SignUpFomControl = Control<SignUpFormValues, any>
+export type CreateAccountFormControl = Control<CreateAccountFormValues, any>
 
-const SignUpFormSchema = z.object({
+const createAccountSchema = z.object({
    name: z
       .string({ required_error: 'Please provide a name' })
       .min(1, {
@@ -120,7 +120,7 @@ const SignUpFormSchema = z.object({
    // we need to manage this in the database
 })
 
-export const useSignUpForm = () => {
+export const useCreateAccountForm = () => {
    const defaultValues = {
       name: '',
       email: '',
@@ -134,11 +134,11 @@ export const useSignUpForm = () => {
       password: '',
    }
 
-   const signUpForm = useForm<SignUpFormValues>({
-      resolver: zodResolver(SignUpFormSchema),
+   const createAccountForm = useForm<CreateAccountFormValues>({
+      resolver: zodResolver(createAccountSchema),
       defaultValues,
       mode: 'onChange',
    })
 
-   return { signUpForm }
+   return { createAccountForm }
 }

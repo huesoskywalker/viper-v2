@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button'
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import React from 'react'
-import { SignUpFomControl } from '../_hooks/use-sign-up-form'
+import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
 
-const SignUpStepFour = ({ formControl }: { formControl: SignUpFomControl }) => {
+const SignUpStepFour = ({ formControl }: { formControl: CreateAccountFormControl }) => {
    const email = formControl._formValues['email']
 
    return (

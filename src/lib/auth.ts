@@ -5,6 +5,8 @@ import { MongoClient } from 'mongodb'
 import { clientPromise } from '@/services/servicesInitializer'
 import authConfig from '../../auth.config'
 
+// we have the link accounts in the events
+// check both linkAccounts methods how they behave
 const mongoAdapter = MongoDBAdapter(clientPromise as Promise<MongoClient>, {
    databaseName: 'viperDb',
 })

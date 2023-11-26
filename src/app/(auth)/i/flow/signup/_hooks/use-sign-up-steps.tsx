@@ -3,10 +3,10 @@ import SignUpStepOne from '../_components/sign-up-step-one'
 import SignUpStepTwo from '../_components/sign-up-step-two'
 import SignUpStepThree from '../_components/sign-up-step-three'
 import SignUpStepFour from '../_components/sign-up-step-four'
-import { SignUpFomControl } from './use-sign-up-form'
+import { CreateAccountFormControl } from './use-create-account-form'
 import SignUpStepFive from '../_components/sign-up-step-five'
 
-export const useSignUpSteps = (step: number, formControl: SignUpFomControl) => {
+export const useSignUpSteps = (step: number, formControl: CreateAccountFormControl) => {
    const renderSteps = useMemo(() => {
       switch (step) {
          case 1:

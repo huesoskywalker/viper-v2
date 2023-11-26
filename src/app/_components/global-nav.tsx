@@ -1,12 +1,9 @@
 'use client'
 
-// import clsx from 'clsx'
 import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { GlobalNavItem } from './global-nav-items'
 import Link from 'next/link'
-import { Icons } from '../../components/ui/icons'
-import { buttonVariants } from '@/components/ui/button'
 import getNavItems from '../_utils/get-nav-items'
 import { Menu, X } from 'lucide-react'
 import { cn } from '../../lib/utils'
@@ -44,11 +41,7 @@ export function GlobalNav() {
             {isOpen ? (
                <X className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
             ) : (
-               // remove the Icon from Icons
-               // <Icons.close className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
                <Menu className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
-               // remove the svg from Icons
-               // <Icons.menu className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
             )}
          </button>
 

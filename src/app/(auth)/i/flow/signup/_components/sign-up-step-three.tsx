@@ -1,13 +1,13 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
-import { useSignUpStore } from '../_stores/sign-up-store'
+import { useCreateAccountStore } from '../_stores/create-account-store'
 import { getBirthDate } from '../_utils/get-birth-date'
 import FormInput from '@/app/_components/form-input'
-import { SignUpFomControl } from '../_hooks/use-sign-up-form'
+import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
 
-const SignUpStepThree = ({ formControl }: { formControl: SignUpFomControl }) => {
-   const { redirectStep, setFocusElem } = useSignUpStore()
+const SignUpStepThree = ({ formControl }: { formControl: CreateAccountFormControl }) => {
+   const { redirectStep, setFocusElem } = useCreateAccountStore()
 
    const { dateOfBirth } = getBirthDate()
 
