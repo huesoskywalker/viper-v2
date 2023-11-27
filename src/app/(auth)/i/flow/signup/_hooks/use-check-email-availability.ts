@@ -1,10 +1,11 @@
-import { BASE_URL } from '@/config/env'
+import { BASE_URL, VIPER_API_KEY } from '@/config/env'
 
-export const useCheckEmailAvailability = async (value: string): Promise<boolean> => {
+export const useCheckEmailAvailability = async (email: string): Promise<boolean> => {
    try {
-      const res = await fetch(`${BASE_URL}/i/flow/signup/api?email=${value}`, {
+      const res = await fetch(`${BASE_URL}/i/flow/signup/api/verify?email=${email}`, {
          headers: {
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
+            'API-Key': `${VIPER_API_KEY}`,
          },
          method: 'GET',
       })

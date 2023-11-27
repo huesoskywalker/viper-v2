@@ -1,5 +1,5 @@
 import { Comment, CreateEvent, EventProps, Reply, UpdateEvent } from '@/types/event'
-import { EventRepositorySource } from '@/types/event-repository'
+import { EventRepositorySource } from '@/types/repository/event-repository'
 import { DeleteResult, InsertOneResult, WithId } from 'mongodb'
 
 export class EventService {
@@ -39,9 +39,8 @@ export class EventService {
 
    async create(event: CreateEvent): Promise<InsertOneResult<EventProps>> {
       try {
-         const newEventProps: InsertOneResult<EventProps> = await this.eventRepository.create(
-            event,
-         )
+         const newEventProps: InsertOneResult<EventProps> =
+            await this.eventRepository.create(event)
          return newEventProps
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to create event, ${error}`)
@@ -50,9 +49,8 @@ export class EventService {
 
    async update(event: UpdateEvent): Promise<WithId<EventProps> | null> {
       try {
-         const updateEventProps: WithId<EventProps> | null = await this.eventRepository.update(
-            event,
-         )
+         const updateEventProps: WithId<EventProps> | null =
+            await this.eventRepository.update(event)
          return updateEventProps
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to update event, ${error}`)

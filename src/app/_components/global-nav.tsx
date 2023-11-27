@@ -62,7 +62,11 @@ export function GlobalNav() {
                      />
                   ))}
                   {/* add the buttonVariants in here */}
-                  <Link href="/" onClick={() => signOut()} className={linkClass}>
+                  <Link
+                     href="/"
+                     onClick={() => signOut({ callbackUrl: '/' })}
+                     className={linkClass}
+                  >
                      Sign out
                   </Link>
                </div>

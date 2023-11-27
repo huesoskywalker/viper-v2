@@ -1,11 +1,13 @@
-// import { auth } from '@/lib/auth'
-// import { redirect } from 'next/navigation'
+'use client'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
-export default async function HomePage() {
-   // const session = await auth()
-   // if (session) {
-   //    redirect('/home')
-   // }
+export default function HomePage() {
+   const { push } = useRouter()
+   const { data: session } = useSession()
+   if (session) {
+      push('/home')
+   }
 
    return <></>
 }

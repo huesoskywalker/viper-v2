@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import TermsAndConditions from './terms-and-conditions'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import AuthProviderForm from './auth-provider-form'
+import AuthSignInForm from './auth-signin-form'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,8 +11,8 @@ export function UserAuthForm({ children, className, ...props }: UserAuthFormProp
    return (
       <div className={cn('grid w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 ', className)} {...props}>
          <div className="grid gap-3">
-            <AuthProviderForm provider="google" label="Google" />
-            <AuthProviderForm provider="github" label="Github" />
+            <AuthSignInForm provider="google" label="Google" />
+            <AuthSignInForm provider="github" label="Github" />
          </div>
          {/* make this span abstract in a class */}
          <div className="relative my-[6px] w-[300px]">

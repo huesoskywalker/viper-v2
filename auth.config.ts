@@ -11,6 +11,7 @@ import nodemailer from 'nodemailer'
 import { signUpEmailHTML } from './utils/signup-email-html'
 import { remainingExpirationTime } from './utils/remaining-expiration-time'
 import { Viper } from '@/types/viper'
+import { NextResponse } from 'next/server'
 
 declare module 'next-auth' {
    interface Session {
@@ -70,25 +71,16 @@ export default {
    ],
    pages: {
       newUser: '/new',
-      verifyRequest: '/verify',
+      // verifyRequest: '/verify',
+      // signOut: '/i/flow/signout',
    },
    callbacks: {
       authorized: async ({ request, auth }) => {
-         console.log(`--authorized`)
-         const pathname = request.nextUrl
-
-         if (request.method === 'POST') {
-            const { authToken } = (await request.json()) ?? {}
-
-            // this is not a built in function
-            // const valid = validateAuthToken(authToken)
-            // if (valid) {
-            // }
-         }
+         if (!auth) return NextResponse.json({ error: 'Unauthorized' })
          return true
       },
       // redirect: async ({ baseUrl, url }) => {
-      // return '/'
+      // return baseUrl
       // },
       signIn: async ({ user, account, profile, email, credentials }) => {
          return true
@@ -113,7 +105,9 @@ export default {
       signIn: ({ profile, isNewUser }) => {
          // let's check somewhere in here if we can grab the email_verified and replace it by the emailVerified
       },
-      signOut: (message) => {},
+      signOut: (message) => {
+         // message is session
+      },
       linkAccount: ({ account, profile, user }) => {
          console.log(`---linkAccount`)
          console.log({ account, profile, user })

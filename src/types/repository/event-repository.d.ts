@@ -1,4 +1,4 @@
-import { Comment, CreateEvent, EventProps, UpdateEvent } from './event'
+import { Comment, CreateEvent, EventProps, UpdateEvent } from '../event'
 import { WithId, InsertOneResult, DeleteResult } from 'mongodb'
 interface EventCRUDRepository {
    getAll(): Promise<EventProps[]>

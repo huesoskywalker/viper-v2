@@ -1,3 +1,4 @@
+import { ViperRepositorySource } from '@/types/repository/viper-repository'
 import {
    Blog,
    CreatedEvent,
@@ -10,7 +11,6 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { ViperRepositorySource } from '@/types/viper-repository'
 import { WithId } from 'mongodb'
 
 export class ViperService implements ViperRepositorySource {

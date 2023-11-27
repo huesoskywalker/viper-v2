@@ -9,7 +9,7 @@ import {
    Viper,
    ViperBasicProps,
    _ID,
-} from './viper'
+} from '../viper'
 
 interface ViperCRUDRepository {
    // we can make a pick interface for this props

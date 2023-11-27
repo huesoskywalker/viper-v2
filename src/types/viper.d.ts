@@ -21,6 +21,7 @@ export type Viper = {
    followers: Follow[]
    followings: Follow[]
    contentDiscovery: boolean
+   createdAt: Date
 }
 
 export type Hex24String = `${

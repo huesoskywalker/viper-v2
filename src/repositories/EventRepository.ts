@@ -2,7 +2,7 @@ import { Comment, CreateEvent, EventProps, Like, Reply, UpdateEvent } from '@/ty
 import { Collection, Db, DeleteResult, InsertOneResult, ObjectId, WithId } from 'mongodb'
 import fs from 'fs'
 import { _ID } from '@/types/viper'
-import { EventRepositorySource } from '@/types/event-repository'
+import { EventRepositorySource } from '@/types/repository/event-repository'
 
 export class EventRepository implements EventRepositorySource {
    private eventCollection: Collection<EventProps>

@@ -61,6 +61,7 @@ const createAccountSchema = z.object({
             message: 'Please select a valid birth date.',
          },
       ),
+   // we need to manage this in the database
    contentDiscovery: z.boolean(),
    token: z
       .string({
@@ -116,8 +117,6 @@ const createAccountSchema = z.object({
       .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
          message: 'Include at least one special character',
       }),
-
-   // we need to manage this in the database
 })
 
 export const useCreateAccountForm = () => {
