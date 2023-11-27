@@ -2,10 +2,11 @@
 import React from 'react'
 import { useFormState } from 'react-dom'
 import { handleAuthProvider } from '../_actions/handle-auth-providers'
-import AuthSignInButton from './auth-signin-button'
+import AuthSignInButton from './auth-sign-in-button'
 
 const initialState = {
    success: false,
+   message: null,
 }
 
 const AuthSignInForm = ({ provider, label }: { provider: string; label: string }) => {

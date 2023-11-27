@@ -1,15 +1,14 @@
-import { BASE_URL, VIPER_API_KEY } from '@/config/env'
+import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 
-export const UseVerificationToken = async (
+export const getVerificationToken = async (
    email: string | null,
 ): Promise<{ token: string; expires: string }> => {
    if (!email) throw new Error('Email must be provided')
-
    try {
       const res = await fetch(`${BASE_URL}/i/flow/signup/api/verify/token?email=${email}`, {
          headers: {
             'Content-Type': 'application/json',
-            'API-Key': `${VIPER_API_KEY}`,
+            'API-Key': `${PUBLIC_VIPER_API_KEY}`,
          },
          method: 'GET',
       })

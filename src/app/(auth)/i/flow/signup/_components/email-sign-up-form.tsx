@@ -1,8 +1,10 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { requestVerificationEmail } from '../_actions/request-verification-email'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useCreateAccountStore } from '../_stores/create-account-store'
+import { useRouter } from 'next/navigation'
 
 const initialState = {
    success: false,
@@ -10,10 +12,12 @@ const initialState = {
 }
 const EmailSignUpForm = ({ email, disabled }: { email: string; disabled: boolean }) => {
    const [state, formAction] = useFormState(requestVerificationEmail, initialState)
+   const router = useRouter()
    const { pending } = useFormStatus()
-   const { nextStep } = useCreateAccountStore()
+   const { redirectStep } = useCreateAccountStore()
    if (state.success) {
-      nextStep()
+      redirectStep(4)
+      router.push(`?email=${email}`)
    }
 
    const disableButton = disabled || pending

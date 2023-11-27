@@ -17,6 +17,6 @@ export const handleAuthProvider = async (
       popupWindow('/i/flow/signin', data.provider)
       return { success: true }
    } catch (error) {
-      return { success: false }
+      return { success: false, message: error }
    }
 }

@@ -74,8 +74,7 @@ export function CreateAccountForm({ step }: { step: number }) {
             >
                <div
                   className={cn(
-                     ` h-[450px] w-full space-y-5 overflow-y-auto scroll-smooth px-[88px] 
-                        `,
+                     ` h-[450px] w-full space-y-5 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
                   {renderSteps}

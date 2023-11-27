@@ -28,7 +28,11 @@ export const CreateAccountDialog = () => {
                className="flex h-[650px] max-w-[610px] flex-col items-start justify-center rounded-lg border-none pt-2 "
             >
                <DialogHeader
-                  className={cn('pl-16', step === 5 && 'pl-4', step > 5 && 'self-center')}
+                  className={cn(
+                     step < 5 && 'pl-16',
+                     step === 5 && 'pl-4',
+                     step > 5 && 'self-center',
+                  )}
                >
                   {step <= 5 ? (
                      <DialogTitle className={cn(' text-lg font-semibold text-gray-300')}>

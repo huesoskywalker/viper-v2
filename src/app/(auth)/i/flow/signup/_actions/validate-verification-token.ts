@@ -1,6 +1,5 @@
 'use server'
 import { BASE_URL } from '@/config/env'
-import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 const validationSchema = z.object({
@@ -24,8 +23,6 @@ export const validateVerificationToken = async (
          const { error } = await magicLink.json()
          throw new Error(error)
       }
-      //   this will fuck up the form?
-      // revalidatePath('/', 'layout')
       return { success: true }
    } catch (error) {
       return { success: false, message: error }

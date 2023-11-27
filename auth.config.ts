@@ -75,6 +75,13 @@ export default {
       // signOut: '/i/flow/signout',
    },
    callbacks: {
+      jwt: ({ session, token, user, trigger, account, profile }) => {
+         console.log(`---should not trigger since it is database strategy`)
+         console.log(`-----callback jwt`)
+         console.log({ session, token })
+
+         return session
+      },
       authorized: async ({ request, auth }) => {
          if (!auth) return NextResponse.json({ error: 'Unauthorized' })
          return true
@@ -86,6 +93,8 @@ export default {
          return true
       },
       session: async ({ session, token, user, trigger, newSession }) => {
+         console.log(`---callback session`)
+         console.log({ session })
          session.user.id = user.id
          // session.user.image = user.image ?? ''
          // session.user.location = user.location
@@ -101,8 +110,13 @@ export default {
    },
    events: {
       // states of events are global
-      session: ({ session, token }) => {},
-      signIn: ({ profile, isNewUser }) => {
+      session: ({ session, token }) => {
+         console.log(`events session`)
+         console.log({ session, token })
+      },
+      signIn: ({ profile, user, account, isNewUser }) => {
+         console.log(`events signin`)
+         console.log({ profile, user, account, isNewUser })
          // let's check somewhere in here if we can grab the email_verified and replace it by the emailVerified
       },
       signOut: (message) => {

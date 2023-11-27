@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import TermsAndConditions from './terms-and-conditions'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import AuthSignInForm from './auth-signin-form'
+import AuthSignInForm from './auth-sign-in-form'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

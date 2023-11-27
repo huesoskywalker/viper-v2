@@ -1,6 +1,4 @@
-'use server'
-
-import { signIn } from '@/lib/auth'
+import { signIn } from 'next-auth/react'
 import { z } from 'zod'
 
 const emailSchema = z.object({ email: z.string().email() })
@@ -13,7 +11,7 @@ export const requestVerificationEmail = async (
       email: formData.get('email'),
    })
    try {
-      await signIn('email', {
+      signIn('email', {
          redirect: false,
          email: data.email,
       })

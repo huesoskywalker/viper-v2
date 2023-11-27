@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Control, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import crypto from 'crypto'
-import { useCheckEmailAvailability } from './use-check-email-availability'
-import { UseVerificationToken } from './use-verification-token'
+import { checkEmailAvailability } from '../_utils/check-email-availability'
+import { isValidVerificationToken } from '../_utils/is-valid-verification-token'
 
 export type CreateAccountFormValues = z.infer<typeof createAccountSchema>
 
@@ -29,14 +28,8 @@ const createAccountSchema = z.object({
          async (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
             if (!emailRegex.test(value)) return
-            // try {
-            const isTaken = await useCheckEmailAvailability(value)
+            const isTaken = await checkEmailAvailability(value)
             return !isTaken
-            // } catch (error) {
-            // throw ner Error ?
-            // return error?
-            // return false?
-            // }
          },
          {
             message: 'Email has already been taken.',
@@ -67,37 +60,42 @@ const createAccountSchema = z.object({
       .string({
          required_error: 'Please provide the token',
       })
-      .min(6, { message: 'Token must be at least 6 digits' })
-      .max(6, { message: 'Token must be at most 6 digits' })
+      .length(6, { message: 'Token must contain 6 digits' })
       .refine(
          async (value) => {
             if (value.length !== 6) return false
-            const searchParams = new URLSearchParams(window.location.search)
-            const email = searchParams.get('email')
-            const verification = await UseVerificationToken(email)
-
-            const expirationDate = new Date(verification.expires)
-            const currentDate = new Date()
-
-            if (currentDate > expirationDate) {
-               return false
-            }
-
-            const secret = process.env.NEXT_PUBLIC_SECRET
-
-            const hashedInputToken = crypto
-               .createHash('sha256')
-               .update(value + secret)
-               .digest('hex')
-
-            const tokensMatch = hashedInputToken === verification.token
-
-            return tokensMatch
+            return isValidVerificationToken(value)
          },
          {
             message: 'Invalid verification token',
          },
       ),
+   // .refine(
+   //    async (value) => {
+   //       // if (value.length !== 6) return false
+   //       // const isValidToken = await isValidVerificationToken(value)
+   //       // return isValidToken
+   //       // return true
+   //       // const searchParams = new URLSearchParams(window.location.search)
+   //       // const email = searchParams.get('email')
+   //       // const verification = await getVerificationToken(email)
+   //       // const expirationDate = new Date(verification.expires)
+   //       // const currentDate = new Date()
+   //       // if (currentDate > expirationDate) {
+   //       //    return false
+   //       // }
+   //       // const secret = process.env.NEXT_PUBLIC_SECRET
+   //       // const hashedInputToken = crypto
+   //       //    .createHash('sha256')
+   //       //    .update(value + secret)
+   //       //    .digest('hex')
+   //       // const tokensMatch = hashedInputToken === verification.token
+   //       // return tokensMatch
+   //    },
+   //    {
+   //       message: 'Invalid verification token',
+   //    },
+   // ),
    password: z
       .string({
          required_error: 'Please provide a password',
