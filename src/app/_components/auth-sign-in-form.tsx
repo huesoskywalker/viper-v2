@@ -15,7 +15,6 @@ const AuthSignInForm = ({ provider, label }: { provider: string; label: string }
    return (
       <form action={formAction}>
          <input type="hidden" id={provider} name="provider" value={provider} />
-
          <AuthSignInButton label={label} />
       </form>
    )

@@ -1,10 +1,10 @@
 import FormInput from '@/app/_components/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormDescription, FormField, FormItem } from '@/components/ui/form'
+import { FormStepsControl } from '@/types/forms/steps'
 import React from 'react'
-import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
 
-const SignUpStepFive = ({ formControl }: { formControl: CreateAccountFormControl }) => {
+const SignUpStepFive: React.FC<FormStepsControl> = ({ formControl }) => {
    return (
       <>
          <DialogDescription className="mt-3 text-3xl font-bold text-primary ">

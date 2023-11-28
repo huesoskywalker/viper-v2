@@ -4,9 +4,9 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import React from 'react'
-import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
+import { FormStepsControl } from '@/types/forms/steps'
 
-const SignUpStepTwo = ({ formControl }: { formControl: CreateAccountFormControl }) => {
+const SignUpStepTwo: React.FC<FormStepsControl> = ({ formControl }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
 
    return (

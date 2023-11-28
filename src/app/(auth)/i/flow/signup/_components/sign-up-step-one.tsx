@@ -5,8 +5,13 @@ import getDays from '../_utils/get-days'
 import getYears from '../_utils/get-years'
 import FormInput from '@/app/_components/form-input'
 import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
+import { FormStepsControl } from '@/types/forms/steps'
 
-const SignUpStepOne = ({ formControl }: { formControl: CreateAccountFormControl }) => {
+const SignUpStepOne: React.FC<FormStepsControl> = ({
+   formControl,
+}: {
+   formControl: CreateAccountFormControl
+}) => {
    const { months } = getMonths()
    const { days } = getDays()
    const { years } = getYears()

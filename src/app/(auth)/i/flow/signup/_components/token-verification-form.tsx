@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import { validateVerificationToken } from '../_actions/validate-verification-token'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
+import SubmitVerificationButton from './submit-verification-button'
 
 const initialState = {
    success: false,
    message: null,
 }
 
-export const TokenVerificationButton = ({
+export const TokenVerificationForm = ({
    token,
    email,
    disabled,
@@ -20,27 +20,17 @@ export const TokenVerificationButton = ({
 }) => {
    const [state, formAction] = useFormState(validateVerificationToken, initialState)
 
-   const { pending } = useFormStatus()
-
-   const { nextStep } = useCreateAccountStore()
+   const { redirectStep } = useCreateAccountStore()
 
    if (state.success) {
-      nextStep()
+      redirectStep(6)
    }
-   const disableButton = disabled || pending
    return (
       <>
          <form action={formAction}>
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="email" value={email} />
-            <Button
-               className="text-md h-11 rounded-3xl font-semibold"
-               type={'submit'}
-               variant={'default'}
-               disabled={disableButton}
-            >
-               Next
-            </Button>
+            <SubmitVerificationButton disabled={disabled} label="Next" variant="default" />
          </form>
       </>
    )

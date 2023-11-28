@@ -5,7 +5,12 @@ import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import EmailSignUpForm from './email-sign-up-form'
 
-export const EmailSignUpSection = ({ email, disabled }: { email: string; disabled: boolean }) => {
+interface SignUpSection {
+   readonly email: string
+   disabled: boolean
+}
+
+export const EmailSignUpSection: React.FC<SignUpSection> = ({ email, disabled }) => {
    const { redirectStep } = useCreateAccountStore()
    return (
       <>

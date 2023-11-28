@@ -1,38 +1,34 @@
-'use client'
-import { Button } from '@/components/ui/button'
 import React from 'react'
 import { requestVerificationEmail } from '../_actions/request-verification-email'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import { useRouter } from 'next/navigation'
+import SubmitVerificationButton from './submit-verification-button'
 
+interface SignUpForm {
+   readonly email: string
+   disabled: boolean
+}
 const initialState = {
    success: false,
    message: null,
 }
-const EmailSignUpForm = ({ email, disabled }: { email: string; disabled: boolean }) => {
+const EmailSignUpForm: React.FC<SignUpForm> = ({ email, disabled }) => {
    const [state, formAction] = useFormState(requestVerificationEmail, initialState)
    const router = useRouter()
-   const { pending } = useFormStatus()
+
    const { redirectStep } = useCreateAccountStore()
+
    if (state.success) {
       redirectStep(4)
       router.push(`?email=${email}`)
    }
 
-   const disableButton = disabled || pending
    return (
       <>
          <form action={formAction}>
             <input type="hidden" name="email" value={email} />
-            <Button
-               className="text-md m-0 h-11 rounded-3xl font-semibold"
-               type={'submit'}
-               variant={'sign-up'}
-               disabled={disableButton}
-            >
-               Sign up
-            </Button>
+            <SubmitVerificationButton disabled={disabled} label="Sign up" variant="sign-up" />
          </form>
       </>
    )

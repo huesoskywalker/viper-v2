@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import NextStepButton from '../_components/next-step-button'
 import { checkFieldStateValidity } from '../_utils/check-field-state-validity'
 import { UseFormGetFieldState, UseFormGetValues } from 'react-hook-form'
-import { TokenVerificationButton } from '../_components/token-verification-button'
+import { TokenVerificationForm } from '../_components/token-verification-form'
 import { EmailSignUpSection } from '../_components/email-sign-up-section'
 
 export const useSignUpButtons = (
@@ -47,7 +47,7 @@ export const useSignUpButtons = (
             return <EmailSignUpSection email={getValues('email')} disabled={disableButton} />
          case 5:
             return (
-               <TokenVerificationButton
+               <TokenVerificationForm
                   token={getValues('token')}
                   email={getValues('email')}
                   disabled={disableButton}

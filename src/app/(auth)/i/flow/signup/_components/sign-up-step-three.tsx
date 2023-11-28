@@ -4,9 +4,9 @@ import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import { getBirthDate } from '../_utils/get-birth-date'
 import FormInput from '@/app/_components/form-input'
-import { CreateAccountFormControl } from '../_hooks/use-create-account-form'
+import { FormStepsControl } from '@/types/forms/steps'
 
-const SignUpStepThree = ({ formControl }: { formControl: CreateAccountFormControl }) => {
+const SignUpStepThree: React.FC<FormStepsControl> = ({ formControl }) => {
    const { redirectStep, setFocusElem } = useCreateAccountStore()
 
    const { dateOfBirth } = getBirthDate()
