@@ -24,7 +24,7 @@ const AuthSignInButton = ({ label }: { label: string }) => {
          className="font-semibold"
       >
          {pending ? (
-            <Icons.spinner className={`${iconClass} animate-spin-slow`} />
+            <Icons.spinner className={`${iconClass} animate-spin`} />
          ) : (
             IconComponent && <IconComponent className={iconClass} />
          )}{' '}

@@ -1,28 +1,29 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import { Button, ButtonProps } from '@/components/ui/button'
 import React from 'react'
 import { useFormStatus } from 'react-dom'
 
-interface VerificationButton {
-   readonly disabled: boolean
-   label: string
-   variant: 'default' | 'sign-up'
-}
-const SubmitVerificationButton: React.FC<VerificationButton> = ({ disabled, label }) => {
+const SubmitVerificationButton: React.FC<ButtonProps & { label: string }> = ({
+   disabled,
+   label,
+   variant,
+   size,
+}) => {
    const { pending } = useFormStatus()
 
    const disableButton = disabled || pending
    return (
-      <div>
+      <>
          <Button
-            className="text-md h-11 rounded-3xl font-semibold"
+            className="text-md font-semibold"
             type={'submit'}
-            variant={'default'}
+            variant={variant}
+            size={size}
             disabled={disableButton}
          >
             {label}
          </Button>
-      </div>
+      </>
    )
 }
 

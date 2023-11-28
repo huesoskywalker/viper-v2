@@ -63,39 +63,12 @@ const createAccountSchema = z.object({
       .length(6, { message: 'Token must contain 6 digits' })
       .refine(
          async (value) => {
-            if (value.length !== 6) return false
             return isValidVerificationToken(value)
          },
          {
             message: 'Invalid verification token',
          },
       ),
-   // .refine(
-   //    async (value) => {
-   //       // if (value.length !== 6) return false
-   //       // const isValidToken = await isValidVerificationToken(value)
-   //       // return isValidToken
-   //       // return true
-   //       // const searchParams = new URLSearchParams(window.location.search)
-   //       // const email = searchParams.get('email')
-   //       // const verification = await getVerificationToken(email)
-   //       // const expirationDate = new Date(verification.expires)
-   //       // const currentDate = new Date()
-   //       // if (currentDate > expirationDate) {
-   //       //    return false
-   //       // }
-   //       // const secret = process.env.NEXT_PUBLIC_SECRET
-   //       // const hashedInputToken = crypto
-   //       //    .createHash('sha256')
-   //       //    .update(value + secret)
-   //       //    .digest('hex')
-   //       // const tokensMatch = hashedInputToken === verification.token
-   //       // return tokensMatch
-   //    },
-   //    {
-   //       message: 'Invalid verification token',
-   //    },
-   // ),
    password: z
       .string({
          required_error: 'Please provide a password',

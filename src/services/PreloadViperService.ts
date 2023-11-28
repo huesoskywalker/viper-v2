@@ -1,5 +1,5 @@
+import { PreloadViperServiceSource } from '@/types/repository/viper-repository'
 import { ViperService } from './ViperService'
-import { PreloadViperServiceSource } from '@/types/viper-repository'
 
 export class PreloadViperService implements PreloadViperServiceSource {
    private viperService: ViperService

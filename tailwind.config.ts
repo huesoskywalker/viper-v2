@@ -21,6 +21,7 @@ const config: Config = {
             gray: colors.zinc,
             'gray-1000': 'rgb(17,17,19)',
             'gray-1100': 'rgb(10,10,11)',
+            white: 'rgb(0, 0, 0)',
             viper: {
                pink: '#FF0080',
                blue: '#0070F3',
@@ -83,8 +84,8 @@ const config: Config = {
                'colors.gray.500',
             )}, 50px, ${theme('colors.gray.800')} 50%)`,
          }),
-         // shadcn-ui
-         keyframes: {
+         keyframes: ({ theme }) => ({
+            // where does this variables come from
             'accordion-down': {
                from: { height: '0' },
                to: { height: 'var(--radix-accordion-content-height)' },
@@ -93,7 +94,16 @@ const config: Config = {
                from: { height: 'var(--radix-accordion-content-height)' },
                to: { height: '0' },
             },
-            // next.js
+            highlight: {
+               '0%': {
+                  background: theme('colors.viper.pink'),
+                  color: theme('colors.white'),
+               },
+               '40%': {
+                  background: theme('colors.viper.pink'),
+                  color: theme('colors.white'),
+               },
+            },
             loading: {
                '0%': {
                   opacity: '.2',
@@ -111,11 +121,11 @@ const config: Config = {
                   transform: 'translateX(100%)',
                },
             },
-            translateXReset: {
-               '100%': {
-                  transform: 'translateX(0)',
-               },
-            },
+            // translateXReset: {
+            //    '100%': {
+            //       transform: 'translateX(0)',
+            //    },
+            // },
             fadeToTransparent: {
                '0%': {
                   opacity: '1',
@@ -127,20 +137,21 @@ const config: Config = {
                   opacity: '0',
                },
             },
-         },
+            rerender: {
+               '0%': {
+                  ['border-color']: theme('colors.viper.pink'),
+               },
+               '40%': {
+                  ['border-color']: theme('colors.viper.pink'),
+               },
+            },
+         }),
          // =========
          // next.js
          // ============
          // keyframes: ({ theme }) => ({
          //    // next.js
-         //    rerender: {
-         //       '0%': {
-         //          ['border-color']: theme('colors.viper.pink'),
-         //       },
-         //       '40%': {
-         //          ['border-color']: theme('colors.viper.pink'),
-         //       },
-         //    },
+
          //    highlight: {
          //       '0%': {
          //          background: theme('colors.viper.pink'),
@@ -151,45 +162,17 @@ const config: Config = {
          //          color: theme('colors.white'),
          //       },
          //    },
-         //    loading: {
-         //       '0%': {
-         //          opacity: '.2',
-         //       },
-         //       '20%': {
-         //          opacity: '1',
-         //          transform: 'translateX(1px)',
-         //       },
-         //       to: {
-         //          opacity: '.2',
-         //       },
-         //    },
-         //    shimmer: {
-         //       '100%': {
-         //          transform: 'translateX(100%)',
-         //       },
-         //    },
-         //    translateXReset: {
-         //       '100%': {
-         //          transform: 'translateX(0)',
-         //       },
-         //    },
-         //    fadeToTransparent: {
-         //       '0%': {
-         //          opacity: '1',
-         //       },
-         //       '40%': {
-         //          opacity: '1',
-         //       },
-         //       '100%': {
-         //          opacity: '0',
-         //       },
-         //    },
-         // }),
       },
       animation: {
          'accordion-down': 'accordion-down 0.2s ease-out',
          'accordion-up': 'accordion-up 0.2s ease-out',
-         'spin-slow': 'spin 2s linear infinite',
+         highlight: 'highlight 1s ease-in-out 1',
+         loading: 'loading 1.4s ease-in-out 0.2s infinite',
+         shimmer: 'shimmer 1.5s infinite',
+         spin: 'spin 1.5s linear infinite',
+         // 'translate-x-reset': 'translateXReset 1s ease-in-out 1 reverse',
+         'fate-to-transparent': 'fadeToTransparent 1s ease-in-out forwards 1',
+         rerender: 'rerender 1s ease-in-out 1',
       },
    },
    plugins: [require('tailwindcss-animate'), require('autoprefixer')],

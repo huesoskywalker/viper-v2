@@ -1,7 +1,10 @@
 import { Db, MongoClient } from 'mongodb'
 import { ViperRepository } from './ViperRespository'
-import { InitializeRepositories, RepositoryInitializer } from '@/types/repository-factory'
 import { EventRepository } from './EventRepository'
+import {
+   InitializeRepositories,
+   RepositoryInitializer,
+} from '@/types/repository/repository-factory'
 
 export class RepositoryFactory implements RepositoryInitializer {
    private static instance: RepositoryFactory

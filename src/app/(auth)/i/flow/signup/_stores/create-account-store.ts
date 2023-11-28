@@ -12,7 +12,7 @@ type CreateAccountStore = {
 }
 
 export const useCreateAccountStore = create<CreateAccountStore>((set) => ({
-   step: 6,
+   step: 4,
    nextStep: () => set((state) => ({ step: state.step + 1 })),
    prevStep: () => set((state) => ({ step: state.step - 1 })),
    redirectStep: (newStep: number) => set({ step: newStep }),
