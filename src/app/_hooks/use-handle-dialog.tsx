@@ -12,9 +12,12 @@ const useHandleDialog = () => {
       setOpenDialog(true)
    }, [])
 
-   const closeDialog = (path: string) => {
+   const closeDialog = (path: string, type?: 'error') => {
       // check what will happen in another dialog
-      if (step > 1) return prevStep()
+      // or how do we reset the step after each form
+      if (!type) {
+         if (step > 1) return prevStep()
+      }
 
       setOpenDialog(false)
       router.push(path)
