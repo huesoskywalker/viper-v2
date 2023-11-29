@@ -3,7 +3,7 @@ import { FormDescription, FormField, FormItem, FormMessage } from '@/components/
 import { DialogDescription } from '@radix-ui/react-dialog'
 import React from 'react'
 import { FormStepsControl } from '@/types/forms/steps'
-import ReSendTokenButton from './re-send-token-button'
+import ResendTokenButton from './resend-token-button'
 
 const SignUpStepFour: React.FC<FormStepsControl> = ({ formControl }) => {
    const email = formControl._formValues['email']
@@ -30,7 +30,7 @@ const SignUpStepFour: React.FC<FormStepsControl> = ({ formControl }) => {
             )}
          />
          <FormMessage className="text-viper-dodger-blue">
-            <ReSendTokenButton email={email}> Didn&apos;t receive email?</ReSendTokenButton>
+            <ResendTokenButton email={email}> Didn&apos;t receive email?</ResendTokenButton>
          </FormMessage>
       </>
    )

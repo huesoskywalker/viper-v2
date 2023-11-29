@@ -1,5 +1,4 @@
-import { Logger } from 'winston'
-import winston from 'winston'
+import winston, { Logger } from 'winston'
 
 export const winstonLogger: Logger = winston.createLogger({
    level: 'info',

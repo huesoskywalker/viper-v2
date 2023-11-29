@@ -7,15 +7,10 @@ import { FormStepsControl } from '@/types/forms/steps'
 const SignUpStepSix: React.FC<FormStepsControl> = ({ formControl }) => {
    const router = useRouter()
    const { data: session } = useSession()
-   console.log({ session })
    const signInEmail = () => {
       signIn('credentials', { username: '', password: '' })
    }
-   return (
-      <div>
-         <Button onClick={signInEmail} />
-      </div>
-   )
+   return <Button onClick={signInEmail} variant={'default'} size={'lg'} />
 }
 
 export default SignUpStepSix

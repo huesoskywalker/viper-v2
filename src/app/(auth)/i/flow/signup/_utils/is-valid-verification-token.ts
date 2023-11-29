@@ -4,7 +4,6 @@ import { getVerificationToken } from './get-verification-token'
 export const isValidVerificationToken = async (value: string) => {
    const searchParams = new URLSearchParams(window.location.search)
    const email = searchParams.get('email')
-
    const verification = await getVerificationToken(email)
 
    const expirationDate = new Date(verification.expires)
@@ -22,7 +21,6 @@ export const isValidVerificationToken = async (value: string) => {
       .digest('hex')
 
    const tokensMatch = hashedInputToken === verification.token
-   console.log(tokensMatch)
 
    return tokensMatch
 }

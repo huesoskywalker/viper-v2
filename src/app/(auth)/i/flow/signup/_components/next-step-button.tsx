@@ -7,10 +7,11 @@ const NextStepButton = ({ disabled }: { disabled: boolean }) => {
    return (
       <>
          <Button
-            className="text-md h-11 rounded-3xl font-semibold"
+            className="text-md  font-semibold"
             type={'button'}
             onClick={nextStep}
             variant={'default'}
+            size={'lg'}
             disabled={disabled}
          >
             Next

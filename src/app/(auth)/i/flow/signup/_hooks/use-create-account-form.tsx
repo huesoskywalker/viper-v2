@@ -63,6 +63,7 @@ const createAccountSchema = z.object({
       .length(6, { message: 'Token must contain 6 digits' })
       .refine(
          async (value) => {
+            if (value.length !== 6) return
             return isValidVerificationToken(value)
          },
          {

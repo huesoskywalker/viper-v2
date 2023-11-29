@@ -1,16 +1,10 @@
 'use client'
-import React, { useTransition } from 'react'
-import { resendEmail } from '../_utils/re-send-email'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useResendToken } from '../_hooks/use-resend-token'
 
-const ReSendTokenButton = ({ children, email }: { children: string; email: string }) => {
-   const [isPending, startTransition] = useTransition()
-   const handleResendEmail = () => {
-      startTransition(async () => {
-         await resendEmail(email)
-      })
-   }
+const ResendTokenButton = ({ children, email }: { children: string; email: string }) => {
+   const { handleResendEmail, isPending } = useResendToken(email)
 
    return (
       <>
@@ -27,4 +21,4 @@ const ReSendTokenButton = ({ children, email }: { children: string; email: strin
    )
 }
 
-export default ReSendTokenButton
+export default ResendTokenButton

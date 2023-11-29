@@ -7,8 +7,6 @@ import authConfig from '../../auth.config'
 import { cookies } from 'next/headers'
 import { encode, decode } from '@auth/core/jwt'
 
-// we have the link accounts in the events
-// check both linkAccounts methods how they behave
 export const mongoAdapter = MongoDBAdapter(clientPromise as Promise<MongoClient>, {
    databaseName: 'viperDb',
 })

@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
    const apiKey = headers.get('API-Key')
 
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
    try {
       const client = await clientPromise
       const verificationCol = client.db('viperDb').collection('verification_tokens')

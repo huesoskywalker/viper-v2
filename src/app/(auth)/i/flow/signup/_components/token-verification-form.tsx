@@ -32,8 +32,8 @@ export const TokenVerificationForm = ({
             <input type="hidden" name="email" value={email} />
             <SubmitVerificationButton
                label="Next"
-               variant="default"
-               size="lg"
+               variant={'default'}
+               size={'lg'}
                disabled={disabled}
             />
          </form>

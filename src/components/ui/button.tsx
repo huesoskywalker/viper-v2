@@ -5,8 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-   // I add w-full in here
-   'w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
    {
       variants: {
          variant: {
@@ -16,8 +15,8 @@ const buttonVariants = cva(
                'border border-input text-primary bg-background hover:bg-accent hover:text-accent-foreground',
             secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
             ghost: 'hover:bg-accent hover:text-accent-foreground',
-            link: 'm-0 justify-start p-0 text-viper-dodger-blue underline-offset-4 hover:underline',
-            viper: 'border-none focus-visible:outline-none focus-visible:ring-0 ',
+            link: 'em-0 justify-start p-0 text-viper-dodger-blue underline-offset-4 hover:underline focus-visible:ring-0',
+            viper: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
             provider:
                'border rounded-3xl border-input text-secondary hover:text-accent-foreground bg-foreground hover:bg-accent',
             'sign-up':
@@ -28,7 +27,7 @@ const buttonVariants = cva(
          size: {
             default: 'h-10 px-4 py-2',
             sm: 'h-9 rounded-md px-3',
-            lg: 'h-11 rounded-3xl',
+            lg: 'h-11 rounded-3xl w-full',
             icon: 'h-10 w-10',
             sign: 'h-[44px] w-[300px]',
             link: 'w-fit',

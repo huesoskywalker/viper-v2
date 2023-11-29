@@ -30,8 +30,8 @@ const EmailSignUpForm: React.FC<SignUpForm> = ({ email, disabled }) => {
             <input type="hidden" name="email" value={email} />
             <SubmitVerificationButton
                label="Sign up"
-               variant="sign-up"
-               size="lg"
+               variant={'sign-up'}
+               size={'lg'}
                disabled={disabled}
             />
          </form>

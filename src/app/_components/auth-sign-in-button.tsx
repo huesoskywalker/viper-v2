@@ -17,8 +17,8 @@ const AuthSignInButton = ({ label }: { label: string }) => {
 
    return (
       <Button
-         variant="provider"
-         size="sign"
+         variant={'provider'}
+         size={'sign'}
          type="submit"
          disabled={pending}
          className="font-semibold"
