@@ -19,6 +19,7 @@ const EmailSignUpForm: React.FC<SignUpForm> = ({ email, disabled }) => {
 
    const { redirectStep } = useCreateAccountStore()
 
+   // useEffect for state.success?
    if (state.success) {
       redirectStep(4)
       router.push(`?email=${email}`)

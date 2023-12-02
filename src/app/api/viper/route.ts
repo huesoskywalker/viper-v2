@@ -21,7 +21,7 @@ export const PATCH = authMiddleware(async (request) => {
       const hashedPassword = await bcrypt.hash(restForm.password, saltRounds)
       restForm.password = hashedPassword
 
-      const data = await viperService.update(user?.id, restForm)
+      const data = await viperService.update(user.id, restForm)
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
       return NextResponse.json({ error }, { status: 400 })

@@ -3,7 +3,7 @@ import colors from 'tailwindcss/colors'
 
 const config: Config = {
    content: [
-      './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+      // './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
       './src/components/**/*.{js,ts,jsx,tsx,mdx}',
       './src/app/**/*.{js,ts,jsx,tsx,mdx}',
    ],
@@ -21,24 +21,21 @@ const config: Config = {
             gray: colors.zinc,
             'gray-1000': 'rgb(17,17,19)',
             'gray-1100': 'rgb(10,10,11)',
-            white: 'rgb(0, 0, 0)',
             viper: {
                pink: '#FF0080',
-               blue: '#0070F3',
+               blue: '#003FCD',
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
-               'forest-green': 'hsl(var(--forest-green))',
-               // green: '#00B77C',
                background: '#18181B',
-               // background: 'rgb(24 24 27)',
-               // this-me
+
                overlay: 'hsl(var(--overlay))',
-               red: 'hsl(var(--error-message))',
                'dodger-blue': 'hsl(var(--dodger-blue))',
                'pastel-blue': 'hsl(var(--pastel-blue))',
+               'deep-blue': 'hsl(var(--deep-blue))',
+               red: 'hsl(var(--error-message))',
+               'forest-green': 'hsl(var(--forest-green))',
             },
-            // this is shadcn
             border: 'hsl(var(--border))',
             input: 'hsl(var(--input))',
             ring: 'hsl(var(--ring))',
@@ -72,12 +69,6 @@ const config: Config = {
                DEFAULT: 'hsl(var(--card))',
                foreground: 'hsl(var(--card-foreground))',
             },
-            // this me
-            // 'dark-link': {
-            //    DEFAULT: 'hsl(0, 0%, 0%)',
-            //    foreground: 'rgba(var(--dodger-blue-foreground))',
-            // },
-            //   this is next.js
          },
          backgroundImage: ({ theme }) => ({
             'vc-border-gradient': `radial-gradient(at left top, ${theme(
@@ -85,7 +76,6 @@ const config: Config = {
             )}, 50px, ${theme('colors.gray.800')} 50%)`,
          }),
          keyframes: ({ theme }) => ({
-            // where does this variables come from
             'accordion-down': {
                from: { height: '0' },
                to: { height: 'var(--radix-accordion-content-height)' },
@@ -146,22 +136,6 @@ const config: Config = {
                },
             },
          }),
-         // =========
-         // next.js
-         // ============
-         // keyframes: ({ theme }) => ({
-         //    // next.js
-
-         //    highlight: {
-         //       '0%': {
-         //          background: theme('colors.viper.pink'),
-         //          color: theme('colors.white'),
-         //       },
-         //       '40%': {
-         //          background: theme('colors.viper.pink'),
-         //          color: theme('colors.white'),
-         //       },
-         //    },
       },
       animation: {
          'accordion-down': 'accordion-down 0.2s ease-out',

@@ -1,4 +1,4 @@
-import { _ID } from '@/types/viper'
+import { _ID, Viper } from '@/types/viper'
 import type { NextAuthConfig, User } from 'next-auth'
 import GitHub from '@auth/core/providers/github'
 import Credential from '@auth/core/providers/credentials'
@@ -10,7 +10,6 @@ import resendConfig from './resend.config'
 import nodemailer from 'nodemailer'
 import { signUpEmailHTML } from './utils/signup-email-html'
 import { remainingExpirationTime } from './utils/remaining-expiration-time'
-import { Viper } from '@/types/viper'
 import { NextResponse } from 'next/server'
 import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
@@ -25,6 +24,7 @@ declare module 'next-auth' {
          location: string
       }
    }
+   // Need to check this, if this user is just for the session or the database
    interface User extends Viper {}
 }
 export default {
@@ -81,7 +81,7 @@ export default {
       }),
    ],
    pages: {
-      newUser: '/new',
+      // newUser: '/new',
       // verifyRequest: '/verify',
       // signOut: '/i/flow/signout',
       signIn: '/i/flow/login',
@@ -125,8 +125,6 @@ export default {
       // return baseUrl
       // },
       session: async ({ session, token, user, trigger, newSession }) => {
-         console.log(`--session getting trigger`)
-         console.log({ session })
          session.user.id = user.id
          // session.user.image = user.image ?? ''
          // session.user.location = user.location

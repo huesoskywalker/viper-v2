@@ -12,10 +12,10 @@ const ResendTokenButton = ({ children, email }: { children: string; email: strin
             onClick={handleResendEmail}
             variant={'link'}
             size={'link'}
-            className={cn(`text-xs`, isPending && 'animate-loading')}
+            className={cn(`text-xs`)}
             disabled={isPending}
          >
-            {!isPending ? children : 'sending...'}
+            {!isPending ? children : 'Sending...'}
          </Button>
       </>
    )

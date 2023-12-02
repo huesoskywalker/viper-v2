@@ -1,16 +1,22 @@
-import React from 'react'
-import { Button } from '@/components/ui/button'
-import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { DialogDescription } from '@/components/ui/dialog'
+import { FormDescription } from '@/components/ui/form'
+import EditAvatar from '@/app/_components/edit-avatar'
 import { FormStepsControl } from '@/types/forms/steps'
 
 const SignUpStepSix: React.FC<FormStepsControl> = ({ formControl }) => {
-   const router = useRouter()
-   const { data: session } = useSession()
-   const signInEmail = () => {
-      signIn('credentials', { username: '', password: '' })
-   }
-   return <Button onClick={signInEmail} variant={'default'} size={'lg'} />
+   return (
+      <div className="relative flex flex-col justify-center space-y-14">
+         <div className="space-y-2 self-start">
+            <DialogDescription className=" text-3xl font-bold text-primary ">
+               Pick a profile picture
+            </DialogDescription>
+            <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>
+         </div>
+         <div className="self-center">
+            <EditAvatar />
+         </div>
+      </div>
+   )
 }
 
 export default SignUpStepSix

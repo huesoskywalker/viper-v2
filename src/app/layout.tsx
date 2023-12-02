@@ -1,4 +1,6 @@
 import './globals.css'
+import '@uploadthing/react/styles.css'
+
 import AuthProvider from './_providers/auth-provider'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'

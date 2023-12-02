@@ -1,6 +1,6 @@
 import AuthSignIn from './_components/auth-sign-in'
 
-const SignInPage = async () => {
+const SignInPage = () => {
    return (
       <div
          style={{

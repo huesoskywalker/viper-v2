@@ -18,9 +18,11 @@ export const PasswordToggle: React.FC<PasswordToggleProps> = ({ showPassword, on
          onClick={onToggle}
       >
          {showPassword === 'password' ? (
-            <EyeIcon className="text-white" />
+            // <EyeIcon className="text-white" />
+            <EyeIcon fill="white" />
          ) : (
-            <EyeOffIcon className="text-white" />
+            // <EyeOffIcon className="text-white" />
+            <EyeOffIcon color="white" />
          )}
       </Button>
    )

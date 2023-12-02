@@ -8,12 +8,12 @@ const AuthSignIn = () => {
    const provider = params.get('provider') as string
 
    const { status } = useSession()
-   useEffect(() => {
-      void signIn(provider)
 
+   useEffect(() => {
       if (status === 'authenticated') {
          window.close()
       }
+      void signIn(provider)
    }, [status])
 
    return <></>

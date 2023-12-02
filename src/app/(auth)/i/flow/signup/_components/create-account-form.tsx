@@ -4,10 +4,10 @@ import { Form } from '@/components/ui/form'
 import { DialogFooter } from '@/components/ui/dialog'
 import { useLayoutEffect } from 'react'
 import { CreateAccountFormValues, useCreateAccountForm } from '../_hooks/use-create-account-form'
-import { useSignUpSteps } from '../_hooks/use-sign-up-steps'
 import { FocusElement, useCreateAccountStore } from '../_stores/create-account-store'
 import { cn } from '@/lib/utils'
-import { useSignUpButtons } from '../_hooks/use-sign-up-buttons'
+import { useCreateAccountButtons } from '../_hooks/use-create-account-buttons'
+import { useCreateAccountSteps } from '../_hooks/use-create-account-steps'
 
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
@@ -20,9 +20,9 @@ export function CreateAccountForm({ step }: { step: number }) {
 
    const { focusElem } = useCreateAccountStore()
 
-   const { renderSteps } = useSignUpSteps(step, createAccountForm.control)
+   const { renderSteps } = useCreateAccountSteps(step, createAccountForm.control)
 
-   const { renderButtons } = useSignUpButtons(step, getFieldState, getValues, isValid)
+   const { renderButtons } = useCreateAccountButtons(step, getFieldState, getValues, isValid)
 
    const validFocusElem: FocusElement[] = ['email', 'name', 'birthDate.month']
 
@@ -74,7 +74,7 @@ export function CreateAccountForm({ step }: { step: number }) {
             >
                <div
                   className={cn(
-                     ` h-[450px] w-full space-y-5 overflow-y-auto scroll-smooth px-[88px]`,
+                     ` h-[450px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
                   {renderSteps}

@@ -39,9 +39,10 @@ export function GlobalNav() {
             onClick={() => setIsOpen(!isOpen)}
          >
             {isOpen ? (
-               <X className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
+               // <X   className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
+               <X size={6} className="block text-gray-100 hover:text-gray-400" />
             ) : (
-               <Menu className="block h-6 w-6 text-gray-100 hover:text-gray-400" />
+               <Menu size={6} className="block text-gray-100 hover:text-gray-400" />
             )}
          </button>
 

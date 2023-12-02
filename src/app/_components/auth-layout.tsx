@@ -5,10 +5,11 @@ import { GlobalNav } from '../_components/global-nav'
 import UnauthenticatedLayout from '../_components/unauthenticated-layout'
 
 export const AuthLayout = ({ children }: PropsWithChildren) => {
-   const { data: session, status } = useSession()
+   const { status } = useSession()
+
    useEffect(() => {
       if (status === 'loading') return
-   }, [session, status])
+   }, [status])
 
    if (status === 'authenticated')
       return (
