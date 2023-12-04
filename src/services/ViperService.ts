@@ -41,9 +41,12 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null> {
+   async update(
+      findQuery: { field: '_id' | 'email'; value: string },
+      updateProps: UpdateViper,
+   ): Promise<WithId<Viper> | null> {
       try {
-         const updateProfile = await this.viperRepository.update(_id, updateProps)
+         const updateProfile = await this.viperRepository.update(findQuery, updateProps)
          return updateProfile
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to update Viper, ${error}`)

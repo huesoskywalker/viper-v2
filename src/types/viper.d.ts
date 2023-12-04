@@ -162,7 +162,15 @@ export type ViperBasicProps = Pick<
 export type UpdateViper = Partial<UpdateViperType>
 type UpdateViperPick = Pick<
    Viper,
-   'name' | 'password' | '' | 'bio' | 'image' | 'backgroundImage' | 'location'
+   | 'bio'
+   | 'birthDate'
+   | 'username'
+   | 'password'
+   | 'name'
+   | 'image'
+   | 'backgroundImage'
+   | 'location'
+   | 'contentDiscovery'
 >
 
 export type UploadViperImage = {

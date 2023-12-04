@@ -20,7 +20,10 @@ interface ViperCRUDRepository {
       image: string | undefined,
       emailVerified: Date | null,
    ): Promise<WithId<Viper> | null>
-   update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null>
+   update(
+      findQuery: { field: '_id' | 'email'; value: string },
+      updateProps: UpdateViper,
+   ): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>

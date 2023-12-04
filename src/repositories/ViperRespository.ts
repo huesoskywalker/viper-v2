@@ -81,12 +81,21 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async update(_id: string, updateProps: UpdateViper): Promise<WithId<Viper> | null> {
+   async update(
+      findQuery: { field: '_id' | 'email'; value: string },
+      updateProps: UpdateViper,
+   ): Promise<WithId<Viper> | null> {
+      const findByMap = new Map<'_id' | 'email', { _id: ObjectId } | { email: string }>([
+         ['_id', { _id: new ObjectId(findQuery.value) }],
+         ['email', { email: findQuery.value }],
+      ])
+
+      const findBy = findByMap.get(findQuery.field)
+      if (!findBy) throw new Error(`Missing find query`)
+
       try {
          const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(_id),
-            },
+            findBy,
             {
                $set: updateProps,
             },
