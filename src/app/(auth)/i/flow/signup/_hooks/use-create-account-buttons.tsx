@@ -4,7 +4,7 @@ import { checkFieldStateValidity } from '../_utils/check-field-state-validity'
 import { UseFormGetFieldState, UseFormGetValues } from 'react-hook-form'
 import { TokenVerificationForm } from '../_components/token-verification-form'
 import { EmailSignUpSection } from '../_components/email-sign-up-section'
-import ProfilePictureUpload from '../_components/profile-picture-upload'
+import UploadProfileImage from '../_components/profile-picture-upload'
 
 export const useCreateAccountButtons = (
    step: number,
@@ -42,11 +42,10 @@ export const useCreateAccountButtons = (
       switch (step) {
          case 1:
          case 2:
-         case 4:
             return <NextStepButton disabled={disableButton} />
          case 3:
             return <EmailSignUpSection email={getValues('email')} disabled={disableButton} />
-         case 5:
+         case 4:
             return (
                <TokenVerificationForm
                   token={getValues('token')}
@@ -54,9 +53,11 @@ export const useCreateAccountButtons = (
                   disabled={disableButton}
                />
             )
-
+         case 5:
+            return <NextStepButton disabled={disableButton} />
          case 6:
-            return <ProfilePictureUpload />
+            return null
+         // return <UploadProfileImage />
          default:
             return null
       }

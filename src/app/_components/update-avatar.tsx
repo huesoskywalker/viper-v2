@@ -1,12 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { Camera } from 'lucide-react'
-import React from 'react'
 import useUploadImages from '../_hooks/use-upload-images'
 
-const EditAvatar = () => {
-   const { createObjectURL, getRootProps, getInputProps, isDragActive } = useUploadImages({
-      endpoint: 'imageUploader',
+const UpdateAvatar = () => {
+   const { objectURL, getRootProps, getInputProps, isDragActive } = useUploadImages({
+      endpoint: 'profileAvatar',
       type: 'profile',
    })
 
@@ -25,11 +24,16 @@ const EditAvatar = () => {
                )}
             />
             <Avatar className="h-full w-full">
-               <AvatarImage src={createObjectURL ?? '/default-user.png'} alt="Profile preview" />
+               <AvatarImage
+                  width={150}
+                  height={150}
+                  className="object-cover"
+                  src={objectURL ?? '/default-user.png'}
+                  alt="Profile preview"
+               />
                <AvatarFallback>Profile</AvatarFallback>
             </Avatar>
             <input {...getInputProps()} />
-
             <div className=" absolute z-10 flex cursor-pointer items-center justify-center rounded-full  bg-black/50 p-[1.35rem] duration-300 ease-in-out hover:bg-black/30">
                <Camera className="absolute z-20 text-gray-300" size={27} strokeWidth={1.5} />
             </div>
@@ -38,4 +42,4 @@ const EditAvatar = () => {
    )
 }
 
-export default EditAvatar
+export default UpdateAvatar

@@ -64,7 +64,10 @@ const createAccountSchema = z.object({
       .refine(
          async (value) => {
             if (value.length !== 6) return
-            return isValidVerificationToken(value)
+
+            const isValid = await isValidVerificationToken(value)
+
+            return isValid
          },
          {
             message: 'Invalid verification token',
@@ -89,6 +92,7 @@ const createAccountSchema = z.object({
       .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
          message: 'Include at least one special character',
       }),
+   image: z.string().min(1).optional(),
 })
 
 export const useCreateAccountForm = () => {

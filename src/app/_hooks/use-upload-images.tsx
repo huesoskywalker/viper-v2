@@ -10,34 +10,41 @@ const useUploadImages = ({
    endpoint,
    type,
 }: {
-   endpoint: 'imageUploader'
+   endpoint: 'profileAvatar'
    type: 'profile' | 'background' | 'event'
 }) => {
    const { images, setImages } = useUploadImagesStore()
 
-   const [createObjectURL, setCreateObjectURL] = useState<string | null>(null)
+   const [objectURL, setObjectURL] = useState<string | null>(null)
 
-   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
+   const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
+      console.log(acceptedFiles[0].size)
       setImages(acceptedFiles, type)
-      setCreateObjectURL(URL.createObjectURL(acceptedFiles[0]))
+      setObjectURL(URL.createObjectURL(acceptedFiles[0]))
    }, [])
 
-   const { startUpload, permittedFileInfo } = useUploadThing(endpoint, {
-      onClientUploadComplete: () => {
-         console.log(`----use upload images, onClientUploadComplete`)
-         alert('uploaded successfully!')
+   const { isUploading, startUpload, permittedFileInfo } = useUploadThing(endpoint, {
+      onClientUploadComplete: (res) => {
+         res.forEach((file) => {
+            console.log(`-onClientUploadComplete`)
+            console.log({ file })
+         })
       },
-      onUploadError: () => {
-         console.log(`----use upload images, onError`)
-         alert('error occurred while uploading')
+      onUploadError: (error) => {
+         throw new Error(error.message)
       },
-      onUploadBegin: () => {
+      onUploadBegin: (fileName) => {
+         console.log(`onUploadBegin ${fileName}`)
          console.log(`----use upload images, onBegin`)
-         alert('upload has begun')
       },
-      onUploadProgress: () => {},
+      onUploadProgress: (progress) => {
+         console.log(`progress ${progress}`)
+      },
+      onBeforeUploadBegin: (images) => {
+         console.log(`---on beforeUploadBegin ${images}`)
+         return images
+      },
    })
-   // const { permittedFileInfo } = useUploadThing(endpoint)
 
    const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : []
 
@@ -46,7 +53,15 @@ const useUploadImages = ({
       accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
    })
 
-   return { images, createObjectURL, getRootProps, getInputProps, isDragActive, startUpload }
+   return {
+      images,
+      objectURL,
+      getRootProps,
+      getInputProps,
+      isDragActive,
+      isUploading,
+      startUpload,
+   }
 }
 
 export default useUploadImages

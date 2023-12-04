@@ -1,6 +1,6 @@
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormDescription } from '@/components/ui/form'
-import EditAvatar from '@/app/_components/edit-avatar'
+import UpdateAvatar from '@/app/_components/update-avatar'
 import { FormStepsControl } from '@/types/forms/steps'
 
 const SignUpStepSix: React.FC<FormStepsControl> = ({ formControl }) => {
@@ -13,7 +13,7 @@ const SignUpStepSix: React.FC<FormStepsControl> = ({ formControl }) => {
             <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>
          </div>
          <div className="self-center">
-            <EditAvatar />
+            <UpdateAvatar />
          </div>
       </div>
    )

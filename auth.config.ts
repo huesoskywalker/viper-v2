@@ -14,6 +14,7 @@ import { NextResponse } from 'next/server'
 import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
 import { randomBytes, randomUUID } from 'crypto'
+import { notFound } from 'next/navigation'
 declare module 'next-auth' {
    interface Session {
       user: {
@@ -76,6 +77,11 @@ export default {
             console.log({ username, password })
 
             const user = await viperService.findByEmail('agustinbigoni@gmail.com')
+            // need to implement not-found.tsx
+            // if(!user){
+            //    notFound()
+            // }
+
             return user as User
          },
       }),
