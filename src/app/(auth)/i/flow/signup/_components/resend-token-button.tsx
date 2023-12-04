@@ -2,14 +2,20 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useResendToken } from '../_hooks/use-resend-token'
+import { useTransition } from 'react'
 
 const ResendTokenButton = ({ children, email }: { children: string; email: string }) => {
-   const { handleResendEmail, isPending } = useResendToken(email)
+   const { handleResendEmail } = useResendToken(email)
 
+   const [isPending, startTransition] = useTransition()
    return (
       <>
          <Button
-            onClick={handleResendEmail}
+            onClick={() => {
+               startTransition(async () => {
+                  await handleResendEmail()
+               })
+            }}
             variant={'link'}
             size={'link'}
             className={cn(`text-xs`)}

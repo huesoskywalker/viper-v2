@@ -15,6 +15,7 @@ export const requestVerificationEmail = async (
          redirect: false,
          email: data.email,
       })
+
       return { success: true }
    } catch (error) {
       return { success: false, message: error }
