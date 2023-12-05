@@ -17,7 +17,7 @@ export const CreateAccountDialog = () => {
    const handleIconSteps = step <= 4 ? step : 'disabled'
 
    const handleAutoFocus = (e: Event) => {
-      if (step !== 1 && step !== 4) e.preventDefault()
+      if (step === 2 || step === 3) e.preventDefault()
    }
    return (
       <>

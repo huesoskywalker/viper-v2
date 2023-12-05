@@ -23,9 +23,7 @@ export const TokenVerificationForm = ({
    const { redirectStep } = useCreateAccountStore()
 
    if (state.success) {
-      setTimeout(() => {
-         redirectStep(5)
-      }, 2000)
+      redirectStep(5)
    }
    return (
       <>

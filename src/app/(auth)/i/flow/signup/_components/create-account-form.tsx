@@ -8,6 +8,9 @@ import { FocusElement, useCreateAccountStore } from '../_stores/create-account-s
 import { cn } from '@/lib/utils'
 import { useCreateAccountButtons } from '../_hooks/use-create-account-buttons'
 import { useCreateAccountSteps } from '../_hooks/use-create-account-steps'
+import { Button } from '@/components/ui/button'
+import { signIn } from 'next-auth/react'
+import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 
 // ------------------
 // import { toast } from '@/components/ui/use-toast'
@@ -33,36 +36,27 @@ export function CreateAccountForm({ step }: { step: number }) {
    }, [focusElem])
 
    const onSubmit = async (formData: CreateAccountFormValues) => {
-      // not a form action data
-      const { token, email, ...restForm } = formData
-
-      // -------------------------------
-      // const updateViper = await fetch(`${BASE_URL}/api/viper`, {
+      // const updateViper = await fetch(`${BASE_URL}/i/flow/signup/api/verify`, {
       //    headers: {
       //       'Content-Type': 'application/json',
+      //       'API-Key': `${PUBLIC_VIPER_API_KEY}`,
       //    },
       //    method: 'PATCH',
       //    body: JSON.stringify({
-      //       restForm,
+      //       formData,
       //    }),
       // })
       // if (!updateViper.ok) {
       //    const { error } = await updateViper.json()
-      //    // this should trigger the closest
-      //    // create the error.tsx file
       //    throw new Error(error)
       // }
-      //   toast({
-      //      title: 'You submitted the following values:',
-      //      description: (
-      //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-      //            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-      //         </pre>
-      //      ),
-      //   })
-      // revalidatePath('/')
-      //  revalidateTag('posts') // Update cached posts
-      //   redirect(`/post/${id}`) // Navigate to new route
+      // // let's see what's happening with redirect
+      // // or if we should step 1 and session to route
+      // signIn('credentials', {
+      //    username: getValues('username'),
+      //    password: getValues('password'),
+      //    // redirect: true,
+      // })
    }
 
    return (
@@ -79,11 +73,18 @@ export function CreateAccountForm({ step }: { step: number }) {
                >
                   {renderSteps}
                </div>
+               {/* {step === 5 && (
+                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                     <Button type="submit" variant={'sign-in'} size={'lg'} />
+                  </DialogFooter>
+               )} */}
             </form>
          </Form>
+         {/* {step <= 6 && ( */}
          <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
             {renderButtons}
          </DialogFooter>
+         {/* )} */}
       </>
    )
 }

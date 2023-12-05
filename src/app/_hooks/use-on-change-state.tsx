@@ -16,7 +16,7 @@ const useOnChangeState = (
          clearErrors(name)
          setIsChanging(false)
          onChange(event)
-      }, 600),
+      }, 500),
       [],
    )
 
