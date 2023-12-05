@@ -213,7 +213,10 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async checkFieldAvailability(findQuery: { field: string; value: string }): Promise<boolean> {
+   async isPropAvailable(findQuery: {
+      field: 'email' | 'username'
+      value: string
+   }): Promise<boolean> {
       try {
          const isAvailable = await this.viperCollection.findOne(
             {

@@ -2,7 +2,6 @@ import { ViperRepositorySource } from '@/types/repository/viper-repository'
 import {
    Blog,
    CreatedEvent,
-   Email,
    EventCollection,
    Follow,
    Like,
@@ -100,9 +99,12 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async checkFieldAvailability(findQuery: { field: string; value: string }): Promise<boolean> {
+   async isPropAvailable(findQuery: {
+      field: 'email' | 'username'
+      value: string
+   }): Promise<boolean> {
       try {
-         const isAvailable: boolean = await this.viperRepository.checkFieldAvailability(findQuery)
+         const isAvailable: boolean = await this.viperRepository.isPropAvailable(findQuery)
          return isAvailable
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to check field availability, ${error}`)

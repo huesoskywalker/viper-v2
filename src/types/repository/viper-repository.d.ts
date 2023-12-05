@@ -30,7 +30,7 @@ interface ViperCRUDRepository {
    // This is one below is built for the search input
    findByUsername(username: string): Promise<ViperBasicProps[]>
    findByEmail(email: string): Promise<WithId<Partial<Viper>> | null>
-   checkFieldAvailability(findQuery: { field: string; value: string }): Promise<boolean>
+   isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 
 interface ViperFollowRepository {

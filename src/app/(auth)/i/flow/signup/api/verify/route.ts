@@ -13,12 +13,18 @@ export async function GET(request: NextRequest) {
    if (!queryField || !queryValue)
       return NextResponse.json({ error: 'Field and value must be provided ' }, { status: 400 })
 
+   if (queryField !== 'email' && queryField !== 'username')
+      return NextResponse.json(
+         { error: 'Query field does not match the criteria' },
+         { status: 400 },
+      )
+
    const headers = request.headers
    const apiKey = headers.get('API-Key')
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
    try {
-      const data = await viperService.checkFieldAvailability({
+      const data = await viperService.isPropAvailable({
          field: queryField,
          value: queryValue,
       })
