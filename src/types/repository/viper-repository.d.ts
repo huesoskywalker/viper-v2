@@ -19,6 +19,7 @@ interface ViperCRUDRepository {
       email: string,
       image: string | undefined,
       emailVerified: Date | null,
+      username: string | undefined,
    ): Promise<WithId<Viper> | null>
    update(
       findQuery: { field: '_id' | 'email'; value: string },

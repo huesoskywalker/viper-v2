@@ -15,6 +15,7 @@ import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
 import { randomBytes, randomUUID } from 'crypto'
 import { notFound } from 'next/navigation'
+import { buildRandomUsername } from './utils/build-random-username'
 declare module 'next-auth' {
    interface Session {
       user: {
@@ -152,12 +153,19 @@ export default {
       linkAccount: ({ account, profile, user }) => {},
       createUser: async ({ user }) => {
          try {
+            let username: string | null | undefined = user.name
+            if (username) {
+               const randomUsername = await buildRandomUsername(username)
+               username = randomUsername
+            }
+
             await viperService.populateNewViper(
                user.id as _ID,
                user.name ?? undefined,
                user.email as string,
                user.image ?? undefined,
                user.emailVerified,
+               username ?? undefined,
             )
          } catch (error) {
             throw new Error(`Auth Error, failed to create the user, ${error}`)

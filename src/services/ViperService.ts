@@ -25,6 +25,7 @@ export class ViperService implements ViperRepositorySource {
       email: string,
       image: string | undefined,
       emailVerified: Date | null,
+      username: string | undefined,
    ): Promise<WithId<Viper> | null> {
       try {
          const newViper = await this.viperRepository.populateNewViper(
@@ -33,6 +34,7 @@ export class ViperService implements ViperRepositorySource {
             email,
             image,
             emailVerified,
+            username,
          )
          return newViper
       } catch (error: unknown) {

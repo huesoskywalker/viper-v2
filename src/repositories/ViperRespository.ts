@@ -25,6 +25,7 @@ export class ViperRepository implements ViperRepositorySource {
       email: string,
       image: string | undefined,
       emailVerified: Date | null,
+      username: string | undefined,
    ): Promise<WithId<Viper> | null> {
       try {
          // we might need to find by email instead of id because of the Email Provider
@@ -54,7 +55,7 @@ export class ViperRepository implements ViperRepositorySource {
                   emailVerified: emailVerified,
                   email: email,
                   // check if this exists in the object it did at some point
-                  username: '',
+                  username: username,
                   password: undefined,
                   name: name,
                   image: image,
