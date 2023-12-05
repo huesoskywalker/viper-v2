@@ -100,24 +100,15 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async checkEmailAvailability(email: string): Promise<boolean> {
+   async checkFieldAvailability(findQuery: { field: string; value: string }): Promise<boolean> {
       try {
-         const isAvailable: boolean = await this.viperRepository.checkEmailAvailability(email)
+         const isAvailable: boolean = await this.viperRepository.checkFieldAvailability(findQuery)
          return isAvailable
       } catch (error: unknown) {
-         throw new Error(`Model Error: Failed to check email availability, ${error}`)
+         throw new Error(`Model Error: Failed to check field availability, ${error}`)
       }
    }
 
-   async checkUsernameAvailability(username: string): Promise<boolean> {
-      try {
-         const isAvailable: boolean =
-            await this.viperRepository.checkUsernameAvailability(username)
-         return isAvailable
-      } catch (error: unknown) {
-         throw new Error(`Model Error: Failed to check username availability, ${error}`)
-      }
-   }
    // We don't have a getFollowers?
    async getFollowings(viperId: string): Promise<Follow[]> {
       try {

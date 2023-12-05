@@ -213,41 +213,22 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async checkEmailAvailability(email: string): Promise<boolean> {
+   async checkFieldAvailability(findQuery: { field: string; value: string }): Promise<boolean> {
       try {
          const isAvailable = await this.viperCollection.findOne(
             {
-               email: email,
+               [findQuery.field]: findQuery.value,
             },
             {
                projection: {
                   _id: 0,
-                  email: 1,
+                  [findQuery.field]: 1,
                },
             },
          )
          return !!isAvailable
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to check email availability, ${error}`)
-      }
-   }
-
-   async checkUsernameAvailability(username: string): Promise<boolean> {
-      try {
-         const isAvailable = await this.viperCollection.findOne(
-            {
-               username: username,
-            },
-            {
-               projection: {
-                  _id: 0,
-                  username: 1,
-               },
-            },
-         )
-         return !!isAvailable
-      } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to check username availability, ${error}`)
+         throw new Error(`Repository Error: Failed to check field availability, ${error}`)
       }
    }
 

@@ -6,16 +6,22 @@ import { CreateAccountFormValues } from '@/app/(auth)/i/flow/signup/_hooks/use-c
 
 export async function GET(request: NextRequest) {
    const params = request.nextUrl.searchParams
-   const email = params.get('email')
+
+   const queryField = params.get('field')
+   const queryValue = params.get('value')
+
+   if (!queryField || !queryValue)
+      return NextResponse.json({ error: 'Field and value must be provided ' }, { status: 400 })
 
    const headers = request.headers
    const apiKey = headers.get('API-Key')
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-   if (!email) return NextResponse.json({ error: 'Email must be provided ' }, { status: 400 })
-
    try {
-      const data = await viperService.checkEmailAvailability(email)
+      const data = await viperService.checkFieldAvailability({
+         field: queryField,
+         value: queryValue,
+      })
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
       return NextResponse.json({ error }, { status: 400 })
