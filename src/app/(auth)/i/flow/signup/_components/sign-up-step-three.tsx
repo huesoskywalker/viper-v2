@@ -1,5 +1,4 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Checkbox } from '@/components/ui/checkbox'
 import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import { getBirthDate } from '../_utils/get-birth-date'
@@ -32,10 +31,7 @@ const SignUpStepThree: React.FC<FormStepsControl> = ({ formControl }) => {
                      variant={'viper'}
                      label="Name"
                      {...field}
-                  />
-                  <Checkbox
-                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
-                     defaultChecked={true}
+                     checkbox={true}
                   />
                </FormItem>
             )}
@@ -51,10 +47,7 @@ const SignUpStepThree: React.FC<FormStepsControl> = ({ formControl }) => {
                      variant={'viper'}
                      label="Email"
                      {...field}
-                  />
-                  <Checkbox
-                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
-                     defaultChecked={true}
+                     checkbox={true}
                   />
                </FormItem>
             )}
@@ -71,10 +64,7 @@ const SignUpStepThree: React.FC<FormStepsControl> = ({ formControl }) => {
                      variant={'viper'}
                      label="Date of birth"
                      value={dateOfBirth}
-                  />
-                  <Checkbox
-                     className="absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green "
-                     defaultChecked={true}
+                     checkbox={true}
                   />
                </FormItem>
             )}
