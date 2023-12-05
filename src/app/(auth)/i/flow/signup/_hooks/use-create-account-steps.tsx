@@ -6,6 +6,7 @@ import SignUpStepFour from '../_components/sign-up-step-four'
 import { CreateAccountFormControl } from './use-create-account-form'
 import SignUpStepFive from '../_components/sign-up-step-five'
 import SignUpStepSix from '../_components/sign-up-step-six'
+import SignUpStepSeven from '../_components/sign-up-step-seven'
 
 export const useCreateAccountSteps = (step: number, formControl: CreateAccountFormControl) => {
    const renderSteps = useMemo(() => {
@@ -22,6 +23,8 @@ export const useCreateAccountSteps = (step: number, formControl: CreateAccountFo
             return <SignUpStepFive formControl={formControl} />
          case 6:
             return <SignUpStepSix formControl={formControl} />
+         case 7:
+            return <SignUpStepSeven formControl={formControl} />
          default:
             return null
       }

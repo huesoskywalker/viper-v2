@@ -1,21 +1,45 @@
+import FormInput from '@/app/_components/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormDescription } from '@/components/ui/form'
-import UpdateAvatar from '@/app/_components/update-avatar'
+import { FormDescription, FormField, FormItem, useFormField } from '@/components/ui/form'
 import { FormStepsControl } from '@/types/forms/steps'
+import { useEffect } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 const SignUpStepSix: React.FC<FormStepsControl> = ({ formControl }) => {
+   const { trigger } = useFormContext()
+
+   const name = formControl._formValues['name']
+   formControl._defaultValues['username'] = name.trim().replace(/\s+/g, '')
+
+   useEffect(() => {
+      trigger('username')
+   }, [])
+
    return (
-      <div className="relative flex flex-col justify-center space-y-14">
-         <div className="space-y-2 self-start">
-            <DialogDescription className=" text-3xl font-bold text-primary ">
-               Pick a profile picture
-            </DialogDescription>
-            <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>
-         </div>
-         <div className="self-center">
-            <UpdateAvatar />
-         </div>
-      </div>
+      <>
+         <DialogDescription className="mt-3 text-3xl font-bold text-primary ">
+            What should we call you?
+         </DialogDescription>
+         <FormDescription>
+            Your @username is unique. You can always change it later.
+         </FormDescription>
+         <FormField
+            control={formControl}
+            name="username"
+            render={({ field }) => (
+               <FormItem className="relative">
+                  <FormInput
+                     id={field.name}
+                     type={'text'}
+                     variant={'viper'}
+                     label="Username"
+                     checkbox={true}
+                     {...field}
+                  />
+               </FormItem>
+            )}
+         />
+      </>
    )
 }
 

@@ -1,12 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Control, useForm } from 'react-hook-form'
+import { Control, UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { checkEmailAvailability } from '../_utils/check-email-availability'
+import { isViperPropAvailable } from '../../../../../_utils/is-viper-prop-available'
 import { isValidVerificationToken } from '../_utils/is-valid-verification-token'
 
 export type CreateAccountFormValues = z.infer<typeof createAccountSchema>
 
 export type CreateAccountFormControl = Control<CreateAccountFormValues, any>
+
+export type CreateAccountFormFieldState = UseFormGetFieldState<CreateAccountFormValues>
+
+export type CreateAccountFormFieldValues = UseFormGetValues<CreateAccountFormValues>
 
 const createAccountSchema = z.object({
    name: z
@@ -28,7 +32,7 @@ const createAccountSchema = z.object({
          async (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
             if (!emailRegex.test(value)) return
-            const isTaken = await checkEmailAvailability(value)
+            const isTaken = await isViperPropAvailable('email', value)
             return !isTaken
          },
          {
@@ -54,7 +58,6 @@ const createAccountSchema = z.object({
             message: 'Please select a valid birth date.',
          },
       ),
-   // we need to manage this in the database
    contentDiscovery: z.boolean(),
    token: z
       .string({
@@ -92,6 +95,31 @@ const createAccountSchema = z.object({
       .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
          message: 'Include at least one special character',
       }),
+   username: z
+      .string({
+         required_error: 'Username is required',
+      })
+      .min(3, {
+         message: 'Username must be at least 3 characters.',
+      })
+      .max(22, {
+         message: 'Username must not be longer than 22 characters.',
+      })
+      .regex(/^\S+$/, {
+         message: 'Username must not contain spaces.',
+      })
+      .refine(
+         async (value) => {
+            if (value.length < 3) return
+
+            const isTaken = await isViperPropAvailable('username', value)
+
+            return !isTaken
+         },
+         {
+            message: 'Username has already been taken.',
+         },
+      ),
    image: z.string().min(1).optional(),
 })
 
@@ -107,6 +135,7 @@ export const useCreateAccountForm = () => {
       contentDiscovery: true,
       token: '',
       password: '',
+      image: undefined,
    }
 
    const createAccountForm = useForm<CreateAccountFormValues>({
