@@ -5,36 +5,45 @@ import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { cn } from '@/lib/utils'
-import { CreateAccountForm } from './create-account-form'
+import { CreateAccount } from './create-account'
+import { useSession } from 'next-auth/react'
 
 export const CreateAccountDialog = () => {
+   const { data: session } = useSession()
+
    const { step } = useCreateAccountStore()
 
    const { openDialog, closeDialog } = useHandleDialog()
 
-   const handleOnOpen = step <= 4 ? () => closeDialog('/') : undefined
+   // const handleOnOpen = step <= 4 ? () => closeDialog('/') : undefined
+   const handleOnOpen = !session ? (step <= 4 ? () => closeDialog('/') : undefined) : undefined
 
-   const handleIconSteps = step <= 4 ? step : 'disabled'
+   // const handleStepIcon = step <= 4 ? step : 'disabled'
+   const handleStepIcon = !session ? (step <= 4 ? step : 'disabled') : 'disabled'
 
    const handleAutoFocus = (e: Event) => {
-      if (step === 2 || step === 3) e.preventDefault()
+      if (!session) {
+         if (step === 2 || step === 3) e.preventDefault()
+      } else {
+         e.preventDefault()
+      }
    }
    return (
       <>
          <Dialog open={openDialog} onOpenChange={handleOnOpen}>
             <DialogContent
                onOpenAutoFocus={handleAutoFocus}
-               steps={handleIconSteps}
+               steps={handleStepIcon}
                className="flex h-[650px] max-w-[610px] flex-col items-start justify-center rounded-lg border-none pt-2 "
             >
                <DialogHeader
                   className={cn(
-                     step < 5 && 'pl-16',
-                     step === 5 && 'pl-4',
-                     step > 5 && 'self-center',
+                     !session && step < 5 && 'pl-16',
+                     !session && step === 5 && 'pl-4',
+                     session && 'self-center',
                   )}
                >
-                  {step <= 5 ? (
+                  {!session && step <= 5 ? (
                      <DialogTitle className={cn(' text-lg font-semibold text-gray-300')}>
                         Step {step} of 5
                      </DialogTitle>
@@ -50,7 +59,7 @@ export const CreateAccountDialog = () => {
                      />
                   )}
                </DialogHeader>
-               <CreateAccountForm step={step} />
+               <CreateAccount step={step} />
             </DialogContent>
          </Dialog>
       </>
