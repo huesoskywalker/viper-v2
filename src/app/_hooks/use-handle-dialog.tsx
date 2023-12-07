@@ -1,14 +1,17 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useCreateAccountStore } from '../(auth)/i/flow/signup/_stores/create-account-store'
+import { useSession } from 'next-auth/react'
 
 const useHandleDialog = () => {
    const [openDialog, setOpenDialog] = useState<boolean>(false)
-   const { step, prevStep } = useCreateAccountStore()
+   const { step, redirectStep, prevStep } = useCreateAccountStore()
+   const { data: session } = useSession()
 
    const router = useRouter()
 
    useEffect(() => {
+      if (!session) redirectStep(1)
       setOpenDialog(true)
    }, [])
 

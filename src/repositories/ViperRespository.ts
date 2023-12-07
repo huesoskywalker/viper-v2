@@ -86,12 +86,11 @@ export class ViperRepository implements ViperRepositorySource {
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
    ): Promise<WithId<Viper> | null> {
-      const findByMap = new Map<'_id' | 'email', { _id: ObjectId } | { email: string }>([
-         ['_id', { _id: new ObjectId(findQuery.value) }],
-         ['email', { email: findQuery.value }],
-      ])
+      const findBy =
+         findQuery.field === '_id'
+            ? { [findQuery.field]: new ObjectId(findQuery.value) }
+            : { [findQuery.field]: findQuery.value }
 
-      const findBy = findByMap.get(findQuery.field)
       if (!findBy) throw new Error(`Missing find query`)
 
       try {
@@ -100,6 +99,7 @@ export class ViperRepository implements ViperRepositorySource {
             {
                $set: updateProps,
             },
+            { returnDocument: 'after' },
          )
          return updateProfile
       } catch (error: unknown) {

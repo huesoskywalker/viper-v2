@@ -1,5 +1,5 @@
-import { CreateAccountFormControl } from '@/app/(auth)/i/flow/signup/_hooks/use-create-account-form'
+import { AdmissionFormControl } from '@/app/(auth)/i/flow/signup/_hooks/use-create-account-admission-form'
 
-export interface FormStepsControl {
-   formControl: CreateAccountFormControl
+export interface FormControlSteps<T> {
+   formControl: T
 }

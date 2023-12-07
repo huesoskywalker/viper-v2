@@ -12,8 +12,8 @@ export const requestVerificationEmail = async (
    })
    try {
       signIn('email', {
-         redirect: false,
          email: data.email,
+         redirect: false,
       })
 
       return { success: true }
