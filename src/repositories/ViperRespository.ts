@@ -137,14 +137,15 @@ export class ViperRepository implements ViperRepositorySource {
             {
                projection: {
                   _id: 1,
+                  location: 1,
+                  bio: 1,
+                  email: 1,
+                  username: 1,
                   name: 1,
                   image: 1,
                   backgroundImage: 1,
-                  email: 1,
-                  location: 1,
-                  bio: 1,
                   followers: 1,
-                  follows: 1,
+                  followings: 1,
                },
             },
          )
@@ -180,7 +181,7 @@ export class ViperRepository implements ViperRepositorySource {
                      location: 1,
                      bio: 1,
                      followers: 1,
-                     follows: 1,
+                     followings: 1,
                   },
                },
             )
@@ -245,18 +246,18 @@ export class ViperRepository implements ViperRepositorySource {
                   $match: { _id: new ObjectId(viperId) },
                },
                {
-                  $unwind: '$follows',
+                  $unwind: '$followings',
                },
                {
                   $project: {
-                     _id: '$follows._id',
+                     _id: '$followings._id',
                   },
                },
             ])
             .toArray()
          return viperFollowings
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Viper follows, ${error}`)
+         throw new Error(`Repository Error: Failed to retrieve Viper followings, ${error}`)
       }
    }
 
@@ -319,7 +320,7 @@ export class ViperRepository implements ViperRepositorySource {
                },
                {
                   [operation]: {
-                     follows: { _id: new ObjectId(viperId) },
+                     followings: { _id: new ObjectId(viperId) },
                   },
                },
             )

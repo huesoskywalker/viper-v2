@@ -116,10 +116,10 @@ export class ViperService implements ViperRepositorySource {
    // We don't have a getFollowers?
    async getFollowings(viperId: string): Promise<Follow[]> {
       try {
-         const viperFollows: Follow[] = await this.viperRepository.getFollowings(viperId)
-         return viperFollows
+         const viperFollowings: Follow[] = await this.viperRepository.getFollowings(viperId)
+         return viperFollowings
       } catch (error: unknown) {
-         throw new Error(`Model Error: Failed to retrieve Viper follows, ${error}`)
+         throw new Error(`Model Error: Failed to retrieve Viper followings, ${error}`)
       }
    }
 
