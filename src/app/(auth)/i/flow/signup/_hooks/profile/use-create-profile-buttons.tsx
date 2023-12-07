@@ -15,11 +15,20 @@ export const useCreateProfileButtons = (step: number, getFieldState: CreateProfi
    ])
 
    const disableButton = !validStepsMap.get(step)
+   const isUsernameDirty = getFieldState('username').isDirty
+   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
+   const usernameVariant = isUsernameDirty ? 'default' : 'sign-in'
 
    const renderButtons = useMemo(() => {
       switch (step) {
          case 1:
-            return <NextStepButton disabled={disableButton} />
+            return (
+               <NextStepButton
+                  disabled={disableButton}
+                  variant={usernameVariant}
+                  label={usernameLabel}
+               />
+            )
          case 2:
             return <UploadAvatarImage />
          case 3:
@@ -27,7 +36,7 @@ export const useCreateProfileButtons = (step: number, getFieldState: CreateProfi
          default:
             return null
       }
-   }, [step, disableButton])
+   }, [step, disableButton, isUsernameDirty])
 
    return { renderButtons }
 }

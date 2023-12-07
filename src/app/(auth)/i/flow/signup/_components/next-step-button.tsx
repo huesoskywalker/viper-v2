@@ -1,8 +1,14 @@
-import { Button } from '@/components/ui/button'
+import { Button, ButtonProps } from '@/components/ui/button'
 import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 
-const NextStepButton = ({ disabled }: { disabled: boolean }) => {
+const NextStepButton: React.FC<ButtonProps & { disabled: boolean; label?: string }> = ({
+   disabled,
+   label,
+   variant,
+   size,
+   ...props
+}) => {
    const { nextStep } = useCreateAccountStore()
    return (
       <>
@@ -10,11 +16,11 @@ const NextStepButton = ({ disabled }: { disabled: boolean }) => {
             className="text-md  font-semibold"
             type={'button'}
             onClick={nextStep}
-            variant={'default'}
+            variant={variant}
             size={'lg'}
             disabled={disabled}
          >
-            Next
+            {label ? label : 'Next'}
          </Button>
       </>
    )

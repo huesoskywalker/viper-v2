@@ -10,10 +10,9 @@ export const isCreateProfileFieldValid = (getFieldState: CreateProfileFieldState
    const hasUsernameError = usernameFieldState.error
    const hasImageError = imageFieldState.error
 
-   const isUsernameDirty = usernameFieldState.isDirty
    const isImageDirty = imageFieldState.isDirty
 
-   const isUsernameValid = isUsernameFieldValid && isUsernameDirty && !hasUsernameError
+   const isUsernameValid = isUsernameFieldValid && !hasUsernameError
    const isImageValid = isImageFieldValid && isImageDirty && !hasImageError
 
    const isStepOneValid = isUsernameValid
