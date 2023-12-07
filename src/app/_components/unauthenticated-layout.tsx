@@ -1,6 +1,10 @@
 import Image from 'next/image'
 import React, { PropsWithChildren } from 'react'
 import { UserAuthForm } from './user-auth-form'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
+import TermsAndConditions from './terms-and-conditions'
+import Link from 'next/link'
 
 const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
    return (
@@ -32,7 +36,35 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                      Join today.
                   </span>
                </div>
-               <UserAuthForm />
+               <div className={'grid w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 '}>
+                  <UserAuthForm />
+                  <div className="relative my-[6px] w-[300px]">
+                     <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t-[1.5px] border-muted " />
+                     </div>
+                     <div className="relative flex justify-center">
+                        <span className="bg-background px-2 text-sm text-primary">or</span>
+                     </div>
+                  </div>{' '}
+                  <Link
+                     href={'/i/flow/signup'}
+                     className={cn(buttonVariants({ variant: 'sign-up', size: 'sign' }), ' mb-2 ')}
+                  >
+                     Create an account
+                  </Link>
+                  <TermsAndConditions className="mb-5 w-[300px] text-start text-[12px] leading-[13px]" />
+                  <div className="mb-4 mt-8">
+                     <span className="text-base font-medium text-primary">
+                        Already have an account?
+                     </span>
+                  </div>{' '}
+                  <Link
+                     href={'/i/flow/signin'}
+                     className={cn(buttonVariants({ variant: 'sign-in', size: 'sign' }))}
+                  >
+                     Sign in
+                  </Link>
+               </div>
             </div>
          </div>
          {children}
