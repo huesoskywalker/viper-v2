@@ -147,12 +147,13 @@ export type Shopify = {
 export type ViperBasicProps = Pick<
    Viper,
    | '_id'
+   | 'location'
+   | 'bio'
+   | 'email'
+   | 'username'
    | 'name'
    | 'image'
    | 'backgroundImage'
-   | 'email'
-   | 'address'
-   | 'bio'
    | 'followers'
    | 'followings'
 >

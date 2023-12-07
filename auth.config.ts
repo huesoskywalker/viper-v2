@@ -24,6 +24,7 @@ declare module 'next-auth' {
          email: string
          image: string
          location: string
+         username: string
       }
    }
    // Need to check this, if this user is just for the session or the database
@@ -88,7 +89,7 @@ export default {
       }),
    ],
    pages: {
-      // newUser: '/new',
+      // newUser: '/i/flow/single_sign_on',
       // verifyRequest: '/verify',
       // signOut: '/i/flow/signout',
       signIn: '/i/flow/login',
@@ -133,6 +134,7 @@ export default {
       // },
       session: async ({ session, token, user, trigger, newSession }) => {
          session.user.id = user.id
+         session.user.username = user.username
          // session.user.image = user.image ?? ''
          // session.user.location = user.location
          if (trigger && newSession?.shopify) {

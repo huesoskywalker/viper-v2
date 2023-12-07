@@ -11,6 +11,8 @@ export type CreateProfileFieldState = UseFormGetFieldState<CreateProfileFormValu
 
 export type CreateProfileFieldValue = UseFormGetValues<CreateProfileFormValues>
 
+let memoizedUsername: string | null = null
+
 const createProfileSchema = z.object({
    username: z
       .string({
@@ -27,6 +29,11 @@ const createProfileSchema = z.object({
       })
       .refine(
          async (value) => {
+            if (memoizedUsername === null) {
+               memoizedUsername = value
+            }
+            if (value === memoizedUsername) return true
+
             if (value.length < 3) return
 
             const isTaken = await isViperPropAvailable('username', value)
@@ -42,7 +49,9 @@ const createProfileSchema = z.object({
 
 export const useCreateProfileForm = () => {
    const defaultValues = {
-      image: undefined,
+      // image: undefined,
+      image: '',
+      // username: 'Agustin',
    }
 
    const createProfileForm = useForm<CreateProfileFormValues>({
