@@ -1,6 +1,12 @@
 import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Control, UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
+import {
+   Control,
+   UseFormGetFieldState,
+   UseFormGetValues,
+   UseFormSetValue,
+   useForm,
+} from 'react-hook-form'
 import { z } from 'zod'
 
 export type CreateProfileFormValues = z.infer<typeof createProfileSchema>
@@ -10,6 +16,8 @@ export type CreateProfileFormControl = Control<CreateProfileFormValues, any>
 export type CreateProfileFieldState = UseFormGetFieldState<CreateProfileFormValues>
 
 export type CreateProfileFieldValue = UseFormGetValues<CreateProfileFormValues>
+
+export type CreateProfileSetValue = UseFormSetValue<CreateProfileFormValues>
 
 let memoizedUsername: string | null = null
 
@@ -44,15 +52,11 @@ const createProfileSchema = z.object({
             message: 'Username has already been taken.',
          },
       ),
-   image: z.string().min(1).optional(),
+   image: z.string().optional(),
 })
 
 export const useCreateProfileForm = () => {
-   const defaultValues = {
-      // image: undefined,
-      image: '',
-      // username: 'Agustin',
-   }
+   const defaultValues = {}
 
    const createProfileForm = useForm<CreateProfileFormValues>({
       resolver: zodResolver(createProfileSchema),

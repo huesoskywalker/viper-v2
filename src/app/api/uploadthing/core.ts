@@ -31,13 +31,8 @@ export const ourFileRouter = {
          throw new Error(error.message)
       })
       .onUploadComplete(async ({ metadata, file }) => {
-         console.log(`----onUploadComplete core.ts`)
-         // This code RUNS ON YOUR SERVER after upload
-         console.log('Upload complete for userId:', metadata.userId)
-
-         console.log('file url', file.url)
-
          // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+         // would be needing the uploadedBy ? Since the url will be used from the user
          return { uploadedBy: metadata.userId }
       }),
 } satisfies FileRouter
