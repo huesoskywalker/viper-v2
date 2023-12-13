@@ -15,7 +15,7 @@ export const AuthLayout = ({ children }: PropsWithChildren) => {
       return (
          <>
             <GlobalNav />
-            <div className="lg:pl-44"> {children} </div>
+            <div className="md:pl-24 xl:pl-72"> {children} </div>
          </>
       )
    else if (status === 'unauthenticated') {

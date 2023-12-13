@@ -70,6 +70,9 @@ const config: Config = {
                foreground: 'hsl(var(--card-foreground))',
             },
          },
+         boxShadow: {
+            rounded: '0px 0px 6px 1px rgba(255, 255, 255, 0.3)',
+         },
          backgroundImage: ({ theme }) => ({
             'vc-border-gradient': `radial-gradient(at left top, ${theme(
                'colors.gray.500',

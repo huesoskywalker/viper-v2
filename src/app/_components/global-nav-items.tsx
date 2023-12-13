@@ -3,35 +3,35 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
-import { NavItem } from '../_utils/get-nav-items'
+import { NavItem, navIcon } from '../_utils/get-nav-items'
+import { cn } from '@/lib/utils'
 
-export function GlobalNavItem({
-   item,
-   viperName,
-   close,
-}: {
-   item: NavItem
-   viperName: string | null | undefined
-   close: () => false | void
-}) {
+export function GlobalNavItem({ item, close }: { item: NavItem; close: () => false | void }) {
    const segment = useSelectedLayoutSegment()
    const isActive = item.slug === segment
 
-   const profileName = viperName ? viperName : 'Welcome'
+   const IconComponent = navIcon.get(item.name)
+   const hideIcon = ['Profile', 'More'].includes(item.name)
 
    return (
-      // add the icons based on the slug and fill solid, none based on the activeness
-      <Link
-         // add the button variant in here
-         data-test="nav-item"
-         onClick={close}
-         href={`/${item.slug}`}
-         className={clsx('block rounded-md px-3 py-2 text-sm font-medium hover:text-gray-200 ', {
-            'text-gray-300 hover:bg-gray-800': !isActive,
-            'font-bold text-white': isActive,
-         })}
-      >
-         {item.name === 'Profile' ? profileName : item.name}
-      </Link>
+      <>
+         <Link
+            data-test="nav-item"
+            onClick={close}
+            href={`/${item.slug}`}
+            className={cn('w-fit rounded-full px-3 py-2 text-xl hover:bg-accent  md:block', {
+               'font-normal text-gray-300': !isActive,
+               'font-semibold text-white': isActive,
+               hidden: hideIcon,
+            })}
+         >
+            <div className="flex flex-row items-center justify-center gap-3">
+               {IconComponent && (
+                  <IconComponent color="white" strokeWidth={isActive ? 3 : 1.5} size={30} />
+               )}
+               <span className="hidden pr-3 xl:block">{item.name}</span>
+            </div>
+         </Link>
+      </>
    )
 }
