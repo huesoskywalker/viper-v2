@@ -15,13 +15,15 @@ const CreateAccountStepTwo = () => {
    const { step } = useCreateAccountStore()
    const { createProfileForm } = useCreateProfileForm()
 
-   const { getFieldState } = createProfileForm
+   const { getFieldState, setValue } = createProfileForm
 
    const onSubmit = (formData: CreateProfileFormValues) => {
+      console.log(`---whats in step two formData`)
+      console.log({ formData })
       // -----------------------------------
    }
 
-   const { renderButtons } = useCreateProfileButtons(step, getFieldState)
+   const { renderButtons } = useCreateProfileButtons(step, getFieldState, setValue)
 
    const { renderSteps } = useCreateProfileSteps(step, createProfileForm.control)
 
@@ -39,18 +41,18 @@ const CreateAccountStepTwo = () => {
                >
                   {renderSteps}
                </div>
-               {/* {step === 5 && (
-                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-                     <Button
-                        type="submit"
-                        variant={'default'}
-                        size={'lg'}
-                        disabled={!isStepFiveValid}
-                     >
-                        Next
-                     </Button>
-                  </DialogFooter>
-               )} */}
+               {/* {step === 5 && ( */}
+               {/* <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                  <Button
+                     type="submit"
+                     variant={'default'}
+                     size={'lg'}
+                     // disabled={!isStepFiveValid}
+                  >
+                     Next
+                  </Button>
+               </DialogFooter> */}
+               {/* )} */}
             </form>
          </Form>
          {/* {step !== 5 && ( */}
