@@ -19,7 +19,7 @@ export function GlobalNavItem({ item, close }: { item: NavItem; close: () => fal
             data-test="nav-item"
             onClick={close}
             href={`/${item.slug}`}
-            className={cn('w-fit rounded-full px-3 py-2 text-xl hover:bg-accent  md:block', {
+            className={cn('w-fit rounded-full text-xl hover:bg-accent md:block md:p-3', {
                'font-normal text-gray-300': !isActive,
                'font-semibold text-white': isActive,
                hidden: hideIcon,
