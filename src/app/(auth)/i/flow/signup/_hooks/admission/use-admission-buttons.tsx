@@ -25,7 +25,7 @@ export const useAdmissionButtons = (
       switch (step) {
          case 1:
          case 2:
-            return <NextStepButton disabled={disableButton} />
+            return <NextStepButton size={'lg'} disabled={disableButton} />
          case 3:
             return <EmailSignUpSection email={getValues('email')} disabled={disableButton} />
          case 4:
