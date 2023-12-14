@@ -1,7 +1,7 @@
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
 import NextStepButton from '../next-step-button'
 
-const InterestsButton = () => {
+const ProfileInterestsButton = () => {
    const { interests } = useCreateProfileStore()
 
    const disableBtn = interests < 3 ? true : false
@@ -22,4 +22,4 @@ const InterestsButton = () => {
    )
 }
 
-export default InterestsButton
+export default ProfileInterestsButton
