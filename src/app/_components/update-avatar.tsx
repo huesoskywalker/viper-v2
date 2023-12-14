@@ -4,13 +4,13 @@ import { Camera } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { FileWithPath } from '@uploadthing/react'
 import { resizeImage } from '../_utils/resize-image'
-import { useUploadImagesStore } from '../(auth)/i/flow/signup/_stores/upload-images-store'
+import { useCreateProfileStore } from '../(auth)/i/flow/signup/_stores/create-profile-store'
 import { generateClientDropzoneAccept } from 'uploadthing/client'
 import { useDropzone } from '@uploadthing/react/hooks'
 import { useUploadThing } from '@/utils/uploadthing'
 
 const UpdateAvatar = ({ id }: { id: string }) => {
-   const { setImages } = useUploadImagesStore()
+   const { setImages } = useCreateProfileStore()
 
    const [objectURL, setObjectURL] = useState<string | null>(null)
 

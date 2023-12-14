@@ -1,5 +1,5 @@
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormDescription, FormField, FormItem } from '@/components/ui/form'
+import { FormControl, FormDescription, FormField, FormItem } from '@/components/ui/form'
 import UpdateAvatar from '@/app/_components/update-avatar'
 import { FormControlSteps } from '@/types/forms/steps'
 import { CreateProfileFormControl } from '../../_hooks/profile/use-create-profile-form'
@@ -19,7 +19,13 @@ const CreateProfileAvatar: React.FC<FormControlSteps<CreateProfileFormControl>> 
             <FormField
                control={formControl}
                name="image"
-               render={({ field }) => <UpdateAvatar id={field.name} />}
+               render={({ field }) => (
+                  <FormItem>
+                     <FormControl>
+                        <UpdateAvatar id={field.name} />
+                     </FormControl>
+                  </FormItem>
+               )}
             />
          </div>
       </div>

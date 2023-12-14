@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import React, { useState } from 'react'
-import { useUploadImagesStore } from '../../_stores/upload-images-store'
+import { useCreateProfileStore } from '../../_stores/create-profile-store'
 import { CreateProfileSetValue } from '../../_hooks/profile/use-create-profile-form'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useUploadThing } from '@/utils/uploadthing'
@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) => {
    const [uploadProgress, setUploadProgress] = useState<number>(0)
 
-   const { images, removeImages } = useUploadImagesStore()
+   const { images, removeImages } = useCreateProfileStore()
 
    const { nextStep } = useCreateAccountStore()
 
@@ -47,10 +47,10 @@ const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) =
             {!isUploading ? (!images.profile ? 'Skip for now' : 'Next') : 'Uploading...'}
             <div
                className={cn(
-                  'absolute left-0 top-0 h-full w-0 bg-gray-600/50 transition-all duration-1000  ease-linear',
+                  'absolute left-0 top-0 -z-10 h-full w-0 bg-viper-dodger-blue transition-all duration-1000  ease-linear',
                )}
                style={{ width: `${uploadProgress}%` }}
-            ></div>
+            />
          </Button>
       </div>
    )
