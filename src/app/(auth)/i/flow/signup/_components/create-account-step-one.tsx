@@ -73,7 +73,7 @@ const CreateAccountStepOne = () => {
             >
                <div
                   className={cn(
-                     ` h-[450px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
+                     ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
                   {renderSteps}

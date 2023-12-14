@@ -21,6 +21,7 @@ const CreateAccountStepTwo = () => {
       console.log(`---whats in step two formData`)
       console.log({ formData })
       // -----------------------------------
+      // Need to clear the interests from the store in here
    }
 
    const { renderButtons } = useCreateProfileButtons(step, getFieldState, setValue)
@@ -36,7 +37,7 @@ const CreateAccountStepTwo = () => {
             >
                <div
                   className={cn(
-                     ` h-[450px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
+                     `h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
                   {renderSteps}
