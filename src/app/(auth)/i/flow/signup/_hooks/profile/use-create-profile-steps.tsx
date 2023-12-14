@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { CreateProfileFormControl } from './use-create-profile-form'
 import CreateProfileUsername from '../../_components/profile/create-profile-username'
 import CreateProfileAvatar from '../../_components/profile/create-profile-avatar'
+import CreateProfileInterests from '../../_components/profile/create-profile-interests'
 
 export const useCreateProfileSteps = (step: number, formControl: CreateProfileFormControl) => {
    const renderSteps = useMemo(() => {
@@ -11,7 +12,7 @@ export const useCreateProfileSteps = (step: number, formControl: CreateProfileFo
          case 2:
             return <CreateProfileAvatar formControl={formControl} />
          case 3:
-            return null
+            return <CreateProfileInterests formControl={formControl} />
          default:
             return null
       }

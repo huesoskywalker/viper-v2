@@ -3,6 +3,7 @@ import NextStepButton from '../../_components/next-step-button'
 import UploadAvatarImage from '../../_components/profile/upload-avatar-button'
 import { CreateProfileFieldState, CreateProfileSetValue } from './use-create-profile-form'
 import { isCreateProfileFieldValid } from '../../_utils/is-create-profile-field-valid'
+import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 
 export const useCreateProfileButtons = (
    step: number,
@@ -26,13 +27,16 @@ export const useCreateProfileButtons = (
          case 1:
             return (
                <NextStepButton
-                  disabled={disableButton}
                   variant={usernameVariant}
+                  size={'lg'}
                   label={usernameLabel}
+                  disabled={disableButton}
                />
             )
          case 2:
             return <UploadAvatarImage setValue={setValue} />
+         case 3:
+            return <ProfileInterestsButton />
          default:
             return null
       }
