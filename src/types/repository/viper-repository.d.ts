@@ -26,6 +26,7 @@ interface ViperCRUDRepository {
       updateProps: UpdateViper,
    ): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
+   getAllBasicProps(): Promise<WithId<ViperBasicProps>[]>
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
    // This is one below is built for the search input

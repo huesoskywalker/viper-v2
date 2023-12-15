@@ -117,6 +117,34 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
+   async getAllBasicProps(): Promise<WithId<ViperBasicProps>[]> {
+      try {
+         const vipers: WithId<Viper>[] = await this.viperCollection
+            .find(
+               {},
+               {
+                  projection: {
+                     _id: 1,
+                     location: 1,
+                     bio: 1,
+                     email: 1,
+                     username: 1,
+                     name: 1,
+                     image: 1,
+                     backgroundImage: 1,
+                     followers: 1,
+                     followings: 1,
+                  },
+               },
+            )
+            .toArray()
+
+         return vipers as Partial<WithId<Viper>[]> as WithId<ViperBasicProps>[]
+      } catch (error) {
+         throw new Error(`Repository Error: Failed to retrieve Vipers with basic props, ${error}`)
+      }
+   }
+
    async getById(viperId: string): Promise<WithId<Viper> | null> {
       try {
          const viper: WithId<Viper> | null = await this.viperCollection.findOne({
@@ -150,7 +178,7 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return viperBasicProps as Partial<Viper> as WithId<ViperBasicProps>
+         return viperBasicProps as Partial<WithId<Viper>> as WithId<ViperBasicProps>
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Viper basic Props, ${error}`)
       }

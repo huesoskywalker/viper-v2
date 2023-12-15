@@ -63,6 +63,15 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
+   async getAllBasicProps(): Promise<ViperBasicProps[]> {
+      try {
+         const vipers = await this.viperRepository.getAllBasicProps()
+         return vipers
+      } catch (error: unknown) {
+         throw new Error(`Model Error: Failed to retrieve Vipers with basic props, ${error}`)
+      }
+   }
+
    async getById(viperId: string): Promise<Viper | null> {
       try {
          const viper: Viper | null = await this.viperRepository.getById(viperId)
