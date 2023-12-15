@@ -1,4 +1,4 @@
-import React from 'react'
+'use client'
 import {
    CreateProfileFormValues,
    useCreateProfileForm,
@@ -7,12 +7,14 @@ import { Form } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { useCreateAccountStore } from '../_stores/create-account-store'
 import { useCreateProfileSteps } from '../_hooks/profile/use-create-profile-steps'
 import { useCreateProfileButtons } from '../_hooks/profile/use-create-profile-buttons'
+import { useCreateAccountStore } from '../_stores/create-account-store'
+import { PropsWithChildren } from 'react'
 
-const CreateAccountStepTwo = () => {
+const CreateAccountStepTwo = ({ children }: PropsWithChildren) => {
    const { step } = useCreateAccountStore()
+
    const { createProfileForm } = useCreateProfileForm()
 
    const { getFieldState, setValue } = createProfileForm
@@ -24,9 +26,9 @@ const CreateAccountStepTwo = () => {
       // Need to clear the interests from the store in here
    }
 
-   const { renderButtons } = useCreateProfileButtons(step, getFieldState, setValue)
-
    const { renderSteps } = useCreateProfileSteps(step, createProfileForm.control)
+
+   const { renderButtons } = useCreateProfileButtons(step, getFieldState, setValue)
 
    return (
       <>
@@ -37,30 +39,30 @@ const CreateAccountStepTwo = () => {
             >
                <div
                   className={cn(
-                     `h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
+                     `h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
-                  {renderSteps}
+                  {step < 4 ? renderSteps : children}
                </div>
-               {/* {step === 5 && ( */}
-               {/* <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-                  <Button
-                     type="submit"
-                     variant={'default'}
-                     size={'lg'}
-                     // disabled={!isStepFiveValid}
-                  >
-                     Next
-                  </Button>
-               </DialogFooter> */}
-               {/* )} */}
+               {step === 4 && (
+                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                     <Button
+                        type="submit"
+                        variant={'default'}
+                        size={'lg'}
+                        // disabled={!isStepFiveValid}
+                     >
+                        Next
+                     </Button>
+                  </DialogFooter>
+               )}
             </form>
          </Form>
-         {/* {step !== 5 && ( */}
-         <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-            {renderButtons}
-         </DialogFooter>
-         {/* )} */}
+         {step < 4 && (
+            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+               {renderButtons}
+            </DialogFooter>
+         )}
       </>
    )
 }

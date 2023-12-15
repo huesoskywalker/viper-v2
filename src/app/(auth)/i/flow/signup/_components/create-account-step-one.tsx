@@ -1,3 +1,4 @@
+'use client'
 import { Form } from '@/components/ui/form'
 import { DialogFooter } from '@/components/ui/dialog'
 import { useLayoutEffect } from 'react'
@@ -73,7 +74,7 @@ const CreateAccountStepOne = () => {
             >
                <div
                   className={cn(
-                     ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[88px]`,
+                     ` h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[88px]`,
                   )}
                >
                   {renderSteps}

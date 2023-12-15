@@ -13,6 +13,8 @@ export const useCreateProfileSteps = (step: number, formControl: CreateProfileFo
             return <CreateProfileAvatar formControl={formControl} />
          case 3:
             return <CreateProfileInterests formControl={formControl} />
+         case 4:
+            return null
          default:
             return null
       }

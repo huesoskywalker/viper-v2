@@ -37,6 +37,8 @@ export const useCreateProfileButtons = (
             return <UploadAvatarImage setValue={setValue} />
          case 3:
             return <ProfileInterestsButton />
+         case 4:
+            return null
          default:
             return null
       }

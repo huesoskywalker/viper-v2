@@ -1,24 +1,26 @@
 'use client'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Image from 'next/image'
-import React from 'react'
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { cn } from '@/lib/utils'
-import { CreateAccount } from './create-account'
 import { useSession } from 'next-auth/react'
+import { PropsWithChildren } from 'react'
 
-export const CreateAccountDialog = () => {
-   const { data: session } = useSession()
+export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
+   const { data: session, status } = useSession()
 
    const { step } = useCreateAccountStore()
 
+   if (status === 'authenticated' && step === 0) {
+      // need to handle this so we can redirect to home or previous path
+      throw new Error('Oops! Something went wrong, try again later.')
+   }
+
    const { openDialog, closeDialog } = useHandleDialog()
 
-   // const handleOnOpen = step <= 4 ? () => closeDialog('/') : undefined
    const handleOnOpen = !session ? (step <= 4 ? () => closeDialog('/') : undefined) : undefined
 
-   // const handleStepIcon = step <= 4 ? step : 'disabled'
    const handleStepIcon = !session ? (step <= 4 ? step : 'disabled') : 'disabled'
 
    const handleAutoFocus = (e: Event) => {
@@ -59,7 +61,7 @@ export const CreateAccountDialog = () => {
                      />
                   )}
                </DialogHeader>
-               <CreateAccount step={step} />
+               {children}
             </DialogContent>
          </Dialog>
       </>
