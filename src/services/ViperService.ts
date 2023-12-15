@@ -123,26 +123,26 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async isViperFollowing(viperId: string, currentViperId: string): Promise<boolean> {
+   async isFollowing(viperId: string, currentViperId: string): Promise<boolean> {
       try {
-         const isFollowed: boolean = await this.viperRepository.isViperFollowing(
+         const isFollowing: boolean = await this.viperRepository.isFollowing(
             viperId,
             currentViperId,
          )
-         return isFollowed
+         return isFollowing
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to check if Viper is already followed, ${error}`)
       }
    }
 
    async toggleFollower(
-      isFollowed: boolean,
+      isFollowing: boolean,
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null> {
       try {
          const toggleCurrentViperFollow: WithId<Viper> | null =
-            await this.viperRepository.toggleFollowing(isFollowed, viperId, currentViperId)
+            await this.viperRepository.toggleFollowing(isFollowing, viperId, currentViperId)
 
          return toggleCurrentViperFollow
       } catch (error: unknown) {
@@ -151,13 +151,13 @@ export class ViperService implements ViperRepositorySource {
    }
 
    async toggleFollowing(
-      isFollowed: boolean,
+      isFollowing: boolean,
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null> {
       try {
          const toggleViperFollower: WithId<Viper> | null =
-            await this.viperRepository.toggleFollower(isFollowed, viperId, currentViperId)
+            await this.viperRepository.toggleFollower(isFollowing, viperId, currentViperId)
          return toggleViperFollower
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to toggle Follow from Viper, ${error}`)

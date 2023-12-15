@@ -40,9 +40,9 @@ interface ViperFollowRepository {
    // getFollowers(viperId: string): Promise<Follow[]>
    // =========================================
    getFollowings(viperId: string): Promise<Follow[]>
-   isViperFollowing(viperId: string, currentViperId: string): Promise<boolean>
+   isFollowing(viperId: string, currentViperId: string): Promise<boolean>
    toggleFollower(
-      isFollowed: boolean,
+      isFollowing: boolean,
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null>
