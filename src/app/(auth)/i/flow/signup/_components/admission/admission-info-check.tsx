@@ -1,7 +1,7 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import React from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
-import { getBirthDate } from '../../_utils/get-birth-date'
+import { useBirthDate } from '../../_hooks/admission/use-birth-date'
 import FormInput from '@/app/_components/form-input'
 import { FormControlSteps } from '@/types/forms/steps'
 import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
@@ -9,7 +9,7 @@ import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
 const AdmissionInfoCheck: React.FC<FormControlSteps<AdmissionFormControl>> = ({ formControl }) => {
    const { redirectStep, setFocusElem } = useCreateAccountStore()
 
-   const { dateOfBirth } = getBirthDate()
+   const { dateOfBirth } = useBirthDate()
 
    const handlePrevState = (event: any) => {
       redirectStep(1)

@@ -37,8 +37,6 @@ const CreateAccountStepOne = () => {
    }, [focusElem])
 
    const onSubmit = async (formData: AdmissionFormValues) => {
-      console.log({ formData })
-
       const updateViper = await fetch(`${BASE_URL}/i/flow/signup/api/verify`, {
          headers: {
             'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ export type CreateProfileSetValue = UseFormSetValue<CreateProfileFormValues>
 
 let memoizedUsername: string | null = null
 
-type InterestItem = Array<{
+type InterestItem = ReadonlyArray<{
    id: string
    label: string
 }>
