@@ -46,12 +46,12 @@ interface ViperFollowRepository {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<Pick<WithId<Viper>, '_id'> | null>
    toggleFollowing(
       isFollowed: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<Pick<WithId<Viper>, '_id'> | null>
    // ======IMPORTANT=====
    // We need to add a initChat type and function
    // initChat(viperId: string, currentViperId: string): Promise

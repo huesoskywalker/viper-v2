@@ -148,12 +148,12 @@ export class ViperService implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
       try {
-         const toggleCurrentViperFollow: WithId<Viper> | null =
+         const toggleFollower: Pick<WithId<Viper>, '_id'> | null =
             await this.viperRepository.toggleFollowing(isFollowing, viperId, currentViperId)
 
-         return toggleCurrentViperFollow
+         return toggleFollower
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to toggle Follower from Viper, ${error}`)
       }
@@ -163,11 +163,11 @@ export class ViperService implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
       try {
-         const toggleViperFollower: WithId<Viper> | null =
+         const toggleFollowing: Pick<WithId<Viper>, '_id'> | null =
             await this.viperRepository.toggleFollower(isFollowing, viperId, currentViperId)
-         return toggleViperFollower
+         return toggleFollowing
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to toggle Follow from Viper, ${error}`)
       }

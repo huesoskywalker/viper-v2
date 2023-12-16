@@ -10,7 +10,6 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { after } from 'lodash'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
 
 export class ViperRepository implements ViperRepositorySource {
@@ -294,8 +293,8 @@ export class ViperRepository implements ViperRepositorySource {
       try {
          const isFollowing: WithId<Viper> | null = await this.viperCollection.findOne(
             {
-               _id: new ObjectId(viperId),
-               'followers._id': new ObjectId(currentViperId),
+               _id: new ObjectId(currentViperId),
+               'followings._id': new ObjectId(viperId),
             },
             {
                projection: {
@@ -304,9 +303,9 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
          return isFollowing ? true : false
-      } catch (error: unknown) {
+      } catch (error: any) {
          throw new Error(
-            `Repository Error: Failed to check if Viper is already followed, ${error}`,
+            `Repository Error: Failed to check if Viper is already followed, ${error.message}`,
          )
       }
    }
@@ -315,7 +314,7 @@ export class ViperRepository implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
       const operation: string = isFollowing ? '$pull' : '$push'
       try {
          const toggleFollower: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -328,15 +327,13 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
             {
-               returnDocument: 'after',
                projection: {
-                  _id: 0,
-                  'followers.$._id': 1,
+                  _id: 1,
+                  // followers: 1,
                },
             },
          )
-
-         return toggleFollower
+         return toggleFollower as Pick<WithId<Viper>, '_id'>
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to ${operation} Viper follower, ${error}`)
       }
@@ -346,28 +343,26 @@ export class ViperRepository implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
       const operation: string = isFollowing ? '$pull' : '$push'
       try {
-         const toggleCurrentFollow: Promise<WithId<Viper> | null> =
-            this.viperCollection.findOneAndUpdate(
-               {
-                  _id: new ObjectId(currentViperId),
+         const toggleFollowing: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+            {
+               _id: new ObjectId(currentViperId),
+            },
+            {
+               [operation]: {
+                  followings: { _id: new ObjectId(viperId) },
                },
-               {
-                  [operation]: {
-                     followings: { _id: new ObjectId(viperId) },
-                  },
+            },
+            {
+               projection: {
+                  _id: 1,
+                  // followings: 1,
                },
-               {
-                  returnDocument: 'after',
-                  projection: {
-                     _id: 0,
-                     'followings.$._id': 1,
-                  },
-               },
-            )
-         return toggleCurrentFollow
+            },
+         )
+         return toggleFollowing as Pick<WithId<Viper>, '_id'>
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to ${operation} current Follow, ${error}`)
       }
