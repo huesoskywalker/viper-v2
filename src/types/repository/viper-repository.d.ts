@@ -12,6 +12,7 @@ import {
 } from '../viper'
 
 interface ViperCRUDRepository {
+   login(username: string, password: string): Promise<WithId<ViperBasicProps> | null>
    // we can make a pick interface for this props
    populateNewViper(
       _id: _ID,
@@ -30,8 +31,7 @@ interface ViperCRUDRepository {
    getById(viperId: string): Promise<WithId<Viper> | null>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
    // This is one below is built for the search input
-   findByUsername(username: string): Promise<ViperBasicProps[]>
-   findByEmail(email: string): Promise<WithId<Partial<Viper>> | null>
+   findByUsername(username: string): Promise<WithId<ViperBasicProps>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 

@@ -14,8 +14,8 @@ import { NextResponse } from 'next/server'
 import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
 import { randomBytes, randomUUID } from 'crypto'
-import { notFound } from 'next/navigation'
 import { buildRandomUsername } from './utils/build-random-username'
+
 declare module 'next-auth' {
    interface Session {
       user: {
@@ -78,16 +78,13 @@ export default {
       Credential({
          authorize: async (credentials, request) => {
             const { username, password } = credentials
-            console.log({ username, password })
 
-            // TODO: login with username and password func
-            const user = await viperService.findByEmail('agustinbigoni@gmail.com')
-            // need to implement not-found.tsx
-            // if(!user){
-            //    notFound()
-            // }
-
-            return user as User
+            if (typeof username === 'string' && typeof password === 'string') {
+               const user = await viperService.login(username, password)
+               return user as User
+            } else {
+               return null
+            }
          },
       }),
    ],

@@ -19,6 +19,18 @@ export class ViperService implements ViperRepositorySource {
       this.viperRepository = viperRepository
    }
 
+   async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {
+      try {
+         const viper = await this.viperRepository.login(username, password)
+
+         return viper
+      } catch (error: unknown) {
+         throw new Error(
+            `Model Error: Failed to login viper with username '${username}'. ${error}`,
+         )
+      }
+   }
+
    async populateNewViper(
       _id: _ID,
       name: string | undefined,
@@ -96,15 +108,6 @@ export class ViperService implements ViperRepositorySource {
          const vipers: WithId<ViperBasicProps>[] =
             await this.viperRepository.findByUsername(username)
          return vipers
-      } catch (error: unknown) {
-         throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
-      }
-   }
-
-   async findByEmail(email: string): Promise<WithId<Partial<Viper>> | null> {
-      try {
-         const viper: WithId<Partial<Viper>> | null = await this.viperRepository.findByEmail(email)
-         return viper
       } catch (error: unknown) {
          throw new Error(`Model Error: Failed to find Viper by Username, ${error}`)
       }

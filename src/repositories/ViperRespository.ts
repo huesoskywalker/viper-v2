@@ -11,12 +11,50 @@ import {
    _ID,
 } from '@/types/viper'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
+import bcrypt from 'bcrypt'
 
 export class ViperRepository implements ViperRepositorySource {
    private viperCollection: Collection<Viper>
 
    constructor(database: Db) {
       this.viperCollection = database.collection<Viper>('users')
+   }
+
+   async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {
+      try {
+         const viper = await this.viperCollection.findOne(
+            {
+               username,
+            },
+            {
+               collation: { locale: 'en', strength: 2 },
+               projection: {
+                  _id: 1,
+                  location: 1,
+                  bio: 1,
+                  email: 1,
+                  username: 1,
+                  password: 1,
+                  name: 1,
+                  image: 1,
+                  backgroundImage: 1,
+                  followers: 1,
+                  followings: 1,
+               },
+            },
+         )
+
+         if (!viper || !viper.password) return null
+
+         const { password: viperPassword, ...restViper } = viper
+         const isPasswordMatch = await bcrypt.compare(password, viperPassword)
+
+         return isPasswordMatch ? restViper : null
+      } catch (error: unknown) {
+         throw new Error(
+            `Repository Error: Failed to login viper with username '${username}'. ${error}`,
+         )
+      }
    }
 
    async populateNewViper(
@@ -109,7 +147,7 @@ export class ViperRepository implements ViperRepositorySource {
 
    async getAll(): Promise<WithId<Viper>[]> {
       try {
-         const vipers: WithId<Viper>[] = await this.viperCollection.find({}).toArray()
+         const vipers: WithId<Viper>[] = await this.viperCollection.find({}).limit(20).toArray()
          return vipers
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Vipers, ${error}`)
@@ -136,9 +174,10 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             )
+            .limit(20)
             .toArray()
 
-         return vipers as Partial<WithId<Viper>[]> as WithId<ViperBasicProps>[]
+         return vipers as WithId<ViperBasicProps>[]
       } catch (error) {
          throw new Error(`Repository Error: Failed to retrieve Vipers with basic props, ${error}`)
       }
@@ -177,27 +216,24 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return viperBasicProps as Partial<WithId<Viper>> as WithId<ViperBasicProps>
+         return viperBasicProps as WithId<ViperBasicProps>
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to retrieve Viper basic Props, ${error}`)
       }
    }
 
-   async findByUsername(username: string): Promise<ViperBasicProps[]> {
+   async findByUsername(username: string): Promise<WithId<ViperBasicProps>[]> {
       try {
-         await this.viperCollection.createIndexes([
-            {
-               name: 'someNewIndex',
-               key: { name: 'text' },
-            },
-         ])
+         // TODO: if works, create the index in the repository at init time
+         await this.viperCollection.createIndex(
+            { username: 1 },
+            { name: 'searchUsername', collation: { locale: 'en', strength: 2 }, unique: true },
+         )
 
          const vipers: Viper[] = await this.viperCollection
             .find<Viper>(
                {
-                  $text: {
-                     $search: username,
-                  },
+                  username: username,
                },
                {
                   projection: {
@@ -213,33 +249,12 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             )
+            .collation({ locale: 'en', strength: 2 })
             .toArray()
 
-         return vipers as Partial<Viper>[] as ViperBasicProps[]
+         return vipers as WithId<ViperBasicProps>[]
       } catch (error: unknown) {
          throw new Error(`Repository Error: Failed to find Viper by Username, ${error}`)
-      }
-   }
-
-   async findByEmail(email: string): Promise<WithId<Partial<Viper>> | null> {
-      try {
-         const viper: WithId<Partial<Viper>> | null = await this.viperCollection.findOne(
-            {
-               email: email,
-            },
-            {
-               projection: {
-                  _id: 1,
-                  name: 1,
-                  image: 1,
-                  email: 1,
-                  // populate more data as needed
-               },
-            },
-         )
-         return viper
-      } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to find Viper by Email, ${error}`)
       }
    }
 
@@ -248,11 +263,20 @@ export class ViperRepository implements ViperRepositorySource {
       value: string
    }): Promise<boolean> {
       try {
+         // TODO: if works, create the index in the repository at init time
+         await this.viperCollection.createIndex(
+            { email: 1 },
+            { name: 'searchEmail', collation: { locale: 'en', strength: 2 }, unique: true },
+         )
          const isAvailable = await this.viperCollection.findOne(
             {
                [findQuery.field]: findQuery.value,
             },
             {
+               collation: {
+                  locale: 'en',
+                  strength: 2,
+               },
                projection: {
                   _id: 0,
                   [findQuery.field]: 1,
