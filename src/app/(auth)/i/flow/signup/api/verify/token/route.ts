@@ -53,9 +53,11 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({ data, toDeleteTokens }, { status: 200 })
    } catch (error: any) {
+      // TODO: return error.message
       winstonLogger.error('Get verification token', {
          error: error,
       })
+      // TODO: return personalized error
       return NextResponse.json({ error: error.message }, { status: 400 })
    }
 }
@@ -84,6 +86,7 @@ export async function DELETE(request: NextRequest) {
       winstonLogger.error('Delete verification token', {
          error: error,
       })
+      // TODO: return a personalized error
       return NextResponse.json({ error }, { status: 400 })
    }
 }

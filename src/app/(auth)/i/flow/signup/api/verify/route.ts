@@ -4,6 +4,7 @@ import { isValidApiKey } from '../../_utils/is-valid-api-key'
 import bcrypt from 'bcrypt'
 import { buildRandomUsername } from '../../../../../../../../utils/build-random-username'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { winstonLogger } from '@/config/winstonLogger'
 
 export async function GET(request: NextRequest) {
    const params = request.nextUrl.searchParams
@@ -31,6 +32,11 @@ export async function GET(request: NextRequest) {
       })
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
+      // TODO: error.message to be able to read the message, i think. Let's try it
+      winstonLogger.error('Check prop availability', {
+         error: error,
+      })
+      // TODO: return a personalized error
       return NextResponse.json({ error }, { status: 400 })
    }
 }
@@ -63,6 +69,10 @@ export async function PATCH(request: NextRequest) {
 
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
+      winstonLogger.error('Update viper on sign up', {
+         error: error,
+      })
+      // TODO: return personalized error
       return NextResponse.json({ error }, { status: 400 })
    }
 }
