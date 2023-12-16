@@ -10,9 +10,14 @@ import { Button } from '@/components/ui/button'
 import { useCreateProfileSteps } from '../_hooks/profile/use-create-profile-steps'
 import { useCreateProfileButtons } from '../_hooks/profile/use-create-profile-buttons'
 import { useCreateAccountStore } from '../_stores/create-account-store'
-import { PropsWithChildren } from 'react'
 
-const CreateAccountStepTwo = ({ children }: PropsWithChildren) => {
+const CreateAccountStepTwo = ({
+   children,
+   viperFollowings,
+}: {
+   children: React.ReactNode
+   viperFollowings: number
+}) => {
    const { step } = useCreateAccountStore()
 
    const { createProfileForm } = useCreateProfileForm()
@@ -50,7 +55,7 @@ const CreateAccountStepTwo = ({ children }: PropsWithChildren) => {
                         type="submit"
                         variant={'default'}
                         size={'lg'}
-                        // disabled={!isStepFiveValid}
+                        disabled={viperFollowings === 0}
                      >
                         Next
                      </Button>

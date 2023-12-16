@@ -13,7 +13,7 @@ export default async function SignUpPage() {
             {!session ? (
                <CreateAccountStepOne />
             ) : (
-               <CreateAccountStepTwo>
+               <CreateAccountStepTwo viperFollowings={session.user.followings}>
                   <ProfileFirstFollowing />
                </CreateAccountStepTwo>
             )}

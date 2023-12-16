@@ -25,6 +25,8 @@ declare module 'next-auth' {
          image: string
          location: string
          username: string
+         followers: number
+         followings: number
       }
    }
    // Need to check this, if this user is just for the session or the database
@@ -78,6 +80,7 @@ export default {
             const { username, password } = credentials
             console.log({ username, password })
 
+            // TODO: login with username and password func
             const user = await viperService.findByEmail('agustinbigoni@gmail.com')
             // need to implement not-found.tsx
             // if(!user){
@@ -135,9 +138,12 @@ export default {
       session: async ({ session, token, user, trigger, newSession }) => {
          session.user.id = user.id
          session.user.username = user.username
-         // session.user.image = user.image ?? ''
-         // session.user.location = user.location
-         if (trigger && newSession?.shopify) {
+         session.user.followers = user.followers.length
+         session.user.followings = user.followings.length
+         // trigger refresh the full page, dev and prod
+         if (trigger && newSession.followings) {
+            // session.user.followings = newSession.followings
+         } else if (trigger && newSession.shopify) {
             // session.user.shopify = newSession.shopify
          } else if (trigger && newSession?.image && newSession?.location && newSession?.image) {
             session.user.name = newSession.name
@@ -151,7 +157,13 @@ export default {
       // states of events are global
       session: ({ session, token }) => {},
       signIn: ({ profile, user, account, isNewUser }) => {},
-      signOut: (message) => {},
+      signOut: async (message) => {
+         if ('session' in message) {
+            if (mongoAdapter.deleteSession && message.session) {
+               await mongoAdapter.deleteSession(message.session.sessionToken)
+            }
+         }
+      },
       linkAccount: ({ account, profile, user }) => {},
       createUser: async ({ user }) => {
          try {
