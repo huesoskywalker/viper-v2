@@ -48,7 +48,7 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                   </div>{' '}
                   <Link
                      href={'/i/flow/signup'}
-                     className={cn(buttonVariants({ variant: 'sign-up', size: 'sign' }), ' mb-2 ')}
+                     className={cn(buttonVariants({ variant: 'sky', size: 'sign' }), ' mb-2 ')}
                   >
                      Create an account
                   </Link>
@@ -60,7 +60,7 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                   </div>{' '}
                   <Link
                      href={'/i/flow/signin'}
-                     className={cn(buttonVariants({ variant: 'sign-in', size: 'sign' }))}
+                     className={cn(buttonVariants({ variant: 'midnight-blue', size: 'sign' }))}
                   >
                      Sign in
                   </Link>

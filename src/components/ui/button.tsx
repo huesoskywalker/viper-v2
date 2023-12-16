@@ -19,9 +19,8 @@ const buttonVariants = cva(
             viper: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
             provider:
                'border rounded-3xl border-input text-secondary hover:text-accent-foreground bg-foreground hover:bg-accent',
-            'sign-up':
-               'border rounded-3xl border-input text-primary hover:text-accent-foreground bg-viper-dodger-blue hover:bg-viper-dodger-blue/90 ',
-            'sign-in':
+            sky: 'border rounded-3xl border-input text-primary hover:text-accent-foreground bg-viper-dodger-blue hover:bg-viper-dodger-blue/90 ',
+            'midnight-blue':
                'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-black hover:bg-viper-dodger-blue/20',
          },
          size: {
