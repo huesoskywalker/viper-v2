@@ -37,6 +37,7 @@ const CreateAccountStepOne = () => {
    }, [focusElem])
 
    const onSubmit = async (formData: AdmissionFormValues) => {
+      const { token, ...restForm } = formData
       const updateViper = await fetch(`${BASE_URL}/i/flow/signup/api/verify`, {
          headers: {
             'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ const CreateAccountStepOne = () => {
          },
          method: 'PATCH',
          body: JSON.stringify({
-            formData,
+            restForm,
          }),
       })
       if (!updateViper.ok) {
@@ -52,7 +53,7 @@ const CreateAccountStepOne = () => {
          throw new Error(`${error.message}`)
       }
       // TODO: Add tRCP
-      const { data }: { data: WithId<Viper> } = await updateViper.json()
+      const { data }: { data: { username: string } } = await updateViper.json()
 
       signIn('credentials', {
          username: data.username,

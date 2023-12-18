@@ -35,11 +35,10 @@ const ToggleFollowButton = ({
          })
          if (!res.ok) {
             const { error } = await res.json()
-            // TODO: send a proper message based on the error
             throw new Error(error)
          }
-         refresh()
       })
+      refresh()
       // TODO: add trcp
    }
    return (
