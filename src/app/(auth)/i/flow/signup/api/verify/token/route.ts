@@ -78,7 +78,11 @@ export async function DELETE(request: NextRequest) {
    const params = request.nextUrl.searchParams
    const _id = params.get('_id')
 
-   if (!_id) return NextResponse.json({ error: '_id must be provided' }, { status: 400 })
+   if (!_id)
+      return NextResponse.json(
+         { error: 'Verification token _id must be provided' },
+         { status: 400 },
+      )
 
    const headers = request.headers
    const apiKey = headers.get('API-Key')
