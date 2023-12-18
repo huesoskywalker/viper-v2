@@ -21,15 +21,15 @@ interface ViperCRUDRepository {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Viper>>
    update(
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
    ): Promise<WithId<Viper> | null>
    getAll(): Promise<WithId<Viper>[]>
    getAllBasicProps(): Promise<WithId<ViperBasicProps>[]>
-   getById(viperId: string): Promise<WithId<Viper> | null>
-   getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null>
+   getById(viperId: string): Promise<WithId<Viper>>
+   getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<WithId<ViperBasicProps>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
@@ -46,12 +46,12 @@ interface ViperFollowRepository {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null>
+   ): Promise<Pick<WithId<Viper>, '_id'>>
    toggleFollowing(
       isFollowed: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null>
+   ): Promise<Pick<WithId<Viper>, '_id'>>
    // ======IMPORTANT=====
    // We need to add a initChat type and function
    // initChat(viperId: string, currentViperId: string): Promise

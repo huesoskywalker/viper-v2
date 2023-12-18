@@ -36,7 +36,7 @@ export class ViperService implements ViperRepositorySource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Viper>> {
       try {
          const newViper = await this.viperRepository.populateNewViper(
             _id,
@@ -86,9 +86,9 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async getById(viperId: string): Promise<Viper | null> {
+   async getById(viperId: string): Promise<WithId<Viper>> {
       try {
-         const viper: Viper | null = await this.viperRepository.getById(viperId)
+         const viper: WithId<Viper> | null = await this.viperRepository.getById(viperId)
 
          return viper
       } catch (error: unknown) {
@@ -96,7 +96,7 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null> {
+   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
       try {
          const viperBasicProps: WithId<ViperBasicProps> | null =
             await this.viperRepository.getBasicProps(viperId)
@@ -159,7 +159,7 @@ export class ViperService implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'>> {
       try {
          const toggleFollower: Pick<WithId<Viper>, '_id'> | null =
             await this.viperRepository.toggleFollower(isFollowing, viperId, currentViperId)
@@ -174,7 +174,7 @@ export class ViperService implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'>> {
       try {
          const toggleFollowing: Pick<WithId<Viper>, '_id'> | null =
             await this.viperRepository.toggleFollowing(isFollowing, viperId, currentViperId)

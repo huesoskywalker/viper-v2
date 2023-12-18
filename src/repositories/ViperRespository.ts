@@ -44,23 +44,17 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viper || !viper.password)
-            // throw new Error(`Invalid username or password. Please try again.`)
-            // TODO: check this for the login form if error or null for the form validation
-            return null
+         if (!viper) throw new Error(`User not found or does not exist.`)
+
+         if (!viper.password)
+            throw new Error(`Unable to log in: The user does not have a password set up`)
 
          const { password: viperPassword, ...restViper } = viper
          const isPasswordMatch = await bcrypt.compare(password, viperPassword)
 
-         // TODO: check this for the login form
-         // if (!isPasswordMatch) throw new Error(`Wrong password. Please try again.`)
-         // return restViper
          return isPasswordMatch ? restViper : null
       } catch (error: unknown) {
          throw error
-         // throw new Error(
-         //    `Repository Error: Failed to login viper with username '${username}'. ${error}`,
-         // )
       }
    }
 
@@ -71,7 +65,7 @@ export class ViperRepository implements ViperRepositorySource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Viper>> {
       try {
          const newViper = await this.viperCollection.findOneAndUpdate(
             {
@@ -119,7 +113,11 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         if (!newViper) throw new Error(`No matching user`)
+         if (!newViper) {
+            throw new Error(
+               `Failed to populate user data: No matching user found with the provided _id.`,
+            )
+         }
 
          return newViper
       } catch (error: unknown) {
@@ -147,8 +145,6 @@ export class ViperRepository implements ViperRepositorySource {
             // { returnDocument: 'after' },
          )
 
-         if (!updateProfile) throw Error(`No matching user to update`)
-
          return updateProfile
       } catch (error: unknown) {
          throw error
@@ -159,6 +155,7 @@ export class ViperRepository implements ViperRepositorySource {
       try {
          // TODO: use cursor with .next() and hasNext() for pagination
          const vipers: WithId<Viper>[] = await this.viperCollection.find({}).limit(20).toArray()
+
          return vipers
       } catch (error: unknown) {
          throw error
@@ -195,23 +192,21 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getById(viperId: string): Promise<WithId<Viper> | null> {
+   async getById(viperId: string): Promise<WithId<Viper>> {
       try {
          const viper: WithId<Viper> | null = await this.viperCollection.findOne({
             _id: new ObjectId(viperId),
          })
 
-         if (!viper) throw new Error(`No matching user`)
+         if (!viper) throw new Error(`User not found or does not exist.`)
 
          return viper
       } catch (error: unknown) {
-         // TODO: WinstonLogger in the repository and service or route?
          throw error
-         // throw new Error(`Repository Error: Failed to retrieve Viper by Id, ${error}`)
       }
    }
 
-   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps> | null> {
+   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
       try {
          const viperBasicProps: WithId<Viper> | null = await this.viperCollection.findOne(
             {
@@ -233,7 +228,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viperBasicProps) throw new Error(`No matching user`)
+         if (!viperBasicProps) throw new Error(`User not found or does not exist.`)
 
          return viperBasicProps as WithId<ViperBasicProps>
       } catch (error: unknown) {
@@ -269,6 +264,7 @@ export class ViperRepository implements ViperRepositorySource {
                },
             )
             .collation({ locale: 'en', strength: 2 })
+            .limit(20)
             .toArray()
 
          return vipers as WithId<ViperBasicProps>[]
@@ -360,7 +356,7 @@ export class ViperRepository implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'>> {
       const operation: string = isFollowing ? '$pull' : '$push'
       try {
          const toggleFollower: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -394,7 +390,7 @@ export class ViperRepository implements ViperRepositorySource {
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'> | null> {
+   ): Promise<Pick<WithId<Viper>, '_id'>> {
       const operation: string = isFollowing ? '$pull' : '$push'
       try {
          const toggleFollowing: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -424,6 +420,7 @@ export class ViperRepository implements ViperRepositorySource {
 
    async getBlogs(viperId: string): Promise<Blog[]> {
       try {
+         // TODO: use cursor .next() hasNext() for pagination
          const viperBlogs: Blog[] = await this.viperCollection
             .aggregate<Blog>([
                {
@@ -447,6 +444,7 @@ export class ViperRepository implements ViperRepositorySource {
 
                { $sort: { timestamp: 1 } },
             ])
+            .limit(15)
             .toArray()
 
          return viperBlogs
@@ -475,7 +473,9 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!newBlog) throw new Error(`No matching user`)
+         // TODO: refactor the database, different collection for different issues
+         // then refactor this stuff, the return of the func is viper | null and we are telling here not to be null
+         if (!newBlog) throw new Error(`User not found or does not exist.`)
 
          return newBlog
       } catch (error: unknown) {
@@ -596,6 +596,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
+         // same here, maybe return null and status: 404 ?
          if (!newReply) throw new Error(`No matching user or blog to add a reply`)
 
          return newReply
