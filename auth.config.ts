@@ -15,6 +15,8 @@ import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
 import { randomBytes, randomUUID } from 'crypto'
 import { buildRandomUsername } from './utils/build-random-username'
+import { MongoError } from 'mongodb'
+import { logError, logMongoError } from '@/config/winstonLogger'
 
 declare module 'next-auth' {
    interface Session {
@@ -139,6 +141,7 @@ export default {
          session.user.followings = user.followings.length
          // trigger refresh the full page, dev and prod
          if (trigger && newSession.followings) {
+            // probably remove this
             // session.user.followings = newSession.followings
          } else if (trigger && newSession.shopify) {
             // session.user.shopify = newSession.shopify
@@ -174,12 +177,18 @@ export default {
                user.id as _ID,
                user.name ?? undefined,
                user.email as string,
-               user.image ?? undefined,
+               user.image ?? './default-user.png',
                user.emailVerified,
                username ?? undefined,
             )
          } catch (error) {
-            throw new Error(`Auth Error, failed to create the user, ${error}`)
+            if (error instanceof MongoError) {
+               logMongoError({ action: 'Populate new user', viperId: user.id }, error)
+               throw new Error(`Internal server error: Failed to create the user`)
+            } else {
+               logError({ action: 'Populate new user', viperId: user.id }, error)
+               throw new Error(`Oops something wen't wrong. Please try again later.`)
+            }
          }
       },
       updateUser: async ({ user }) => {
