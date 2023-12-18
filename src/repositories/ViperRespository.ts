@@ -44,16 +44,23 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viper || !viper.password) return null
+         if (!viper || !viper.password)
+            // throw new Error(`Invalid username or password. Please try again.`)
+            // TODO: check this for the login form if error or null for the form validation
+            return null
 
          const { password: viperPassword, ...restViper } = viper
          const isPasswordMatch = await bcrypt.compare(password, viperPassword)
 
+         // TODO: check this for the login form
+         // if (!isPasswordMatch) throw new Error(`Wrong password. Please try again.`)
+         // return restViper
          return isPasswordMatch ? restViper : null
       } catch (error: unknown) {
-         throw new Error(
-            `Repository Error: Failed to login viper with username '${username}'. ${error}`,
-         )
+         throw error
+         // throw new Error(
+         //    `Repository Error: Failed to login viper with username '${username}'. ${error}`,
+         // )
       }
    }
 
@@ -66,7 +73,6 @@ export class ViperRepository implements ViperRepositorySource {
       username: string | undefined,
    ): Promise<WithId<Viper> | null> {
       try {
-         // we might need to find by email instead of id because of the Email Provider
          const newViper = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(_id),
@@ -92,7 +98,6 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                   emailVerified: emailVerified,
                   email: email,
-                  // check if this exists in the object it did at some point
                   username: username,
                   password: undefined,
                   name: name,
@@ -114,9 +119,11 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+         if (!newViper) throw new Error(`No matching user`)
+
          return newViper
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to create Viper, ${error}`)
+         throw error
       }
    }
 
@@ -137,25 +144,30 @@ export class ViperRepository implements ViperRepositorySource {
             {
                $set: updateProps,
             },
-            { returnDocument: 'after' },
+            // { returnDocument: 'after' },
          )
+
+         if (!updateProfile) throw Error(`No matching user to update`)
+
          return updateProfile
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to update Viper, ${error}`)
+         throw error
       }
    }
 
    async getAll(): Promise<WithId<Viper>[]> {
       try {
+         // TODO: use cursor with .next() and hasNext() for pagination
          const vipers: WithId<Viper>[] = await this.viperCollection.find({}).limit(20).toArray()
          return vipers
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Vipers, ${error}`)
+         throw error
       }
    }
 
    async getAllBasicProps(): Promise<WithId<ViperBasicProps>[]> {
       try {
+         // TODO: use cursor with .next() and hasNext() for pagination
          const vipers: WithId<Viper>[] = await this.viperCollection
             .find(
                {},
@@ -179,7 +191,7 @@ export class ViperRepository implements ViperRepositorySource {
 
          return vipers as WithId<ViperBasicProps>[]
       } catch (error) {
-         throw new Error(`Repository Error: Failed to retrieve Vipers with basic props, ${error}`)
+         throw error
       }
    }
 
@@ -188,10 +200,14 @@ export class ViperRepository implements ViperRepositorySource {
          const viper: WithId<Viper> | null = await this.viperCollection.findOne({
             _id: new ObjectId(viperId),
          })
+
+         if (!viper) throw new Error(`No matching user`)
+
          return viper
       } catch (error: unknown) {
-         // Add winston logger??? what do you think?
-         throw new Error(`Repository Error: Failed to retrieve Viper by Id, ${error}`)
+         // TODO: WinstonLogger in the repository and service or route?
+         throw error
+         // throw new Error(`Repository Error: Failed to retrieve Viper by Id, ${error}`)
       }
    }
 
@@ -216,9 +232,12 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!viperBasicProps) throw new Error(`No matching user`)
+
          return viperBasicProps as WithId<ViperBasicProps>
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Viper basic Props, ${error}`)
+         throw error
       }
    }
 
@@ -254,7 +273,7 @@ export class ViperRepository implements ViperRepositorySource {
 
          return vipers as WithId<ViperBasicProps>[]
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to find Viper by Username, ${error}`)
+         throw error
       }
    }
 
@@ -268,7 +287,7 @@ export class ViperRepository implements ViperRepositorySource {
             { email: 1 },
             { name: 'searchEmail', collation: { locale: 'en', strength: 2 }, unique: true },
          )
-         const isAvailable = await this.viperCollection.findOne(
+         const isAvailable: WithId<Viper> | null = await this.viperCollection.findOne(
             {
                [findQuery.field]: findQuery.value,
             },
@@ -283,15 +302,17 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
          return !!isAvailable
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to check field availability, ${error}`)
+         throw error
       }
    }
 
    // We don't have a getFollowers?
    async getFollowings(viperId: string): Promise<Follow[]> {
       try {
+         // TODO: use cursor .nex() and .hasNext() for pagination
          const viperFollowings: Follow[] = await this.viperCollection
             .aggregate<Follow>([
                {
@@ -306,10 +327,12 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             ])
+            .limit(30)
             .toArray()
+
          return viperFollowings
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Viper followings, ${error}`)
+         throw error
       }
    }
 
@@ -326,11 +349,10 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return isFollowing ? true : false
-      } catch (error: any) {
-         throw new Error(
-            `Repository Error: Failed to check if Viper is already followed, ${error.message}`,
-         )
+
+         return !!isFollowing
+      } catch (error: unknown) {
+         throw error
       }
    }
 
@@ -357,9 +379,14 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!toggleFollower) {
+            throw new Error(`No matching user to toggle follower`)
+         }
+
          return toggleFollower as Pick<WithId<Viper>, '_id'>
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to ${operation} Viper follower, ${error}`)
+         throw error
       }
    }
 
@@ -386,9 +413,12 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!toggleFollowing) throw new Error(`No matching user to toggle following`)
+
          return toggleFollowing as Pick<WithId<Viper>, '_id'>
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to ${operation} current Follow, ${error}`)
+         throw error
       }
    }
 
@@ -418,15 +448,16 @@ export class ViperRepository implements ViperRepositorySource {
                { $sort: { timestamp: 1 } },
             ])
             .toArray()
+
          return viperBlogs
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Blogs, ${error}`)
+         throw error
       }
    }
 
    async createBlog(viperId: string, comment: string): Promise<WithId<Viper> | null> {
       try {
-         const blogContent: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+         const newBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(viperId),
             },
@@ -443,9 +474,12 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
-         return blogContent
+
+         if (!newBlog) throw new Error(`No matching user`)
+
+         return newBlog
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to create blog, ${error}`)
+         throw error
       }
    }
 
@@ -464,9 +498,9 @@ export class ViperRepository implements ViperRepositorySource {
                _id: 'likes._id',
             },
          })
-         return isLiked ? true : false
+         return !!isLiked
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to check if Blog is already liked, ${error}`)
+         throw error
       }
    }
 
@@ -490,9 +524,14 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
+         if (!toggleLike)
+            throw new Error(
+               `No matching user or blog to  ${operation === '$push' ? 'like' : 'dislike'}`,
+            )
+
          return toggleLike
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to ${operation} blog like , ${error}`)
+         throw error
       }
    }
 
@@ -502,6 +541,8 @@ export class ViperRepository implements ViperRepositorySource {
       viperId: string,
       currentViperId: string,
    ): Promise<WithId<Viper> | null> {
+      // TODO: if it is our own Blog we should not push it to our feed since it will be already there
+      // if(viperId === currentViperId) return
       const operation: string = isLiked ? '$pull' : '$push'
       try {
          const toggleLikedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -517,9 +558,15 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!toggleLikedBlog)
+            throw new Error(
+               `No matching user to ${operation === '$push' ? 'like' : 'dislike'} feed blog`,
+            )
+
          return toggleLikedBlog
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to ${operation} liked blog, ${error}`)
+         throw error
       }
    }
 
@@ -531,7 +578,7 @@ export class ViperRepository implements ViperRepositorySource {
       comment: string,
    ): Promise<WithId<Viper> | null> {
       try {
-         const reply: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
+         const newReply: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(viperId),
                'blogs._id': new ObjectId(blogId),
@@ -549,10 +596,11 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         return reply
+         if (!newReply) throw new Error(`No matching user or blog to add a reply`)
+
+         return newReply
       } catch (error: unknown) {
-         // we should manage to split the errors based on the request
-         throw new Error(`Repository Error: Failed to add comment to blog, ${error}`)
+         throw error
       }
    }
 
@@ -562,6 +610,8 @@ export class ViperRepository implements ViperRepositorySource {
       currentViperId: string,
    ): Promise<WithId<Viper> | null> {
       try {
+         // TODO: if the it is our own blog we should not push it to the feed
+         // if(viperId === currentViperId) return
          const addFeedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
                _id: new ObjectId(currentViperId),
@@ -575,13 +625,16 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!addFeedBlog) throw new Error(`No matching user to add blog to feed`)
+
          return addFeedBlog
       } catch (error: unknown) {
-         throw new Error(`Repository Error:Failed to add commented blog into feed, ${error}`)
+         throw error
       }
    }
 
-   async toggleLikedEvent(
+   async toggleFeedEventLike(
       isLiked: boolean,
       eventId: string,
       viperId: string,
@@ -601,14 +654,21 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!toggleLike)
+            throw new Error(
+               `No matching user to ${operation === '$push' ? 'like' : 'dislike'} feed event`,
+            )
+
          return toggleLike
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to ${operation} Liked Event, ${error}`)
+         throw error
       }
    }
 
    async getLikedEvents(viperId: string): Promise<Like[]> {
       try {
+         // TODO: use cursor .next() .hasNext() for pagination
          const likedEvents: Like[] = await this.viperCollection
             .aggregate<Like>([
                {
@@ -623,14 +683,17 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             ])
+            .limit(20)
             .toArray()
+
          return likedEvents
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve liked Events, ${error}`)
+         throw error
       }
    }
 
    async getEventsCollection(viperId: string): Promise<EventCollection[]> {
+      // TODO: use cursor .next() .hasNext() for pagination
       try {
          const events: EventCollection[] = await this.viperCollection
             .aggregate<EventCollection>([
@@ -647,11 +710,12 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             ])
+            .limit(20)
             .toArray()
 
          return events
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Event Collection, ${error}`)
+         throw error
       }
    }
 
@@ -663,11 +727,9 @@ export class ViperRepository implements ViperRepositorySource {
                'myEvents.collection._id': new ObjectId(eventId),
             },
          )
-         return isParticipationRequested ? true : false
+         return !!isParticipationRequested
       } catch (error: unknown) {
-         throw new Error(
-            `Repository Error: Failed to check if participation is requested, ${error}`,
-         )
+         throw error
       }
    }
 
@@ -695,9 +757,13 @@ export class ViperRepository implements ViperRepositorySource {
                //     returnDocument: "after"
                // }
             )
+
+         if (!requestParticipation)
+            throw new Error(`No matching user to request event participation`)
+
          return requestParticipation
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to request participation, ${error}`)
+         throw error
       }
    }
 
@@ -715,9 +781,12 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!createdEvent) throw new Error(`No matching user to add the created event to feed`)
+
          return createdEvent
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to add created event, ${error}`)
+         throw error
       }
    }
 
@@ -733,14 +802,19 @@ export class ViperRepository implements ViperRepositorySource {
                },
             },
          )
+
+         if (!deletedEvent)
+            throw new Error(`No matching user to remove the created event from feed`)
+
          return deletedEvent
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to remove created event, ${error}`)
+         throw error
       }
    }
 
    async getCreatedEvents(viperId: string): Promise<CreatedEvent[]> {
       try {
+         // TODO: use cursor .next() .hasNext() for pagination
          const createdEvents: CreatedEvent[] = await this.viperCollection
             .aggregate<CreatedEvent>([
                {
@@ -757,10 +831,12 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             ])
+            .limit(20)
             .toArray()
+
          return createdEvents
       } catch (error: unknown) {
-         throw new Error(`Repository Error: Failed to retrieve Created Events, ${error}`)
+         throw error
       }
    }
 }

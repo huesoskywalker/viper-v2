@@ -86,7 +86,7 @@ interface ViperBlogRepository {
 }
 
 interface ViperEventRepository {
-   toggleLikedEvent(
+   toggleFeedEventLike(
       isLiked: boolean,
       eventId: string,
       viperId: string,
