@@ -19,7 +19,7 @@ export const ourFileRouter = {
          return { userId: session.user.id }
       })
       .onUploadError(async ({ error, fileKey }) => {
-         winstonLogger.error('Image upload error', {
+         winstonLogger.error('Profile image upload', {
             file: fileKey,
             name: error.name,
             code: error.code,

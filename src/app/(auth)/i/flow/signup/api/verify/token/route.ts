@@ -1,8 +1,8 @@
 import { clientPromise } from '@/services/servicesInitializer'
 import { NextRequest, NextResponse } from 'next/server'
 import { isValidApiKey } from '../../../_utils/is-valid-api-key'
-import { winstonLogger } from '@/config/winstonLogger'
-import { ObjectId } from 'mongodb'
+import { logError, logMongoError, winstonLogger } from '@/config/winstonLogger'
+import { MongoError, ObjectId } from 'mongodb'
 
 export async function GET(request: NextRequest) {
    const params = request.nextUrl.searchParams
@@ -36,7 +36,10 @@ export async function GET(request: NextRequest) {
       const hasNext = await cursor.hasNext()
 
       if (!hasNext) {
-         return NextResponse.json({ data: null, toDeleteTokens: [] }, { status: 200 })
+         return NextResponse.json(
+            { error: 'Verification token not found for the provided email' },
+            { status: 404 },
+         )
       }
 
       let data: { _id: ObjectId; token: string; expires: Date } | null = null
@@ -52,13 +55,22 @@ export async function GET(request: NextRequest) {
       await cursor.close()
 
       return NextResponse.json({ data, toDeleteTokens }, { status: 200 })
-   } catch (error: any) {
-      // TODO: return error.message
-      winstonLogger.error('Get verification token', {
-         error: error,
-      })
-      // TODO: return personalized error
-      return NextResponse.json({ error: error.message }, { status: 400 })
+   } catch (error: unknown) {
+      if (error instanceof MongoError) {
+         logMongoError({ action: 'Unable to retrieve verification token', email: email }, error)
+         return NextResponse.json(
+            {
+               error: 'Internal server error: Unable to retrieve verification token. Please try again later.',
+            },
+            { status: 500 },
+         )
+      } else {
+         logError({ action: 'Failed to retrieve verification token', email: email }, error)
+         return NextResponse.json(
+            { error: 'Failed to retrieve verification token. Please try again later.' },
+            { status: 400 },
+         )
+      }
    }
 }
 
@@ -77,16 +89,23 @@ export async function DELETE(request: NextRequest) {
       const client = await clientPromise
 
       const verificationCol = client.db('viperDb').collection('verification_tokens')
+
       const data = await verificationCol.deleteOne({
          _id: new ObjectId(_id),
       })
 
-      return NextResponse.json({ data }, { status: 200 })
+      return NextResponse.json({ data }, { status: 204 })
    } catch (error) {
-      winstonLogger.error('Delete verification token', {
-         error: error,
-      })
-      // TODO: return a personalized error
-      return NextResponse.json({ error }, { status: 400 })
+      if (error instanceof MongoError) {
+         return NextResponse.json(
+            { error: `Internal server error: Unable to delete verification token` },
+            { status: 500 },
+         )
+      } else {
+         return NextResponse.json(
+            { error: `Failed to delete verification token` },
+            { status: 400 },
+         )
+      }
    }
 }

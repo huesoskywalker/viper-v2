@@ -4,7 +4,8 @@ import { isValidApiKey } from '../../_utils/is-valid-api-key'
 import bcrypt from 'bcrypt'
 import { buildRandomUsername } from '../../../../../../../../utils/build-random-username'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
-import { winstonLogger } from '@/config/winstonLogger'
+import { logError, logMongoError } from '@/config/winstonLogger'
+import { MongoError } from 'mongodb'
 
 export async function GET(request: NextRequest) {
    const params = request.nextUrl.searchParams
@@ -30,14 +31,26 @@ export async function GET(request: NextRequest) {
          field: queryField,
          value: queryValue,
       })
+
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
-      // TODO: error.message to be able to read the message, i think. Let's try it
-      winstonLogger.error('Check prop availability', {
-         error: error,
-      })
-      // TODO: return a personalized error
-      return NextResponse.json({ error }, { status: 400 })
+      if (error instanceof MongoError) {
+         logMongoError({ action: 'Is property available', [queryField]: queryValue }, error)
+         return NextResponse.json(
+            {
+               error: `Internal server error: Failed to check property availability. Please try again later or contact support.`,
+            },
+            { status: 500 },
+         )
+      } else {
+         logError({ action: 'Is property available', [queryField]: queryValue }, error)
+         return NextResponse.json(
+            {
+               error: `Invalid request: The provided data is not valid. Please check your input and try again.`,
+            },
+            { status: 400 },
+         )
+      }
    }
 }
 
@@ -47,18 +60,17 @@ export async function PATCH(request: NextRequest) {
 
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-   const { formData }: { formData: AdmissionFormValues } = await request.json()
-   const { token, ...restForm } = formData
+   const { formData }: { formData: Omit<AdmissionFormValues, 'token'> } = await request.json()
 
    try {
       const username = await buildRandomUsername(formData.name)
 
       const saltRounds = 10
-      const hashedPassword = await bcrypt.hash(restForm.password, saltRounds)
-      restForm.password = hashedPassword
+      const hashedPassword = await bcrypt.hash(formData.password, saltRounds)
+      formData.password = hashedPassword
 
       const updateViper: Omit<AdmissionFormValues, 'token'> & { username: string } = {
-         ...restForm,
+         ...formData,
          username,
       }
 
@@ -66,13 +78,27 @@ export async function PATCH(request: NextRequest) {
          { field: 'email', value: updateViper.email },
          updateViper,
       )
+      if (!data)
+         return NextResponse.json({ error: `User not found or does not exist` }, { status: 404 })
 
-      return NextResponse.json({ data }, { status: 200 })
+      return NextResponse.json({ data: { username: data.username } }, { status: 200 })
    } catch (error) {
-      winstonLogger.error('Update viper on sign up', {
-         error: error,
-      })
-      // TODO: return personalized error
-      return NextResponse.json({ error }, { status: 400 })
+      if (error instanceof MongoError) {
+         logMongoError({ action: `Update user on create account`, email: formData.email }, error)
+         return NextResponse.json(
+            {
+               error: `Internal server error: Unable to update the user. Please try again later or contact support.`,
+            },
+            { status: 500 },
+         )
+      } else {
+         logError({ action: `Update user on create account`, email: formData.email }, error)
+         return NextResponse.json(
+            {
+               error: `Invalid request: The provided data is not valid. Please check your input and try again.`,
+            },
+            { status: 400 },
+         )
+      }
    }
 }

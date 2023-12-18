@@ -1,10 +1,10 @@
-import { winstonLogger } from '@/config/winstonLogger'
+import { logError, logMongoError, winstonLogger } from '@/config/winstonLogger'
 import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
+import { MongoError } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const PATCH = async (request: NextRequest) => {
-   // check passing the request in here what happens
    const session = await auth()
    if (!session)
       return NextResponse.json(
@@ -20,12 +20,37 @@ export const PATCH = async (request: NextRequest) => {
       const [toggleFollower, toggleFollowing] = await Promise.all([followerRes, followingRes])
 
       return NextResponse.json({ data: { toggleFollower, toggleFollowing } }, { status: 200 })
-   } catch (error: any) {
-      // TODO:  return a personalized error
-      // TODO: need to return the error.message in all the return NextResponse
-      winstonLogger.error('Toggle follow', {
-         error: error.message,
-      })
-      return NextResponse.json({ error: error.message }, { status: 400 })
+   } catch (error: unknown) {
+      if (error instanceof MongoError) {
+         logMongoError(
+            {
+               action: `${isFollowing === true ? 'dislike' : 'like'} follower/following`,
+               viperId: viperId,
+               currentViperId: session.user.id,
+            },
+            error,
+         )
+
+         return NextResponse.json(
+            { error: `Internal server error. Please try again later.` },
+            { status: 500 },
+         )
+      } else {
+         logError(
+            {
+               action: `${isFollowing === true ? 'dislike' : 'like'} follower/following`,
+               viperId: viperId,
+               currentViperId: session.user.id,
+            },
+            error,
+         )
+
+         return NextResponse.json(
+            {
+               error: `Failed to toggle follower. Please try again later.`,
+            },
+            { status: 400 },
+         )
+      }
    }
 }
