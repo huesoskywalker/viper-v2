@@ -36,7 +36,7 @@ export class ViperService implements ViperRepositorySource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper>> {
+   ): Promise<WithId<ViperBasicProps>> {
       try {
          const newViper = await this.viperRepository.populateNewViper(
             _id,
@@ -56,7 +56,7 @@ export class ViperService implements ViperRepositorySource {
    async update(
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<ViperBasicProps> | null> {
       try {
          const updateProfile = await this.viperRepository.update(findQuery, updateProps)
 
@@ -66,7 +66,7 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async getAll(): Promise<Viper[]> {
+   async getAll(): Promise<Omit<Viper, 'password'>[]> {
       try {
          const vipers = await this.viperRepository.getAll()
 
@@ -86,9 +86,9 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async getById(viperId: string): Promise<WithId<Viper>> {
+   async getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>> {
       try {
-         const viper: WithId<Viper> | null = await this.viperRepository.getById(viperId)
+         const viper = await this.viperRepository.getById(viperId)
 
          return viper
       } catch (error: unknown) {
@@ -195,12 +195,9 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async createBlog(viperId: string, comment: string): Promise<WithId<Viper> | null> {
+   async createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
-         const blogContent: WithId<Viper> | null = await this.viperRepository.createBlog(
-            viperId,
-            comment,
-         )
+         const blogContent = await this.viperRepository.createBlog(viperId, comment)
 
          return blogContent
       } catch (error: unknown) {
@@ -227,7 +224,7 @@ export class ViperService implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const toggleLike = await this.viperRepository.toggleBlogLike(
             isLiked,
@@ -247,7 +244,7 @@ export class ViperService implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const toggleLikedBlog = await this.viperRepository.toggleFeedBlogLike(
             isLiked,
@@ -268,9 +265,9 @@ export class ViperService implements ViperRepositorySource {
       currentViperId: string,
       // change this to content or reply as well
       comment: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
-         const addBlogComment: WithId<Viper> | null = await this.viperRepository.addBlogReply(
+         const addBlogComment = await this.viperRepository.addBlogReply(
             blogId,
             viperId,
             currentViperId,
@@ -287,10 +284,13 @@ export class ViperService implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
-         const addFeedBlog: WithId<Viper> | null =
-            await this.viperRepository.addWithReplyBlogToFeed(blogId, viperId, currentViperId)
+         const addFeedBlog = await this.viperRepository.addWithReplyBlogToFeed(
+            blogId,
+            viperId,
+            currentViperId,
+         )
 
          return addFeedBlog
       } catch (error: unknown) {
@@ -353,10 +353,13 @@ export class ViperService implements ViperRepositorySource {
       viperId: string,
       eventId: string,
       checkoutId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
-         const requestParticipation: WithId<Viper> | null =
-            await this.viperRepository.requestEventParticipation(viperId, eventId, checkoutId)
+         const requestParticipation = await this.viperRepository.requestEventParticipation(
+            viperId,
+            eventId,
+            checkoutId,
+         )
 
          return requestParticipation
       } catch (error: unknown) {
@@ -364,15 +367,15 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async addCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null> {
+   async addCreatedEvent(
+      viperId: string,
+      eventId: string,
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       // We should combine this when we create the event within the eventRepository
       // probably we won't need this method in the ViperMethod
       // Adding both in the create method from the EventModel
       try {
-         const createdEvent: WithId<Viper> | null = await this.viperRepository.addCreatedEvent(
-            viperId,
-            eventId,
-         )
+         const createdEvent = await this.viperRepository.addCreatedEvent(viperId, eventId)
 
          return createdEvent
       } catch (error: unknown) {
@@ -380,15 +383,15 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async removeCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null> {
+   async removeCreatedEvent(
+      viperId: string,
+      eventId: string,
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       // We should combine this when we delete the event within the eventRepository
       // probably we won't need this method in the ViperMethod
       // Adding both in the create method from the EventModel
       try {
-         const removedEvent: WithId<Viper> | null = await this.viperRepository.removeCreatedEvent(
-            viperId,
-            eventId,
-         )
+         const removedEvent = await this.viperRepository.removeCreatedEvent(viperId, eventId)
 
          return removedEvent
       } catch (error: unknown) {

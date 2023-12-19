@@ -1,7 +1,7 @@
 import { clientPromise } from '@/services/servicesInitializer'
 import { NextRequest, NextResponse } from 'next/server'
 import { isValidApiKey } from '../../../_utils/is-valid-api-key'
-import { logError, logMongoError, winstonLogger } from '@/config/winstonLogger'
+import { logError, logMongoError } from '@/config/winstonLogger'
 import { MongoError, ObjectId } from 'mongodb'
 
 export async function GET(request: NextRequest) {

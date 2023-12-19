@@ -18,7 +18,7 @@ const CreateAccountStepTwo = ({
    children: React.ReactNode
    viperFollowings: number
 }) => {
-   const { step } = useCreateAccountStore()
+   const { step, redirectStep } = useCreateAccountStore()
 
    const { createProfileForm } = useCreateProfileForm()
 
@@ -29,6 +29,7 @@ const CreateAccountStepTwo = ({
       console.log({ formData })
       // -----------------------------------
       // Need to clear the interests from the store in here
+      redirectStep(0)
    }
 
    const { renderSteps } = useCreateProfileSteps(step, createProfileForm.control)

@@ -6,11 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const PATCH = async (request: NextRequest) => {
    const session = await auth()
-   if (!session)
-      return NextResponse.json(
-         { error: 'User session not found, Please log in or try again later' },
-         { status: 401 },
-      )
+   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
    const { isFollowing, viperId } = await request.json()
 
    try {
@@ -32,7 +28,7 @@ export const PATCH = async (request: NextRequest) => {
          )
 
          return NextResponse.json(
-            { error: `Internal server error. Please try again later.` },
+            { error: `Internal server error: Unable to toggle follow. Please try again later.` },
             { status: 500 },
          )
       } else {

@@ -21,14 +21,14 @@ interface ViperCRUDRepository {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper>>
+   ): Promise<WithId<ViperBasicProps>>
    update(
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
-   ): Promise<WithId<Viper> | null>
-   getAll(): Promise<WithId<Viper>[]>
+   ): Promise<WithId<ViperBasicProps> | null>
+   getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
    getAllBasicProps(): Promise<WithId<ViperBasicProps>[]>
-   getById(viperId: string): Promise<WithId<Viper>>
+   getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<WithId<ViperBasicProps>[]>
@@ -58,31 +58,31 @@ interface ViperFollowRepository {
 }
 interface ViperBlogRepository {
    getBlogs(viperId: string): Promise<Blog[]>
-   createBlog(viperId: string, comment: string): Promise<WithId<Viper> | null>
+   createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null>
    isBlogLiked(blogId: string, viperId: string, currentViperId: string): Promise<boolean>
    toggleBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Pick<Viper, '_id'>>>
    toggleFeedBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Pick<Viper, '_id'>>>
    addBlogReply(
       blogId: string,
       viperId: string,
       currentViperId: string,
       comment: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Pick<Viper, '_id'>>>
    addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Pick<Viper, '_id'>>>
 }
 
 interface ViperEventRepository {
@@ -98,9 +98,9 @@ interface ViperEventRepository {
       viperId: string,
       eventId: string,
       checkoutId: string,
-   ): Promise<WithId<Viper> | null>
-   addCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null>
-   removeCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null>
+   ): Promise<WithId<Pick<Viper, '_id'>> | null>
+   addCreatedEvent(viperId: string, eventId: string): Promise<WithId<Pick<Viper, '_id'>> | null>
+   removeCreatedEvent(viperId: string, eventId: string): Promise<WithId<Pick<Viper, '_id'>> | null>
    // wonder if we should return an empty[] if it does not have any event
    getCreatedEvents(viperId: string): Promise<CreatedEvent[]>
 }

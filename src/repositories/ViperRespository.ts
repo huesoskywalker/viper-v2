@@ -12,6 +12,7 @@ import {
 } from '@/types/viper'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
 import bcrypt from 'bcrypt'
+import { VIPER_BASIC_PROPS, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
 
 export class ViperRepository implements ViperRepositorySource {
    private viperCollection: Collection<Viper>
@@ -28,19 +29,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                collation: { locale: 'en', strength: 2 },
-               projection: {
-                  _id: 1,
-                  location: 1,
-                  bio: 1,
-                  email: 1,
-                  username: 1,
-                  password: 1,
-                  name: 1,
-                  image: 1,
-                  backgroundImage: 1,
-                  followers: 1,
-                  followings: 1,
-               },
+               projection: { ...VIPER_BASIC_PROPS, password: 1 },
             },
          )
 
@@ -52,7 +41,7 @@ export class ViperRepository implements ViperRepositorySource {
          const { password: viperPassword, ...restViper } = viper
          const isPasswordMatch = await bcrypt.compare(password, viperPassword)
 
-         return isPasswordMatch ? restViper : null
+         return isPasswordMatch ? (restViper as WithId<ViperBasicProps>) : null
       } catch (error: unknown) {
          throw error
       }
@@ -65,7 +54,7 @@ export class ViperRepository implements ViperRepositorySource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<Viper>> {
+   ): Promise<WithId<ViperBasicProps>> {
       try {
          const newViper = await this.viperCollection.findOneAndUpdate(
             {
@@ -112,6 +101,7 @@ export class ViperRepository implements ViperRepositorySource {
                   createdAt: new Date(),
                },
             },
+            { projection: VIPER_BASIC_PROPS },
          )
          if (!newViper) {
             throw new Error(
@@ -119,7 +109,7 @@ export class ViperRepository implements ViperRepositorySource {
             )
          }
 
-         return newViper
+         return newViper as WithId<ViperBasicProps>
       } catch (error: unknown) {
          throw error
       }
@@ -128,7 +118,7 @@ export class ViperRepository implements ViperRepositorySource {
    async update(
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<ViperBasicProps> | null> {
       const findBy =
          findQuery.field === '_id'
             ? { [findQuery.field]: new ObjectId(findQuery.value) }
@@ -142,7 +132,10 @@ export class ViperRepository implements ViperRepositorySource {
             {
                $set: updateProps,
             },
-            // { returnDocument: 'after' },
+            {
+               projection: VIPER_BASIC_PROPS,
+               // // returnDocument: 'after'
+            },
          )
 
          return updateProfile
@@ -151,12 +144,20 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getAll(): Promise<WithId<Viper>[]> {
+   async getAll(): Promise<WithId<Omit<Viper, 'password'>>[]> {
       try {
          // TODO: use cursor with .next() and hasNext() for pagination
-         const vipers: WithId<Viper>[] = await this.viperCollection.find({}).limit(20).toArray()
+         const vipers: WithId<Viper>[] = await this.viperCollection
+            .find(
+               {},
+               {
+                  projection: VIPER_WITHOUT_PASSWORD,
+               },
+            )
+            .limit(20)
+            .toArray()
 
-         return vipers
+         return vipers as WithId<Omit<Viper, 'password'>>[]
       } catch (error: unknown) {
          throw error
       }
@@ -169,18 +170,7 @@ export class ViperRepository implements ViperRepositorySource {
             .find(
                {},
                {
-                  projection: {
-                     _id: 1,
-                     location: 1,
-                     bio: 1,
-                     email: 1,
-                     username: 1,
-                     name: 1,
-                     image: 1,
-                     backgroundImage: 1,
-                     followers: 1,
-                     followings: 1,
-                  },
+                  projection: VIPER_BASIC_PROPS,
                },
             )
             .limit(20)
@@ -192,15 +182,18 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getById(viperId: string): Promise<WithId<Viper>> {
+   async getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>> {
       try {
-         const viper: WithId<Viper> | null = await this.viperCollection.findOne({
-            _id: new ObjectId(viperId),
-         })
+         const viper: WithId<Viper> | null = await this.viperCollection.findOne(
+            {
+               _id: new ObjectId(viperId),
+            },
+            { projection: VIPER_WITHOUT_PASSWORD },
+         )
 
          if (!viper) throw new Error(`User not found or does not exist.`)
 
-         return viper
+         return viper as WithId<Omit<Viper, 'password'>>
       } catch (error: unknown) {
          throw error
       }
@@ -213,18 +206,7 @@ export class ViperRepository implements ViperRepositorySource {
                _id: new ObjectId(viperId),
             },
             {
-               projection: {
-                  _id: 1,
-                  location: 1,
-                  bio: 1,
-                  email: 1,
-                  username: 1,
-                  name: 1,
-                  image: 1,
-                  backgroundImage: 1,
-                  followers: 1,
-                  followings: 1,
-               },
+               projection: VIPER_BASIC_PROPS,
             },
          )
 
@@ -250,17 +232,7 @@ export class ViperRepository implements ViperRepositorySource {
                   username: username,
                },
                {
-                  projection: {
-                     _id: 1,
-                     name: 1,
-                     image: 1,
-                     backgroundImage: 1,
-                     email: 1,
-                     location: 1,
-                     bio: 1,
-                     followers: 1,
-                     followings: 1,
-                  },
+                  projection: VIPER_BASIC_PROPS,
                },
             )
             .collation({ locale: 'en', strength: 2 })
@@ -371,7 +343,6 @@ export class ViperRepository implements ViperRepositorySource {
             {
                projection: {
                   _id: 1,
-                  // followers: 1,
                },
             },
          )
@@ -405,7 +376,6 @@ export class ViperRepository implements ViperRepositorySource {
             {
                projection: {
                   _id: 1,
-                  // followings: 1,
                },
             },
          )
@@ -421,6 +391,7 @@ export class ViperRepository implements ViperRepositorySource {
    async getBlogs(viperId: string): Promise<Blog[]> {
       try {
          // TODO: use cursor .next() hasNext() for pagination
+         // change this to find?
          const viperBlogs: Blog[] = await this.viperCollection
             .aggregate<Blog>([
                {
@@ -434,12 +405,16 @@ export class ViperRepository implements ViperRepositorySource {
                { $unwind: '$blogs.personal' },
                {
                   $project: {
-                     _id: '$blogs.personal._id',
-                     content: '$blogs.personal.content',
-                     likes: '$blogs.personal.likes',
-                     comments: '$blogs.personal.replies',
-                     timestamp: '$blogs.personal.timestamp',
+                     _id: 0,
+                     'blogs.personal': 1,
                   },
+                  // $project: {
+                  //    _id: '$blogs.personal._id',
+                  //    content: '$blogs.personal.content',
+                  //    likes: '$blogs.personal.likes',
+                  //    comments: '$blogs.personal.replies',
+                  //    timestamp: '$blogs.personal.timestamp',
+                  // },
                },
 
                { $sort: { timestamp: 1 } },
@@ -453,7 +428,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async createBlog(viperId: string, comment: string): Promise<WithId<Viper> | null> {
+   async createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
          const newBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
@@ -471,11 +446,16 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             },
+            {
+               projection: {
+                  _id: 1,
+               },
+            },
          )
 
          // TODO: refactor the database, different collection for different issues
          // then refactor this stuff, the return of the func is viper | null and we are telling here not to be null
-         if (!newBlog) throw new Error(`User not found or does not exist.`)
+         // if (!newBlog) throw new Error(`User not found or does not exist.`)
 
          return newBlog
       } catch (error: unknown) {
@@ -509,7 +489,7 @@ export class ViperRepository implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       const operation: string = isLiked ? '$pull' : '$push'
       try {
          const toggleLike: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -520,6 +500,11 @@ export class ViperRepository implements ViperRepositorySource {
             {
                [operation]: {
                   'blogs.personal.$.likes': { _id: new ObjectId(currentViperId) },
+               },
+            },
+            {
+               projection: {
+                  _id: 1,
                },
             },
          )
@@ -540,7 +525,7 @@ export class ViperRepository implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       // TODO: if it is our own Blog we should not push it to our feed since it will be already there
       // if(viperId === currentViperId) return
       const operation: string = isLiked ? '$pull' : '$push'
@@ -555,6 +540,11 @@ export class ViperRepository implements ViperRepositorySource {
                      _id: new ObjectId(blogId),
                      viperId: new ObjectId(viperId),
                   },
+               },
+            },
+            {
+               projection: {
+                  _id: 1,
                },
             },
          )
@@ -576,7 +566,7 @@ export class ViperRepository implements ViperRepositorySource {
       currentViperId: string,
       // change this to reply or content when the time comes
       comment: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const newReply: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
@@ -594,6 +584,11 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             },
+            {
+               projection: {
+                  _id: 1,
+               },
+            },
          )
 
          // same here, maybe return null and status: 404 ?
@@ -609,7 +604,7 @@ export class ViperRepository implements ViperRepositorySource {
       blogId: string,
       viperId: string,
       currentViperId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          // TODO: if the it is our own blog we should not push it to the feed
          // if(viperId === currentViperId) return
@@ -623,6 +618,11 @@ export class ViperRepository implements ViperRepositorySource {
                      _id: new ObjectId(blogId),
                      viperId: new ObjectId(viperId),
                   },
+               },
+            },
+            {
+               projection: {
+                  _id: 1,
                },
             },
          )
@@ -652,6 +652,11 @@ export class ViperRepository implements ViperRepositorySource {
                   'myEvents.liked': {
                      _id: new ObjectId(eventId),
                   },
+               },
+            },
+            {
+               projection: {
+                  _id: 1,
                },
             },
          )
@@ -738,7 +743,7 @@ export class ViperRepository implements ViperRepositorySource {
       viperId: string,
       eventId: string,
       checkoutId: string,
-   ): Promise<WithId<Viper> | null> {
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
          const requestParticipation: WithId<Viper> | null =
             await this.viperCollection.findOneAndUpdate(
@@ -753,14 +758,17 @@ export class ViperRepository implements ViperRepositorySource {
                      },
                   },
                },
-               // check if needed the last document
-               // {
-               //     returnDocument: "after"
-               // }
+               {
+                  projection: {
+                     _id: 1,
+                     // check if needed the last document
+                     // returnDocument: 'after'
+                  },
+               },
             )
 
-         if (!requestParticipation)
-            throw new Error(`No matching user to request event participation`)
+         // if (!requestParticipation)
+         // throw new Error(`No matching user to request event participation`)
 
          return requestParticipation
       } catch (error: unknown) {
@@ -768,7 +776,10 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async addCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null> {
+   async addCreatedEvent(
+      viperId: string,
+      eventId: string,
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
          const createdEvent: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
@@ -781,6 +792,11 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                },
             },
+            {
+               projection: {
+                  _id: 1,
+               },
+            },
          )
 
          if (!createdEvent) throw new Error(`No matching user to add the created event to feed`)
@@ -791,7 +807,10 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async removeCreatedEvent(viperId: string, eventId: string): Promise<WithId<Viper> | null> {
+   async removeCreatedEvent(
+      viperId: string,
+      eventId: string,
+   ): Promise<WithId<Pick<Viper, '_id'>> | null> {
       try {
          const deletedEvent = await this.viperCollection.findOneAndUpdate(
             {
@@ -800,6 +819,11 @@ export class ViperRepository implements ViperRepositorySource {
             {
                $pull: {
                   'myEvents.created': { _id: new ObjectId(eventId) },
+               },
+            },
+            {
+               projection: {
+                  _id: 1,
                },
             },
          )
