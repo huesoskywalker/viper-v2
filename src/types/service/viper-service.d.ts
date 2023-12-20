@@ -29,18 +29,14 @@ interface ViperFollowService {
    // =========================================
    getFollowings(viperId: string): Promise<Follow[]>
    isFollowing(viperId: string, currentViperId: string): Promise<boolean>
-   toggleFollower(
+   toggleFollow(
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'>>
-   toggleFollowing(
-      isFollowed: boolean,
-      viperId: string,
-      currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'>>
-   //    toggleFollow(isFollowing: boolean, viperId: string, currentViperId: string)
-   // : Promise<{<WithId<Pick<Viper>, "_id">>, WithId<Pick<Viper>, '_id'>>}>
+   ): Promise<{
+      follower: Pick<WithId<Viper>, '_id'>
+      following: Pick<WithId<Viper>, '_id'>
+   }>
    // ======IMPORTANT=====
    // We need to add a initChat type and function
    // initChat(viperId: string, currentViperId: string): Promise

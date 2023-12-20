@@ -199,31 +199,31 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async toggleFollower(
+   async toggleFollow(
       isFollowing: boolean,
       viperId: string,
       currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'>> {
+   ): Promise<{
+      follower: Pick<WithId<Viper>, '_id'>
+      following: Pick<WithId<Viper>, '_id'>
+   }> {
       try {
-         const toggleFollower: Pick<WithId<Viper>, '_id'> | null =
-            await this.viperRepository.toggleFollower(isFollowing, viperId, currentViperId)
+         const operation = isFollowing ? '$pull' : '$push'
 
-         return toggleFollower
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+         const toggleFollower = this.viperRepository.toggleFollower(
+            operation,
+            viperId,
+            currentViperId,
+         )
+         const toggleFollowing = this.viperRepository.toggleFollowing(
+            operation,
+            viperId,
+            currentViperId,
+         )
 
-   async toggleFollowing(
-      isFollowing: boolean,
-      viperId: string,
-      currentViperId: string,
-   ): Promise<Pick<WithId<Viper>, '_id'>> {
-      try {
-         const toggleFollowing: Pick<WithId<Viper>, '_id'> | null =
-            await this.viperRepository.toggleFollowing(isFollowing, viperId, currentViperId)
+         const [follower, following] = await Promise.all([toggleFollower, toggleFollowing])
 
-         return toggleFollowing
+         return { follower, following }
       } catch (error: unknown) {
          throw error
       }

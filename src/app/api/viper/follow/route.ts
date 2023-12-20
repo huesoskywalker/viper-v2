@@ -11,10 +11,7 @@ export const PATCH = async (request: NextRequest) => {
    const { isFollowing, viperId } = await request.json()
 
    try {
-      const followerRes = viperService.toggleFollower(isFollowing, viperId, session.user.id)
-      const followingRes = viperService.toggleFollowing(isFollowing, viperId, session.user.id)
-
-      await Promise.all([followerRes, followingRes])
+      await viperService.toggleFollow(isFollowing, viperId, session.user.id)
 
       return NextResponse.json({ status: 204 })
    } catch (error: unknown) {

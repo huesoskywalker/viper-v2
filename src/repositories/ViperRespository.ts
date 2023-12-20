@@ -125,15 +125,12 @@ export class ViperRepository implements ViperRepositorySource {
    }
 
    async update(
-      // findQuery: { field: '_id' | 'email'; value: string },
       findBy:
          | {
               _id: ObjectId
-              email?: undefined
            }
          | {
               email: string
-              _id?: undefined
            },
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasicProps> | null> {
@@ -325,11 +322,10 @@ export class ViperRepository implements ViperRepositorySource {
    }
 
    async toggleFollower(
-      isFollowing: boolean,
+      operation: '$push' | '$pull',
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
-      const operation: string = isFollowing ? '$pull' : '$push'
       try {
          const toggleFollower: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
@@ -358,11 +354,10 @@ export class ViperRepository implements ViperRepositorySource {
    }
 
    async toggleFollowing(
-      isFollowing: boolean,
+      operation: '$push' | '$pull',
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
-      const operation: string = isFollowing ? '$pull' : '$push'
       try {
          const toggleFollowing: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
