@@ -9,13 +9,14 @@ const clientPromise = mongoInstance.getClientPromise()
 
 const factoryInstance = RepositoryFactory.getInstance()
 
-const { eventRepository, viperRepository } = await factoryInstance.initializeRepositories(
-   clientPromise,
-)
+const { eventRepository, viperRepository } =
+   await factoryInstance.initializeRepositories(clientPromise)
 
 const eventService = new EventService(eventRepository)
 
 const viperService = new ViperService(viperRepository)
+
+await viperService.initSearchIndexes()
 
 const preloadViperService = new PreloadViperService(viperService)
 

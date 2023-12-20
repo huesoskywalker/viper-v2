@@ -1,3 +1,4 @@
+import { logError, logMongoError } from '@/config/winstonLogger'
 import { ViperRepositorySource } from '@/types/repository/viper-repository'
 import {
    Blog,
@@ -10,13 +11,38 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { WithId } from 'mongodb'
+import { MongoError, WithId } from 'mongodb'
 
 export class ViperService implements ViperRepositorySource {
    private viperRepository: ViperRepositorySource
 
    constructor(viperRepository: ViperRepositorySource) {
       this.viperRepository = viperRepository
+   }
+
+   async initSearchIndexes(): Promise<void> {
+      try {
+         await this.viperRepository.initSearchIndexes()
+      } catch (error) {
+         if (error instanceof MongoError) {
+            logMongoError(
+               { action: 'Initialize search Indexes', indexes: ['searchUsername', 'searchEmail'] },
+               error,
+            )
+
+            throw new Error(`Unable to initialize search indexes: ${error.message}`)
+         } else {
+            logError(
+               { action: 'Init search Indexes', indexes: ['searchUsername', 'searchEmail'] },
+               error,
+            )
+            throw new Error(
+               `Failed to initialize search indexes: ${
+                  error instanceof Error ? error.message : 'Unknown error'
+               }`,
+            )
+         }
+      }
    }
 
    async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {

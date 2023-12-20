@@ -10,7 +10,7 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { Collection, Db, ObjectId, WithId } from 'mongodb'
+import { Collection, Db, MongoError, ObjectId, WithId } from 'mongodb'
 import bcrypt from 'bcrypt'
 import { VIPER_BASIC_PROPS, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
 
@@ -19,6 +19,24 @@ export class ViperRepository implements ViperRepositorySource {
 
    constructor(database: Db) {
       this.viperCollection = database.collection<Viper>('users')
+   }
+
+   async initSearchIndexes(): Promise<void> {
+      try {
+         const usernameIndex = this.viperCollection.createIndex(
+            { username: 1 },
+            { name: 'searchUsername', collation: { locale: 'en', strength: 2 }, unique: true },
+         )
+
+         const emailIndex = this.viperCollection.createIndex(
+            { email: 1 },
+            { name: 'searchEmail', collation: { locale: 'en', strength: 2 }, unique: true },
+         )
+
+         await Promise.all([usernameIndex, emailIndex])
+      } catch (error) {
+         throw error
+      }
    }
 
    async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {
@@ -220,12 +238,6 @@ export class ViperRepository implements ViperRepositorySource {
 
    async findByUsername(username: string): Promise<WithId<ViperBasicProps>[]> {
       try {
-         // TODO: if works, create the index in the repository at init time
-         await this.viperCollection.createIndex(
-            { username: 1 },
-            { name: 'searchUsername', collation: { locale: 'en', strength: 2 }, unique: true },
-         )
-
          const vipers: Viper[] = await this.viperCollection
             .find<Viper>(
                {
@@ -250,11 +262,6 @@ export class ViperRepository implements ViperRepositorySource {
       value: string
    }): Promise<boolean> {
       try {
-         // TODO: if works, create the index in the repository at init time
-         await this.viperCollection.createIndex(
-            { email: 1 },
-            { name: 'searchEmail', collation: { locale: 'en', strength: 2 }, unique: true },
-         )
          const isAvailable: WithId<Viper> | null = await this.viperCollection.findOne(
             {
                [findQuery.field]: findQuery.value,
