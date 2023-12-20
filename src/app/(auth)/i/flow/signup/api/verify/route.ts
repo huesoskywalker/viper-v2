@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
    } catch (error) {
       if (error instanceof MongoError) {
          logMongoError({ action: 'Is property available', [queryField]: queryValue }, error)
+
          return NextResponse.json(
             {
                error: `Internal server error: Failed to check property availability. Please try again later or contact support.`,
@@ -44,6 +45,7 @@ export async function GET(request: NextRequest) {
          )
       } else {
          logError({ action: 'Is property available', [queryField]: queryValue }, error)
+
          return NextResponse.json(
             {
                error: `Invalid request: The provided data is not valid. Please check your input and try again.`,
@@ -60,17 +62,17 @@ export async function PATCH(request: NextRequest) {
 
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-   const { formData }: { formData: Omit<AdmissionFormValues, 'token'> } = await request.json()
+   const { restForm } = await request.json()
 
    try {
-      const username = await buildRandomUsername(formData.name)
+      const username = await buildRandomUsername(restForm.name)
 
       const saltRounds = 10
-      const hashedPassword = await bcrypt.hash(formData.password, saltRounds)
-      formData.password = hashedPassword
+      const hashedPassword = await bcrypt.hash(restForm.password, saltRounds)
+      restForm.password = hashedPassword
 
       const updateViper: Omit<AdmissionFormValues, 'token'> & { username: string } = {
-         ...formData,
+         ...restForm,
          username,
       }
 
@@ -79,12 +81,16 @@ export async function PATCH(request: NextRequest) {
          updateViper,
       )
       if (!data)
-         return NextResponse.json({ error: `User not found or does not exist` }, { status: 404 })
+         return NextResponse.json({
+            error: 'Invalid request: Unable to update user. Please check your input and try again.',
+            status: 422,
+         })
 
-      return NextResponse.json({ data: { username: data.username } }, { status: 200 })
+      return NextResponse.json({ data: { username: username } }, { status: 200 })
    } catch (error) {
       if (error instanceof MongoError) {
-         logMongoError({ action: `Update user on create account`, email: formData.email }, error)
+         logMongoError({ action: `Update user on create account`, email: restForm.email }, error)
+
          return NextResponse.json(
             {
                error: `Internal server error: Unable to update the user. Please try again later or contact support.`,
@@ -92,7 +98,8 @@ export async function PATCH(request: NextRequest) {
             { status: 500 },
          )
       } else {
-         logError({ action: `Update user on create account`, email: formData.email }, error)
+         logError({ action: `Update user on create account`, email: restForm.email }, error)
+
          return NextResponse.json(
             {
                error: `Invalid request: The provided data is not valid. Please check your input and try again.`,

@@ -6,15 +6,16 @@ import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { cn } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
 import { PropsWithChildren } from 'react'
+import { useRouter } from 'next/navigation'
 
 export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
    const { data: session, status } = useSession()
 
    const { step } = useCreateAccountStore()
 
+   const { push } = useRouter()
    if (status === 'authenticated' && step === 0) {
-      // need to handle this so we can redirect to home or previous path
-      throw new Error('Oops! Something went wrong, try again later.')
+      push('/home')
    }
 
    const { openDialog, closeDialog } = useHandleDialog()

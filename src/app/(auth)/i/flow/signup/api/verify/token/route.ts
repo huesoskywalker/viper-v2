@@ -98,16 +98,28 @@ export async function DELETE(request: NextRequest) {
          _id: new ObjectId(_id),
       })
 
-      return NextResponse.json({ data }, { status: 204 })
+      if (!data.acknowledged)
+         return NextResponse.json(
+            {
+               error: `Failed to delete verification token. Please try again later.`,
+            },
+            { status: 422 },
+         )
+
+      return NextResponse.json({ status: 204 })
    } catch (error) {
       if (error instanceof MongoError) {
+         logMongoError({ action: 'Delete verification token', tokenId: _id }, error)
          return NextResponse.json(
-            { error: `Internal server error: Unable to delete verification token` },
+            {
+               error: `Internal server error: Unable to delete verification token. Please try again later.`,
+            },
             { status: 500 },
          )
       } else {
+         logError({ action: 'Delete verification token', tokenId: _id }, error)
          return NextResponse.json(
-            { error: `Failed to delete verification token` },
+            { error: `Failed to delete verification token. Please try again later.` },
             { status: 400 },
          )
       }

@@ -22,8 +22,6 @@ export default function Error({
       <Dialog open={openDialog} onOpenChange={() => closeDialog('/', 'error')}>
          <DialogContent className="h-fit max-w-md px-16 py-8">
             <div className="flex flex-col items-center justify-center space-y-6">
-               {/* TODO, log error message, we are splitting in here */}
-               {/* <h2 className="text-primary">{error.message.split('Error')[0]}</h2> */}
                <h2 className="text-primary">{error.message}</h2>
                <Button
                   variant={'destructive'}

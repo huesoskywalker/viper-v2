@@ -1,4 +1,4 @@
-import { logError, logMongoError, winstonLogger } from '@/config/winstonLogger'
+import { logError, logMongoError } from '@/config/winstonLogger'
 import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
 import { MongoError } from 'mongodb'
@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const PATCH = async (request: NextRequest) => {
    const session = await auth()
+
    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
    const { isFollowing, viperId } = await request.json()
 
@@ -13,14 +14,14 @@ export const PATCH = async (request: NextRequest) => {
       const followerRes = viperService.toggleFollower(isFollowing, viperId, session.user.id)
       const followingRes = viperService.toggleFollowing(isFollowing, viperId, session.user.id)
 
-      const [toggleFollower, toggleFollowing] = await Promise.all([followerRes, followingRes])
+      await Promise.all([followerRes, followingRes])
 
-      return NextResponse.json({ data: { toggleFollower, toggleFollowing } }, { status: 200 })
+      return NextResponse.json({ status: 204 })
    } catch (error: unknown) {
       if (error instanceof MongoError) {
          logMongoError(
             {
-               action: `${isFollowing === true ? 'dislike' : 'like'} follower/following`,
+               action: `${isFollowing === true ? 'dislike' : 'like'} follow`,
                viperId: viperId,
                currentViperId: session.user.id,
             },
@@ -43,7 +44,7 @@ export const PATCH = async (request: NextRequest) => {
 
          return NextResponse.json(
             {
-               error: `Failed to toggle follower. Please try again later.`,
+               error: `Failed to toggle follow. Please try again later.`,
             },
             { status: 400 },
          )

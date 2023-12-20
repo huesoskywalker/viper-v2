@@ -1,7 +1,7 @@
 'use client'
 import { Form } from '@/components/ui/form'
 import { DialogFooter } from '@/components/ui/dialog'
-import { useLayoutEffect } from 'react'
+import { BaseSyntheticEvent, useLayoutEffect } from 'react'
 import { AdmissionFormValues, useAdmissionForm } from '../_hooks/admission/use-admission-form'
 import { FocusElement, useCreateAccountStore } from '../_stores/create-account-store'
 import { cn } from '@/lib/utils'
@@ -10,8 +10,7 @@ import { useAdmissionSteps } from '../_hooks/admission/use-admission-steps'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
 import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
-import { WithId } from 'mongodb'
-import { Viper } from '@/types/viper'
+import { useRouter } from 'next/navigation'
 
 const CreateAccountStepOne = () => {
    const { step, redirectStep } = useCreateAccountStore()
@@ -36,31 +35,39 @@ const CreateAccountStepOne = () => {
       }
    }, [focusElem])
 
-   const onSubmit = async (formData: AdmissionFormValues) => {
+   const { refresh } = useRouter()
+
+   const onSubmit = async (formData: AdmissionFormValues, e?: BaseSyntheticEvent) => {
+      if (e) e.preventDefault
+
       const { token, ...restForm } = formData
-      const updateViper = await fetch(`${BASE_URL}/i/flow/signup/api/verify`, {
-         headers: {
-            'Content-Type': 'application/json',
-            'API-Key': `${PUBLIC_VIPER_API_KEY}`,
-         },
-         method: 'PATCH',
-         body: JSON.stringify({
-            restForm,
-         }),
-      })
-      if (!updateViper.ok) {
-         const { error } = await updateViper.json()
-         throw new Error(`${error.message}`)
+      try {
+         const updateViper = await fetch(`${BASE_URL}/i/flow/signup/api/verify`, {
+            headers: {
+               'Content-Type': 'application/json',
+               'API-Key': `${PUBLIC_VIPER_API_KEY}`,
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+               restForm,
+            }),
+         })
+         if (!updateViper.ok) {
+            const { error } = await updateViper.json()
+            throw new Error(error)
+         }
+
+         const { data }: { data: { username: string } } = await updateViper.json()
+
+         await signIn('credentials', {
+            username: data.username,
+            password: getValues('password'),
+            redirect: false,
+         })
+      } catch (error) {
+         throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
       }
-      // TODO: Add tRCP
-      const { data }: { data: { username: string } } = await updateViper.json()
-
-      signIn('credentials', {
-         username: data.username,
-         password: getValues('password'),
-         redirect: false,
-      })
-
+      refresh()
       redirectStep(1)
    }
 
