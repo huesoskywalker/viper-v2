@@ -1,6 +1,6 @@
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormControl, FormDescription, FormField, FormItem } from '@/components/ui/form'
-import UpdateAvatar from '@/app/_components/update-avatar'
+import UpdateAvatar from '@/app/_components/viper/update-avatar'
 import { FormControlSteps } from '@/types/forms/steps'
 import { CreateProfileFormControl } from '../../_hooks/profile/use-create-profile-form'
 

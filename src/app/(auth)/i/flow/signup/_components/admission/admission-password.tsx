@@ -1,4 +1,4 @@
-import FormInput from '@/app/_components/form-input'
+import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import { FormControlSteps } from '@/types/forms/steps'

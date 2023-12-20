@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useFormState } from 'react-dom'
-import { handleAuthProvider } from '../_actions/handle-auth-providers'
+import { handleAuthProvider } from '../../_actions/handle-auth-providers'
 import AuthSignInButton from './auth-sign-in-button'
 
 const initialState = {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
-import { NavItem, navIcon } from '../_utils/get-nav-items'
+import { NavItem, navIcon } from '../../_utils/get-nav-items'
 import { cn } from '@/lib/utils'
 
 export function GlobalNavItem({ item, close }: { item: NavItem; close: () => false | void }) {

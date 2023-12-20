@@ -1,11 +1,3 @@
-'use client'
-
-import { useSession, signOut } from 'next-auth/react'
-import { GlobalNavItem } from './global-nav-items'
-import Link from 'next/link'
-import getNavItems from '../_utils/get-nav-items'
-import Image from 'next/image'
-import { cn } from '@/lib/utils'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,33 +6,14 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
-export function GlobalNav() {
+const ViperNavCard = () => {
    const { data: session } = useSession()
-   const { navItems } = getNavItems()
 
-   const linkClass =
-      'block rounded-full p-3 w-fit text-md font-medium text-secondary-foreground hover:bg-accent'
-
-   // need to handle the opacity of the nav when scrolling on mobile and create the upper menu (avatar and settings wheel)
    return (
-      <div className="fixed bottom-0 z-10 flex w-full flex-col justify-between bg-black py-2 md:top-0 md:w-24 md:items-center md:border-r md:border-gray-800 xl:w-72 ">
-         <nav className="flex flex-col md:items-center">
-            <div className="mx-8 flex flex-row justify-between py-2 sm:py-0 md:flex-col">
-               <Link href="/" className={cn(linkClass, 'hidden md:block')}>
-                  <Image
-                     src={'/viper.png'}
-                     width={30}
-                     height={30}
-                     alt="V logo"
-                     className="invert "
-                  />
-               </Link>
-               {navItems.map((item) => (
-                  <GlobalNavItem key={item.slug} item={item} close={close} />
-               ))}
-            </div>
-         </nav>
+      <>
          <DropdownMenu>
             <DropdownMenuTrigger asChild className="hidden rounded-full px-3 py-7 sm:mb-3 sm:flex">
                <Button variant="ghost" className="hover:bg-accent">
@@ -73,7 +46,7 @@ export function GlobalNav() {
                <DropdownMenuItem className="py-2 pl-3">
                   <Link
                      href="/"
-                     onClick={() => signOut({ callbackUrl: '/' })}
+                     onClick={() => signOut({ callbackUrl: '/logout' })}
                      className={'text-sm font-medium text-secondary-foreground'}
                   >
                      Log out <span className="align-text-top text-xs">@</span>
@@ -82,6 +55,8 @@ export function GlobalNav() {
                </DropdownMenuItem>
             </DropdownMenuContent>
          </DropdownMenu>
-      </div>
+      </>
    )
 }
+
+export default ViperNavCard

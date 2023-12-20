@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { PropsWithChildren } from 'react'
-import { UserAuthForm } from './user-auth-form'
+import { UserAuthForm } from './form/user-auth-form'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import TermsAndConditions from './terms-and-conditions'

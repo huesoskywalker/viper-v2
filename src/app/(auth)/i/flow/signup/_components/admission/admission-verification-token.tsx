@@ -1,4 +1,4 @@
-import FormInput from '@/app/_components/form-input'
+import FormInput from '@/app/_components/form/form-input'
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import React from 'react'

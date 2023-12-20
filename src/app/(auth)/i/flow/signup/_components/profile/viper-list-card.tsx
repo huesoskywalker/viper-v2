@@ -1,4 +1,4 @@
-import ToggleFollowButton from '@/app/_components/toggle-follow-button'
+import ToggleFollowButton from '@/app/_components/viper/toggle-follow-button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { auth } from '@/lib/auth'

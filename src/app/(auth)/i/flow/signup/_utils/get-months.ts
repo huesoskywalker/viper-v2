@@ -1,4 +1,4 @@
-import { SelectOptions } from '@/app/_components/form-select'
+import { SelectOptions } from '@/app/_components/form/form-select'
 
 const getMonths = (): { months: SelectOptions[] } => {
    const months: SelectOptions[] = Array.from({ length: 12 }, (_, index) => {

@@ -1,7 +1,7 @@
 'use client'
 import { useSession } from 'next-auth/react'
 import { PropsWithChildren, useEffect } from 'react'
-import { GlobalNav } from '../_components/global-nav'
+import { GlobalNav } from './nav/global-nav'
 import UnauthenticatedLayout from '../_components/unauthenticated-layout'
 
 export const AuthLayout = ({ children }: PropsWithChildren) => {

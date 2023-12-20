@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
-const RedirectAuthentication = () => {
+const RedirectOnAuthentication = () => {
    const { push } = useRouter()
    const { status } = useSession()
    useEffect(() => {
@@ -14,4 +14,4 @@ const RedirectAuthentication = () => {
    return <></>
 }
 
-export default RedirectAuthentication
+export default RedirectOnAuthentication

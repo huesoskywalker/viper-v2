@@ -1,9 +1,9 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import FormSelect from '@/app/_components/form-select'
+import FormSelect from '@/app/_components/form/form-select'
 import getMonths from '../../_utils/get-months'
 import getDays from '../../_utils/get-days'
 import getYears from '../../_utils/get-years'
-import FormInput from '@/app/_components/form-input'
+import FormInput from '@/app/_components/form/form-input'
 import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
 import { FormControlSteps } from '@/types/forms/steps'
 
