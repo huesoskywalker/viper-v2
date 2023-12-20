@@ -13,8 +13,9 @@ export const PasswordToggle: React.FC<PasswordToggleProps> = ({ showPassword, on
          className={cn(
             'absolute bottom-3 right-3 rounded-lg border-none data-[state=checked]:bg-viper-forest-green',
          )}
+         type={'button'}
          variant={'link'}
-         size={'link'}
+         size={'fit'}
          onClick={onToggle}
       >
          {showPassword === 'password' ? <EyeIcon color="white" /> : <EyeOffIcon color="white" />}

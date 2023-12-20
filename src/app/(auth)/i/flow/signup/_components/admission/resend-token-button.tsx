@@ -17,7 +17,7 @@ const ResendTokenButton = ({ children, email }: { children: string; email: strin
                })
             }}
             variant={'link'}
-            size={'link'}
+            size={'fit'}
             className={cn(`text-xs`)}
             disabled={isPending}
          >
