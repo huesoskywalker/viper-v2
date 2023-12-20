@@ -1,20 +1,6 @@
-import { ObjectId, WithId } from 'mongodb'
-import {
-   Blog,
-   CreatedEvent,
-   Email,
-   EventCollection,
-   Follow,
-   UpdateViper,
-   Viper,
-   ViperBasicProps,
-   _ID,
-} from '../viper'
-
-interface ViperCRUDRepository {
+interface ViperCRUDService {
    initSearchIndexes(): Promise<void>
-   login(username: string): Promise<WithId<ViperBasicProps & { password: string }> | null>
-   // we can make a pick interface for this props
+   login(username: string, plainPassword: string): Promise<WithId<ViperBasicProps> | null>
    populateNewViper(
       _id: _ID,
       name: string | undefined,
@@ -24,7 +10,7 @@ interface ViperCRUDRepository {
       username: string | undefined,
    ): Promise<WithId<ViperBasicProps>>
    update(
-      findBy: { _id: ObjectId } | { email: string },
+      findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasicProps> | null>
    getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
@@ -36,7 +22,7 @@ interface ViperCRUDRepository {
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 
-interface ViperFollowRepository {
+interface ViperFollowService {
    // ====================================================
    // should we add getFollowers? check if the function already
    // getFollowers(viperId: string): Promise<Follow[]>
@@ -53,11 +39,13 @@ interface ViperFollowRepository {
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>>
+   //    toggleFollow(isFollowing: boolean, viperId: string, currentViperId: string)
+   // : Promise<{<WithId<Pick<Viper>, "_id">>, WithId<Pick<Viper>, '_id'>>}>
    // ======IMPORTANT=====
    // We need to add a initChat type and function
    // initChat(viperId: string, currentViperId: string): Promise
 }
-interface ViperBlogRepository {
+interface ViperBlogService {
    getBlogs(viperId: string): Promise<Blog[]>
    createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null>
    isBlogLiked(blogId: string, viperId: string, currentViperId: string): Promise<boolean>
@@ -86,7 +74,7 @@ interface ViperBlogRepository {
    ): Promise<WithId<Pick<Viper, '_id'>>>
 }
 
-interface ViperEventRepository {
+interface ViperEventService {
    toggleFeedEventLike(
       isLiked: boolean,
       eventId: string,
@@ -106,12 +94,7 @@ interface ViperEventRepository {
    getCreatedEvents(viperId: string): Promise<CreatedEvent[]>
 }
 
-export type ViperRepositorySource = ViperCRUDRepository &
-   ViperFollowRepository &
-   ViperBlogRepository &
-   ViperEventRepository
-
-export type PreloadViperServiceSource = {
-   preloadGetById(viperId: string): Promise<void>
-   preloadBasicProps(viperId: string): Promise<void>
-}
+export type ViperServiceSource = ViperCRUDService &
+   ViperFollowService &
+   ViperBlogService &
+   ViperEventService

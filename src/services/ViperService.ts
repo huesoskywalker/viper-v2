@@ -11,9 +11,11 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { MongoError, WithId } from 'mongodb'
+import { MongoError, ObjectId, WithId } from 'mongodb'
+import bcrypt from 'bcrypt'
+import { ViperServiceSource } from '@/types/service/viper-service'
 
-export class ViperService implements ViperRepositorySource {
+export class ViperService implements ViperServiceSource {
    private viperRepository: ViperRepositorySource
 
    constructor(viperRepository: ViperRepositorySource) {
@@ -45,11 +47,20 @@ export class ViperService implements ViperRepositorySource {
       }
    }
 
-   async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {
+   async login(username: string, plainPassword: string): Promise<WithId<ViperBasicProps> | null> {
       try {
-         const viper = await this.viperRepository.login(username, password)
+         const viper = await this.viperRepository.login(username)
 
-         return viper
+         if (!viper) throw new Error(`User not found or does not exist.`)
+
+         if (!viper.password)
+            // TODO: check if we should return null for the react form hook
+            throw new Error(`Unable to log in: The user does not have a password set up`)
+
+         const { password, ...restViper } = viper
+         const isPasswordMatch = await bcrypt.compare(plainPassword, password)
+
+         return isPasswordMatch ? restViper : null
       } catch (error: unknown) {
          throw error
       }
@@ -84,7 +95,14 @@ export class ViperService implements ViperRepositorySource {
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasicProps> | null> {
       try {
-         const updateProfile = await this.viperRepository.update(findQuery, updateProps)
+         const findBy =
+            findQuery.field === '_id'
+               ? { [findQuery.field]: new ObjectId(findQuery.value) }
+               : { [findQuery.field]: findQuery.value }
+
+         if (!findBy) throw new Error(`Missing find query`)
+
+         const updateProfile = await this.viperRepository.update(findBy, updateProps)
 
          return updateProfile
       } catch (error: unknown) {

@@ -10,8 +10,7 @@ import {
    ViperBasicProps,
    _ID,
 } from '@/types/viper'
-import { Collection, Db, MongoError, ObjectId, WithId } from 'mongodb'
-import bcrypt from 'bcrypt'
+import { Collection, Db, ObjectId, WithId } from 'mongodb'
 import { VIPER_BASIC_PROPS, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
 
 export class ViperRepository implements ViperRepositorySource {
@@ -39,7 +38,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async login(username: string, password: string): Promise<WithId<ViperBasicProps> | null> {
+   async login(username: string): Promise<WithId<ViperBasicProps & { password: string }> | null> {
       try {
          const viper = await this.viperCollection.findOne(
             {
@@ -51,15 +50,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viper) throw new Error(`User not found or does not exist.`)
-
-         if (!viper.password)
-            throw new Error(`Unable to log in: The user does not have a password set up`)
-
-         const { password: viperPassword, ...restViper } = viper
-         const isPasswordMatch = await bcrypt.compare(password, viperPassword)
-
-         return isPasswordMatch ? (restViper as WithId<ViperBasicProps>) : null
+         return viper as WithId<ViperBasicProps & { password: string }> | null
       } catch (error: unknown) {
          throw error
       }
@@ -134,16 +125,18 @@ export class ViperRepository implements ViperRepositorySource {
    }
 
    async update(
-      findQuery: { field: '_id' | 'email'; value: string },
+      // findQuery: { field: '_id' | 'email'; value: string },
+      findBy:
+         | {
+              _id: ObjectId
+              email?: undefined
+           }
+         | {
+              email: string
+              _id?: undefined
+           },
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasicProps> | null> {
-      const findBy =
-         findQuery.field === '_id'
-            ? { [findQuery.field]: new ObjectId(findQuery.value) }
-            : { [findQuery.field]: findQuery.value }
-
-      if (!findBy) throw new Error(`Missing find query`)
-
       try {
          const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             findBy,
