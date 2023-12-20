@@ -10,6 +10,8 @@ import { Button } from '@/components/ui/button'
 import { useCreateProfileSteps } from '../_hooks/profile/use-create-profile-steps'
 import { useCreateProfileButtons } from '../_hooks/profile/use-create-profile-buttons'
 import { useCreateAccountStore } from '../_stores/create-account-store'
+import { BASE_URL } from '@/config/env'
+import { useCreateProfileStore } from '../_stores/create-profile-store'
 
 const CreateAccountStepTwo = ({
    children,
@@ -19,16 +21,31 @@ const CreateAccountStepTwo = ({
    viperFollowings: number
 }) => {
    const { step, redirectStep } = useCreateAccountStore()
+   const { clearInterests } = useCreateProfileStore()
 
    const { createProfileForm } = useCreateProfileForm()
 
    const { getFieldState, setValue } = createProfileForm
 
-   const onSubmit = (formData: CreateProfileFormValues) => {
-      console.log(`---whats in step two formData`)
-      console.log({ formData })
-      // -----------------------------------
-      // Need to clear the interests from the store in here
+   const onSubmit = async (formData: CreateProfileFormValues) => {
+      try {
+         const updateViper = await fetch(`${BASE_URL}/api/viper`, {
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify({ formData }),
+         })
+
+         if (!updateViper.ok) {
+            const { error } = await updateViper.json()
+            throw new Error(error)
+         }
+      } catch (error) {
+         throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
+      }
+
+      clearInterests()
       redirectStep(0)
    }
 

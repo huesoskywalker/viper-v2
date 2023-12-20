@@ -20,8 +20,6 @@ export const deletePrevToken = async (_id: string) => {
 
       return { data }
    } catch (error) {
-      throw new Error(
-         `Failed to delete the previous verification token, Please try again ${error}`,
-      )
+      throw new Error(error instanceof Error ? error.message : 'Unknown error')
    }
 }

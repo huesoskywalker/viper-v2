@@ -29,7 +29,7 @@ export const EmailSignUpSection: React.FC<SignUpSection> = ({ email, disabled })
             choose otherwise{' '}
             <Button
                variant={'link'}
-               size={'link'}
+               size={'fit'}
                className="text-[14px] font-normal leading-4"
                // TODO: we need to manage this step and backwards on step X
                onClick={() => redirectStep(11)}
