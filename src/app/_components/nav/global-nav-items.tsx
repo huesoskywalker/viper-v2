@@ -10,7 +10,7 @@ export function GlobalNavItem({ item, close }: { item: NavItem; close: () => fal
    const isActive = item.slug === segment
 
    const IconComponent = navIcon.get(item.name)
-   const hideIcon = ['Profile', 'More'].includes(item.name)
+   const hideIcon = ['Profile'].includes(item.name)
 
    return (
       <>

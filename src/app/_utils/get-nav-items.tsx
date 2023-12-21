@@ -1,4 +1,4 @@
-import { Bell, CircleEllipsis, Home, LucideIcon, Mail, Search, User2 } from 'lucide-react'
+import { Bell, Home, LucideIcon, Mail, Search, User2 } from 'lucide-react'
 
 export type NavItem = {
    name: string
@@ -36,11 +36,6 @@ const getNavItems = (): {
          slug: 'profile',
          description: 'Profile & Blog',
       },
-      {
-         name: 'More',
-         slug: 'more',
-         description: 'More options',
-      },
    ]
 
    return { navItems }
@@ -54,5 +49,4 @@ export const navIcon = new Map<string, LucideIcon>([
    ['Notifications', Bell],
    ['Messages', Mail],
    ['Profile', User2],
-   ['More', CircleEllipsis],
 ])

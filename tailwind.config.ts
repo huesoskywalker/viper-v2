@@ -141,8 +141,8 @@ const config: Config = {
          }),
       },
       animation: {
-         'accordion-down': 'accordion-down 0.2s ease-out',
-         'accordion-up': 'accordion-up 0.2s ease-out',
+         'accordion-down': 'accordion-down 0.1s ease-out',
+         'accordion-up': 'accordion-up 0.1s ease-out',
          highlight: 'highlight 1s ease-in-out 1',
          loading: 'loading 1.4s ease-in-out 0.2s infinite',
          shimmer: 'shimmer 1.5s infinite',
