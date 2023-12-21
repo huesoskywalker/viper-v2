@@ -30,11 +30,13 @@
       --destructive-foreground: 0 0% 98%;
 
       --border: 206 15.3% 38.4%;
-      --input: 240 3.7% 15.9%;
+      --input: 240 5% 50%;
+      /* --input: 240 3.7% 15.9%; */
       --ring: 240 4.9% 83.9%;
 
       /* me */
-      --overlay: 208 18% 43.5%;
+      /* --overlay: 208 18% 43.5%; */
+      --overlay: 199 24% 28%;
       --dodger-blue: 204 87.6% 52.7%;
       --pastel-blue: 210, 100%, 85%;
       --deep-blue: 218, 41%, 17%;
