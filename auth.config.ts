@@ -24,6 +24,7 @@ declare module 'next-auth' {
          id: string
          name: string
          email: string
+         role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
          image: string
          location: string
          username: string
@@ -37,11 +38,9 @@ declare module 'next-auth' {
 export default {
    debug: false,
    providers: [
-      GitHub({
-         allowDangerousEmailAccountLinking: true,
-      }),
+      GitHub({}),
       Google({
-         allowDangerousEmailAccountLinking: true,
+         // allowDangerousEmailAccountLinking: true,
       }),
       Auth0,
       Email({
@@ -95,6 +94,7 @@ export default {
       // verifyRequest: '/verify',
       // signOut: '/i/flow/signout',
       signIn: '/i/flow/login',
+      // error: '/i/flow/error',
    },
    callbacks: {
       signIn: async ({ user, account, profile, email, credentials }) => {
@@ -126,8 +126,8 @@ export default {
 
          return token
       },
-
       authorized: async ({ request, auth }) => {
+         console.log(`---authorized`)
          if (!auth) return NextResponse.json({ error: 'Unauthorized' })
          return true
       },
@@ -139,13 +139,14 @@ export default {
          session.user.username = user.username
          session.user.followers = user.followers.length
          session.user.followings = user.followings.length
+         session.user.role = user.role
          // trigger refresh the full page, dev and prod
-         if (trigger && newSession.followings) {
-            // probably remove this
-            // session.user.followings = newSession.followings
+         if (trigger && newSession.username && newSession.image) {
+            session.user.username = newSession.username
+            session.user.image = newSession.image
          } else if (trigger && newSession.shopify) {
             // session.user.shopify = newSession.shopify
-         } else if (trigger && newSession?.image && newSession?.location && newSession?.image) {
+         } else if (trigger && newSession.image && newSession.location) {
             session.user.name = newSession.name
             session.user.location = newSession.location
             session.user.image = newSession.image
@@ -156,7 +157,22 @@ export default {
    events: {
       // states of events are global
       session: ({ session, token }) => {},
-      signIn: ({ profile, user, account, isNewUser }) => {},
+      signIn: async ({ profile, user, account, isNewUser }) => {
+         // if (isNewUser) {
+         //    if (profile?.email_verified) {
+         //       try {
+         //          const emailVerified = new Date()
+         //          await viperService.update(
+         //             { field: '_id', value: String(user._id) },
+         //             emailVerified,
+         //          )
+         //       } catch (error) {
+         //          throw new Error(`Failed to update the user email verification`)
+         //       }
+         //    }
+         // }
+      },
+
       signOut: async (message) => {
          if ('session' in message) {
             if (mongoAdapter.deleteSession && message.session) {
@@ -164,19 +180,20 @@ export default {
             }
          }
       },
-      linkAccount: ({ account, profile, user }) => {},
+      linkAccount: async ({ account, profile, user }) => {},
       createUser: async ({ user }) => {
          try {
+            const role = user.name ? 'newViper' : 'needUpdate'
             let username: string | null | undefined = user.name
             if (username) {
                const randomUsername = await buildRandomUsername(username)
                username = randomUsername
             }
-
             await viperService.populateNewViper(
                user.id as _ID,
                user.name ?? undefined,
                user.email as string,
+               role,
                user.image ?? './default-user.png',
                user.emailVerified,
                username ?? undefined,

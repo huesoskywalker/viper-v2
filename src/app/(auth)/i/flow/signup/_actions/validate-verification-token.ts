@@ -1,5 +1,6 @@
 'use server'
 import { BASE_URL } from '@/config/env'
+import { logError } from '@/config/winstonLogger'
 import { z } from 'zod'
 
 const validationSchema = z.object({
@@ -25,6 +26,7 @@ export const validateVerificationToken = async (
       }
       return { success: true }
    } catch (error) {
+      logError({ action: 'Fetch verification token callback', email: data.email }, error)
       return { success: false, message: error }
    }
 }

@@ -70,6 +70,7 @@ export class ViperService implements ViperServiceSource {
       _id: _ID,
       name: string | undefined,
       email: string,
+      role: 'admin' | 'viper' | 'newViper' | 'needUpdate',
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
@@ -79,6 +80,7 @@ export class ViperService implements ViperServiceSource {
             _id,
             name,
             email,
+            role,
             image,
             emailVerified,
             username,
@@ -140,10 +142,10 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
+   async getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
       try {
          const viperBasicProps: WithId<ViperBasicProps> | null =
-            await this.viperRepository.getBasicProps(viperId)
+            await this.viperRepository.getByIdBasicProps(viperId)
 
          return viperBasicProps
       } catch (error: unknown) {

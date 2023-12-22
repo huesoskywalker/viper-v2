@@ -5,6 +5,7 @@ interface ViperCRUDService {
       _id: _ID,
       name: string | undefined,
       email: string,
+      role: 'admin' | 'viper' | 'newViper' | 'needUpdate',
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
@@ -16,7 +17,7 @@ interface ViperCRUDService {
    getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
    getAllBasicProps(): Promise<WithId<ViperBasicProps>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
-   getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>>
+   getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>>
    // This is one below is built for the search input
    findByUsername(username: string): Promise<WithId<ViperBasicProps>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>

@@ -11,6 +11,7 @@ export type Viper = {
    blogs: Blog
    emailVerified: Date | null
    email: Email
+   role: Role
    username: Username
    password: string | undefined
    name: Name
@@ -61,6 +62,8 @@ type BirthDate = {
    month: string
    year: string
 }
+
+type Role = 'admin' | 'viper' | 'newViper' | 'needUpdate'
 
 type Email = string
 

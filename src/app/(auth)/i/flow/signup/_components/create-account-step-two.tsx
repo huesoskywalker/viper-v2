@@ -12,6 +12,9 @@ import { useCreateProfileButtons } from '../_hooks/profile/use-create-profile-bu
 import { useCreateAccountStore } from '../_stores/create-account-store'
 import { BASE_URL } from '@/config/env'
 import { useCreateProfileStore } from '../_stores/create-profile-store'
+import { useSession } from 'next-auth/react'
+import { WithId } from 'mongodb'
+import { ViperBasicProps } from '@/types/viper'
 
 const CreateAccountStepTwo = ({
    children,
@@ -20,6 +23,7 @@ const CreateAccountStepTwo = ({
    children: React.ReactNode
    viperFollowings: number
 }) => {
+   const { update } = useSession()
    const { step, redirectStep } = useCreateAccountStore()
    const { clearInterests } = useCreateProfileStore()
 
@@ -41,6 +45,10 @@ const CreateAccountStepTwo = ({
             const { error } = await updateViper.json()
             throw new Error(error)
          }
+
+         const { data }: { data: WithId<ViperBasicProps> } = await updateViper.json()
+
+         update({ username: data.username, image: data.image })
       } catch (error) {
          throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
       }
@@ -62,7 +70,7 @@ const CreateAccountStepTwo = ({
             >
                <div
                   className={cn(
-                     `h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[88px]`,
+                     `h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[80px]`,
                   )}
                >
                   {step < 4 ? renderSteps : children}

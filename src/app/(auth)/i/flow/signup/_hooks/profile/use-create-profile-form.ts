@@ -100,6 +100,7 @@ const createProfileSchema = z.object({
    interests: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: 'You have to select at least one item.',
    }),
+   role: z.string().default('viper').optional(),
 })
 
 export const useCreateProfileForm = () => {

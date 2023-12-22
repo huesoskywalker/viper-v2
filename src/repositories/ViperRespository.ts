@@ -60,6 +60,7 @@ export class ViperRepository implements ViperRepositorySource {
       _id: _ID,
       name: string | undefined,
       email: string,
+      role: 'admin' | 'viper' | 'newViper' | 'needUpdate',
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
@@ -90,6 +91,7 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                   emailVerified: emailVerified,
                   email: email,
+                  role: role,
                   username: username,
                   password: undefined,
                   name: name,
@@ -207,7 +209,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
+   async getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
       try {
          const viperBasicProps: WithId<Viper> | null = await this.viperCollection.findOne(
             {

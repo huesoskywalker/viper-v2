@@ -11,6 +11,6 @@ export class PreloadViperService implements PreloadViperServiceSource {
    }
 
    async preloadBasicProps(viperId: string): Promise<void> {
-      void (await this.viperService.getBasicProps(viperId))
+      void (await this.viperService.getByIdBasicProps(viperId))
    }
 }

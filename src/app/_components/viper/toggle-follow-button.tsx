@@ -20,7 +20,7 @@ const ToggleFollowButton = ({
       (state: boolean, following: boolean) => following,
    )
 
-   const toggleFollow = async () => {
+   const toggleFollow = () => {
       startTransition(async () => {
          addOptimisticFollowing(!isFollowing)
          const res = await fetch(`${BASE_URL}/api/viper/follow`, {
@@ -39,7 +39,6 @@ const ToggleFollowButton = ({
          }
       })
       refresh()
-      // TODO: add trcp
    }
    return (
       <>
