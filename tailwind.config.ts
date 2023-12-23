@@ -153,5 +153,6 @@ const config: Config = {
       },
    },
    plugins: [require('tailwindcss-animate'), require('autoprefixer')],
+   darkMode: 'class',
 }
 export default config

@@ -5,6 +5,8 @@ import AuthProvider from './_providers/auth-provider'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import type { PropsWithChildren } from 'react'
+import { cookies } from 'next/headers'
+import { ThemeProvider } from './_providers/theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,9 +17,13 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
    return (
-      <html>
+      <html suppressHydrationWarning>
          <body className={`${inter.className} overflow-y-scroll bg-viper-background `}>
-            <AuthProvider>{children}</AuthProvider>
+            <ThemeProvider>
+               <main>
+                  <AuthProvider>{children}</AuthProvider>
+               </main>
+            </ThemeProvider>
          </body>
       </html>
    )

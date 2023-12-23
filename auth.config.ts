@@ -127,7 +127,6 @@ export default {
          return token
       },
       authorized: async ({ request, auth }) => {
-         console.log(`---authorized`)
          if (!auth) return NextResponse.json({ error: 'Unauthorized' })
          return true
       },
