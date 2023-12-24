@@ -18,7 +18,7 @@ export function GlobalNavItem({ item, close }: { item: NavItem; close: () => fal
             data-test="nav-item"
             onClick={close}
             href={`/${item.slug}`}
-            className={cn('w-fit rounded-full text-xl hover:bg-accent md:block md:p-3', {
+            className={cn('w-fit rounded-full  hover:bg-accent md:block md:p-3', {
                'font-normal text-gray-300': !isActive,
                'font-semibold text-white': isActive,
                hidden: hideIcon,
@@ -26,9 +26,13 @@ export function GlobalNavItem({ item, close }: { item: NavItem; close: () => fal
          >
             <div className="flex flex-row items-center justify-center gap-3">
                {IconComponent && (
-                  <IconComponent color="white" strokeWidth={isActive ? 3 : 1.5} size={30} />
+                  <IconComponent
+                     className="text-foreground"
+                     strokeWidth={isActive ? 3 : 1.5}
+                     size={30}
+                  />
                )}
-               <span className="hidden pr-3 xl:block">{item.name}</span>
+               <span className="hidden pr-3 text-xl text-foreground xl:block">{item.name}</span>
             </div>
          </Link>
       </>

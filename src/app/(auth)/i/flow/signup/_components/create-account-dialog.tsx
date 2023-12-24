@@ -47,7 +47,7 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                   )}
                >
                   {!session && step <= 5 ? (
-                     <DialogTitle className={cn(' text-lg font-semibold text-gray-300')}>
+                     <DialogTitle className={cn(' text-lg font-semibold text-foreground')}>
                         Step {step} of 5
                      </DialogTitle>
                   ) : (
@@ -58,7 +58,7 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                         height={50}
                         loading="lazy"
                         quality={100}
-                        className="invert filter"
+                        className="invert-image"
                      />
                   )}
                </DialogHeader>

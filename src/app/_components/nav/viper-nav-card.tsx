@@ -28,15 +28,15 @@ const ViperNavCard = () => {
                         />
                      </Avatar>
                      <div className="flex flex-col items-start justify-start text-sm">
-                        <span className="hidden text-secondary-foreground xl:block">
+                        <span className="hidden text-foreground xl:block">
                            {session?.user.name}
                         </span>
-                        <span className="hidden text-muted-foreground xl:block">
+                        <span className="hidden font-normal text-muted-foreground xl:block">
                            <span className="align-text-top text-xs">@</span>
                            {session?.user.username}
                         </span>
                      </div>
-                     <span className="hidden text-base font-semibold text-secondary-foreground xl:block">
+                     <span className="hidden text-base font-semibold text-foreground xl:block">
                         ...
                      </span>
                   </div>
@@ -46,7 +46,7 @@ const ViperNavCard = () => {
                <DropdownMenuItem className="py-2 pl-3">
                   <Link
                      href="/i/flow/logout"
-                     className={'text-base font-semibold text-secondary-foreground'}
+                     className={'text-base font-semibold text-foreground'}
                   >
                      Log out <span className="align-text-top text-sm">@</span>
                      {session?.user.username}

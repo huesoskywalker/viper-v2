@@ -23,7 +23,7 @@ const CreateProfileUsername: React.FC<FormControlSteps<CreateProfileFormControl>
 
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-primary ">
+         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
             What should we call you?
          </DialogDescription>
          <FormDescription>

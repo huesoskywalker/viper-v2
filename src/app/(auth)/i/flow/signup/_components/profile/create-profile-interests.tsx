@@ -25,7 +25,7 @@ const CreateProfileInterests: React.FC<FormControlSteps<CreateProfileFormControl
 
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-primary ">
+         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
             What do you want to see on Viper?
          </DialogDescription>
          <FormField

@@ -18,10 +18,10 @@ const buttonVariants = cva(
             link: 'em-0 justify-start p-0 text-viper-dodger-blue underline-offset-4 hover:underline focus-visible:ring-0',
             viper: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
             provider:
-               'border rounded-3xl border-input text-secondary hover:text-accent-foreground bg-foreground hover:bg-accent',
-            sky: 'border rounded-3xl border-input text-primary hover:text-accent-foreground bg-viper-dodger-blue hover:bg-viper-dodger-blue/90 ',
+               'border rounded-3xl border-input text-foreground hover:text-accent-foreground bg-background hover:bg-accent',
+            sky: 'rounded-3xl text-white bg-viper-dodger-blue hover:bg-viper-dodger-blue-hover',
             'midnight-blue':
-               'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-black hover:bg-viper-dodger-blue/20',
+               'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-background hover:bg-viper-dodger-blue/20',
          },
          size: {
             default: 'h-10 px-4 py-2',

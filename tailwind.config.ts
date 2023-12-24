@@ -17,6 +17,9 @@ const config: Config = {
          },
       },
       extend: {
+         invert: {
+            image: 'var(--invert-image)',
+         },
          colors: {
             gray: colors.zinc,
             'gray-1000': 'rgb(17,17,19)',
@@ -27,15 +30,18 @@ const config: Config = {
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
-               background: '#18181B',
-
-               overlay: 'hsl(var(--overlay))',
+               // me
                'dodger-blue': 'hsl(var(--dodger-blue))',
+               'dodger-blue-hover': 'hsl(var(--dodger-blue-hover))',
                'pastel-blue': 'hsl(var(--pastel-blue))',
                'deep-blue': 'hsl(var(--deep-blue))',
-               red: 'hsl(var(--error-message))',
+               red: 'hsl(var(--error-foreground))',
                'forest-green': 'hsl(var(--forest-green))',
             },
+            // me
+            overlay: 'hsl(var(--overlay))',
+            'invert-image': 'var(--invert-image)',
+            //
             border: 'hsl(var(--border))',
             input: 'hsl(var(--input))',
             ring: 'hsl(var(--ring))',
@@ -71,10 +77,10 @@ const config: Config = {
             },
          },
          boxShadow: {
-            rounded: '0px 0px 6px 1px rgba(255, 255, 255, 0.3)',
+            rounded: '0px 0px 6px 1px hsla(var(--shadow-rounded))',
          },
          backgroundImage: ({ theme }) => ({
-            'vc-border-gradient': `radial-gradient(at left top, ${theme(
+            'vp-border-gradient': `radial-gradient(at left top, ${theme(
                'colors.gray.500',
             )}, 50px, ${theme('colors.gray.800')} 50%)`,
          }),

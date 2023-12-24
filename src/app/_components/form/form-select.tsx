@@ -34,7 +34,7 @@ const FormSelect = React.forwardRef<
       <div
          className={cn(
             'relative flex h-[63px] w-full justify-start rounded-[4px] ',
-            isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-gray-600',
+            isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-input',
             error && 'border-viper-red',
          )}
       >
@@ -42,7 +42,7 @@ const FormSelect = React.forwardRef<
             htmlFor={props.id}
             className={cn(
                'absolute translate-y-1 px-2 pt-1 text-sm ',
-               isFocused ? ' text-viper-dodger-blue' : '   text-gray-600',
+               isFocused ? ' text-viper-dodger-blue' : '   text-muted-foreground',
             )}
          >
             {label}

@@ -29,7 +29,7 @@ const AdmissionContentDiscovery: React.FC<FormControlSteps<AdmissionFormControl>
                         Discover Viper content across the web.
                      </FormLabel>
                      <div className="flex flex-row gap-6">
-                        <FormDescription className="text-sm font-normal leading-5 text-gray-200">
+                        <FormDescription className="text-sm font-normal leading-5 text-foreground">
                            Viper tailors a personalized experience using this data. This web
                            browsing history will never be stored with your name, email, or phone
                            number.

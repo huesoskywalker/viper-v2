@@ -27,11 +27,11 @@ export const MoreNavMenu = () => {
             <Button
                variant="ghost"
                size={'fit'}
-               className="w-fit rounded-full text-xl font-normal text-gray-300 hover:bg-accent md:block md:p-3"
+               className="w-fit rounded-full  font-normal text-gray-300 hover:bg-accent md:block md:p-3"
             >
                <div className="flex flex-row items-center justify-center gap-3">
-                  <CircleEllipsisIcon color="white" strokeWidth={1.5} size={30} />
-                  <span className="hidden pr-3 xl:block">More</span>
+                  <CircleEllipsisIcon className="text-foreground" strokeWidth={1.5} size={30} />
+                  <span className="hidden pr-3 text-xl text-foreground xl:block">More</span>
                </div>
             </Button>
          </DropdownMenuTrigger>

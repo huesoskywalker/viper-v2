@@ -13,7 +13,7 @@ const ViperListCard = async ({ viper }: { viper: ViperBasicProps }) => {
    const isFollowing = await viperService.isFollowing(String(viper._id), session.user.id)
    return (
       <>
-         <Card key={String(viper._id)} className="border-none bg-black">
+         <Card key={String(viper._id)} className="border-none bg-background">
             <CardContent className="relative grid p-0">
                <div className="flex items-start space-x-3 p-0">
                   <Avatar className="static left-0 top-0">

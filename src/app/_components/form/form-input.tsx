@@ -7,7 +7,6 @@ import useFocusBlurState from '../../_hooks/use-focus-blur-states'
 import { PasswordToggle } from './password-toggle'
 import useShowPassword from '../../_hooks/use-show-password'
 import { Checkbox } from '@/components/ui/checkbox'
-import { X } from 'lucide-react'
 
 const FormInput = React.forwardRef<
    HTMLInputElement,
@@ -27,7 +26,7 @@ const FormInput = React.forwardRef<
          <div
             className={cn(
                'relative flex h-[63px] w-full justify-start rounded-[4px] ',
-               isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-gray-600',
+               isFocused ? 'border-2 border-viper-dodger-blue' : 'border-[1px] border-input',
                error && !isChanging && 'border-viper-red',
             )}
          >
@@ -37,7 +36,7 @@ const FormInput = React.forwardRef<
                   'text-md absolute transform px-2 pt-1 transition-transform duration-200 ',
                   isFocused
                      ? 'translate-y-0 text-sm  text-viper-dodger-blue'
-                     : 'text-md translate-y-2  text-gray-500',
+                     : 'text-md translate-y-2  text-muted-foreground',
                   hasValue && 'translate-y-0 text-sm',
                )}
                isChanging={isChanging}

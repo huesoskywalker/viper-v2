@@ -26,10 +26,10 @@ export default function ThemeSwitch() {
       )
 
    if (resolvedTheme === 'dark') {
-      return <Sun onClick={() => setTheme('light')} color="black" />
+      return <Sun onClick={() => setTheme('light')} color="white" />
    }
 
    if (resolvedTheme === 'light') {
-      return <Moon onClick={() => setTheme('dark')} color="white" />
+      return <Moon onClick={() => setTheme('dark')} color="black" />
    }
 }

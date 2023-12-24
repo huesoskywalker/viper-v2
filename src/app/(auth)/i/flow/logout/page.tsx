@@ -32,10 +32,10 @@ const LogOutPage = () => {
                      height={50}
                      loading="lazy"
                      quality={100}
-                     className="invert filter"
+                     className="invert-image"
                   />
                </DialogHeader>
-               <DialogTitle className="mb-2 font-bold text-secondary-foreground">
+               <DialogTitle className="mb-2 font-bold text-foreground">
                   Log out of Viper?
                </DialogTitle>
                <DialogDescription className="mb-6 leading-tight">
