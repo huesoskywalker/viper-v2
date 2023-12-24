@@ -16,7 +16,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
 
    return (
       <>
-         <FormDescription className="mt-3 text-3xl font-bold text-primary ">
+         <FormDescription className="mt-3 text-3xl font-bold text-foreground ">
             Create your account
          </FormDescription>
          <FormField
@@ -27,7 +27,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                   <FormInput
                      id={field.name}
                      type="text"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Name"
                      {...field}
                   />
@@ -42,7 +42,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                   <FormInput
                      id={field.name}
                      type="email"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Email"
                      {...field}
                   />
@@ -67,7 +67,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                            id={field.name}
                            label="Month"
                            options={months}
-                           variant={'viper'}
+                           variant={'plain'}
                            {...field}
                         />
 
@@ -84,7 +84,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                            id={'birthDate.day'}
                            label="Day"
                            options={days}
-                           variant={'viper'}
+                           variant={'plain'}
                            {...field}
                         />
 
@@ -101,7 +101,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                            id={field.name}
                            label="Year"
                            options={years}
-                           variant={'viper'}
+                           variant={'plain'}
                            {...field}
                         />
                         <FormMessage />

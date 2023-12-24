@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, SunMoon } from 'lucide-react'
 
 export default function ThemeSwitch() {
    const [mounted, setMounted] = useState(false)
@@ -26,7 +26,10 @@ export default function ThemeSwitch() {
       )
 
    if (resolvedTheme === 'dark') {
-      return <Sun onClick={() => setTheme('light')} color="white" />
+      return <Sun onClick={() => setTheme('dim')} color="white" />
+   }
+   if (resolvedTheme === 'dim') {
+      return <SunMoon onClick={() => setTheme('light')} color="white" />
    }
 
    if (resolvedTheme === 'light') {

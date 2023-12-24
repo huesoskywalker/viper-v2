@@ -29,7 +29,7 @@ const AdmissionInfoCheck: React.FC<FormControlSteps<AdmissionFormControl>> = ({ 
                   <FormInput
                      id={field.name}
                      type="text"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Name"
                      {...field}
                      checkbox={true}
@@ -45,7 +45,7 @@ const AdmissionInfoCheck: React.FC<FormControlSteps<AdmissionFormControl>> = ({ 
                   <FormInput
                      id={field.name}
                      type="text"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Email"
                      {...field}
                      checkbox={true}
@@ -62,7 +62,7 @@ const AdmissionInfoCheck: React.FC<FormControlSteps<AdmissionFormControl>> = ({ 
                      {...field}
                      id={'birthDate.month'}
                      type="text"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Date of birth"
                      value={dateOfBirth}
                      checkbox={true}

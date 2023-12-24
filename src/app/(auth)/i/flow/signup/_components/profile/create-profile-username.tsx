@@ -37,7 +37,7 @@ const CreateProfileUsername: React.FC<FormControlSteps<CreateProfileFormControl>
                   <FormInput
                      id={field.name}
                      type={'text'}
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Username"
                      checkbox={true}
                      {...field}

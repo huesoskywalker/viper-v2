@@ -52,10 +52,11 @@ const FormSelect = React.forwardRef<
                <FormControl id={props.id}>
                   <SelectTrigger
                      ref={ref}
-                     className="justify-between"
+                     className={`justify-between`}
                      variant={variant}
                      onFocus={handleOnFocus}
                      onBlur={handleOnBlur}
+                     isFocused={isFocused}
                   >
                      <SelectValue />
                   </SelectTrigger>

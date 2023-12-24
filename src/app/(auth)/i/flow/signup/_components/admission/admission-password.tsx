@@ -20,7 +20,7 @@ const AdmissionPassword: React.FC<FormControlSteps<AdmissionFormControl>> = ({ f
                   <FormInput
                      id={field.name}
                      type={'password'}
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Password"
                      {...field}
                   />

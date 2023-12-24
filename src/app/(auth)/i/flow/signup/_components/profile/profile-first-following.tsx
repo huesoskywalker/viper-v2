@@ -6,7 +6,7 @@ const ProfileFirstFollowing = async () => {
    const vipers = await viperService.getAllBasicProps()
    return (
       <>
-         <DialogTitle className="mt-2 text-3xl font-bold text-primary ">
+         <DialogTitle className="mt-2 text-3xl font-bold text-foreground ">
             Don&apos;t miss out
          </DialogTitle>
          <DialogDescription>

@@ -16,9 +16,8 @@ const buttonVariants = cva(
             secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
             ghost: 'hover:bg-accent hover:text-accent-foreground',
             link: 'em-0 justify-start p-0 text-viper-dodger-blue underline-offset-4 hover:underline focus-visible:ring-0',
-            viper: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
-            provider:
-               'border rounded-3xl border-input text-foreground hover:text-accent-foreground bg-background hover:bg-accent',
+            plain: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
+            provider: 'border rounded-3xl border-input text-black bg-white hover:bg-gray-200',
             sky: 'rounded-3xl text-white bg-viper-dodger-blue hover:bg-viper-dodger-blue-hover',
             'midnight-blue':
                'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-background hover:bg-viper-dodger-blue/20',

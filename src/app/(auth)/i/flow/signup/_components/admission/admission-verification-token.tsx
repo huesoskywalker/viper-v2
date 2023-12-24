@@ -25,7 +25,7 @@ const AdmissionVerificationToken: React.FC<FormControlSteps<AdmissionFormControl
                   <FormInput
                      id={field.name}
                      type="string"
-                     variant={'viper'}
+                     variant={'plain'}
                      label="Verification token"
                      {...field}
                   />

@@ -18,11 +18,14 @@ export function GlobalNavItem({ item, close }: { item: NavItem; close: () => fal
             data-test="nav-item"
             onClick={close}
             href={`/${item.slug}`}
-            className={cn('w-fit rounded-full  hover:bg-accent md:block md:p-3', {
-               'font-normal text-gray-300': !isActive,
-               'font-semibold text-white': isActive,
-               hidden: hideIcon,
-            })}
+            className={cn(
+               'w-fit  rounded-full transition-all duration-100 ease-in hover:bg-accent md:block md:p-3',
+               {
+                  'font-normal text-gray-300': !isActive,
+                  'font-semibold text-white': isActive,
+                  hidden: hideIcon,
+               },
+            )}
          >
             <div className="flex flex-row items-center justify-center gap-3">
                {IconComponent && (

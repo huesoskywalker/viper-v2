@@ -23,7 +23,7 @@ const FormCalendar = () => {
       <Popover>
          <PopoverTrigger asChild>
             <Button
-               variant={'viper'}
+               variant={'plain'}
                className={cn(
                   'w-full justify-start text-left font-normal',
                   !date && 'text-muted-foreground',

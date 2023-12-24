@@ -20,7 +20,7 @@ export const selectVariants = cva(
          variant: {
             default:
                'rounded-md border border-input bg-background placeholder:text-muted-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
-            viper: 'border-none focus-visible:outline-none focus-visible:ring-0 ',
+            plain: 'border-none focus-visible:outline-none focus-visible:ring-0 ',
          },
       },
       defaultVariants: {
@@ -37,8 +37,8 @@ export interface SelectProps
 const SelectTrigger = React.forwardRef<
    React.ElementRef<typeof SelectPrimitive.Trigger>,
    React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> &
-      VariantProps<typeof selectVariants>
->(({ className, variant, children, ...props }, ref) => (
+      VariantProps<typeof selectVariants> & { isFocused: boolean }
+>(({ className, variant, children, isFocused, ...props }, ref) => (
    <SelectPrimitive.Trigger
       ref={ref}
       className={cn(selectVariants({ variant }), className)}
@@ -46,7 +46,11 @@ const SelectTrigger = React.forwardRef<
    >
       {children}
       <SelectPrimitive.Icon asChild>
-         <ChevronDown className="absolute right-1 top-3 h-6 w-6 text-primary opacity-50 " />
+         <ChevronDown
+            className={`absolute right-1 top-3 h-6 w-6 opacity-50  ${
+               isFocused ? 'text-viper-dodger-blue' : 'text-primary'
+            }`}
+         />
       </SelectPrimitive.Icon>
    </SelectPrimitive.Trigger>
 ))
