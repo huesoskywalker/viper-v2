@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import ViperNavCard from './viper-nav-card'
 import { MoreNavMenu } from './more-nav-menu'
-import ThemeSwitch from '../theme-switch'
 
 export function GlobalNav() {
    const { navItems } = getNavItems()
@@ -31,7 +30,6 @@ export function GlobalNav() {
                   <GlobalNavItem key={item.slug} item={item} close={close} />
                ))}
                <MoreNavMenu />
-               <ThemeSwitch />
             </div>
          </nav>
          <ViperNavCard />

@@ -9,15 +9,13 @@ import { Button } from '@/components/ui/button'
 import {
    DropdownMenu,
    DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuPortal,
    DropdownMenuSub,
-   DropdownMenuSubContent,
    DropdownMenuSubTrigger,
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { BarChart3, Brush, CircleEllipsisIcon, Moon, Settings, Sun } from 'lucide-react'
+import { BarChart3, Brush, CircleEllipsisIcon, Settings } from 'lucide-react'
+import ThemeSwitch from '../theme-switch'
 
 export const MoreNavMenu = () => {
    const contentClass = 'flex flex-row justify-start gap-2 align-middle'
@@ -57,18 +55,7 @@ export const MoreNavMenu = () => {
                            <Brush />
                            <span>Display</span>
                         </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                           <DropdownMenuSubContent className="border-none p-0 shadow-rounded">
-                              <DropdownMenuItem>
-                                 <Sun />
-                                 Default
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                 <Moon />
-                                 Light&apos;s out
-                              </DropdownMenuItem>
-                           </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
+                        <ThemeSwitch />
                      </DropdownMenuSub>
                   </AccordionContent>
                </AccordionItem>

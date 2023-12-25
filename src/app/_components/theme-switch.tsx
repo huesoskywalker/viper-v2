@@ -1,10 +1,15 @@
-// app/components/ThemeSwitch.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
-import Image from 'next/image'
-import { Moon, Sun, SunMoon } from 'lucide-react'
+import { Moon, Sun, SunSnow } from 'lucide-react'
+
+import {
+   DropdownMenuItem,
+   DropdownMenuPortal,
+   DropdownMenuSubContent,
+} from '@/components/ui/dropdown-menu'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function ThemeSwitch() {
    const [mounted, setMounted] = useState(false)
@@ -12,27 +17,38 @@ export default function ThemeSwitch() {
 
    useEffect(() => setMounted(true), [])
 
-   if (!mounted)
-      return (
-         <Image
-            src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9IiNGRkZGRkYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBoZWlnaHQ9IjIwMHB4IiB3aWR0aD0iMjAwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB4PSIyIiB5PSIyIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiIHJ4PSIyIj48L3JlY3Q+PC9zdmc+Cg=="
-            width={36}
-            height={36}
-            sizes="36x36"
-            alt="Loading Light/Dark Toggle"
-            priority={false}
-            title="Loading Light/Dark Toggle"
-         />
-      )
+   if (!mounted) return
 
-   if (resolvedTheme === 'dark') {
-      return <Sun onClick={() => setTheme('dim')} color="white" />
-   }
-   if (resolvedTheme === 'dim') {
-      return <SunMoon onClick={() => setTheme('light')} color="white" />
-   }
+   const itemClass = 'flex justify-between align-center gap-4'
+   const spanClass = 'flex flex-grow gap-2'
+   const checkboxClass =
+      'rounded-lg border-none text-sm text-white data-[state=checked]:bg-viper-dodger-blue'
 
-   if (resolvedTheme === 'light') {
-      return <Moon onClick={() => setTheme('dark')} color="black" />
-   }
+   return (
+      <DropdownMenuPortal>
+         <DropdownMenuSubContent className="border-none p-0 shadow-rounded">
+            <DropdownMenuItem onClick={() => setTheme('light')} className={itemClass}>
+               <span className={spanClass}>
+                  <Sun />
+                  Default
+               </span>
+               <Checkbox checked={resolvedTheme === 'light'} className={checkboxClass} />
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme('dim')} className={itemClass}>
+               <span className={spanClass}>
+                  <SunSnow />
+                  Dim
+               </span>
+               <Checkbox checked={resolvedTheme === 'dim'} className={checkboxClass} />
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme('dark')} className={itemClass}>
+               <span className={spanClass}>
+                  <Moon />
+                  Light&apos;s out
+               </span>
+               <Checkbox checked={resolvedTheme === 'dark'} className={checkboxClass} />
+            </DropdownMenuItem>
+         </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+   )
 }
