@@ -2,6 +2,7 @@ import { AdmissionFormValues } from '../(auth)/i/flow/signup/_hooks/admission/us
 import { CreateProfileFormValues } from '../(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
 
 // change the AdmissionFormValues when we have a edit profile page
+// this is for an endpoint
 export const determineUpdateProfileSchema = (
    formData: CreateProfileFormValues | AdmissionFormValues,
 ) => {

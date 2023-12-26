@@ -19,13 +19,13 @@ export const AuthLayout = ({ children }: PropsWithChildren) => {
       return <>{children}</>
    }
 
-   // if (
-   //    session?.user.role === 'newViper' &&
-   //    !pathname.endsWith('/i/flow/signin') &&
-   //    !pathname.endsWith('/i/flow/single_sign_on')
-   // ) {
-   //    redirect('/i/flow/single_sign_on')
-   // }
+   if (
+      session?.user.role === 'newViper' &&
+      !pathname.endsWith('/i/flow/signin') &&
+      !pathname.endsWith('/i/flow/single_sign_on')
+   ) {
+      redirect('/i/flow/single_sign_on')
+   }
 
    if (session?.user.role === 'needUpdate' && !pathname.endsWith('/i/flow/signup')) {
       redirectStep(1)

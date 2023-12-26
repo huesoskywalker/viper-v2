@@ -3,10 +3,11 @@ import AdmissionPersonalInfo from '../../_components/admission/admission-persona
 import AdmissionContentDiscovery from '../../_components/admission/admission-content-discovery'
 import AdmissionInfoCheck from '../../_components/admission/admission-info-check'
 import AdmissionVerificationToken from '../../_components/admission/admission-verification-token'
-import { AdmissionFormControl } from './use-admission-form'
 import AdmissionPassword from '../../_components/admission/admission-password'
+import { AdmissionFormValues } from './use-admission-form'
+import { Control } from 'react-hook-form'
 
-export const useAdmissionSteps = (step: number, formControl: AdmissionFormControl) => {
+export const useAdmissionSteps = (step: number, formControl: Control<AdmissionFormValues>) => {
    const renderSteps = useMemo(() => {
       switch (step) {
          case 1:
