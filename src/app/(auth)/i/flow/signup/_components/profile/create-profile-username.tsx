@@ -1,13 +1,13 @@
 import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormDescription, FormField, FormItem, useFormField } from '@/components/ui/form'
-import { FormControlSteps } from '@/types/forms/steps'
-import { CreateProfileFormControl } from '../../_hooks/profile/use-create-profile-form'
+import { FormDescription, FormField, FormItem } from '@/components/ui/form'
+import { FormControlStep } from '@/types/forms/steps'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 
-const CreateProfileUsername: React.FC<FormControlSteps<CreateProfileFormControl>> = ({
+const CreateProfileUsername: React.FC<FormControlStep<CreateProfileFormValues>> = ({
    formControl,
 }) => {
    const { trigger } = useFormContext()

@@ -3,10 +3,10 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
-import { FormControlSteps } from '@/types/forms/steps'
-import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
+import { FormControlStep } from '@/types/forms/steps'
+import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 
-const AdmissionContentDiscovery: React.FC<FormControlSteps<AdmissionFormControl>> = ({
+const AdmissionContentDiscovery: React.FC<FormControlStep<AdmissionFormValues>> = ({
    formControl,
 }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '

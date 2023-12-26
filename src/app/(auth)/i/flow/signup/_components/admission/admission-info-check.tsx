@@ -3,10 +3,10 @@ import React from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useBirthDate } from '../../_hooks/admission/use-birth-date'
 import FormInput from '@/app/_components/form/form-input'
-import { FormControlSteps } from '@/types/forms/steps'
-import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
+import { FormControlStep } from '@/types/forms/steps'
+import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 
-const AdmissionInfoCheck: React.FC<FormControlSteps<AdmissionFormControl>> = ({ formControl }) => {
+const AdmissionInfoCheck: React.FC<FormControlStep<AdmissionFormValues>> = ({ formControl }) => {
    const { redirectStep, setFocusElem } = useCreateAccountStore()
 
    const { dateOfBirth } = useBirthDate()

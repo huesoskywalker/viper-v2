@@ -1,11 +1,11 @@
 import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormDescription, FormField, FormItem } from '@/components/ui/form'
-import { FormControlSteps } from '@/types/forms/steps'
+import { FormControlStep } from '@/types/forms/steps'
 import React from 'react'
-import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
+import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 
-const AdmissionPassword: React.FC<FormControlSteps<AdmissionFormControl>> = ({ formControl }) => {
+const AdmissionPassword: React.FC<FormControlStep<AdmissionFormValues>> = ({ formControl }) => {
    return (
       <>
          <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">

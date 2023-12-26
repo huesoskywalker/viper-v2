@@ -1,10 +1,10 @@
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormControl, FormDescription, FormField, FormItem } from '@/components/ui/form'
 import UpdateAvatar from '@/app/_components/viper/update-avatar'
-import { FormControlSteps } from '@/types/forms/steps'
-import { CreateProfileFormControl } from '../../_hooks/profile/use-create-profile-form'
+import { FormControlStep } from '@/types/forms/steps'
+import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 
-const CreateProfileAvatar: React.FC<FormControlSteps<CreateProfileFormControl>> = ({
+const CreateProfileAvatar: React.FC<FormControlStep<CreateProfileFormValues>> = ({
    formControl,
 }) => {
    return (

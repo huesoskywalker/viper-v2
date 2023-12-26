@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-   CreateProfileFormControl,
+   CreateProfileFormValues,
    interestItems,
 } from '../../_hooks/profile/use-create-profile-form'
-import { FormControlSteps } from '@/types/forms/steps'
+import { FormControlStep } from '@/types/forms/steps'
 import { DialogDescription } from '@/components/ui/dialog'
 import {
    FormControl,
@@ -16,9 +16,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
-import { CheckedState } from '@radix-ui/react-checkbox'
 
-const CreateProfileInterests: React.FC<FormControlSteps<CreateProfileFormControl>> = ({
+const CreateProfileInterests: React.FC<FormControlStep<CreateProfileFormValues>> = ({
    formControl,
 }) => {
    const { setInterest, removeInterest } = useCreateProfileStore()

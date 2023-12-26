@@ -1,19 +1,16 @@
 import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import FormSelect from '@/app/_components/form/form-select'
-import getMonths from '../../_utils/get-months'
-import getDays from '../../_utils/get-days'
-import getYears from '../../_utils/get-years'
+// import FormSelect from '@/app/_components/form/form-select'
+// import getMonths from '../../_utils/get-months'
+// import getDays from '../../_utils/get-days'
+// import getYears from '../../_utils/get-years'
 import FormInput from '@/app/_components/form/form-input'
-import { AdmissionFormControl } from '../../_hooks/admission/use-admission-form'
-import { FormControlSteps } from '@/types/forms/steps'
+import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { FormControlStep } from '@/types/forms/steps'
+import BirthDateSelector from '@/app/_components/form/birth-date-selector'
 
-const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = ({
+const AdmissionPersonalInfo: React.FC<FormControlStep<AdmissionFormValues>> = ({
    formControl,
 }) => {
-   const { months } = getMonths()
-   const { days } = getDays()
-   const { years } = getYears()
-
    return (
       <>
          <FormDescription className="mt-3 text-3xl font-bold text-foreground ">
@@ -57,58 +54,7 @@ const AdmissionPersonalInfo: React.FC<FormControlSteps<AdmissionFormControl>> = 
                   business, a beloved pet, or any other venture.
                </span>
             </FormDescription>
-            <div className="flex w-full flex-row items-start gap-2">
-               <FormField
-                  control={formControl}
-                  name="birthDate.month"
-                  render={({ field }) => (
-                     <FormItem className="w-4/5">
-                        <FormSelect
-                           id={field.name}
-                           label="Month"
-                           options={months}
-                           variant={'plain'}
-                           {...field}
-                        />
-
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />{' '}
-               <FormField
-                  control={formControl}
-                  name="birthDate.day"
-                  render={({ field }) => (
-                     <FormItem className="w-2/6">
-                        <FormSelect
-                           id={'birthDate.day'}
-                           label="Day"
-                           options={days}
-                           variant={'plain'}
-                           {...field}
-                        />
-
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />{' '}
-               <FormField
-                  control={formControl}
-                  name="birthDate.year"
-                  render={({ field }) => (
-                     <FormItem className="w-2/5">
-                        <FormSelect
-                           id={field.name}
-                           label="Year"
-                           options={years}
-                           variant={'plain'}
-                           {...field}
-                        />
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
-            </div>
+            <BirthDateSelector formControl={formControl} />
          </div>
       </>
    )
