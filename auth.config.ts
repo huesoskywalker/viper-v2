@@ -134,22 +134,30 @@ export default {
       // return baseUrl
       // },
       session: async ({ session, token, user, trigger, newSession }) => {
-         session.user.id = user.id
-         session.user.username = user.username
-         session.user.followers = user.followers.length
-         session.user.followings = user.followings.length
-         session.user.role = user.role
          // trigger refresh the full page, dev and prod
-         if (trigger && newSession.username && newSession.image) {
-            session.user.username = newSession.username
-            session.user.image = newSession.image
-         } else if (trigger && newSession.shopify) {
-            // session.user.shopify = newSession.shopify
-         } else if (trigger && newSession.image && newSession.location) {
-            session.user.name = newSession.name
-            session.user.location = newSession.location
-            session.user.image = newSession.image
+         if (trigger) {
+            const { username, image, role } = newSession
+            if (username && image && role) {
+               session.user.username = username
+               session.user.image = image
+               session.user.role = role
+            }
+            //   if (trigger && newSession.shopify) {
+            //             // session.user.shopify = newSession.shopify
+            //          } else if (trigger && newSession.image && newSession.location) {
+            //             session.user.name = newSession.name
+            //             session.user.location = newSession.location
+            //             session.user.image = newSession.image
+            //          }
+         } else {
+            session.user.id = user.id
+            session.user.username = user.username
+            session.user.image = user.image ?? '/default-user.png'
+            session.user.followers = user.followers.length
+            session.user.followings = user.followings.length
+            session.user.role = user.role
          }
+
          return session
       },
    },
@@ -193,7 +201,7 @@ export default {
                user.name ?? undefined,
                user.email as string,
                role,
-               user.image ?? './default-user.png',
+               user.image ?? '/default-user.png',
                user.emailVerified,
                username ?? undefined,
             )

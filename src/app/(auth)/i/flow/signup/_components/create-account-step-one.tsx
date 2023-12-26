@@ -10,10 +10,14 @@ import { useAdmissionSteps } from '../_hooks/admission/use-admission-steps'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
 import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const CreateAccountStepOne = () => {
    const { step, redirectStep } = useCreateAccountStore()
+
+   const pathname = usePathname()
+
+   const { replace } = useRouter()
 
    const { admissionForm } = useAdmissionForm()
 
@@ -34,8 +38,6 @@ const CreateAccountStepOne = () => {
          setFocus(focusElem)
       }
    }, [focusElem])
-
-   const { refresh } = useRouter()
 
    const onSubmit = async (formData: AdmissionFormValues, e?: BaseSyntheticEvent) => {
       if (e) e.preventDefault
@@ -63,12 +65,11 @@ const CreateAccountStepOne = () => {
             username: data.username,
             password: getValues('password'),
             redirect: false,
-         })
+         }),
+            await Promise.all([redirectStep(1), replace(pathname)])
       } catch (error) {
          throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
       }
-      refresh()
-      redirectStep(1)
    }
 
    return (

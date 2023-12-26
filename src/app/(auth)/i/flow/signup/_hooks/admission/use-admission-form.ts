@@ -1,12 +1,10 @@
 import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Control, UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
+import { UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { isValidVerificationToken } from '../../_utils/is-valid-verification-token'
 
 export type AdmissionFormValues = z.infer<typeof admissionSchema>
-
-export type AdmissionFormControl = Control<AdmissionFormValues, any>
 
 export type AdmissionFieldState = UseFormGetFieldState<AdmissionFormValues>
 
@@ -15,7 +13,7 @@ export type AdmissionFieldValue = UseFormGetValues<AdmissionFormValues>
 let memoizedEmail: string | null = null
 let memoizedToken: string | null = null
 
-const admissionSchema = z.object({
+export const admissionSchema = z.object({
    name: z
       .string({ required_error: 'Please provide a name' })
       .min(1, {

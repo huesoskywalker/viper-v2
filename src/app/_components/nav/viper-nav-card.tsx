@@ -6,7 +6,7 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 const ViperNavCard = () => {
@@ -23,7 +23,7 @@ const ViperNavCard = () => {
                            width={40}
                            height={40}
                            className="h-8 w-8 rounded-full p-0 xl:h-10 xl:w-10"
-                           src={session?.user.image}
+                           src={'/default-user.png'}
                            alt="Profile preview"
                         />
                      </Avatar>

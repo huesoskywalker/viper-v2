@@ -15,6 +15,7 @@ import { useCreateProfileStore } from '../_stores/create-profile-store'
 import { useSession } from 'next-auth/react'
 import { WithId } from 'mongodb'
 import { ViperBasicProps } from '@/types/viper'
+import { BaseSyntheticEvent } from 'react'
 
 const CreateAccountStepTwo = ({
    children,
@@ -31,7 +32,9 @@ const CreateAccountStepTwo = ({
 
    const { getFieldState, setValue } = createProfileForm
 
-   const onSubmit = async (formData: CreateProfileFormValues) => {
+   const onSubmit = async (formData: CreateProfileFormValues, e?: BaseSyntheticEvent) => {
+      if (e) e.preventDefault
+      clearInterests()
       try {
          const updateViper = await fetch(`${BASE_URL}/api/viper`, {
             headers: {
@@ -48,12 +51,10 @@ const CreateAccountStepTwo = ({
 
          const { data }: { data: WithId<ViperBasicProps> } = await updateViper.json()
 
-         update({ username: data.username, image: data.image })
+         await update({ username: data.username, image: data.image, role: formData.role })
       } catch (error) {
          throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
       }
-
-      clearInterests()
       redirectStep(0)
    }
 

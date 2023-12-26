@@ -1,17 +1,9 @@
 import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-   Control,
-   UseFormGetFieldState,
-   UseFormGetValues,
-   UseFormSetValue,
-   useForm,
-} from 'react-hook-form'
+import { UseFormGetFieldState, UseFormGetValues, UseFormSetValue, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export type CreateProfileFormValues = z.infer<typeof createProfileSchema>
-
-export type CreateProfileFormControl = Control<CreateProfileFormValues, any>
 
 export type CreateProfileFieldState = UseFormGetFieldState<CreateProfileFormValues>
 
@@ -65,7 +57,7 @@ export const interestItems: InterestItem = [
    },
 ] as const
 
-const createProfileSchema = z.object({
+export const createProfileSchema = z.object({
    username: z
       .string({
          required_error: 'Username is required',
@@ -100,12 +92,14 @@ const createProfileSchema = z.object({
    interests: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: 'You have to select at least one item.',
    }),
-   role: z.string().default('viper').optional(),
+   role: z.string(),
 })
 
 export const useCreateProfileForm = () => {
    const defaultValues = {
+      image: '/default-user.png',
       interests: [],
+      role: 'viper',
    }
 
    const createProfileForm = useForm<CreateProfileFormValues>({
