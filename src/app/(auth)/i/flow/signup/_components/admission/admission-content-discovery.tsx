@@ -3,11 +3,14 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
-import { FormControlStep } from '@/types/forms/steps'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { Control, FieldPath } from 'react-hook-form'
+import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provier-admission-form'
 
-const AdmissionContentDiscovery: React.FC<FormControlStep<AdmissionFormValues>> = ({
+const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderAdmissionFormValues>({
    formControl,
+}: {
+   formControl: Control<T>
 }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
 
@@ -19,7 +22,7 @@ const AdmissionContentDiscovery: React.FC<FormControlStep<AdmissionFormValues>> 
          <div className="space-y-2">
             <FormField
                control={formControl}
-               name="contentDiscovery"
+               name={'contentDiscovery' as FieldPath<T>}
                render={({ field }) => (
                   <FormItem className="space-y-2">
                      <FormLabel
@@ -36,7 +39,7 @@ const AdmissionContentDiscovery: React.FC<FormControlStep<AdmissionFormValues>> 
                         </FormDescription>
                         <FormControl id={field.name}>
                            <Checkbox
-                              checked={field.value}
+                              checked={Boolean(field.value)}
                               onCheckedChange={field.onChange}
                               className="border-accent-foreground data-[state=checked]:border-none data-[state=checked]:bg-viper-dodger-blue data-[state=checked]:text-primary"
                            />

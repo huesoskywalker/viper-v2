@@ -1,21 +1,18 @@
-import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-// import FormSelect from '@/app/_components/form/form-select'
-// import getMonths from '../../_utils/get-months'
-// import getDays from '../../_utils/get-days'
-// import getYears from '../../_utils/get-years'
+import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import FormInput from '@/app/_components/form/form-input'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 import { FormControlStep } from '@/types/forms/steps'
 import BirthDateSelector from '@/app/_components/form/birth-date-selector'
+import { DialogDescription } from '@radix-ui/react-dialog'
 
 const AdmissionPersonalInfo: React.FC<FormControlStep<AdmissionFormValues>> = ({
    formControl,
 }) => {
    return (
       <>
-         <FormDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
             Create your account
-         </FormDescription>
+         </DialogDescription>
          <FormField
             control={formControl}
             name="name"

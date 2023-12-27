@@ -6,12 +6,12 @@ import { useSession } from 'next-auth/react'
 const useHandleDialog = () => {
    const [openDialog, setOpenDialog] = useState<boolean>(false)
    const { step, redirectStep, prevStep } = useCreateAccountStore()
-   const { data: session } = useSession()
+   const { status } = useSession()
 
    const router = useRouter()
 
    useEffect(() => {
-      if (!session) redirectStep(1)
+      if (status === 'unauthenticated') redirectStep(1)
       setOpenDialog(true)
    }, [])
 

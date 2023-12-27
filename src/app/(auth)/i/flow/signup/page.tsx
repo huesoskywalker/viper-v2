@@ -1,10 +1,8 @@
 import { auth } from '@/lib/auth'
 import { CreateAccountDialog } from './_components/create-account-dialog'
-// TODO: remove from package if we pick Sooner
-// import { Toaster } from '@/components/ui/toaster'
-import { Toaster } from '@/components/ui/sonner'
-import CreateAccountStepOne from './_components/create-account-step-one'
-import CreateAccountStepTwo from './_components/create-account-step-two'
+import { Toaster } from '@/components/ui/toaster'
+import CreateAccountAdmissionForm from './_components/admission/create-account-admission-form'
+import CreateAccountProfileForm from './_components/profile/create-account-profile-form'
 import ProfileFirstFollowing from './_components/profile/profile-first-following'
 
 export default async function SignUpPage() {
@@ -13,14 +11,13 @@ export default async function SignUpPage() {
       <>
          <CreateAccountDialog>
             {!session ? (
-               <CreateAccountStepOne />
+               <CreateAccountAdmissionForm />
             ) : (
-               <CreateAccountStepTwo viperFollowings={session.user.followings}>
+               <CreateAccountProfileForm viperFollowings={session.user.followings}>
                   <ProfileFirstFollowing />
-               </CreateAccountStepTwo>
+               </CreateAccountProfileForm>
             )}
          </CreateAccountDialog>
-         {/* TODO: Remove the Toaster if Sooner works cool*/}
          <Toaster />
       </>
    )

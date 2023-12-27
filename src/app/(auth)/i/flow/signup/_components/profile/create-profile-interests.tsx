@@ -3,7 +3,6 @@ import {
    CreateProfileFormValues,
    interestItems,
 } from '../../_hooks/profile/use-create-profile-form'
-import { FormControlStep } from '@/types/forms/steps'
 import { DialogDescription } from '@/components/ui/dialog'
 import {
    FormControl,
@@ -16,9 +15,13 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
+import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provier-admission-form'
+import { Control, FieldPath } from 'react-hook-form'
 
-const CreateProfileInterests: React.FC<FormControlStep<CreateProfileFormValues>> = ({
+const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderAdmissionFormValues>({
    formControl,
+}: {
+   formControl: Control<T>
 }) => {
    const { setInterest, removeInterest } = useCreateProfileStore()
 
@@ -29,7 +32,7 @@ const CreateProfileInterests: React.FC<FormControlStep<CreateProfileFormValues>>
          </DialogDescription>
          <FormField
             control={formControl}
-            name="interests"
+            name={'interests' as FieldPath<T>}
             render={() => (
                <FormItem>
                   <FormDescription className="mb-4">
@@ -41,7 +44,7 @@ const CreateProfileInterests: React.FC<FormControlStep<CreateProfileFormValues>>
                         <FormField
                            key={item.id}
                            control={formControl}
-                           name="interests"
+                           name={'interests' as FieldPath<T>}
                            render={({ field }) => (
                               <FormItem key={item.id}>
                                  <FormLabel className="flex h-full w-full cursor-pointer text-secondary-foreground">
@@ -54,18 +57,23 @@ const CreateProfileInterests: React.FC<FormControlStep<CreateProfileFormValues>>
                                        <FormControl>
                                           <Checkbox
                                              className="absolute right-2 top-2 rounded-full border-none data-[state=checked]:bg-white data-[state=checked]:text-2xl data-[state=checked]:text-viper-dodger-blue"
-                                             checked={field.value?.includes(item.id)}
+                                             checked={
+                                                Array.isArray(field.value) &&
+                                                field.value.includes(item.id)
+                                             }
                                              onCheckedChange={(checked) => {
-                                                if (checked) {
-                                                   field.onChange([...field.value, item.id])
-                                                   setInterest()
-                                                } else {
-                                                   field.onChange(
-                                                      field.value?.filter(
-                                                         (value) => value !== item.id,
-                                                      ),
-                                                   )
-                                                   removeInterest()
+                                                if (Array.isArray(field.value)) {
+                                                   if (checked) {
+                                                      field.onChange([...field.value, item.id])
+                                                      setInterest()
+                                                   } else {
+                                                      field.onChange(
+                                                         field.value?.filter(
+                                                            (value: string) => value !== item.id,
+                                                         ),
+                                                      )
+                                                      removeInterest()
+                                                   }
                                                 }
                                                 return
                                              }}
