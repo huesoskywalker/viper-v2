@@ -8,7 +8,7 @@ import {
    Like,
    UpdateViper,
    Viper,
-   ViperBasicProps,
+   ViperBasic,
    _ID,
 } from '@/types/viper'
 import { MongoError, ObjectId, WithId } from 'mongodb'
@@ -47,7 +47,7 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async login(username: string, plainPassword: string): Promise<WithId<ViperBasicProps> | null> {
+   async login(username: string, plainPassword: string): Promise<WithId<ViperBasic> | null> {
       try {
          const viper = await this.viperRepository.login(username)
 
@@ -74,7 +74,7 @@ export class ViperService implements ViperServiceSource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<ViperBasicProps>> {
+   ): Promise<WithId<ViperBasic>> {
       try {
          const newViper = await this.viperRepository.populateNewViper(
             _id,
@@ -95,7 +95,7 @@ export class ViperService implements ViperServiceSource {
    async update(
       findQuery: { field: '_id' | 'email'; value: string },
       updateProps: UpdateViper,
-   ): Promise<WithId<ViperBasicProps> | null> {
+   ): Promise<WithId<ViperBasic> | null> {
       try {
          const findBy =
             findQuery.field === '_id'
@@ -122,7 +122,7 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getAllBasicProps(): Promise<ViperBasicProps[]> {
+   async getAllBasicProps(): Promise<ViperBasic[]> {
       try {
          const vipers = await this.viperRepository.getAllBasicProps()
 
@@ -142,21 +142,20 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
+   async getByIdBasic(viperId: string): Promise<WithId<ViperBasic>> {
       try {
-         const viperBasicProps: WithId<ViperBasicProps> | null =
-            await this.viperRepository.getByIdBasicProps(viperId)
+         const viperBasic: WithId<ViperBasic> | null =
+            await this.viperRepository.getByIdBasic(viperId)
 
-         return viperBasicProps
+         return viperBasic
       } catch (error: unknown) {
          throw error
       }
    }
 
-   async findByUsername(username: string): Promise<WithId<ViperBasicProps>[]> {
+   async findByUsername(username: string): Promise<WithId<ViperBasic>[]> {
       try {
-         const vipers: WithId<ViperBasicProps>[] =
-            await this.viperRepository.findByUsername(username)
+         const vipers: WithId<ViperBasic>[] = await this.viperRepository.findByUsername(username)
 
          return vipers
       } catch (error: unknown) {

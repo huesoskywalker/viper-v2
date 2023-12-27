@@ -3,9 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
-import { ViperBasicProps } from '@/types/viper'
+import { ViperBasic } from '@/types/viper'
 
-const ViperListCard = async ({ viper }: { viper: ViperBasicProps }) => {
+const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
    const session = await auth()
    if (!session) {
       throw new Error(`Authentication session not found. Please log in.`)

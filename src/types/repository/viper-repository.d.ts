@@ -7,13 +7,13 @@ import {
    Follow,
    UpdateViper,
    Viper,
-   ViperBasicProps,
+   ViperBasic,
    _ID,
 } from '../viper'
 
 interface ViperCRUDRepository {
    initSearchIndexes(): Promise<void>
-   login(username: string): Promise<WithId<ViperBasicProps & { password: string }> | null>
+   login(username: string): Promise<WithId<ViperBasic & { password: string }> | null>
    // we can make a pick interface for this props
    populateNewViper(
       _id: _ID,
@@ -23,17 +23,17 @@ interface ViperCRUDRepository {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<ViperBasicProps>>
+   ): Promise<WithId<ViperBasic>>
    update(
       findBy: { _id: ObjectId } | { email: string },
       updateProps: UpdateViper,
-   ): Promise<WithId<ViperBasicProps> | null>
+   ): Promise<WithId<ViperBasic> | null>
    getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
-   getAllBasicProps(): Promise<WithId<ViperBasicProps>[]>
+   getAllBasicProps(): Promise<WithId<ViperBasic>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
-   getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>>
+   getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    // This is one below is built for the search input
-   findByUsername(username: string): Promise<WithId<ViperBasicProps>[]>
+   findByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 

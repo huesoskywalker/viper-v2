@@ -147,7 +147,7 @@ export type Shopify = {
    customerId: string
 }
 
-export type ViperBasicProps = Pick<
+export type ViperBasic = Pick<
    Viper,
    | '_id'
    | 'location'

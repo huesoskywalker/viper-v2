@@ -7,7 +7,7 @@ import {
    Like,
    UpdateViper,
    Viper,
-   ViperBasicProps,
+   ViperBasic,
    _ID,
 } from '@/types/viper'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
@@ -38,7 +38,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async login(username: string): Promise<WithId<ViperBasicProps & { password: string }> | null> {
+   async login(username: string): Promise<WithId<ViperBasic & { password: string }> | null> {
       try {
          const viper = await this.viperCollection.findOne(
             {
@@ -50,7 +50,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         return viper as WithId<ViperBasicProps & { password: string }> | null
+         return viper as WithId<ViperBasic & { password: string }> | null
       } catch (error: unknown) {
          throw error
       }
@@ -64,7 +64,7 @@ export class ViperRepository implements ViperRepositorySource {
       image: string | undefined,
       emailVerified: Date | null,
       username: string | undefined,
-   ): Promise<WithId<ViperBasicProps>> {
+   ): Promise<WithId<ViperBasic>> {
       try {
          const newViper = await this.viperCollection.findOneAndUpdate(
             {
@@ -120,7 +120,7 @@ export class ViperRepository implements ViperRepositorySource {
             )
          }
 
-         return newViper as WithId<ViperBasicProps>
+         return newViper as WithId<ViperBasic>
       } catch (error: unknown) {
          throw error
       }
@@ -135,7 +135,7 @@ export class ViperRepository implements ViperRepositorySource {
               email: string
            },
       updateProps: UpdateViper,
-   ): Promise<WithId<ViperBasicProps> | null> {
+   ): Promise<WithId<ViperBasic> | null> {
       try {
          const updateProfile: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             findBy,
@@ -173,7 +173,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getAllBasicProps(): Promise<WithId<ViperBasicProps>[]> {
+   async getAllBasicProps(): Promise<WithId<ViperBasic>[]> {
       try {
          // TODO: use cursor with .next() and hasNext() for pagination
          const vipers: WithId<Viper>[] = await this.viperCollection
@@ -186,7 +186,7 @@ export class ViperRepository implements ViperRepositorySource {
             .limit(20)
             .toArray()
 
-         return vipers as WithId<ViperBasicProps>[]
+         return vipers as WithId<ViperBasic>[]
       } catch (error) {
          throw error
       }
@@ -209,9 +209,9 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getByIdBasicProps(viperId: string): Promise<WithId<ViperBasicProps>> {
+   async getByIdBasic(viperId: string): Promise<WithId<ViperBasic>> {
       try {
-         const viperBasicProps: WithId<Viper> | null = await this.viperCollection.findOne(
+         const viperBasic: WithId<Viper> | null = await this.viperCollection.findOne(
             {
                _id: new ObjectId(viperId),
             },
@@ -220,15 +220,15 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viperBasicProps) throw new Error(`User not found or does not exist.`)
+         if (!viperBasic) throw new Error(`User not found or does not exist.`)
 
-         return viperBasicProps as WithId<ViperBasicProps>
+         return viperBasic as WithId<ViperBasic>
       } catch (error: unknown) {
          throw error
       }
    }
 
-   async findByUsername(username: string): Promise<WithId<ViperBasicProps>[]> {
+   async findByUsername(username: string): Promise<WithId<ViperBasic>[]> {
       try {
          const vipers: Viper[] = await this.viperCollection
             .find<Viper>(
@@ -243,7 +243,7 @@ export class ViperRepository implements ViperRepositorySource {
             .limit(20)
             .toArray()
 
-         return vipers as WithId<ViperBasicProps>[]
+         return vipers as WithId<ViperBasic>[]
       } catch (error: unknown) {
          throw error
       }
