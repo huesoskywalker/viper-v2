@@ -136,11 +136,12 @@ export default {
       session: async ({ session, token, user, trigger, newSession }) => {
          // trigger refresh the full page, dev and prod
          if (trigger) {
-            const { username, image, role } = newSession
-            if (username && image && role) {
+            const { username, image, role, followings } = newSession
+            if (username && image && role && followings) {
                session.user.username = username
                session.user.image = image
                session.user.role = role
+               session.user.followings = followings
             }
             //   if (trigger && newSession.shopify) {
             //             // session.user.shopify = newSession.shopify

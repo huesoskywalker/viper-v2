@@ -1,14 +1,12 @@
-import { AdmissionFormValues } from '../(auth)/i/flow/signup/_hooks/admission/use-admission-form'
 import { CreateProfileFormValues } from '../(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
+import { ProviderAdmissionFormValues } from '../(auth)/i/flow/signup/_hooks/provider-admission/use-provier-admission-form'
 
-// change the AdmissionFormValues when we have a edit profile page
-// this is for an endpoint
 export const determineUpdateProfileSchema = (
-   formData: CreateProfileFormValues | AdmissionFormValues,
+   formData: CreateProfileFormValues | ProviderAdmissionFormValues,
 ) => {
-   if ('interests' in formData) {
-      return formData as CreateProfileFormValues
+   if ('contentDiscovery' in formData) {
+      return formData as ProviderAdmissionFormValues
    } else {
-      return formData as AdmissionFormValues
+      return formData as CreateProfileFormValues
    }
 }

@@ -153,6 +153,7 @@ export type ViperBasicProps = Pick<
    | 'location'
    | 'bio'
    | 'email'
+   | 'role'
    | 'username'
    | 'name'
    | 'image'

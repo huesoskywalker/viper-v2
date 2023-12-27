@@ -16,7 +16,6 @@ export async function PATCH(request: NextRequest) {
 
    const { formData } = await request.json()
 
-   // change the type of the return of the func, since we place one so it does not return null | undefined
    const formSchema = determineUpdateProfileSchema(formData)
 
    try {
