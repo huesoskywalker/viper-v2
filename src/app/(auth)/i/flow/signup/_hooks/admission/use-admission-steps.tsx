@@ -8,7 +8,7 @@ import { AdmissionFormValues } from './use-admission-form'
 import { Control } from 'react-hook-form'
 
 export const useAdmissionSteps = (step: number, formControl: Control<AdmissionFormValues>) => {
-   const renderSteps = useMemo(() => {
+   const renderStep = useMemo(() => {
       switch (step) {
          case 1:
             return <AdmissionPersonalInfo formControl={formControl} />
@@ -26,5 +26,5 @@ export const useAdmissionSteps = (step: number, formControl: Control<AdmissionFo
       }
    }, [step])
 
-   return { renderSteps }
+   return { renderStep }
 }

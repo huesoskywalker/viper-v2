@@ -1,6 +1,6 @@
 import { AdmissionFieldState } from '../_hooks/admission/use-admission-form'
 
-export const isAdmissionFieldValid = (getFieldState: AdmissionFieldState) => {
+export const admissionFieldValidity = (getFieldState: AdmissionFieldState) => {
    const nameFieldState = getFieldState('name')
    const emailFieldState = getFieldState('email')
    const monthFieldState = getFieldState('birthDate.month')
@@ -37,9 +37,9 @@ export const isAdmissionFieldValid = (getFieldState: AdmissionFieldState) => {
    const isBirthDateValid = isMonthValid && isDayValid && isYearValid
    const isTokenValid = isTokenFieldValid && isTokenDirty && !hasTokenError
 
-   const isStepOneValid = isNameValid && isEmailValid && isBirthDateValid
+   const isPersonalInfoValid = isNameValid && isEmailValid && isBirthDateValid
 
-   const isStepFourValid = isTokenValid
+   const isVerificationTokenValid = isTokenValid
 
-   return { isStepOneValid, isStepFourValid }
+   return { isPersonalInfoValid, isVerificationTokenValid }
 }

@@ -11,11 +11,17 @@ import { useRouter } from 'next/navigation'
 export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
    const { data: session, status } = useSession()
 
-   const { step } = useCreateAccountStore()
+   const { step, redirectStep } = useCreateAccountStore()
 
    const { push } = useRouter()
    if (status === 'authenticated' && step === 0) {
-      push('/home')
+      const viperRole = session?.user.role
+      const isViper = viperRole === 'viper' || viperRole === 'admin'
+      if (isViper) {
+         push('/home')
+      } else {
+         redirectStep(1)
+      }
    }
 
    const { openDialog, closeDialog } = useHandleDialog()

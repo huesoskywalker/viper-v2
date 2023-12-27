@@ -1,6 +1,6 @@
 import { CreateProfileFieldState } from '../_hooks/profile/use-create-profile-form'
 
-export const isCreateProfileFieldValid = (getFieldState: CreateProfileFieldState) => {
+export const createProfileFieldValidity = (getFieldState: CreateProfileFieldState) => {
    const usernameFieldState = getFieldState('username')
    const imageFieldState = getFieldState('image')
 
@@ -15,9 +15,5 @@ export const isCreateProfileFieldValid = (getFieldState: CreateProfileFieldState
    const isUsernameValid = isUsernameFieldValid && !hasUsernameError
    const isImageValid = isImageFieldValid && isImageDirty && !hasImageError
 
-   const isStepOneValid = isUsernameValid
-
-   const isStepTwoValid = isImageValid
-
-   return { isStepOneValid, isStepTwoValid }
+   return { isUsernameValid, isImageValid }
 }

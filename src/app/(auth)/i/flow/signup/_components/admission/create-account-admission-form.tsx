@@ -2,17 +2,18 @@
 import { Form } from '@/components/ui/form'
 import { DialogFooter } from '@/components/ui/dialog'
 import { BaseSyntheticEvent, useLayoutEffect } from 'react'
-import { AdmissionFormValues, useAdmissionForm } from '../_hooks/admission/use-admission-form'
-import { FocusElement, useCreateAccountStore } from '../_stores/create-account-store'
+import { AdmissionFormValues, useAdmissionForm } from '../../_hooks/admission/use-admission-form'
+import { FocusElement, useCreateAccountStore } from '../../_stores/create-account-store'
 import { cn } from '@/lib/utils'
-import { useAdmissionButtons } from '../_hooks/admission/use-admission-buttons'
-import { useAdmissionSteps } from '../_hooks/admission/use-admission-steps'
+import { useAdmissionButtons } from '../../_hooks/admission/use-admission-buttons'
+import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react'
 import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { usePathname, useRouter } from 'next/navigation'
+import { ApiResponse } from '@/types/api/response'
 
-const CreateAccountStepOne = () => {
+const CreateAccountAdmissionForm = () => {
    const { step, redirectStep } = useCreateAccountStore()
 
    const pathname = usePathname()
@@ -21,15 +22,15 @@ const CreateAccountStepOne = () => {
 
    const { admissionForm } = useAdmissionForm()
 
-   const { formState, setFocus, getFieldState, getValues } = admissionForm
+   const { control, formState, setFocus, getFieldState, getValues } = admissionForm
 
    const { isValid } = formState
 
    const { focusElem } = useCreateAccountStore()
 
-   const { renderSteps } = useAdmissionSteps(step, admissionForm.control)
+   const { renderStep } = useAdmissionSteps(step, control)
 
-   const { renderButtons } = useAdmissionButtons(step, getFieldState, getValues)
+   const { renderButton } = useAdmissionButtons(step, getFieldState, getValues)
 
    const validFocusElem: FocusElement[] = ['email', 'name', 'birthDate.month']
 
@@ -55,11 +56,11 @@ const CreateAccountStepOne = () => {
             }),
          })
          if (!updateViper.ok) {
-            const { error } = await updateViper.json()
+            const { error }: ApiResponse<{ username: string }> = await updateViper.json()
+
             throw new Error(error)
          }
-
-         const { data }: { data: { username: string } } = await updateViper.json()
+         const { data }: ApiResponse<{ username: string }> = await updateViper.json()
 
          await signIn('credentials', {
             username: data.username,
@@ -84,7 +85,7 @@ const CreateAccountStepOne = () => {
                      ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[80px]`,
                   )}
                >
-                  {renderSteps}
+                  {renderStep}
                </div>
                {step === 5 && (
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
@@ -97,11 +98,11 @@ const CreateAccountStepOne = () => {
          </Form>
          {step < 5 && (
             <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-               {renderButtons}
+               {renderButton}
             </DialogFooter>
          )}
       </>
    )
 }
 
-export default CreateAccountStepOne
+export default CreateAccountAdmissionForm

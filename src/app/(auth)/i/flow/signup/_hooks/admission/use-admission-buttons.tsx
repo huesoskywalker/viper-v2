@@ -1,27 +1,27 @@
 import { useMemo } from 'react'
 import NextStepButton from '../../_components/next-step-button'
-import { isAdmissionFieldValid } from '../../_utils/is-admission-field-valid'
 import { TokenVerificationForm } from '../../_components/admission/token-verification-form'
 import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
 import { AdmissionFieldState, AdmissionFieldValue } from './use-admission-form'
+import { admissionFieldValidity } from '../../_utils/admission-field-validity'
 
 export const useAdmissionButtons = (
    step: number,
    getFieldState: AdmissionFieldState,
    getValues: AdmissionFieldValue,
 ) => {
-   const { isStepOneValid, isStepFourValid } = isAdmissionFieldValid(getFieldState)
+   const { isPersonalInfoValid, isVerificationTokenValid } = admissionFieldValidity(getFieldState)
 
-   const validStepsMap = new Map<number, boolean>([
-      [1, isStepOneValid],
-      [2, isStepOneValid],
-      [3, isStepOneValid],
-      [4, isStepFourValid],
+   const validStepMap = new Map<number, boolean>([
+      [1, isPersonalInfoValid],
+      [2, isPersonalInfoValid],
+      [3, isPersonalInfoValid],
+      [4, isVerificationTokenValid],
    ])
 
-   const disableButton = !validStepsMap.get(step)
+   const disableButton = !validStepMap.get(step)
 
-   const renderButtons = useMemo(() => {
+   const renderButton = useMemo(() => {
       switch (step) {
          case 1:
          case 2:
@@ -43,5 +43,5 @@ export const useAdmissionButtons = (
       }
    }, [step, disableButton])
 
-   return { renderButtons }
+   return { renderButton }
 }

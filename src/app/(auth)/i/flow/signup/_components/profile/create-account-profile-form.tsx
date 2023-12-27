@@ -2,22 +2,23 @@
 import {
    CreateProfileFormValues,
    useCreateProfileForm,
-} from '../_hooks/profile/use-create-profile-form'
+} from '../../_hooks/profile/use-create-profile-form'
 import { Form } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { useCreateProfileSteps } from '../_hooks/profile/use-create-profile-steps'
-import { useCreateProfileButtons } from '../_hooks/profile/use-create-profile-buttons'
-import { useCreateAccountStore } from '../_stores/create-account-store'
+import { useCreateProfileSteps } from '../../_hooks/profile/use-create-profile-steps'
+import { useCreateProfileButtons } from '../../_hooks/profile/use-create-profile-buttons'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { BASE_URL } from '@/config/env'
-import { useCreateProfileStore } from '../_stores/create-profile-store'
+import { useCreateProfileStore } from '../../_stores/create-profile-store'
 import { useSession } from 'next-auth/react'
-import { WithId } from 'mongodb'
-import { ViperBasicProps } from '@/types/viper'
 import { BaseSyntheticEvent } from 'react'
+import { BasicViperResponse } from '@/types/api/response'
+import updateProfileEndpoint from '@/app/_utils/update-profile-endpoint'
+import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 
-const CreateAccountStepTwo = ({
+const CreateAccountProfileForm = ({
    children,
    viperFollowings,
 }: {
@@ -30,37 +31,13 @@ const CreateAccountStepTwo = ({
 
    const { createProfileForm } = useCreateProfileForm()
 
-   const { getFieldState, setValue } = createProfileForm
+   const { control, getFieldState, setValue } = createProfileForm
 
-   const onSubmit = async (formData: CreateProfileFormValues, e?: BaseSyntheticEvent) => {
-      if (e) e.preventDefault
-      clearInterests()
-      try {
-         const updateViper = await fetch(`${BASE_URL}/api/viper`, {
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            method: 'PATCH',
-            body: JSON.stringify({ formData }),
-         })
+   const { onSubmit } = useSubmitCreateProfile()
 
-         if (!updateViper.ok) {
-            const { error } = await updateViper.json()
-            throw new Error(error)
-         }
+   const { renderStep } = useCreateProfileSteps(step, control)
 
-         const { data }: { data: WithId<ViperBasicProps> } = await updateViper.json()
-
-         await update({ username: data.username, image: data.image, role: formData.role })
-      } catch (error) {
-         throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
-      }
-      redirectStep(0)
-   }
-
-   const { renderSteps } = useCreateProfileSteps(step, createProfileForm.control)
-
-   const { renderButtons } = useCreateProfileButtons(step, getFieldState, setValue)
+   const { renderButton } = useCreateProfileButtons(step, getFieldState, setValue)
 
    return (
       <>
@@ -74,7 +51,7 @@ const CreateAccountStepTwo = ({
                      `h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[80px]`,
                   )}
                >
-                  {step < 4 ? renderSteps : children}
+                  {step < 4 ? renderStep : children}
                </div>
                {step === 4 && (
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
@@ -92,11 +69,11 @@ const CreateAccountStepTwo = ({
          </Form>
          {step < 4 && (
             <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
-               {renderButtons}
+               {renderButton}
             </DialogFooter>
          )}
       </>
    )
 }
 
-export default CreateAccountStepTwo
+export default CreateAccountProfileForm

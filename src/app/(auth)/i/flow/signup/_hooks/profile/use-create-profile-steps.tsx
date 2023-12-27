@@ -9,7 +9,7 @@ export const useCreateProfileSteps = (
    step: number,
    formControl: Control<CreateProfileFormValues>,
 ) => {
-   const renderSteps = useMemo(() => {
+   const renderStep = useMemo(() => {
       switch (step) {
          case 1:
             return <CreateProfileUsername formControl={formControl} />
@@ -24,5 +24,5 @@ export const useCreateProfileSteps = (
       }
    }, [step])
 
-   return { renderSteps }
+   return { renderStep }
 }
