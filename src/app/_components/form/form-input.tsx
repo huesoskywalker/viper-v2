@@ -21,6 +21,8 @@ const FormInput = React.forwardRef<
 
    const inputType = props.type === 'password' ? showPassword : props.type
 
+   const { type, onBlur, onFocus, onChange, defaultValue, ...restProps } = props
+
    return (
       <>
          <div
@@ -59,12 +61,26 @@ const FormInput = React.forwardRef<
                      autoCorrect="off"
                      variant={variant}
                      className="self-end"
-                     onFocus={handleOnFocus}
-                     onBlur={handleOnBlur}
-                     onChange={handleOnChange}
+                     onFocus={(e) => {
+                        if (props.onFocus) {
+                           props.onFocus(e)
+                        }
+                        handleOnFocus()
+                     }}
+                     onBlur={(e) => {
+                        if (props.onBlur) {
+                           props.onBlur(e)
+                        }
+                        handleOnBlur(e)
+                     }}
+                     onChange={(e) => {
+                        if (props.onChange) {
+                           props.onChange(e)
+                        }
+                        handleOnChange(e)
+                     }}
                      defaultValue={props.value}
-                     // having issues with the value and the onchange states
-                     // {...props}
+                     {...restProps}
                   />
                </FormControl>{' '}
                {props.type === 'password' && (
