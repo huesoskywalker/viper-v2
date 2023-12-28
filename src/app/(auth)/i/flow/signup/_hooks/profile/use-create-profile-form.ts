@@ -71,6 +71,9 @@ export const createProfileSchema = z.object({
       .regex(/^\S+$/, {
          message: 'Username must not contain spaces.',
       })
+      .regex(/^[a-zA-Z0-9]+$/, {
+         message: 'Username must only contain letters and numbers.',
+      })
       .refine(
          async (value) => {
             if (memoizedUsername === null) {
