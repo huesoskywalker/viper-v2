@@ -38,11 +38,15 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async login(username: string): Promise<WithId<ViperBasic & { password: string }> | null> {
+   async login(identifier: {
+      field: 'email' | 'username'
+      value: string
+   }): Promise<WithId<ViperBasic & { password: string }> | null> {
+      const { field, value } = identifier
       try {
          const viper = await this.viperCollection.findOne(
             {
-               username,
+               [field]: value,
             },
             {
                collation: { locale: 'en', strength: 2 },
@@ -228,7 +232,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async findByUsername(username: string): Promise<WithId<ViperBasic>[]> {
+   async searchByUsername(username: string): Promise<WithId<ViperBasic>[]> {
       try {
          const vipers: Viper[] = await this.viperCollection
             .find<Viper>(

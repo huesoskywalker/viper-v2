@@ -63,7 +63,7 @@ const CreateAccountAdmissionForm = () => {
          const { data }: ApiResponse<{ username: string }> = await updateViper.json()
 
          await signIn('credentials', {
-            username: data.username,
+            identifier: data.username,
             password: getValues('password'),
             redirect: false,
          }),

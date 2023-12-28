@@ -47,14 +47,16 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async login(username: string, plainPassword: string): Promise<WithId<ViperBasic> | null> {
+   async login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null> {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+      const field = emailRegex.test(identifier) ? 'email' : 'username'
+
       try {
-         const viper = await this.viperRepository.login(username)
+         const viper = await this.viperRepository.login({ field: field, value: identifier })
 
          if (!viper) throw new Error(`User not found or does not exist.`)
 
          if (!viper.password)
-            // TODO: check if we should return null for the react form hook
             throw new Error(`Unable to log in: The user does not have a password set up`)
 
          const { password, ...restViper } = viper
@@ -153,9 +155,9 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async findByUsername(username: string): Promise<WithId<ViperBasic>[]> {
+   async searchByUsername(username: string): Promise<WithId<ViperBasic>[]> {
       try {
-         const vipers: WithId<ViperBasic>[] = await this.viperRepository.findByUsername(username)
+         const vipers: WithId<ViperBasic>[] = await this.viperRepository.searchByUsername(username)
 
          return vipers
       } catch (error: unknown) {

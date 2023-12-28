@@ -13,7 +13,10 @@ import {
 
 interface ViperCRUDRepository {
    initSearchIndexes(): Promise<void>
-   login(username: string): Promise<WithId<ViperBasic & { password: string }> | null>
+   login(identifier: {
+      field: 'email' | 'username'
+      value: string
+   }): Promise<WithId<ViperBasic & { password: string }> | null>
    // we can make a pick interface for this props
    populateNewViper(
       _id: _ID,
@@ -33,7 +36,7 @@ interface ViperCRUDRepository {
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    // This is one below is built for the search input
-   findByUsername(username: string): Promise<WithId<ViperBasic>[]>
+   searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 

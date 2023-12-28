@@ -78,11 +78,15 @@ export default {
       }),
       Credential({
          authorize: async (credentials, request) => {
-            const { username, password } = credentials
+            const { identifier, password } = credentials
+            if (typeof identifier === 'string' && typeof password === 'string') {
+               try {
+                  const user = await viperService.login(identifier, password)
 
-            if (typeof username === 'string' && typeof password === 'string') {
-               const user = await viperService.login(username, password)
-               return user as User
+                  return user as User
+               } catch (error) {
+                  throw error
+               }
             } else {
                return null
             }
@@ -92,7 +96,7 @@ export default {
    pages: {
       // newUser: '/i/flow/single_sign_on',
       // verifyRequest: '/verify',
-      // signOut: '/i/flow/signout',
+      signOut: '/i/flow/signout',
       signIn: '/i/flow/login',
       // error: '/i/flow/error',
    },

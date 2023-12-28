@@ -1,6 +1,6 @@
 interface ViperCRUDService {
    initSearchIndexes(): Promise<void>
-   login(username: string, plainPassword: string): Promise<WithId<ViperBasic> | null>
+   login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null>
    populateNewViper(
       _id: _ID,
       name: string | undefined,
@@ -19,7 +19,7 @@ interface ViperCRUDService {
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    // This is one below is built for the search input
-   findByUsername(username: string): Promise<WithId<ViperBasic>[]>
+   searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 
