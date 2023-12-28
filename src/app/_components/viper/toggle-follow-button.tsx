@@ -37,8 +37,8 @@ const ToggleFollowButton = ({
             const { error } = await res.json()
             throw new Error(error)
          }
+         refresh()
       })
-      refresh()
    }
    return (
       <>

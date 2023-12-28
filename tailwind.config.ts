@@ -144,6 +144,17 @@ const config: Config = {
                   ['border-color']: theme('colors.viper.pink'),
                },
             },
+            delayVisibility: {
+               '0%': {
+                  visibility: 'hidden',
+               },
+               '99%': {
+                  visibility: 'hidden',
+               },
+               '100%': {
+                  visibility: 'visible',
+               },
+            },
          }),
       },
       animation: {
@@ -154,8 +165,9 @@ const config: Config = {
          shimmer: 'shimmer 1.5s infinite',
          spin: 'spin 1.5s linear infinite',
          // 'translate-x-reset': 'translateXReset 1s ease-in-out 1 reverse',
-         'fate-to-transparent': 'fadeToTransparent 1s ease-in-out forwards 1',
+         'fade-to-transparent': 'fadeToTransparent 1s ease-in-out forwards 1',
          rerender: 'rerender 1s ease-in-out 1',
+         'delay-visibility': 'delayVisibility 0.6s ease-in',
       },
    },
    plugins: [require('tailwindcss-animate'), require('autoprefixer')],

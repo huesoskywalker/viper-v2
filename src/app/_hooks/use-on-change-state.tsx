@@ -8,7 +8,7 @@ const useOnChangeState = (
 ) => {
    const [isChanging, setIsChanging] = useState<boolean>(false)
 
-   const { clearErrors, invalid } = useFormField()
+   const { clearErrors } = useFormField()
 
    const onChangeDebounce = useCallback(
       debounce((event: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ const useOnChangeState = (
    )
 
    const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
-      if (invalid) {
+      if (!isChanging) {
          setIsChanging(true)
       }
       onChangeDebounce(event)

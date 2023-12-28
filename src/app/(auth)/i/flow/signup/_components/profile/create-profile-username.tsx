@@ -30,7 +30,8 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderAdmis
             What should we call you?
          </DialogDescription>
          <FormDescription>
-            Your @username is unique. You can always change it later.
+            Your <span className="align-text-top text-xs">@</span>username is unique. You can
+            always change it later.
          </FormDescription>
          <FormField
             control={formControl}

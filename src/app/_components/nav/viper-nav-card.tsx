@@ -23,7 +23,7 @@ const ViperNavCard = () => {
                            width={40}
                            height={40}
                            className="h-8 w-8 rounded-full p-0 xl:h-10 xl:w-10"
-                           src={'/default-user.png'}
+                           src={session?.user.image}
                            alt="Profile preview"
                         />
                      </Avatar>
