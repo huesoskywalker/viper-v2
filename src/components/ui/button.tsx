@@ -17,7 +17,7 @@ const buttonVariants = cva(
             ghost: 'hover:bg-accent hover:text-accent-foreground',
             link: 'em-0 justify-start p-0 text-viper-dodger-blue underline-offset-4 hover:underline focus-visible:ring-0',
             plain: ' border-none focus-visible:outline-none focus-visible:ring-0 ',
-            provider: 'border rounded-3xl border-input text-black bg-white hover:bg-gray-200',
+            provider: 'border border-input text-black bg-white hover:bg-gray-200',
             sky: 'rounded-3xl text-white bg-viper-dodger-blue hover:bg-viper-dodger-blue-hover',
             'midnight-blue':
                'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-background hover:bg-viper-dodger-blue/20',
@@ -25,10 +25,10 @@ const buttonVariants = cva(
          size: {
             default: 'h-10 px-4 py-2',
             sm: 'h-9 rounded-md px-3',
-            md: 'h-11 rounded-3xl px-8',
-            lg: 'h-11 rounded-3xl w-full',
+            md: 'h-11 px-8 rounded-3xl',
+            lg: 'h-11 w-full rounded-3xl',
             icon: 'h-10 w-10',
-            sign: 'h-[44px] w-[300px]',
+            provider: 'h-[44px] w-[300px] rounded-3xl',
             fit: 'w-fit',
          },
       },

@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import React, { PropsWithChildren } from 'react'
-import { UserAuthForm } from './form/user-auth-form'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import TermsAndConditions from './terms-and-conditions'
 import Link from 'next/link'
+import OrSeparator from './or-separator'
+import { ViperAuthForm } from './form/viper-auth-form'
 
 const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
    return (
@@ -19,7 +20,7 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                   sizes="(min-width: 1040px) calc(25.05vw - 49px), (min-width: 800px) calc(4.55vw + 4px), (min-width: 760px) calc(-185vw + 1481px), (min-width: 580px) 16.25vw, (min-width: 340px) 18.64vw, calc(-175vw + 619px)"
                   quality={100}
                   priority={true}
-                  className="invert-image h-auto w-3/4 md:w-full lg:w-3/4 xl:w-1/2"
+                  className="h-auto w-3/4 invert-image md:w-full lg:w-3/4 xl:w-1/2"
                />
             </div>
             <div className=" flex h-auto w-full flex-col items-start justify-center lg:w-2/3 lg:p-6  xl:max-h-[760px] xl:min-h-[500px] xl:w-1/2  ">
@@ -37,18 +38,11 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                   </span>
                </div>
                <div className={'grid w-full md:w-3/5 lg:w-1/2 2xl:w-2/5 '}>
-                  <UserAuthForm />
-                  <div className="relative my-[6px] w-[300px]">
-                     <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t-[1.5px] border-muted " />
-                     </div>
-                     <div className="relative flex justify-center">
-                        <span className="bg-background px-2 text-sm text-foreground">or</span>
-                     </div>
-                  </div>{' '}
+                  <ViperAuthForm className="grid gap-3" />
+                  <OrSeparator />
                   <Link
                      href={'/i/flow/signup'}
-                     className={cn(buttonVariants({ variant: 'sky', size: 'sign' }), ' mb-2 ')}
+                     className={cn(buttonVariants({ variant: 'sky', size: 'provider' }), ' mb-2 ')}
                   >
                      Create an account
                   </Link>
@@ -59,8 +53,8 @@ const UnauthenticatedLayout = ({ children }: PropsWithChildren) => {
                      </span>
                   </div>{' '}
                   <Link
-                     href={'/i/flow/signin'}
-                     className={cn(buttonVariants({ variant: 'midnight-blue', size: 'sign' }))}
+                     href={'/i/flow/login'}
+                     className={cn(buttonVariants({ variant: 'midnight-blue', size: 'provider' }))}
                   >
                      Sign in
                   </Link>
