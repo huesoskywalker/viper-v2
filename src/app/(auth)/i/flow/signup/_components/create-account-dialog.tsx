@@ -18,13 +18,18 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
 
    const { push } = useRouter()
 
-   if (status === 'authenticated' && step === 0) {
-      const viperRole = session?.user.role
-      const isViper = viperRole === 'viper' || viperRole === 'admin'
-      if (isViper) {
+   if (status === 'authenticated') {
+      if (step === 0) {
+         const viperRole = session.user.role
+         const isViper = viperRole === 'viper' || viperRole === 'admin'
+         if (isViper) {
+            push('/home')
+         } else {
+            redirectStep(1)
+         }
+      }
+      if (isPathnameLogin) {
          push('/home')
-      } else {
-         redirectStep(1)
       }
    }
 

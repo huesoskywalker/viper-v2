@@ -138,7 +138,6 @@ export default {
       // return baseUrl
       // },
       session: async ({ session, token, user, trigger, newSession }) => {
-         // trigger refresh the full page, dev and prod
          if (trigger) {
             const { username, image, role, followings } = newSession
             if (username && image && role && followings) {
@@ -147,13 +146,6 @@ export default {
                session.user.role = role
                session.user.followings = followings
             }
-            //   if (trigger && newSession.shopify) {
-            //             // session.user.shopify = newSession.shopify
-            //          } else if (trigger && newSession.image && newSession.location) {
-            //             session.user.name = newSession.name
-            //             session.user.location = newSession.location
-            //             session.user.image = newSession.image
-            //          }
          } else {
             session.user.id = user.id
             session.user.username = user.username

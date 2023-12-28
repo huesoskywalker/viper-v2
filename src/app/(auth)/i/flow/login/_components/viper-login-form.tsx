@@ -1,30 +1,34 @@
 'use client'
 import FormInput from '@/app/_components/form/form-input'
-import React, { BaseSyntheticEvent, useEffect } from 'react'
-import { useLoginForm } from '../_hooks/use-login-form'
+import React, { BaseSyntheticEvent } from 'react'
+import { LoginFormValues, useLoginForm } from '../_hooks/use-login-form'
 import { Form, FormField, FormItem } from '@/components/ui/form'
-import { SignInResponse, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 
 const ViperLoginForm = () => {
    const { loginForm } = useLoginForm()
 
-   const { control, resetField } = loginForm
+   const { control, resetField, formState } = loginForm
+
+   const { isValid } = formState
 
    const { toast } = useToast()
 
-   const onSubmit = async (formData: any, e?: BaseSyntheticEvent) => {
+   const onSubmit = async (formData: LoginFormValues, e?: BaseSyntheticEvent) => {
       if (e) e.preventDefault
 
-      const viperSignIn: SignInResponse | undefined = await signIn('credentials', {
+      const login = await signIn('credentials', {
          identifier: formData.identifier,
          password: formData.password,
          redirect: false,
          callbackUrl: '/home',
       })
 
-      if (viperSignIn && viperSignIn.error) {
+      if (!login) throw new Error(`Unexpected login error. Please try again later.`)
+
+      if (login.error) {
          resetField('password')
          toast({
             variant: 'sky',
@@ -68,8 +72,8 @@ const ViperLoginForm = () => {
                   </FormItem>
                )}
             />
-            <div className="pt-3">
-               <Button variant={'default'} size={'provider'} type="submit">
+            <div className="pt-4">
+               <Button variant={'default'} size={'provider'} type="submit" disabled={!isValid}>
                   {' '}
                   Next
                </Button>

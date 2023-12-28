@@ -167,7 +167,7 @@ const config: Config = {
          // 'translate-x-reset': 'translateXReset 1s ease-in-out 1 reverse',
          'fade-to-transparent': 'fadeToTransparent 1s ease-in-out forwards 1',
          rerender: 'rerender 1s ease-in-out 1',
-         'delay-visibility': 'delayVisibility 0.6s ease-in',
+         'delay-visibility': 'delayVisibility 0.5s ease-in',
       },
    },
    plugins: [require('tailwindcss-animate'), require('autoprefixer')],
