@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { Control, FieldPath, useFormContext } from 'react-hook-form'
 import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provier-admission-form'
 import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
+import AtSymbol from '@/app/_components/viper/at-symbol'
 
 const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderAdmissionFormValues>({
    formControl,
@@ -30,7 +31,8 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderAdmis
             What should we call you?
          </DialogDescription>
          <FormDescription>
-            Your <span className="align-text-top text-xs">@</span>username is unique. You can
+            Your
+            <AtSymbol />
             always change it later.
          </FormDescription>
          <FormField
