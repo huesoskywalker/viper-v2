@@ -1,6 +1,6 @@
 export default function HomePage() {
    return (
-      <div className="m-7 mx-auto  max-w-screen-md space-y-8 sm:px-6 lg:px-8">
+      <div className="m-7 mx-auto max-w-screen-md space-y-8 sm:px-6 lg:px-8">
          <h2
             data-test-id="authenticated"
             className="text-center text-xl font-medium text-foreground"
