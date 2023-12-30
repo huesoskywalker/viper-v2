@@ -17,7 +17,13 @@ const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
             <CardContent className="relative grid p-0">
                <div className="flex items-start space-x-3 p-0">
                   <Avatar className="static left-0 top-0">
-                     <AvatarImage src={viper.image} />
+                     <AvatarImage
+                        src={viper.image}
+                        alt="Viper profile"
+                        loading="lazy"
+                        width={40}
+                        height={40}
+                     />
                      <AvatarFallback>Profile</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-grow flex-col">

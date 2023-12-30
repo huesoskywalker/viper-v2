@@ -4,17 +4,17 @@ import { Session } from 'next-auth'
 
 export type Viper = {
    readonly _id: _ID
+   name: Name
+   email: Email
+   emailVerified: Date | null
+   username: Username
+   role: Role
+   bio: Biography
    location: Location
    contactInfo: ContactInfo
-   bio: Biography
    birthDate: BirthDate
    blogs: Blog
-   emailVerified: Date | null
-   email: Email
-   role: Role
-   username: Username
    password: string | undefined
-   name: Name
    image: Image
    backgroundImage: Image
    shopify: Shopify
@@ -150,12 +150,12 @@ export type Shopify = {
 export type ViperBasic = Pick<
    Viper,
    | '_id'
-   | 'location'
-   | 'bio'
-   | 'email'
-   | 'role'
-   | 'username'
    | 'name'
+   | 'email'
+   | 'username'
+   | 'role'
+   | 'bio'
+   | 'location'
    | 'image'
    | 'backgroundImage'
    | 'followers'
@@ -167,14 +167,14 @@ export type ViperBasic = Pick<
 export type UpdateViper = Partial<UpdateViperType>
 type UpdateViperPick = Pick<
    Viper,
-   | 'bio'
-   | 'birthDate'
-   | 'username'
-   | 'password'
    | 'name'
+   | 'username'
+   | 'bio'
+   | 'location'
+   | 'birthDate'
+   | 'password'
    | 'image'
    | 'backgroundImage'
-   | 'location'
    | 'contentDiscovery'
 >
 

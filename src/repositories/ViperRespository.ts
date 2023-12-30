@@ -76,13 +76,18 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                $set: {
+                  name: name,
+                  email: email,
+                  emailVerified: emailVerified,
+                  username: username,
+                  role: role,
+                  bio: '',
                   location: '',
                   contactInfo: {
                      phone: null,
                      address: '',
                      website: '',
                   },
-                  bio: '',
                   birthDate: {
                      day: '',
                      month: '',
@@ -93,12 +98,7 @@ export class ViperRepository implements ViperRepositorySource {
                      likes: [],
                      withReplies: [],
                   },
-                  emailVerified: emailVerified,
-                  email: email,
-                  role: role,
-                  username: username,
                   password: undefined,
-                  name: name,
                   image: image,
                   backgroundImage: '',
                   shopify: {

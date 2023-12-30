@@ -78,21 +78,6 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                         className="invert-image"
                      />
                   )}
-                  {/* {!session && step <= 5 ? (
-                     <DialogTitle className={cn(' text-lg font-semibold text-foreground')}>
-                        Step {step} of 5
-                     </DialogTitle>
-                  ) : (
-                     <Image
-                        src={'/viper.png'}
-                        alt="Viper logo"
-                        width={40}
-                        height={50}
-                        loading="lazy"
-                        quality={100}
-                        className="invert-image"
-                     />
-                  )} */}
                </DialogHeader>
                {children}
             </DialogContent>

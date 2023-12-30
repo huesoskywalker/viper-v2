@@ -51,6 +51,7 @@ const UpdateAvatar = ({ id }: { id: string }) => {
                <AvatarImage
                   width={150}
                   height={150}
+                  loading="lazy"
                   className="object-cover"
                   src={objectURL ?? '/default-user.png'}
                   alt="Profile preview"

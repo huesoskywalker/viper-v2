@@ -77,7 +77,7 @@ const config: Config = {
             },
          },
          boxShadow: {
-            rounded: '0px 0px 6px 1px hsla(var(--shadow-rounded))',
+            rounded: '0px 0px 5px 1px hsla(var(--shadow-rounded))',
          },
          backgroundImage: ({ theme }) => ({
             'vp-border-gradient': `radial-gradient(at left top, ${theme(

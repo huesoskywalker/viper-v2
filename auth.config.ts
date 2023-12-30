@@ -24,10 +24,11 @@ declare module 'next-auth' {
          id: string
          name: string
          email: string
-         role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
-         image: string
-         location: string
          username: string
+         role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
+         bio: string
+         location: string
+         image: string
          followers: number
          followings: number
       }
@@ -149,10 +150,10 @@ export default {
          } else {
             session.user.id = user.id
             session.user.username = user.username
-            session.user.image = user.image ?? '/default-user.png'
+            session.user.role = user.role
+            session.user.bio = user.bio
             session.user.followers = user.followers.length
             session.user.followings = user.followings.length
-            session.user.role = user.role
          }
 
          return session
