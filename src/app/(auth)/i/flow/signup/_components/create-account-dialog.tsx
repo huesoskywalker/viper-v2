@@ -35,9 +35,9 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
 
    const { openDialog, closeDialog } = useHandleDialog()
 
-   const handleOnOpen = !session ? (step <= 4 ? () => closeDialog('/') : undefined) : undefined
+   const handleOnOpen = !session && step <= 4 ? () => closeDialog('/') : undefined
 
-   const handleStepIcon = !session ? (step <= 4 ? step : 'disabled') : 'disabled'
+   const handleStepIcon = !session && step <= 4 ? step : 'disabled'
 
    const handleAutoFocus = (e: Event) => {
       if (!session) {

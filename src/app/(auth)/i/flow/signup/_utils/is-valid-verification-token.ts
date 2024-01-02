@@ -13,9 +13,9 @@ export const isValidVerificationToken = async (value: string) => {
    const toDeleteTokens = verification.toDeleteTokens
 
    if (toDeleteTokens.length) {
-      toDeleteTokens.forEach(async (token) => {
+      for (const token of toDeleteTokens) {
          await deletePrevToken(token._id)
-      })
+      }
    }
 
    const expirationDate = new Date(verification.data.expires)

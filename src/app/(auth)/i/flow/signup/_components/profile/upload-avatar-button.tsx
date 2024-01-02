@@ -35,6 +35,13 @@ const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) =
       }
       nextStep()
    }
+
+   const getButtonLabel = () => {
+      if (isUploading) return 'Uploading...'
+      if (!images.profile) return 'Skip for now'
+      return 'Next'
+   }
+
    return (
       <div>
          <Button
@@ -44,7 +51,7 @@ const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) =
             onClick={handleUploadImage}
             disabled={isUploading}
          >
-            {!isUploading ? (!images.profile ? 'Skip for now' : 'Next') : 'Uploading...'}
+            {getButtonLabel()}
             <div
                className={cn(
                   'absolute left-0 top-0 -z-10 h-full w-0 bg-viper-dodger-blue transition-all duration-1000  ease-linear',
