@@ -1,22 +1,24 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
    Sheet,
    SheetClose,
    SheetContent,
-   SheetDescription,
    SheetFooter,
    SheetHeader,
-   SheetTitle,
    SheetTrigger,
 } from '@/components/ui/sheet'
 import { useSession } from 'next-auth/react'
 import ViperCard from '../viper/viper-card'
+import { AccordionNavMenu } from './accordion-nav-menu'
+import { Separator } from '@/components/ui/separator'
+import { getMobileNavMenu } from '@/app/_utils/get-nav-items'
+import { TopNavItem } from './top-nav-item'
 
 export function ViperMobileNavMenu() {
    const { data: session } = useSession()
+   const { mobileNavItems } = getMobileNavMenu()
+
    return (
       <Sheet>
          <SheetTrigger asChild className="flex sm:hidden">
@@ -33,30 +35,18 @@ export function ViperMobileNavMenu() {
                </Avatar>
             </Button>
          </SheetTrigger>
-         <SheetContent side={'left'}>
-            <SheetHeader>
+         <SheetContent side={'left'} className="mr-0 p-0">
+            <SheetHeader className="p-4">
                <ViperCard />
-               {/* <SheetTitle>Edit profile</SheetTitle>
-               <SheetDescription>
-                  Make changes to your profile here. Click save when you're done.
-               </SheetDescription> */}
             </SheetHeader>
-            {/* <div className="grid gap-4 py-4">
-               <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                     Name
-                  </Label>
-                  <Input id="name" value="Pedro Duarte" className="col-span-3" />
-               </div>
-               <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                     Username
-                  </Label>
-                  <Input id="username" value="@peduarte" className="col-span-3" />
-               </div>
-            </div> */}
+            {mobileNavItems.map((item) => (
+               <SheetClose asChild key={item.name}>
+                  <TopNavItem key={item.slug} item={item} />
+               </SheetClose>
+            ))}
+            <Separator orientation="horizontal" />
             <SheetFooter>
-               <SheetClose asChild>{/* <Button type="submit">Save changes</Button> */}</SheetClose>
+               <AccordionNavMenu />
             </SheetFooter>
          </SheetContent>
       </Sheet>
