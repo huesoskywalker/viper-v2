@@ -24,14 +24,11 @@ const ViperNavMenu = () => {
                   <ViperNavCard />
                </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="ml-4 box-border w-72 border-none px-0 py-3 shadow-rounded">
+            <DropdownMenuContent className="ml-4 box-border w-[300px] border-none px-0 py-3 shadow-rounded">
                <DropdownMenuItem className="py-2 pl-3">
-                  <Link
-                     href="/i/flow/logout"
-                     className={'text-base font-semibold text-foreground'}
-                  >
+                  <Link href="/i/flow/logout" className={'text-sm font-semibold text-foreground'}>
                      Log out
-                     <AtSymbol className="text-sm" />
+                     <AtSymbol className="pl-1" />
                      {session?.user.username}
                   </Link>
                </DropdownMenuItem>
