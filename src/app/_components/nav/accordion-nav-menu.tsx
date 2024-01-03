@@ -5,8 +5,9 @@ import {
    AccordionTrigger,
 } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
-import { BarChart3, Settings } from 'lucide-react'
+import { BarChart3, LogOut, Settings } from 'lucide-react'
 import ThemeSwitch from '../theme-switch'
+import Link from 'next/link'
 
 export const AccordionNavMenu = () => {
    const triggerClass = 'p-3.5 text-sm sm:text-base'
@@ -30,6 +31,12 @@ export const AccordionNavMenu = () => {
             <AccordionContent className={cn('px-0 py-0', contentClass)}>
                <ThemeSwitch />
             </AccordionContent>
+            <AccordionContent>
+               <Link href={'/i/flow/logout'} className={contentClass}>
+                  <LogOut size={20} />
+                  Log out
+               </Link>
+            </AccordionContent>{' '}
          </AccordionItem>
       </Accordion>
    )
