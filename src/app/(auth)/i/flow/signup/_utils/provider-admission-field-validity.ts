@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProviderAdmissionFieldState } from '../_hooks/provider-admission/use-provier-admission-form'
+import { ProviderAdmissionFieldState } from '../_hooks/provider-admission/use-provider-admission-form'
 
 const providerAdmissionFieldValidity = (getFieldState: ProviderAdmissionFieldState) => {
    const monthFieldState = getFieldState('birthDate.month')

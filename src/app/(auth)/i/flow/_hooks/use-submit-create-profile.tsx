@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent } from 'react'
-import { ProviderAdmissionFormValues } from '../signup/_hooks/provider-admission/use-provier-admission-form'
+import { ProviderAdmissionFormValues } from '../signup/_hooks/provider-admission/use-provider-admission-form'
 import { useCreateProfileStore } from '../signup/_stores/create-profile-store'
 import { useSession } from 'next-auth/react'
 import updateProfileEndpoint from '@/app/_utils/update-profile-endpoint'

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Control } from 'react-hook-form'
-import { ProviderAdmissionFormValues } from './use-provier-admission-form'
+import { ProviderAdmissionFormValues } from './use-provider-admission-form'
 import ProviderAdmissionBirthDate from '../../_components/provider-admission/provider-admission-birth-date'
 import AdmissionContentDiscovery from '../../_components/admission/admission-content-discovery'
 import CreateProfileUsername from '../../_components/profile/create-profile-username'

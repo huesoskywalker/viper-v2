@@ -1,7 +1,7 @@
 import BirthDateSelector from '@/app/_components/form/birth-date-selector'
 import { FormControlStep } from '@/types/forms/steps'
 import React from 'react'
-import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provier-admission-form'
+import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provider-admission-form'
 import { FormDescription } from '@/components/ui/form'
 import { DialogDescription } from '@/components/ui/dialog'
 
