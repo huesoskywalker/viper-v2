@@ -169,6 +169,9 @@ const config: Config = {
          rerender: 'rerender 1s ease-in-out 1',
          'delay-visibility': 'delayVisibility 0.5s ease-in',
       },
+      transitionProperty: {
+         bg: 'background-color',
+      },
    },
    plugins: [require('tailwindcss-animate'), require('autoprefixer')],
    darkMode: 'class',

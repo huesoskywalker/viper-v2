@@ -47,7 +47,7 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderAdmi
                            name={'interests' as FieldPath<T>}
                            render={({ field }) => (
                               <FormItem key={item.id}>
-                                 <FormLabel className="flex h-full w-full cursor-pointer text-secondary-foreground">
+                                 <FormLabel className="flex h-full w-full cursor-pointer rounded-lg text-secondary-foreground hover:bg-viper-dodger-blue-hover/10">
                                     <ToggleGroupItem
                                        value={item.id}
                                        variant={'toggle'}

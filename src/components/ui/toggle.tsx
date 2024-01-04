@@ -14,7 +14,8 @@ const toggleVariants = cva(
             default: 'bg-transparent',
             outline:
                'border border-input bg-transparent hover:bg-accent hover:text-accent-foreground',
-            toggle: 'border border-input bg-transparent data-[state=on]:bg-viper-dodger-blue',
+            toggle:
+               'border border-border bg-transparent data-[state=on]:bg-viper-dodger-blue data-[state=on]:border-viper-dodger-blue transition-bg duration-300 ease-out',
          },
          size: {
             default: 'h-10 px-3',
