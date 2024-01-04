@@ -60,7 +60,7 @@ const FormInput = React.forwardRef<
                      autoComplete={props.id}
                      autoCorrect="off"
                      variant={variant}
-                     className="self-end"
+                     className={cn('self-end', className)}
                      onFocus={(e) => {
                         if (props.onFocus) {
                            props.onFocus(e)

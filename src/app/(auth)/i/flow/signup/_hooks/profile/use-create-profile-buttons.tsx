@@ -10,21 +10,35 @@ export const useCreateProfileButtons = (
    getFieldState: CreateProfileFieldState,
    setValue: CreateProfileSetValue,
 ) => {
-   const { isUsernameValid, isImageValid } = createProfileFieldValidity(getFieldState)
+   const { isBioValid, isBioDirty, isUsernameValid, isUsernameDirty, isImageValid } =
+      createProfileFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([
-      [1, isUsernameValid],
-      [2, isImageValid],
+      [1, isBioValid],
+      [2, isUsernameValid],
+      [3, isImageValid],
    ])
 
    const disableButton = !validStepMap.get(step)
-   const isUsernameDirty = getFieldState('username').isDirty
-   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
+
+   const bioVariant = isBioDirty ? 'default' : 'outline'
+   const bioLabel = isBioDirty ? undefined : 'Skip for now'
+
    const usernameVariant = isUsernameDirty ? 'default' : 'outline'
+   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
 
    const renderButton = useMemo(() => {
       switch (step) {
          case 1:
+            return (
+               <NextStepButton
+                  variant={bioVariant}
+                  size={'lg'}
+                  label={bioLabel}
+                  disabled={disableButton}
+               />
+            )
+         case 2:
             return (
                <NextStepButton
                   variant={usernameVariant}
@@ -33,16 +47,16 @@ export const useCreateProfileButtons = (
                   disabled={disableButton}
                />
             )
-         case 2:
-            return <UploadAvatarImage setValue={setValue} />
          case 3:
-            return <ProfileInterestsButton />
+            return <UploadAvatarImage setValue={setValue} />
          case 4:
+            return <ProfileInterestsButton />
+         case 5:
             return null
          default:
             return null
       }
-   }, [step, disableButton, isUsernameDirty])
+   }, [step, disableButton, isUsernameDirty, isBioDirty])
 
    return { renderButton }
 }

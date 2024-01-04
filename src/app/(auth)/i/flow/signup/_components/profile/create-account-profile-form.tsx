@@ -37,12 +37,12 @@ const CreateAccountProfileForm = ({
             >
                <div
                   className={cn(
-                     `h-[470px] w-full space-y-2 overflow-y-auto scroll-smooth px-[80px]`,
+                     `h-[470px] w-full space-y-3 overflow-y-auto scroll-smooth px-[80px]`,
                   )}
                >
-                  {step < 4 ? renderStep : children}
+                  {step < 5 ? renderStep : children}
                </div>
-               {step === 4 && (
+               {step === 5 && (
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
                      <Button
                         type="submit"
@@ -56,7 +56,7 @@ const CreateAccountProfileForm = ({
                )}
             </form>
          </Form>
-         {step < 4 && (
+         {step < 5 && (
             <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
                {renderButton}
             </DialogFooter>

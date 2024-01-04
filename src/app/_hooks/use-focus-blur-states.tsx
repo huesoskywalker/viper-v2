@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 
-type InputEvent = React.FocusEvent<HTMLInputElement, Element>
+type InputEvent = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
 type ButtonEvent = React.FocusEvent<HTMLButtonElement, Element>
 
 type EventTypes = InputEvent | ButtonEvent

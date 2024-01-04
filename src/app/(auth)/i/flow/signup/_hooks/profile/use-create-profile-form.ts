@@ -13,12 +13,12 @@ export type CreateProfileSetValue = UseFormSetValue<CreateProfileFormValues>
 
 let memoizedUsername: string | null = null
 
-type InterestItem = ReadonlyArray<{
+type InterestItem = {
    id: string
    label: string
-}>
+}
 
-export const interestItems: InterestItem = [
+export const interestItems: ReadonlyArray<InterestItem> = [
    {
       id: 'music',
       label: 'Music',
@@ -58,6 +58,7 @@ export const interestItems: InterestItem = [
 ] as const
 
 export const createProfileSchema = z.object({
+   bio: z.string().min(0).max(160, { message: 'Bio must not be longer than 160 characters.' }),
    username: z
       .string({
          required_error: 'Username is required',
@@ -100,6 +101,7 @@ export const createProfileSchema = z.object({
 
 export const useCreateProfileForm = () => {
    const defaultValues = {
+      bio: '',
       image: '/default-user.png',
       interests: [],
       role: 'viper',
