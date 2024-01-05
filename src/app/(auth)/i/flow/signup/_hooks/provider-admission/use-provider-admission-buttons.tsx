@@ -5,19 +5,23 @@ import providerAdmissionFieldValidity from '../../_utils/provider-admission-fiel
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 
 const useProviderAdmissionButtons = (step: number, getFieldState: ProviderAdmissionFieldState) => {
-   const { isBirthDateValid, isUsernameValid } = providerAdmissionFieldValidity(getFieldState)
+   const { isBirthDateValid, isBioDirty, isBioValid, isUsernameDirty, isUsernameValid } =
+      providerAdmissionFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([
       [1, isBirthDateValid],
       [2, isBirthDateValid],
-      [3, isUsernameValid],
+      [3, isBioValid],
+      [4, isUsernameValid],
    ])
 
    const disableButton = !validStepMap.get(step)
 
-   const isUsernameDirty = getFieldState('username').isDirty
-   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
+   const bioVariant = isBioDirty ? 'default' : 'outline'
+   const bioLabel = isBioDirty ? undefined : 'Skip for now'
+
    const usernameVariant = isUsernameDirty ? 'default' : 'outline'
+   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
 
    const renderButton = useMemo(() => {
       switch (step) {
@@ -27,13 +31,22 @@ const useProviderAdmissionButtons = (step: number, getFieldState: ProviderAdmiss
          case 3:
             return (
                <NextStepButton
+                  variant={bioVariant}
+                  size={'lg'}
+                  label={bioLabel}
+                  disabled={disableButton}
+               />
+            )
+         case 4:
+            return (
+               <NextStepButton
                   variant={usernameVariant}
                   size={'lg'}
                   label={usernameLabel}
                   disabled={disableButton}
                />
             )
-         case 4:
+         case 5:
             return <ProfileInterestsButton />
          default:
             return null

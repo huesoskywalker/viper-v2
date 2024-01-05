@@ -37,10 +37,10 @@ const CreateAccountProviderForm = ({
                      ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[80px]`,
                   )}
                >
-                  {step < 5 ? renderStep : children}
+                  {step < 6 ? renderStep : children}
                </div>
 
-               {step === 5 && (
+               {step === 6 && (
                   <>
                      <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
                         <Button
@@ -56,7 +56,7 @@ const CreateAccountProviderForm = ({
                )}
             </form>
          </Form>
-         {step < 5 && (
+         {step < 6 && (
             <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
                {renderButton}
             </DialogFooter>

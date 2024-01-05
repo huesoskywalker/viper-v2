@@ -17,11 +17,11 @@ export const TopNavItem: React.FC<TopNavItem> = ({ item, ...props }) => {
             href={`/${item.slug}`}
             aria-label={item.description}
             className={cn(
-               'flex w-full items-center justify-evenly gap-5 rounded-full p-3.5 transition-all duration-100 ease-in hover:bg-accent',
+               'transition-all flex w-full items-center justify-start gap-5 rounded-full p-3.5 duration-100 ease-in hover:bg-accent',
             )}
             {...props}
          >
-            <div className="flex w-full flex-row items-center justify-start gap-3">
+            <div className="flex w-fit flex-row items-center justify-center gap-3 ">
                <LucideIcon className="h-5 w-5 text-foreground sm:h-6 sm:w-6" strokeWidth={2} />
                <span
                   className={cn('flex text-lg font-semibold text-foreground sm:text-xl xl:block')}

@@ -31,7 +31,7 @@ export const AccordionNavMenu = () => {
             <AccordionContent className={cn('px-0 py-0', contentClass)}>
                <ThemeSwitch />
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="block sm:hidden">
                <Link href={'/i/flow/logout'} className={contentClass}>
                   <LogOut size={20} />
                   Log out

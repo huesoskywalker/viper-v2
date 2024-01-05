@@ -11,10 +11,10 @@ export type ProviderAdmissionFieldState = UseFormGetFieldState<ProviderAdmission
 const providerAdmissionSchema = z.object({
    birthDate: admissionSchema.shape.birthDate,
    contentDiscovery: admissionSchema.shape.contentDiscovery,
+   bio: createProfileSchema.shape.bio,
    username: createProfileSchema.shape.username,
    interests: createProfileSchema.shape.interests,
    role: createProfileSchema.shape.role,
-   //    first following?
 })
 
 export const useProviderAdmissionForm = () => {
@@ -25,6 +25,7 @@ export const useProviderAdmissionForm = () => {
          year: '',
       },
       contentDiscovery: true,
+      bio: '',
       //   username: '',
       interests: [],
       role: 'viper',

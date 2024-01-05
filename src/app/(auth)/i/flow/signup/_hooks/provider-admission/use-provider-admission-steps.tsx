@@ -5,6 +5,7 @@ import ProviderAdmissionBirthDate from '../../_components/provider-admission/pro
 import AdmissionContentDiscovery from '../../_components/admission/admission-content-discovery'
 import CreateProfileUsername from '../../_components/profile/create-profile-username'
 import CreateProfileInterests from '../../_components/profile/create-profile-interests'
+import CreateProfileBio from '../../_components/profile/create-profile-bio'
 
 const useProviderAdmissionSteps = (
    step: number,
@@ -17,8 +18,10 @@ const useProviderAdmissionSteps = (
          case 2:
             return <AdmissionContentDiscovery formControl={formControl} />
          case 3:
-            return <CreateProfileUsername formControl={formControl} />
+            return <CreateProfileBio formControl={formControl} />
          case 4:
+            return <CreateProfileUsername formControl={formControl} />
+         case 5:
             return <CreateProfileInterests formControl={formControl} />
          default:
             return null

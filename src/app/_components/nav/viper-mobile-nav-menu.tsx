@@ -35,7 +35,7 @@ export function ViperMobileNavMenu() {
                </Avatar>
             </Button>
          </SheetTrigger>
-         <SheetContent side={'left'} className="mr-0 p-0">
+         <SheetContent side={'left'} className="mr-0 w-4/6 p-0">
             <SheetHeader className="p-4">
                <ViperCard />
             </SheetHeader>
