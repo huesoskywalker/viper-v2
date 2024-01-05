@@ -21,6 +21,8 @@ const buttonVariants = cva(
             sky: 'rounded-3xl text-white bg-viper-dodger-blue hover:bg-viper-dodger-blue-hover',
             'midnight-blue':
                'border-[1px] rounded-3xl border-border text-viper-dodger-blue bg-background hover:bg-viper-dodger-blue/20',
+            following:
+               'border border-input text-primary bg-background hover:border-destructive hover:bg-destructive/20 hover:text-viper-red',
          },
          size: {
             default: 'h-10 px-4 py-2',
