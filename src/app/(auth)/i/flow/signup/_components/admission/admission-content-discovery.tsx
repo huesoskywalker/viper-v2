@@ -16,7 +16,7 @@ const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderAdmis
 
    return (
       <div className="flex flex-col space-y-6">
-         <DialogDescription className="mt-3 text-3xl font-semibold text-primary">
+         <DialogDescription className="mt-3 text-2xl font-semibold text-primary sm:text-3xl">
             Customize your experience
          </DialogDescription>
          <div className="space-y-2">
@@ -31,8 +31,8 @@ const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderAdmis
                      >
                         Discover Viper content across the web.
                      </FormLabel>
-                     <div className="flex flex-row gap-6">
-                        <FormDescription className="text-sm font-normal leading-5 text-foreground">
+                     <div className="flex flex-row gap-2.5 sm:gap-6">
+                        <FormDescription className="text-[17px] font-normal leading-[22px] text-foreground">
                            Viper tailors a personalized experience using this data. This web
                            browsing history will never be stored with your name, email, or phone
                            number.
@@ -50,7 +50,7 @@ const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderAdmis
             />
          </div>
          <div>
-            <TermsAndConditions className="text-sm leading-4">
+            <TermsAndConditions className="text-[17px] leading-4">
                Viper may use your contact information, including your email address and phone
                number for purposes outlined in our Privacy Policy.{' '}
                <Link href="/privacy" target="_blank" className={linkClass}>

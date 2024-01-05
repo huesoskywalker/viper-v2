@@ -18,7 +18,7 @@ const AdmissionInfoCheck: React.FC<FormControlStep<AdmissionFormValues>> = ({ fo
 
    return (
       <>
-         <FormDescription className="mt-3  text-3xl font-bold text-primary">
+         <FormDescription className="mt-3 text-2xl font-bold text-primary sm:text-3xl">
             Create your account
          </FormDescription>
          <FormField

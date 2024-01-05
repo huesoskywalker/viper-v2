@@ -8,7 +8,7 @@ import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 const AdmissionPassword: React.FC<FormControlStep<AdmissionFormValues>> = ({ formControl }) => {
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             You&apos;ll need a password
          </DialogDescription>
          <FormDescription>Make sure it&apos;s 8 characters or more.</FormDescription>

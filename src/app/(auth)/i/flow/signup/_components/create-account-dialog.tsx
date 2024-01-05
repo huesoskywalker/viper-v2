@@ -63,7 +63,9 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                   )}
                >
                   {!session && step <= 5 && !isPathnameLogin && (
-                     <DialogTitle className={cn(' text-lg font-semibold text-foreground')}>
+                     <DialogTitle
+                        className={cn('text-base font-semibold text-foreground sm:text-lg')}
+                     >
                         Step {step} of 5
                      </DialogTitle>
                   )}

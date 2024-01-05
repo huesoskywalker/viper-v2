@@ -35,7 +35,7 @@ const FormInput = React.forwardRef<
             <FormLabel
                htmlFor={props.id}
                className={cn(
-                  'text-md absolute transform px-2 pt-1 transition-transform duration-200 ',
+                  'text-md transition-transform absolute transform px-2 pt-1 duration-200 ',
                   isFocused
                      ? 'translate-y-0 text-sm  text-viper-dodger-blue'
                      : 'text-md translate-y-2  text-muted-foreground',

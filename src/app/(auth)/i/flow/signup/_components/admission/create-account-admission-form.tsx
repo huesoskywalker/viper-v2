@@ -80,13 +80,13 @@ const CreateAccountAdmissionForm = () => {
             >
                <div
                   className={cn(
-                     ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[80px]`,
+                     ` h-[470px] w-full space-y-6 overflow-y-auto scroll-smooth px-[35px] sm:px-[80px]`,
                   )}
                >
                   {renderStep}
                </div>
                {step === 5 && (
-                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                      <Button type="submit" variant={'default'} size={'lg'} disabled={!isValid}>
                         Next
                      </Button>
@@ -95,7 +95,7 @@ const CreateAccountAdmissionForm = () => {
             </form>
          </Form>
          {step < 5 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                {renderButton}
             </DialogFooter>
          )}

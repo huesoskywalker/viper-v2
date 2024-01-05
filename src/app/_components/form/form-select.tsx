@@ -41,8 +41,8 @@ const FormSelect = React.forwardRef<
          <FormLabel
             htmlFor={props.id}
             className={cn(
-               'absolute translate-y-1 px-2 pt-1 text-sm ',
-               isFocused ? ' text-viper-dodger-blue' : '   text-muted-foreground',
+               'absolute translate-y-1 px-2 text-xs',
+               isFocused ? ' text-viper-dodger-blue' : 'text-muted-foreground',
             )}
          >
             {label}
@@ -52,7 +52,7 @@ const FormSelect = React.forwardRef<
                <FormControl id={props.id}>
                   <SelectTrigger
                      ref={ref}
-                     className={`justify-between`}
+                     className={`justify-between pb-3`}
                      variant={variant}
                      onFocus={handleOnFocus}
                      onBlur={handleOnBlur}

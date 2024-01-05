@@ -10,7 +10,7 @@ const AdmissionPersonalInfo: React.FC<FormControlStep<AdmissionFormValues>> = ({
 }) => {
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             Create your account
          </DialogDescription>
          <FormField

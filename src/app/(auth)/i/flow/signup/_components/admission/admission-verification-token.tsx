@@ -13,7 +13,7 @@ const AdmissionVerificationToken: React.FC<FormControlStep<AdmissionFormValues>>
 
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             We sent you a code
          </DialogDescription>
          <FormDescription>Enter it below to verify {email}.</FormDescription>
