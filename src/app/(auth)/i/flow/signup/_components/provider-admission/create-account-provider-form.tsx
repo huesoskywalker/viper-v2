@@ -9,6 +9,7 @@ import useProviderAdmissionButtons from '../../_hooks/provider-admission/use-pro
 import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
+import CreateAccountFormBody from '../../../_components/create-account-form-body'
 
 const CreateAccountProviderForm = ({
    children,
@@ -32,17 +33,11 @@ const CreateAccountProviderForm = ({
                onSubmit={providerAdmissionForm.handleSubmit(onSubmit)}
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
-               <div
-                  className={cn(
-                     ` h-[470px] w-full space-y-4 overflow-y-auto scroll-smooth px-[80px]`,
-                  )}
-               >
-                  {step < 6 ? renderStep : children}
-               </div>
+               <CreateAccountFormBody>{step < 6 ? renderStep : children}</CreateAccountFormBody>
 
                {step === 6 && (
                   <>
-                     <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                     <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                         <Button
                            type="submit"
                            variant={'default'}
@@ -57,10 +52,10 @@ const CreateAccountProviderForm = ({
             </form>
          </Form>
          {step < 6 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                {renderButton}
             </DialogFooter>
-         )}{' '}
+         )}
       </>
    )
 }

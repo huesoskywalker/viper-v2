@@ -10,7 +10,7 @@ const ProviderAdmissionBirthDate = ({
 }: FormControlStep<ProviderAdmissionFormValues>) => {
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             What&apos;s your birth date?
          </DialogDescription>
          <FormDescription>This won&apos;t be public.</FormDescription>
