@@ -1,10 +1,10 @@
 import { BASE_URL } from '@/config/env'
 import { CreateProfileFormValues } from '../(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
-import { ProviderAdmissionFormValues } from '../(auth)/i/flow/signup/_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFormValues } from '../(auth)/i/flow/signup/_hooks/provider/use-provider-profile-form'
 import { BasicViperResponse } from '@/types/api/response'
 
 const updateProfileEndpoint = async (
-   formData: CreateProfileFormValues | ProviderAdmissionFormValues,
+   formData: CreateProfileFormValues | ProviderProfileFormValues,
 ) => {
    try {
       const updateViper = await fetch(`${BASE_URL}/api/viper`, {

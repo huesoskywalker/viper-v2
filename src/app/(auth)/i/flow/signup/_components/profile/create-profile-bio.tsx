@@ -1,6 +1,6 @@
 import React from 'react'
 import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
-import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 import { Control, FieldPath } from 'react-hook-form'
 import { DialogDescription } from '@/components/ui/dialog'
 import {
@@ -13,7 +13,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { FormTextarea } from '@/app/_components/form/form-textarea'
 
-const CreateProfileBio = <T extends CreateProfileFormValues | ProviderAdmissionFormValues>({
+const CreateProfileBio = <T extends CreateProfileFormValues | ProviderProfileFormValues>({
    formControl,
 }: {
    formControl: Control<T>

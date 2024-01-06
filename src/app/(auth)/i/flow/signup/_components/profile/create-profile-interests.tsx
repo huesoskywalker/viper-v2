@@ -15,7 +15,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
-import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provider-admission-form'
+import { ProviderAdmissionFormValues } from '../../_hooks/provider/use-provider-profile-form'
 import { Control, FieldPath } from 'react-hook-form'
 
 const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderAdmissionFormValues>({

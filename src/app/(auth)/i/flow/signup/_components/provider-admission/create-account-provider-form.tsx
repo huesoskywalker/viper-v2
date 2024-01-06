@@ -3,9 +3,9 @@ import { PropsWithChildren } from 'react'
 import { Form } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
-import { useProviderAdmissionForm } from '../../_hooks/provider-admission/use-provider-admission-form'
-import useProviderAdmissionSteps from '../../_hooks/provider-admission/use-provider-admission-steps'
-import useProviderAdmissionButtons from '../../_hooks/provider-admission/use-provider-admission-buttons'
+import { useProviderProfileForm } from '../../_hooks/provider/use-provider-profile-form'
+import useProviderProfileSteps from '../../_hooks/provider/use-provider-profile-steps'
+import useProviderProfileButtons from '../../_hooks/provider/use-provider-profile-buttons'
 import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
@@ -18,21 +18,21 @@ const CreateAccountProviderForm = ({
 }: PropsWithChildren & { viperFollowings: number }) => {
    const { step } = useCreateAccountStore()
 
-   const { providerAdmissionForm } = useProviderAdmissionForm()
-   const { control, getFieldState, formState } = providerAdmissionForm
+   const { providerProfileForm } = useProviderProfileForm()
+   const { control, getFieldState, formState } = providerProfileForm
    const { isSubmitting } = formState
 
-   const { renderStep } = useProviderAdmissionSteps(step, control)
+   const { renderStep } = useProviderProfileSteps(step, control)
 
-   const { renderButton } = useProviderAdmissionButtons(step, getFieldState)
+   const { renderButton } = useProviderProfileButtons(step, getFieldState)
 
    const { onSubmit } = useSubmitCreateProfile()
 
    return (
       <>
-         <Form {...providerAdmissionForm}>
+         <Form {...providerProfileForm}>
             <form
-               onSubmit={providerAdmissionForm.handleSubmit(onSubmit)}
+               onSubmit={providerProfileForm.handleSubmit(onSubmit)}
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{step < 6 ? renderStep : children}</CreateAccountFormBody>

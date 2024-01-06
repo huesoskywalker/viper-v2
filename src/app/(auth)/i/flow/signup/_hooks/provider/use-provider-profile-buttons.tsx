@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import NextStepButton from '../../../_components/next-step-button'
-import { ProviderAdmissionFieldState } from './use-provider-admission-form'
-import providerAdmissionFieldValidity from '../../_utils/provider-admission-field-validity'
+import { ProviderProfileFieldState } from './use-provider-profile-form'
+import providerProfileFieldValidity from '../../_utils/provider-profile-field-validity'
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 
-const useProviderAdmissionButtons = (step: number, getFieldState: ProviderAdmissionFieldState) => {
+const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileFieldState) => {
    const { isBirthDateValid, isBioDirty, isBioValid, isUsernameDirty, isUsernameValid } =
-      providerAdmissionFieldValidity(getFieldState)
+      providerProfileFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([
       [1, isBirthDateValid],
@@ -56,4 +56,4 @@ const useProviderAdmissionButtons = (step: number, getFieldState: ProviderAdmiss
    return { renderButton }
 }
 
-export default useProviderAdmissionButtons
+export default useProviderProfileButtons

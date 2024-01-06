@@ -1,11 +1,11 @@
 import { CreateProfileFormValues } from '../(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
-import { ProviderAdmissionFormValues } from '../(auth)/i/flow/signup/_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFormValues } from '../(auth)/i/flow/signup/_hooks/provider/use-provider-profile-form'
 
 export const determineUpdateProfileSchema = (
-   formData: CreateProfileFormValues | ProviderAdmissionFormValues,
+   formData: CreateProfileFormValues | ProviderProfileFormValues,
 ) => {
    if ('contentDiscovery' in formData) {
-      return formData as ProviderAdmissionFormValues
+      return formData as ProviderProfileFormValues
    } else {
       return formData as CreateProfileFormValues
    }

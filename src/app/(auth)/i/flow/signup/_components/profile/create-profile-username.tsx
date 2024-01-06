@@ -4,11 +4,11 @@ import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { Control, FieldPath, useFormContext } from 'react-hook-form'
-import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 import AtSymbol from '@/app/_components/viper/at-symbol'
 
-const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderAdmissionFormValues>({
+const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfileFormValues>({
    formControl,
 }: {
    formControl: Control<T>

@@ -1,22 +1,22 @@
 import React, { useMemo } from 'react'
 import { Control } from 'react-hook-form'
-import { ProviderAdmissionFormValues } from './use-provider-admission-form'
-import ProviderAdmissionBirthDate from '../../_components/provider-admission/provider-admission-birth-date'
-import AdmissionContentDiscovery from '../../_components/admission/admission-content-discovery'
+import { ProviderProfileFormValues } from './use-provider-profile-form'
+import ProfileContentDiscovery from '../../_components/admission/admission-content-discovery'
 import CreateProfileUsername from '../../_components/profile/create-profile-username'
 import CreateProfileInterests from '../../_components/profile/create-profile-interests'
 import CreateProfileBio from '../../_components/profile/create-profile-bio'
+import ProviderProfileBirthDate from '../../_components/provider-admission/provider-profile-birth-date'
 
-const useProviderAdmissionSteps = (
+const useProviderProfileSteps = (
    step: number,
-   formControl: Control<ProviderAdmissionFormValues>,
+   formControl: Control<ProviderProfileFormValues>,
 ) => {
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:
-            return <ProviderAdmissionBirthDate formControl={formControl} />
+            return <ProviderProfileBirthDate formControl={formControl} />
          case 2:
-            return <AdmissionContentDiscovery formControl={formControl} />
+            return <ProfileContentDiscovery formControl={formControl} />
          case 3:
             return <CreateProfileBio formControl={formControl} />
          case 4:
@@ -31,4 +31,4 @@ const useProviderAdmissionSteps = (
    return { renderStep }
 }
 
-export default useProviderAdmissionSteps
+export default useProviderProfileSteps

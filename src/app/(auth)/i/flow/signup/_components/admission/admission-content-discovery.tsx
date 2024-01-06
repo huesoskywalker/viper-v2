@@ -5,9 +5,9 @@ import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 import { Control, FieldPath } from 'react-hook-form'
-import { ProviderAdmissionFormValues } from '../../_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 
-const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderAdmissionFormValues>({
+const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderProfileFormValues>({
    formControl,
 }: {
    formControl: Control<T>

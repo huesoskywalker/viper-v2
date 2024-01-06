@@ -4,11 +4,11 @@ import { createProfileSchema } from '../profile/use-create-profile-form'
 import { UseFormGetFieldState, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-export type ProviderAdmissionFormValues = z.infer<typeof providerAdmissionSchema>
+export type ProviderProfileFormValues = z.infer<typeof providerProfileSchema>
 
-export type ProviderAdmissionFieldState = UseFormGetFieldState<ProviderAdmissionFormValues>
+export type ProviderProfileFieldState = UseFormGetFieldState<ProviderProfileFormValues>
 
-const providerAdmissionSchema = z.object({
+const providerProfileSchema = z.object({
    birthDate: admissionSchema.shape.birthDate,
    contentDiscovery: admissionSchema.shape.contentDiscovery,
    bio: createProfileSchema.shape.bio,
@@ -17,7 +17,7 @@ const providerAdmissionSchema = z.object({
    role: createProfileSchema.shape.role,
 })
 
-export const useProviderAdmissionForm = () => {
+export const useProviderProfileForm = () => {
    const defaultValues = {
       birthDate: {
          month: '',
@@ -31,11 +31,11 @@ export const useProviderAdmissionForm = () => {
       role: 'viper',
    }
 
-   const providerAdmissionForm = useForm<ProviderAdmissionFormValues>({
-      resolver: zodResolver(providerAdmissionSchema),
+   const providerProfileForm = useForm<ProviderProfileFormValues>({
+      resolver: zodResolver(providerProfileSchema),
       defaultValues,
       mode: 'onChange',
    })
 
-   return { providerAdmissionForm }
+   return { providerProfileForm }
 }

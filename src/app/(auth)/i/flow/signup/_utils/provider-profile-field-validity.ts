@@ -1,7 +1,6 @@
-import React from 'react'
-import { ProviderAdmissionFieldState } from '../_hooks/provider-admission/use-provider-admission-form'
+import { ProviderProfileFieldState } from '../_hooks/provider/use-provider-profile-form'
 
-const providerAdmissionFieldValidity = (getFieldState: ProviderAdmissionFieldState) => {
+const providerProfileFieldValidity = (getFieldState: ProviderProfileFieldState) => {
    const monthFieldState = getFieldState('birthDate.month')
    const dayFieldState = getFieldState('birthDate.day')
    const yearFieldState = getFieldState('birthDate.year')
@@ -37,4 +36,4 @@ const providerAdmissionFieldValidity = (getFieldState: ProviderAdmissionFieldSta
    return { isBirthDateValid, isBioDirty, isBioValid, isUsernameDirty, isUsernameValid }
 }
 
-export default providerAdmissionFieldValidity
+export default providerProfileFieldValidity

@@ -4,10 +4,10 @@ import getMonths from '@/app/(auth)/i/flow/signup/_utils/get-months'
 import getDays from '@/app/(auth)/i/flow/signup/_utils/get-days'
 import getYears from '@/app/(auth)/i/flow/signup/_utils/get-years'
 import { AdmissionFormValues } from '@/app/(auth)/i/flow/signup/_hooks/admission/use-admission-form'
-import { ProviderAdmissionFormValues } from '@/app/(auth)/i/flow/signup/_hooks/provider-admission/use-provider-admission-form'
 import { Control, FieldPath } from 'react-hook-form'
+import { ProviderProfileFormValues } from '@/app/(auth)/i/flow/signup/_hooks/provider/use-provider-profile-form'
 
-const BirthDateSelector = <T extends AdmissionFormValues | ProviderAdmissionFormValues>({
+const BirthDateSelector = <T extends AdmissionFormValues | ProviderProfileFormValues>({
    formControl,
 }: {
    formControl: Control<T>
