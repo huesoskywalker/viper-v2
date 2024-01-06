@@ -7,7 +7,7 @@ const CreateAccountFormBody: React.FC<FormBody> = ({ children, className, ...pro
    return (
       <div
          className={cn(
-            ` h-[470px] w-full space-y-6 overflow-y-auto scroll-smooth px-[35px] sm:px-[80px]`,
+            ` h-[470px] w-full space-y-3 overflow-x-hidden scroll-smooth px-[35px] sm:px-[80px]`,
             className,
          )}
          {...props}

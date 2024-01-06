@@ -53,10 +53,11 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
             <DialogContent
                onOpenAutoFocus={handleAutoFocus}
                steps={handleStepIcon}
-               className="flex h-[650px] max-w-[610px] flex-col items-start justify-center rounded-lg border-none pt-2 "
+               className="flex h-full max-w-sm flex-col items-start justify-center rounded-lg border-none md:h-[575px] md:max-w-[600px] xl:h-[650px] "
             >
                <DialogHeader
                   className={cn(
+                     'pt-3',
                      !session && step < 5 && !isPathnameLogin && 'pl-16',
                      !session && step === 5 && 'pl-4',
                      (session || isPathnameLogin) && 'self-center',
@@ -77,7 +78,7 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                         height={50}
                         loading="lazy"
                         quality={100}
-                        className="pt-2 invert-image"
+                        className="invert-image"
                      />
                   )}
                </DialogHeader>
