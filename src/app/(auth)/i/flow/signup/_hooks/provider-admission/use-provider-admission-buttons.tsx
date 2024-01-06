@@ -51,7 +51,7 @@ const useProviderAdmissionButtons = (step: number, getFieldState: ProviderAdmiss
          default:
             return null
       }
-   }, [step, disableButton])
+   }, [step, disableButton, isBioDirty, isUsernameDirty])
 
    return { renderButton }
 }

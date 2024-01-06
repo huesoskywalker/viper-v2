@@ -10,6 +10,7 @@ import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
+import CreateAccountFormFooter from '../../../_components/create-account-form-footer'
 
 const CreateAccountProviderForm = ({
    children,
@@ -18,7 +19,8 @@ const CreateAccountProviderForm = ({
    const { step } = useCreateAccountStore()
 
    const { providerAdmissionForm } = useProviderAdmissionForm()
-   const { control, getFieldState } = providerAdmissionForm
+   const { control, getFieldState, formState } = providerAdmissionForm
+   const { isSubmitting } = formState
 
    const { renderStep } = useProviderAdmissionSteps(step, control)
 
@@ -34,28 +36,22 @@ const CreateAccountProviderForm = ({
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{step < 6 ? renderStep : children}</CreateAccountFormBody>
-
-               {step === 6 && (
-                  <>
-                     <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
-                        <Button
-                           type="submit"
-                           variant={'default'}
-                           size={'lg'}
-                           disabled={viperFollowings === 0}
-                        >
-                           Next
-                        </Button>
-                     </DialogFooter>
-                  </>
-               )}
+               <CreateAccountFormFooter>
+                  {step < 6 ? (
+                     renderButton
+                  ) : (
+                     <Button
+                        type="submit"
+                        variant={'default'}
+                        size={'lg'}
+                        disabled={viperFollowings === 0 || isSubmitting}
+                     >
+                        Next
+                     </Button>
+                  )}
+               </CreateAccountFormFooter>
             </form>
          </Form>
-         {step < 6 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
-               {renderButton}
-            </DialogFooter>
-         )}
       </>
    )
 }

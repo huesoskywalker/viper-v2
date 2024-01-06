@@ -9,6 +9,7 @@ import { useCreateProfileButtons } from '../../_hooks/profile/use-create-profile
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
+import CreateAccountFormFooter from '../../../_components/create-account-form-footer'
 
 const CreateAccountProfileForm = ({
    children,
@@ -21,7 +22,9 @@ const CreateAccountProfileForm = ({
 
    const { createProfileForm } = useCreateProfileForm()
 
-   const { control, getFieldState, setValue } = createProfileForm
+   const { control, getFieldState, setValue, formState } = createProfileForm
+
+   const { isSubmitting } = formState
 
    const { onSubmit } = useSubmitCreateProfile()
 
@@ -37,25 +40,22 @@ const CreateAccountProfileForm = ({
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{step < 5 ? renderStep : children}</CreateAccountFormBody>
-               {step === 5 && (
-                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
+               <CreateAccountFormFooter>
+                  {step < 5 ? (
+                     renderButton
+                  ) : (
                      <Button
                         type="submit"
                         variant={'default'}
                         size={'lg'}
-                        disabled={viperFollowings === 0}
+                        disabled={viperFollowings === 0 || isSubmitting}
                      >
                         Next
                      </Button>
-                  </DialogFooter>
-               )}
+                  )}
+               </CreateAccountFormFooter>
             </form>
          </Form>
-         {step < 5 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
-               {renderButton}
-            </DialogFooter>
-         )}
       </>
    )
 }

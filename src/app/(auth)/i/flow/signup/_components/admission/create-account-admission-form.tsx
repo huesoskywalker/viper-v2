@@ -13,6 +13,7 @@ import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { useRouter } from 'next/navigation'
 import { ApiResponse } from '@/types/api/response'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
+import CreateAccountFormFooter from '../../../_components/create-account-form-footer'
 
 const CreateAccountAdmissionForm = () => {
    const { step, redirectStep } = useCreateAccountStore()
@@ -23,7 +24,7 @@ const CreateAccountAdmissionForm = () => {
 
    const { control, formState, setFocus, getFieldState, getValues } = admissionForm
 
-   const { isValid } = formState
+   const { isValid, isSubmitting } = formState
 
    const { focusElem } = useCreateAccountStore()
 
@@ -80,20 +81,22 @@ const CreateAccountAdmissionForm = () => {
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
-               {step === 5 && (
-                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
-                     <Button type="submit" variant={'default'} size={'lg'} disabled={!isValid}>
+               <CreateAccountFormFooter>
+                  {step < 5 ? (
+                     renderButton
+                  ) : (
+                     <Button
+                        type="submit"
+                        variant={'default'}
+                        size={'lg'}
+                        disabled={!isValid || isSubmitting}
+                     >
                         Next
                      </Button>
-                  </DialogFooter>
-               )}
+                  )}
+               </CreateAccountFormFooter>
             </form>
          </Form>
-         {step < 5 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
-               {renderButton}
-            </DialogFooter>
-         )}
       </>
    )
 }
