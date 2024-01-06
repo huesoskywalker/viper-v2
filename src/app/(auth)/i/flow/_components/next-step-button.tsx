@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@/components/ui/button'
 import React from 'react'
-import { useCreateAccountStore } from '../_stores/create-account-store'
+import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 
 const NextStepButton: React.FC<ButtonProps & { disabled: boolean; label?: string }> = ({
    disabled,

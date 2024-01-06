@@ -20,7 +20,7 @@ const CreateProfileBio = <T extends CreateProfileFormValues | ProviderAdmissionF
 }) => {
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             Describe yourself
          </DialogDescription>
          <FormDescription>

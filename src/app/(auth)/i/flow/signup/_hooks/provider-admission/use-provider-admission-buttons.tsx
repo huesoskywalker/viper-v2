@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import NextStepButton from '../../_components/next-step-button'
+import NextStepButton from '../../../_components/next-step-button'
 import { ProviderAdmissionFieldState } from './use-provider-admission-form'
 import providerAdmissionFieldValidity from '../../_utils/provider-admission-field-validity'
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'

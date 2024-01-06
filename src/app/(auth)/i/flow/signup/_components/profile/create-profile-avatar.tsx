@@ -10,7 +10,7 @@ const CreateProfileAvatar: React.FC<FormControlStep<CreateProfileFormValues>> = 
    return (
       <div className="relative flex flex-col justify-center space-y-14">
          <div className="space-y-2 self-start">
-            <DialogDescription className=" text-3xl font-bold text-foreground ">
+            <DialogDescription className="text-2xl font-bold text-foreground sm:text-3xl ">
                Pick a profile picture
             </DialogDescription>
             <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>

@@ -12,6 +12,7 @@ import { signIn } from 'next-auth/react'
 import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { useRouter } from 'next/navigation'
 import { ApiResponse } from '@/types/api/response'
+import CreateAccountFormBody from '../../../_components/create-account-form-body'
 
 const CreateAccountAdmissionForm = () => {
    const { step, redirectStep } = useCreateAccountStore()
@@ -78,13 +79,7 @@ const CreateAccountAdmissionForm = () => {
                onSubmit={admissionForm.handleSubmit(onSubmit)}
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
-               <div
-                  className={cn(
-                     ` h-[470px] w-full space-y-6 overflow-y-auto scroll-smooth px-[35px] sm:px-[80px]`,
-                  )}
-               >
-                  {renderStep}
-               </div>
+               <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
                {step === 5 && (
                   <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                      <Button type="submit" variant={'default'} size={'lg'} disabled={!isValid}>

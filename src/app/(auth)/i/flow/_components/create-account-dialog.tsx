@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Image from 'next/image'
-import { useCreateAccountStore } from '../_stores/create-account-store'
+import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { cn } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
@@ -77,7 +77,7 @@ export const CreateAccountDialog = ({ children }: PropsWithChildren) => {
                         height={50}
                         loading="lazy"
                         quality={100}
-                        className="invert-image"
+                        className="pt-2 invert-image"
                      />
                   )}
                </DialogHeader>

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import NextStepButton from '../../_components/next-step-button'
+import NextStepButton from '../../../_components/next-step-button'
 import { TokenVerificationForm } from '../../_components/admission/token-verification-form'
 import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
 import { AdmissionFieldState, AdmissionFieldValue } from './use-admission-form'

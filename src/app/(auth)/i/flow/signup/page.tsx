@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { CreateAccountDialog } from './_components/create-account-dialog'
+import { CreateAccountDialog } from '../_components/create-account-dialog'
 import { Toaster } from '@/components/ui/toaster'
 import CreateAccountAdmissionForm from './_components/admission/create-account-admission-form'
 import CreateAccountProfileForm from './_components/profile/create-account-profile-form'

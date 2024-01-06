@@ -6,14 +6,14 @@ const ProfileFirstFollowing = async () => {
    const vipers = await viperService.getAllBasicProps()
    return (
       <>
-         <DialogTitle className="mt-2 text-3xl font-bold text-foreground ">
+         <DialogTitle className="mt-2 text-2xl font-bold text-foreground sm:text-3xl ">
             Don&apos;t miss out
          </DialogTitle>
          <DialogDescription>
             When you follow someone, you&apos;ll see their posts, events and engagement in your
             Timeline. You&apos;ll also get more relevant recommendations.
          </DialogDescription>
-         <div className="p-2">
+         <div className="p-0 sm:p-2">
             <h1 className="text-md pb-4 font-sans font-bold text-primary">
                Follow 1 or more accounts
             </h1>

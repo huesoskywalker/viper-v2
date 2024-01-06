@@ -1,5 +1,5 @@
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
-import NextStepButton from '../next-step-button'
+import NextStepButton from '../../../_components/next-step-button'
 
 const ProfileInterestsButton = () => {
    const { interests } = useCreateProfileStore()

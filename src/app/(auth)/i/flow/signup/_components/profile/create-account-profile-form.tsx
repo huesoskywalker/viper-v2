@@ -8,6 +8,7 @@ import { useCreateProfileSteps } from '../../_hooks/profile/use-create-profile-s
 import { useCreateProfileButtons } from '../../_hooks/profile/use-create-profile-buttons'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
+import CreateAccountFormBody from '../../../_components/create-account-form-body'
 
 const CreateAccountProfileForm = ({
    children,
@@ -35,15 +36,9 @@ const CreateAccountProfileForm = ({
                onSubmit={createProfileForm.handleSubmit(onSubmit)}
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
-               <div
-                  className={cn(
-                     `h-[470px] w-full space-y-3 overflow-y-auto scroll-smooth px-[80px]`,
-                  )}
-               >
-                  {step < 5 ? renderStep : children}
-               </div>
+               <CreateAccountFormBody>{step < 5 ? renderStep : children}</CreateAccountFormBody>
                {step === 5 && (
-                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+                  <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                      <Button
                         type="submit"
                         variant={'default'}
@@ -57,7 +52,7 @@ const CreateAccountProfileForm = ({
             </form>
          </Form>
          {step < 5 && (
-            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-16">
+            <DialogFooter className="mb-6 flex w-full flex-col gap-2 px-8 sm:px-16">
                {renderButton}
             </DialogFooter>
          )}

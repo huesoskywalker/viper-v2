@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { CreateAccountDialog } from '../signup/_components/create-account-dialog'
+import { CreateAccountDialog } from '../_components/create-account-dialog'
 import ProfileFirstFollowing from '../signup/_components/profile/profile-first-following'
 import CreateAccountProviderForm from '../signup/_components/provider-admission/create-account-provider-form'
 

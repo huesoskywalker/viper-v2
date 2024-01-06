@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import NextStepButton from '../../_components/next-step-button'
+import NextStepButton from '../../../_components/next-step-button'
 import UploadAvatarImage from '../../_components/profile/upload-avatar-button'
 import { CreateProfileFieldState, CreateProfileSetValue } from './use-create-profile-form'
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'

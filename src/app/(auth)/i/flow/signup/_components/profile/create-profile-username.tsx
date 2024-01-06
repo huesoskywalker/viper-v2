@@ -27,7 +27,7 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderAdmis
 
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             What should we call you?
          </DialogDescription>
          <FormDescription>

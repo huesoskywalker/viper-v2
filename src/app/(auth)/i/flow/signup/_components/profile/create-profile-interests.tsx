@@ -27,7 +27,7 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderAdmi
 
    return (
       <>
-         <DialogDescription className="mt-3 text-3xl font-bold text-foreground ">
+         <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             What do you want to see on Viper?
          </DialogDescription>
          <FormField
@@ -79,7 +79,7 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderAdmi
                                              }}
                                           />
                                        </FormControl>
-                                       <span className="flex self-end text-left font-semibold">
+                                       <span className="flex-1 self-end overflow-hidden overflow-ellipsis text-left text-[17px] font-semibold sm:flex">
                                           {item.label}
                                        </span>
                                     </ToggleGroupItem>
