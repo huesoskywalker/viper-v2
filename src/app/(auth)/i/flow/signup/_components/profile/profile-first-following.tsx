@@ -17,7 +17,7 @@ const ProfileFirstFollowing = async () => {
             <h1 className="text-md pb-4 font-sans font-bold text-primary">
                Follow 1 or more accounts
             </h1>
-            <div className="flex w-full flex-col justify-center space-y-3">
+            <div className="flex w-full flex-col justify-center space-y-2 lg:space-y-3">
                {vipers.map((viper) => (
                   <ViperListCard key={String(viper._id)} viper={viper} />
                ))}
