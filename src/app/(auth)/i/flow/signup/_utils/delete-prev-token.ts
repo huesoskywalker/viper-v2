@@ -1,9 +1,9 @@
-import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
+import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { DeleteResult } from 'mongodb'
 
 export const deletePrevToken = async (_id: string) => {
    try {
-      const res = await fetch(`${BASE_URL}/i/flow/signup/api/verify/token?_id=${_id}`, {
+      const res = await fetch(`${PUBLIC_API_URL}/i/flow/signup/api/verify/token?_id=${_id}`, {
          method: 'DELETE',
          headers: {
             'Content-Type': 'application/json',

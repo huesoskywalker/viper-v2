@@ -1,5 +1,5 @@
 'use server'
-import { BASE_URL } from '@/config/env'
+import { PUBLIC_API_URL } from '@/config/env'
 import { logError } from '@/config/winstonLogger'
 import { z } from 'zod'
 
@@ -18,7 +18,7 @@ export const validateVerificationToken = async (
 
    try {
       const magicLink = await fetch(
-         `${BASE_URL}/api/auth/callback/email?callbackUrl=%2F&token=${data.token}&email=${data.email}`,
+         `${PUBLIC_API_URL}/api/auth/callback/email?callbackUrl=%2F&token=${data.token}&email=${data.email}`,
       )
       if (!magicLink.ok) {
          const { error } = await magicLink.json()

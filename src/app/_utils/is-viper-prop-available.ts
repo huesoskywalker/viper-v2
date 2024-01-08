@@ -1,4 +1,4 @@
-import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
+import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 
 export const isViperPropAvailable = async (
    field: 'email' | 'username',
@@ -6,7 +6,7 @@ export const isViperPropAvailable = async (
 ): Promise<boolean> => {
    try {
       const res = await fetch(
-         `${BASE_URL}/i/flow/signup/api/verify?field=${field}&value=${value}`,
+         `${PUBLIC_API_URL}/i/flow/signup/api/verify?field=${field}&value=${value}`,
          {
             headers: {
                'Content-Type': 'application/json',

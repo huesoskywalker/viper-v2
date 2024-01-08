@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { BASE_URL } from '@/config/env'
+import { PUBLIC_API_URL } from '@/config/env'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { useOptimistic, useState, useTransition } from 'react'
@@ -30,7 +30,7 @@ const ToggleFollowButton = ({
       startTransition(async () => {
          addOptimisticFollowing(!isFollowing)
 
-         const res = await fetch(`${BASE_URL}/api/viper/follow`, {
+         const res = await fetch(`${PUBLIC_API_URL}/api/viper/follow`, {
             headers: {
                'Content-Type': 'application/json',
             },
