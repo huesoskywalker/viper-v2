@@ -1,16 +1,14 @@
 'use client'
 import { PropsWithChildren } from 'react'
 import { Form } from '@/components/ui/form'
-import { cn } from '@/lib/utils'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useProviderProfileForm } from '../../_hooks/provider/use-provider-profile-form'
 import useProviderProfileSteps from '../../_hooks/provider/use-provider-profile-steps'
 import useProviderProfileButtons from '../../_hooks/provider/use-provider-profile-buttons'
-import { DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
+import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
-import CreateAccountFormFooter from '../../../_components/create-account-form-footer'
 
 const CreateAccountProviderForm = ({
    children,
@@ -36,7 +34,7 @@ const CreateAccountProviderForm = ({
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{step < 6 ? renderStep : children}</CreateAccountFormBody>
-               <CreateAccountFormFooter>
+               <DialogFormFooter>
                   {step < 6 ? (
                      renderButton
                   ) : (
@@ -49,7 +47,7 @@ const CreateAccountProviderForm = ({
                         Next
                      </Button>
                   )}
-               </CreateAccountFormFooter>
+               </DialogFormFooter>
             </form>
          </Form>
       </>

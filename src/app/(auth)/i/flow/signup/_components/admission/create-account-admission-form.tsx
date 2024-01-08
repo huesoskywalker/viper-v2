@@ -1,10 +1,8 @@
 'use client'
 import { Form } from '@/components/ui/form'
-import { DialogFooter } from '@/components/ui/dialog'
 import { BaseSyntheticEvent, useLayoutEffect } from 'react'
 import { AdmissionFormValues, useAdmissionForm } from '../../_hooks/admission/use-admission-form'
 import { FocusElement, useCreateAccountStore } from '../../_stores/create-account-store'
-import { cn } from '@/lib/utils'
 import { useAdmissionButtons } from '../../_hooks/admission/use-admission-buttons'
 import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
 import { Button } from '@/components/ui/button'
@@ -12,8 +10,9 @@ import { signIn } from 'next-auth/react'
 import { BASE_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { useRouter } from 'next/navigation'
 import { ApiResponse } from '@/types/api/response'
+import GlobalDialogFooter from '../../../../../../_components/dialog/global-dialog-footer'
+import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
-import CreateAccountFormFooter from '../../../_components/create-account-form-footer'
 
 const CreateAccountAdmissionForm = () => {
    const { step, redirectStep } = useCreateAccountStore()
@@ -81,10 +80,8 @@ const CreateAccountAdmissionForm = () => {
                className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1"
             >
                <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
-               <CreateAccountFormFooter>
-                  {step < 5 ? (
-                     renderButton
-                  ) : (
+               {step === 5 && (
+                  <DialogFormFooter>
                      <Button
                         type="submit"
                         variant={'default'}
@@ -93,10 +90,11 @@ const CreateAccountAdmissionForm = () => {
                      >
                         Next
                      </Button>
-                  )}
-               </CreateAccountFormFooter>
+                  </DialogFormFooter>
+               )}
             </form>
          </Form>
+         {step < 5 && <GlobalDialogFooter>{renderButton}</GlobalDialogFooter>}
       </>
    )
 }
