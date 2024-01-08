@@ -5,7 +5,7 @@ import ProfileContentDiscovery from '../../_components/admission/admission-conte
 import CreateProfileUsername from '../../_components/profile/create-profile-username'
 import CreateProfileInterests from '../../_components/profile/create-profile-interests'
 import CreateProfileBio from '../../_components/profile/create-profile-bio'
-import ProviderProfileBirthDate from '../../_components/provider-admission/provider-profile-birth-date'
+import ProviderProfileBirthDate from '../../_components/provider/provider-profile-birth-date'
 
 const useProviderProfileSteps = (
    step: number,

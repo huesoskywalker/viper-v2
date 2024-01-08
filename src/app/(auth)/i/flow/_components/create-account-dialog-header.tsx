@@ -11,7 +11,7 @@ const CreateAccountDialogHeader = ({ isPathnameLogin }: { isPathnameLogin: boole
 
    const getHeaderClass = () => {
       if (!session) {
-         if (step < 5) {
+         if (step < 5 && !isPathnameLogin) {
             return 'pl-16'
          }
          if (step === 5) {

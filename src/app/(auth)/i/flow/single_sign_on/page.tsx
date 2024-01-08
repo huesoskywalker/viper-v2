@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth'
 import ProfileFirstFollowing from '../signup/_components/profile/profile-first-following'
-import CreateAccountProviderForm from '../signup/_components/provider-admission/create-account-provider-form'
+import CreateAccountProvider from '../signup/_components/provider/create-account-provider'
 import { CreateAccount } from '../_components/create-account'
 
 const SingleSignOnPage = async () => {
@@ -9,9 +9,9 @@ const SingleSignOnPage = async () => {
    return (
       <>
          <CreateAccount>
-            <CreateAccountProviderForm viperFollowings={session.user.followings}>
+            <CreateAccountProvider viperFollowings={session.user.followings}>
                <ProfileFirstFollowing />
-            </CreateAccountProviderForm>
+            </CreateAccountProvider>
          </CreateAccount>
       </>
    )
