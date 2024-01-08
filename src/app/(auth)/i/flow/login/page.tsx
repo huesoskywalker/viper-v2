@@ -1,14 +1,14 @@
 import React from 'react'
-import { CreateAccountDialog } from '../_components/create-account-dialog'
 import { Toaster } from '@/components/ui/toaster'
 import ViperLogin from './_components/viper-login'
+import { CreateAccount } from '../_components/create-account'
 
 const LogInPage = () => {
    return (
-      <CreateAccountDialog>
+      <CreateAccount>
          <ViperLogin />
          <Toaster />
-      </CreateAccountDialog>
+      </CreateAccount>
    )
 }
 
