@@ -1,9 +1,6 @@
 'use client'
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import Image from 'next/image'
 import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 import useHandleDialog from '@/app/_hooks/use-handle-dialog'
-import { cn } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
 import { PropsWithChildren, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -17,6 +14,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
 
    const pathname = usePathname()
    const isPathnameLogin = pathname.endsWith('/i/flow/login')
+   const isPathnamePassword = pathname.endsWith('/i/flow/password_reset')
 
    const { push } = useRouter()
 
@@ -31,11 +29,12 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
                redirectStep(1)
             }
          }
-         if (isPathnameLogin) {
+
+         if (isPathnameLogin || isPathnamePassword) {
             push('/home')
          }
       }
-   }, [status, isPathnameLogin])
+   }, [status, isPathnameLogin, isPathnamePassword])
 
    const { openDialog, closeDialog } = useHandleDialog()
 
@@ -44,7 +43,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
    const stepIcon = !session && step <= 4 ? step : 'disabled'
 
    const handleAutoFocus = (e: Event) => {
-      if (!session) {
+      if (!session && !isPathnameLogin) {
          if (step === 2 || step === 3) e.preventDefault()
       } else {
          e.preventDefault()
@@ -59,7 +58,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             onOpenAutoFocus={handleAutoFocus}
             stepIcon={stepIcon}
          >
-            <CreateAccountDialogHeader isPathnameLogin={isPathnameLogin} />
+            <CreateAccountDialogHeader />
 
             {children}
          </GlobalDialog>

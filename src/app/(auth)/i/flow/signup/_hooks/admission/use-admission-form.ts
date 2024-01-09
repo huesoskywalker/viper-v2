@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { isValidVerificationToken } from '../../_utils/is-valid-verification-token'
+import { emailRegex } from '../../../_utils/regex'
 
 export type AdmissionFormValues = z.infer<typeof admissionSchema>
 
@@ -31,7 +32,6 @@ export const admissionSchema = z.object({
       })
       .refine(
          async (value) => {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
             if (!emailRegex.test(value)) return
 
             if (memoizedEmail === value) return true

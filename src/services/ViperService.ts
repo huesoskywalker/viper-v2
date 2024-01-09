@@ -14,6 +14,7 @@ import {
 import { MongoError, ObjectId, WithId } from 'mongodb'
 import bcrypt from 'bcrypt'
 import { ViperServiceSource } from '@/types/service/viper-service'
+import { emailRegex } from '@/app/(auth)/i/flow/_utils/regex'
 
 export class ViperService implements ViperServiceSource {
    private viperRepository: ViperRepositorySource
@@ -48,7 +49,6 @@ export class ViperService implements ViperServiceSource {
    }
 
    async login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null> {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
       const field = emailRegex.test(identifier) ? 'email' : 'username'
 
       try {

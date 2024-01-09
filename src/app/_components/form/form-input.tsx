@@ -46,7 +46,7 @@ const FormInput = React.forwardRef<
                {label}
             </FormLabel>
             <div className="mt-3 flex w-full py-1">
-               {props.id === 'username' && (
+               {props.id === 'username' && (isFocused || hasValue) && (
                   <span className="relative bottom-[1px] left-2 self-end pr-1 text-sm text-muted-foreground">
                      @
                   </span>

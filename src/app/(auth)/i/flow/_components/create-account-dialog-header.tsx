@@ -4,21 +4,28 @@ import React from 'react'
 import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
-const CreateAccountDialogHeader = ({ isPathnameLogin }: { isPathnameLogin: boolean }) => {
+const CreateAccountDialogHeader = () => {
    const { data: session } = useSession()
+
+   const pathname = usePathname()
+
    const { step } = useCreateAccountStore()
+
+   const isPathnameLogin = pathname.endsWith('/i/flow/login')
+   const isPathnamePassword = pathname.endsWith('/i/flow/password_reset')
 
    const getHeaderClass = () => {
       if (!session) {
-         if (step < 5 && !isPathnameLogin) {
+         if (isPathnameLogin || isPathnamePassword) {
+            return 'self-center'
+         }
+         if (step < 5) {
             return 'pl-16'
          }
          if (step === 5) {
             return 'pl-4'
-         }
-         if (isPathnameLogin) {
-            return 'self-center'
          }
       } else {
          return 'self-center'
@@ -27,12 +34,12 @@ const CreateAccountDialogHeader = ({ isPathnameLogin }: { isPathnameLogin: boole
 
    return (
       <DialogHeader className={cn('pt-3', getHeaderClass())}>
-         {!session && step <= 5 && !isPathnameLogin && (
+         {!session && step <= 5 && !isPathnameLogin && !isPathnamePassword && (
             <DialogTitle className={cn('text-base font-semibold text-foreground sm:text-lg')}>
                Step {step} of 5
             </DialogTitle>
          )}
-         {(session || isPathnameLogin) && (
+         {(session || isPathnameLogin || isPathnamePassword) && (
             <Image
                src={'/viper.png'}
                alt="Viper logo"

@@ -52,7 +52,7 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderProf
                                        value={item.id}
                                        variant={'toggle'}
                                        aria-label={`Toggle ${item.id}`}
-                                       className="relative -z-10 flex h-20 w-full justify-start rounded-lg p-2"
+                                       className="relative -z-10 flex h-20 w-full justify-start rounded-lg p-1"
                                     >
                                        <FormControl>
                                           <Checkbox
@@ -79,7 +79,7 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderProf
                                              }}
                                           />
                                        </FormControl>
-                                       <span className="flex-1 self-end overflow-hidden overflow-ellipsis text-left text-[17px] font-semibold sm:flex">
+                                       <span className="flex-1 self-end overflow-ellipsis text-left text-[17px] font-semibold sm:flex sm:overflow-visible">
                                           {item.label}
                                        </span>
                                     </ToggleGroupItem>

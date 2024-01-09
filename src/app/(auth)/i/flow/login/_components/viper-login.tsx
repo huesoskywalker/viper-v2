@@ -4,7 +4,8 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import { ViperAuthForm } from '@/app/_components/form/viper-auth-form'
 import ViperLoginForm from './viper-login-form'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import Link from 'next/link'
 
 const ViperLogin = () => {
    return (
@@ -22,9 +23,12 @@ const ViperLogin = () => {
                <OrSeparator />
                <ViperLoginForm />
                <DialogFooter className="pt-2">
-                  <Button variant={'outline'} size={'provider'}>
+                  <Link
+                     href={'/i/flow/password_reset'}
+                     className={cn(buttonVariants({ variant: 'outline', size: 'provider' }))}
+                  >
                      Forgot password?
-                  </Button>
+                  </Link>
                </DialogFooter>
             </div>
          </div>
