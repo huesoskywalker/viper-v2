@@ -158,10 +158,15 @@ export class ViperService implements ViperServiceSource {
       try {
          const viperBasic = await this.viperRepository.getByEmail(email)
 
-         if (viperBasic.username.toLowerCase() !== username.toLowerCase()) {
-            throw new Error(`Username does not match.`)
+         if (!viperBasic) {
+            return false
          }
-         return !!viperBasic
+
+         if (viperBasic.username.toLowerCase() !== username.toLowerCase()) {
+            return false
+         }
+
+         return true
       } catch (error: unknown) {
          throw error
       }

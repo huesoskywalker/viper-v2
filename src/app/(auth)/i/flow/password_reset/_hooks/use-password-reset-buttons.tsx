@@ -3,7 +3,7 @@ import NextStepButton from '../../_components/next-step-button'
 import { PasswordResetFieldState, PasswordResetGetValues } from './use-password-reset-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { emailRegex } from '../../_utils/regex'
-import FindAccountButton from '../_components/find-account-button'
+import FindAccountButton from '../_components/password-match-account-button'
 
 const usePasswordResetButtons = (
    step: number,

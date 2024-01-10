@@ -232,7 +232,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getByEmail(email: string): Promise<WithId<ViperBasic>> {
+   async getByEmail(email: string): Promise<WithId<ViperBasic> | null> {
       try {
          const viper: WithId<Viper> | null = await this.viperCollection.findOne(
             {
@@ -243,7 +243,6 @@ export class ViperRepository implements ViperRepositorySource {
                projection: VIPER_BASIC_PROPS,
             },
          )
-         if (!viper) throw new Error(`User not found or does not exist with this email.`)
 
          return viper
       } catch (error: unknown) {

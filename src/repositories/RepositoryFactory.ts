@@ -1,5 +1,5 @@
 import { Db, MongoClient, MongoError } from 'mongodb'
-import { ViperRepository } from './ViperRespository'
+import { ViperRepository } from './ViperRepository'
 import { EventRepository } from './EventRepository'
 import {
    InitializeRepositories,

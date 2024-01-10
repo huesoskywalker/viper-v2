@@ -5,17 +5,19 @@ import PasswordFindAccount from '../_components/password-find-account'
 import PasswordConfirmUsername from '../_components/password-confirm-username'
 import PasswordConfirmEmail from '../_components/password-confirm-email'
 import { emailRegex } from '../../_utils/regex'
+// import PasswordSendVerificationToken from '../_components/password-send-verification-token'
 
 const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFormValues>) => {
-   const findByValue = formControl._fields['findBy']?._f.value
-
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:
             return <PasswordFindAccount formControl={formControl} />
          case 2:
+            const findByValue = formControl._fields['findBy']?._f.value
+
             const isEmailValue = emailRegex.test(findByValue)
             const formField = isEmailValue ? 'email' : 'username'
+
             formControl._formValues[formField] = findByValue
 
             return isEmailValue ? (
@@ -23,6 +25,8 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
             ) : (
                <PasswordConfirmEmail formControl={formControl} />
             )
+         case 3:
+         // return <PasswordSendVerificationToken formControl={formControl} />
          default:
             return null
       }

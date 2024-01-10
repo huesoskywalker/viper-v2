@@ -2,6 +2,8 @@ import { mongoAdapter } from '@/lib/auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { isValidApiKey } from '../../signup/_utils/is-valid-api-key'
 import { viperService } from '@/services/servicesInitializer'
+import { MongoError } from 'mongodb'
+import { logError, logMongoError } from '@/config/winstonLogger'
 
 export async function GET(request: NextRequest) {
    const headers = request.headers
@@ -19,13 +21,42 @@ export async function GET(request: NextRequest) {
    try {
       const data = await viperService.matchEmailAndUsername(email, username)
 
-      if (!data) return NextResponse.json({ error: 'Email does not match' }, { status: 400 })
+      if (!data) return NextResponse.json({ error: 'Invalid. Please try again.' }, { status: 400 })
 
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
-      return NextResponse.json(
-         { error: error instanceof Error ? error.message : 'Unknown error' },
-         { status: 400 },
-      )
+      if (error instanceof MongoError) {
+         logMongoError(
+            {
+               action: `Match email and username`,
+               email: email,
+               username: username,
+            },
+            error,
+         )
+
+         return NextResponse.json(
+            {
+               error: `Internal server error: Unable to match email and username. Please try again later.`,
+            },
+            { status: 500 },
+         )
+      } else {
+         logError(
+            {
+               action: `Match email and username`,
+               email: email,
+               username: username,
+            },
+            error,
+         )
+
+         return NextResponse.json(
+            {
+               error: `Failed to match email and username`,
+            },
+            { status: 400 },
+         )
+      }
    }
 }

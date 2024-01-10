@@ -35,7 +35,7 @@ interface ViperCRUDRepository {
    getAllBasic(): Promise<WithId<ViperBasic>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
-   getByEmail(email: string): Promise<WithId<ViperBasic>>
+   getByEmail(email: string): Promise<WithId<ViperBasic> | null>
    searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
