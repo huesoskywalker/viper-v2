@@ -59,7 +59,6 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             stepIcon={stepIcon}
          >
             <CreateAccountDialogHeader />
-
             {children}
          </GlobalDialog>
       </>

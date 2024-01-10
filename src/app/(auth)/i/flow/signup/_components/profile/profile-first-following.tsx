@@ -3,7 +3,7 @@ import { viperService } from '@/services/servicesInitializer'
 import ViperListCard from './viper-list-card'
 
 const ProfileFirstFollowing = async () => {
-   const vipers = await viperService.getAllBasicProps()
+   const vipers = await viperService.getAllBasic()
    return (
       <>
          <DialogTitle className="mt-2 text-2xl font-bold text-foreground sm:text-3xl ">

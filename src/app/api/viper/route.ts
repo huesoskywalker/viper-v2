@@ -3,10 +3,10 @@ import { logError, logMongoError } from '@/config/winstonLogger'
 import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
 import { MongoError } from 'mongodb'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function PATCH(request: NextRequest) {
-   const session = await auth()
+export const PATCH = auth(async (request) => {
+   const session = request.auth
 
    if (!session)
       return NextResponse.json(
@@ -45,4 +45,4 @@ export async function PATCH(request: NextRequest) {
          )
       }
    }
-}
+})
