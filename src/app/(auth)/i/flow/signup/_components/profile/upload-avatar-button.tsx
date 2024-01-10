@@ -1,12 +1,15 @@
 import { Button } from '@/components/ui/button'
 import React, { useState } from 'react'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
-import { CreateProfileSetValue } from '../../_hooks/profile/use-create-profile-form'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useUploadThing } from '@/utils/uploadthing'
 import { cn } from '@/lib/utils'
+import { useFormContext } from 'react-hook-form'
+import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 
-const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) => {
+const UploadAvatarButton = () => {
+   const { setValue } = useFormContext<CreateProfileFormValues>()
+
    const [uploadProgress, setUploadProgress] = useState<number>(0)
 
    const { images, removeImages } = useCreateProfileStore()
@@ -46,6 +49,7 @@ const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) =
       <div>
          <Button
             className={cn('relative overflow-hidden')}
+            type={'button'}
             variant={!images.profile ? 'outline' : 'default'}
             size={'lg'}
             onClick={handleUploadImage}
@@ -54,7 +58,7 @@ const UploadAvatarButton = ({ setValue }: { setValue: CreateProfileSetValue }) =
             {getButtonLabel()}
             <div
                className={cn(
-                  'absolute left-0 top-0 -z-10 h-full w-0 bg-viper-dodger-blue transition-all duration-1000  ease-linear',
+                  'transition-all absolute left-0 top-0 -z-10 h-full w-0 bg-viper-dodger-blue duration-1000  ease-linear',
                )}
                style={{ width: `${uploadProgress}%` }}
             />

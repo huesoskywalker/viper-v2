@@ -20,7 +20,7 @@ const CreateAccountProfile = ({
 
    const { createProfileForm } = useCreateProfileForm()
 
-   const { control, getFieldState, setValue, formState } = createProfileForm
+   const { control, getFieldState, formState } = createProfileForm
 
    const { isSubmitting } = formState
 
@@ -28,7 +28,7 @@ const CreateAccountProfile = ({
 
    const { renderStep } = useCreateProfileSteps(step, control)
 
-   const { renderButton } = useCreateProfileButtons(step, getFieldState, setValue)
+   const { renderButton } = useCreateProfileButtons(step, getFieldState)
 
    return (
       <>

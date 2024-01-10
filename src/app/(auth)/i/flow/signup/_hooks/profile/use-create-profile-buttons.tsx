@@ -5,11 +5,7 @@ import { CreateProfileFieldState, CreateProfileSetValue } from './use-create-pro
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 import { createProfileFieldValidity } from '../../_utils/create-profile-field-validity'
 
-export const useCreateProfileButtons = (
-   step: number,
-   getFieldState: CreateProfileFieldState,
-   setValue: CreateProfileSetValue,
-) => {
+export const useCreateProfileButtons = (step: number, getFieldState: CreateProfileFieldState) => {
    const { isBioValid, isBioDirty, isUsernameValid, isUsernameDirty, isImageValid } =
       createProfileFieldValidity(getFieldState)
 
@@ -48,7 +44,7 @@ export const useCreateProfileButtons = (
                />
             )
          case 3:
-            return <UploadAvatarImage setValue={setValue} />
+            return <UploadAvatarImage />
          case 4:
             return <ProfileInterestsButton />
          case 5:
