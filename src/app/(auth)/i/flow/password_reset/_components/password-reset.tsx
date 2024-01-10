@@ -7,6 +7,7 @@ import usePasswordRestSteps from '../_hooks/use-password-reset-steps'
 import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import usePasswordResetButtons from '../_hooks/use-password-reset-buttons'
+import { Toaster } from '@/components/ui/toaster'
 
 const PasswordReset = () => {
    const { step } = useCreateAccountStore()
@@ -25,10 +26,13 @@ const PasswordReset = () => {
    }
 
    return (
-      <DialogForm formReturn={passwordResetForm} handleSubmit={onSubmit}>
-         <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
-         <DialogFormFooter>{renderButton}</DialogFormFooter>
-      </DialogForm>
+      <>
+         <DialogForm formReturn={passwordResetForm} handleSubmit={onSubmit}>
+            <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
+            <DialogFormFooter>{renderButton}</DialogFormFooter>
+            <Toaster />
+         </DialogForm>
+      </>
    )
 }
 

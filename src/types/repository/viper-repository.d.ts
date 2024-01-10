@@ -32,10 +32,10 @@ interface ViperCRUDRepository {
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasic> | null>
    getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
-   getAllBasicProps(): Promise<WithId<ViperBasic>[]>
+   getAllBasic(): Promise<WithId<ViperBasic>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
-   // This is one below is built for the search input
+   getByEmail(email: string): Promise<WithId<ViperBasic>>
    searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
@@ -117,5 +117,5 @@ export type ViperRepositorySource = ViperCRUDRepository &
 
 export type PreloadViperServiceSource = {
    preloadGetById(viperId: string): Promise<void>
-   preloadBasicProps(viperId: string): Promise<void>
+   preloadBasic(viperId: string): Promise<void>
 }

@@ -177,7 +177,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getAllBasicProps(): Promise<WithId<ViperBasic>[]> {
+   async getAllBasic(): Promise<WithId<ViperBasic>[]> {
       try {
          // TODO: use cursor with .next() and hasNext() for pagination
          const vipers: WithId<Viper>[] = await this.viperCollection
@@ -227,6 +227,25 @@ export class ViperRepository implements ViperRepositorySource {
          if (!viperBasic) throw new Error(`User not found or does not exist.`)
 
          return viperBasic as WithId<ViperBasic>
+      } catch (error: unknown) {
+         throw error
+      }
+   }
+
+   async getByEmail(email: string): Promise<WithId<ViperBasic>> {
+      try {
+         const viper: WithId<Viper> | null = await this.viperCollection.findOne(
+            {
+               email,
+            },
+            {
+               collation: { locale: 'en', strength: 2 },
+               projection: VIPER_BASIC_PROPS,
+            },
+         )
+         if (!viper) throw new Error(`User not found or does not exist with this email.`)
+
+         return viper
       } catch (error: unknown) {
          throw error
       }

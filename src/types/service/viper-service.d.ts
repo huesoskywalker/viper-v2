@@ -15,10 +15,10 @@ interface ViperCRUDService {
       updateProps: UpdateViper,
    ): Promise<WithId<ViperBasic> | null>
    getAll(): Promise<WithId<Omit<Viper, 'password'>>[]>
-   getAllBasicProps(): Promise<WithId<ViperBasic>[]>
+   getAllBasic(): Promise<WithId<ViperBasic>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
-   // This is one below is built for the search input
+   matchEmailAndUsername(email: string, username: string): Promise<boolean>
    searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }

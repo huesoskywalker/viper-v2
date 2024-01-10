@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UseFormGetFieldState, UseFormSetValue, useForm } from 'react-hook-form'
+import { UseFormGetFieldState, UseFormGetValues, UseFormSetValue, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { emailRegex } from '../../_utils/regex'
 
 export type PasswordResetFormValues = z.infer<typeof passwordResetSchema>
 
 export type PasswordResetFieldState = UseFormGetFieldState<PasswordResetFormValues>
 
 export type PasswordResetSetValue = UseFormSetValue<PasswordResetFormValues>
+
+export type PasswordResetGetValues = UseFormGetValues<PasswordResetFormValues>
 
 let findBy: string
 
@@ -16,17 +17,15 @@ const passwordResetSchema = z.object({
       findBy = value
       return value
    }),
-   email: z
-      .string()
-      .email()
-      .refine(async (value) => {
-         if (!emailRegex.test(value)) return
-         return value
-      }),
-   username: z.string().refine((value) => {
-      console.log({ value })
-      return value
-   }),
+   email: z.string().email(),
+   // .refine(async (value) => {
+   //    if (!emailRegex.test(value)) return
+   //    return value
+   // }),
+   username: z.string(),
+   // .refine((value) => {
+   //    return false
+   // }),
    // token: z.string(),
    // password: z.string(),
    // confirmPassword: z.string(),

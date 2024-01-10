@@ -124,9 +124,9 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getAllBasicProps(): Promise<ViperBasic[]> {
+   async getAllBasic(): Promise<ViperBasic[]> {
       try {
-         const vipers = await this.viperRepository.getAllBasicProps()
+         const vipers = await this.viperRepository.getAllBasic()
 
          return vipers
       } catch (error: unknown) {
@@ -146,10 +146,22 @@ export class ViperService implements ViperServiceSource {
 
    async getByIdBasic(viperId: string): Promise<WithId<ViperBasic>> {
       try {
-         const viperBasic: WithId<ViperBasic> | null =
-            await this.viperRepository.getByIdBasic(viperId)
+         const viperBasic = await this.viperRepository.getByIdBasic(viperId)
 
          return viperBasic
+      } catch (error: unknown) {
+         throw error
+      }
+   }
+
+   async matchEmailAndUsername(email: string, username: string): Promise<boolean> {
+      try {
+         const viperBasic = await this.viperRepository.getByEmail(email)
+
+         if (viperBasic.username.toLowerCase() !== username.toLowerCase()) {
+            throw new Error(`Username does not match.`)
+         }
+         return !!viperBasic
       } catch (error: unknown) {
          throw error
       }

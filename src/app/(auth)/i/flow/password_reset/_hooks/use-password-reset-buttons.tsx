@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
 import NextStepButton from '../../_components/next-step-button'
-import { PasswordResetFieldState } from './use-password-reset-form'
+import { PasswordResetFieldState, PasswordResetGetValues } from './use-password-reset-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { emailRegex } from '../../_utils/regex'
+import FindAccountButton from '../_components/find-account-button'
 
 const usePasswordResetButtons = (
    step: number,
    getFieldState: PasswordResetFieldState,
-   getValues: any,
+   getValues: PasswordResetGetValues,
 ) => {
    const { isFindByValid, isEmailValid, isUsernameValid } =
       passwordResetFieldValidity(getFieldState)
@@ -26,11 +27,11 @@ const usePasswordResetButtons = (
          case 1:
             return <NextStepButton variant={'default'} size={'lg'} disabled={disableButton} />
          case 2:
-            return <NextStepButton variant={'default'} size={'lg'} disabled={disableButton} />
+            return <FindAccountButton disabled={disableButton} />
          default:
             return null
       }
-   }, [disableButton])
+   }, [step, disableButton])
 
    return { renderButton }
 }

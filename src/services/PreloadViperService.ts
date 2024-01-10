@@ -10,7 +10,7 @@ export class PreloadViperService implements PreloadViperServiceSource {
       void (await this.viperService.getById(viperId))
    }
 
-   async preloadBasicProps(viperId: string): Promise<void> {
+   async preloadBasic(viperId: string): Promise<void> {
       void (await this.viperService.getByIdBasic(viperId))
    }
 }
