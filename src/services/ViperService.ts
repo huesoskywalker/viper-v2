@@ -154,19 +154,23 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async matchEmailAndUsername(email: string, username: string): Promise<boolean> {
+   async matchEmailAndUsername(
+      email: string,
+      username: string,
+   ): Promise<{ username: string } | null> {
       try {
          const viperBasic = await this.viperRepository.getByEmail(email)
 
          if (!viperBasic) {
-            return false
+            return null
          }
 
          if (viperBasic.username.toLowerCase() !== username.toLowerCase()) {
-            return false
+            return null
          }
+         const { username: viperUsername, ...viperProps } = viperBasic
 
-         return true
+         return { username: viperUsername }
       } catch (error: unknown) {
          throw error
       }

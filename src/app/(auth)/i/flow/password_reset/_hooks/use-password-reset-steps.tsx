@@ -5,7 +5,7 @@ import PasswordFindAccount from '../_components/password-find-account'
 import PasswordConfirmUsername from '../_components/password-confirm-username'
 import PasswordConfirmEmail from '../_components/password-confirm-email'
 import { emailRegex } from '../../_utils/regex'
-// import PasswordSendVerificationToken from '../_components/password-send-verification-token'
+import PasswordSendVerificationToken from '../_components/password-send-verification-token'
 
 const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFormValues>) => {
    const renderStep = useMemo(() => {
@@ -26,7 +26,7 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
                <PasswordConfirmEmail formControl={formControl} />
             )
          case 3:
-         // return <PasswordSendVerificationToken formControl={formControl} />
+            return <PasswordSendVerificationToken formControl={formControl} />
          default:
             return null
       }

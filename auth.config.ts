@@ -8,7 +8,7 @@ import Email from '@auth/core/providers/email'
 import { viperService } from '@/services/servicesInitializer'
 import resendConfig from './resend.config'
 import nodemailer from 'nodemailer'
-import { signUpEmailHTML } from './utils/signup-email-html'
+import { signUpEmailHTML } from './utils/email/signup-email-html'
 import { remainingExpirationTime } from './utils/remaining-expiration-time'
 import { NextResponse } from 'next/server'
 import { mongoAdapter } from '@/lib/auth'
@@ -17,6 +17,8 @@ import { randomBytes, randomUUID } from 'crypto'
 import { buildRandomUsername } from './utils/build-random-username'
 import { MongoError } from 'mongodb'
 import { logError, logMongoError } from '@/config/winstonLogger'
+import { passwordResetHtml } from './utils/email/password-reset-html'
+import { generateRandomString } from './utils/generate-random-string'
 
 declare module 'next-auth' {
    interface Session {
@@ -55,7 +57,7 @@ export default {
             return token
          },
          async sendVerificationRequest({
-            identifier: email,
+            identifier,
             url,
             token,
             expires,
@@ -63,15 +65,30 @@ export default {
             request,
             theme,
          }) {
+            const req = await request.json()
+            const { username, callbackUrl }: { username: string; callbackUrl: string } = req
+
             const transport = nodemailer.createTransport(server)
 
             const remainingHours = remainingExpirationTime(expires)
 
+            const isCallbackUrlResetPassword = callbackUrl.endsWith('/i/flow/password_reset')
+
+            const emailSubject = isCallbackUrlResetPassword
+               ? 'Password reset request'
+               : `${token} is your Viper verification code`
+
+            const emailToken = isCallbackUrlResetPassword ? generateRandomString() : token
+
+            const emailHtml = isCallbackUrlResetPassword
+               ? passwordResetHtml({ username, token: emailToken, remainingHours })
+               : signUpEmailHTML({ token: emailToken, remainingHours, theme })
+
             const mailOptions = {
                from: from,
-               to: email,
-               subject: `${token} is your Viper verification code`,
-               html: signUpEmailHTML({ token, remainingHours, theme }),
+               to: identifier,
+               subject: emailSubject,
+               html: emailHtml,
             }
 
             await transport.sendMail(mailOptions)

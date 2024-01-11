@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
       if (!data) return NextResponse.json({ error: 'Invalid. Please try again.' }, { status: 400 })
 
-      return NextResponse.json({ data }, { status: 200 })
+      return NextResponse.json({ data: { username: data.username } }, { status: 200 })
    } catch (error) {
       if (error instanceof MongoError) {
          logMongoError(

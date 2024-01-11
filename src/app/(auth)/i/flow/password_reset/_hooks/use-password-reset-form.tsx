@@ -10,23 +10,11 @@ export type PasswordResetSetValue = UseFormSetValue<PasswordResetFormValues>
 
 export type PasswordResetGetValues = UseFormGetValues<PasswordResetFormValues>
 
-let findBy: string
-
 const passwordResetSchema = z.object({
-   findBy: z.string().refine((value) => {
-      findBy = value
-      return value
-   }),
+   findBy: z.string(),
    email: z.string().email(),
-   // .refine(async (value) => {
-   //    if (!emailRegex.test(value)) return
-   //    return value
-   // }),
    username: z.string(),
-   // .refine((value) => {
-   //    return false
-   // }),
-   // token: z.string(),
+   token: z.string(),
    // password: z.string(),
    // confirmPassword: z.string(),
 })
@@ -36,7 +24,7 @@ export const usePasswordResetForm = () => {
       findBy: '',
       email: '',
       username: '',
-      // token: '',
+      token: '',
       // password: '',
       // confirmPassword: '',
    }

@@ -18,7 +18,7 @@ interface ViperCRUDService {
    getAllBasic(): Promise<WithId<ViperBasic>[]>
    getById(viperId: string): Promise<WithId<Omit<Viper, 'password'>>>
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
-   matchEmailAndUsername(email: string, username: string): Promise<boolean>
+   matchEmailAndUsername(email: string, username: string): Promise<{ username: string } | null>
    searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }

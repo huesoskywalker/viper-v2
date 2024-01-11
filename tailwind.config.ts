@@ -78,6 +78,7 @@ const config: Config = {
          },
          boxShadow: {
             rounded: '0px 0px 5px 1px hsla(var(--shadow-rounded))',
+            'outer-sky': '0px 0px 5px 6px hsla(204, 88%, 47%, 0.5)',
          },
          backgroundImage: ({ theme }) => ({
             'vp-border-gradient': `radial-gradient(at left top, ${theme(
