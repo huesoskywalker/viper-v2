@@ -1,14 +1,15 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
-import { PasswordResetFormValues, PasswordResetGetValues } from '../_hooks/use-password-reset-form'
+import { PasswordResetFormValues } from '../_hooks/use-password-reset-form'
 import { useFormContext } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
 import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
+import { ApiResponse } from '@/types/api/response'
 
 const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
    const { nextStep } = useCreateAccountStore()
-   const { getValues } = useFormContext<PasswordResetFormValues>()
+   const { getValues, setValue } = useFormContext<PasswordResetFormValues>()
 
    const { toast } = useToast()
 
@@ -26,7 +27,7 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
             method: 'GET',
          },
       )
-      const { data, error } = await response.json()
+      const { data, error }: ApiResponse<{ username: string }> = await response.json()
 
       if (!response.ok) {
          toast({
@@ -38,6 +39,7 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
       }
 
       if (data) {
+         setValue('username', data.username)
          nextStep()
       }
    }
