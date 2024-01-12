@@ -4,7 +4,7 @@ export const remainingExpirationTime = (expires: Date) => {
 
    const expirationDifference = expirationTime - currentDate
    const hoursDifference = expirationDifference / (1000 * 60 * 60)
-   const hoursRemaining = Math.floor(hoursDifference)
+   const hoursRemaining = Math.ceil(hoursDifference)
 
    return hoursRemaining
 }

@@ -1,15 +1,18 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useResendToken } from '../../_hooks/use-resend-token'
 import { useTransition } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { useSendVerificationEmail } from '../../../_hooks/use-send-verification-email'
+import { useToast } from '@/components/ui/use-toast'
 
 const ResendTokenButton = () => {
+   const { toast } = useToast()
+
    const { getValues } = useFormContext<AdmissionFormValues>()
 
-   const { handleResendEmail } = useResendToken()
+   const { sendVerificationEmail } = useSendVerificationEmail()
 
    const [isPending, startTransition] = useTransition()
 
@@ -17,7 +20,14 @@ const ResendTokenButton = () => {
       startTransition(async () => {
          const email = getValues('email')
 
-         await handleResendEmail(email)
+         const sendEmail = await sendVerificationEmail(email)
+
+         if (sendEmail.success) {
+            toast({
+               title: 'Email sent successfully!',
+               description: 'Check you inbox for the confirmation email.',
+            })
+         }
       })
    }
    return (

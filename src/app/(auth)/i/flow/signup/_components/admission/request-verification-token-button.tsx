@@ -2,17 +2,22 @@
 import { Button, ButtonProps } from '@/components/ui/button'
 import React, { useTransition } from 'react'
 import { useSendVerificationEmail } from '../../../_hooks/use-send-verification-email'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 
 const RequestVerificationTokenButton: React.FC<
    ButtonProps & { label: string; email: string; username?: string }
 > = ({ variant, size, label, email, username, ...props }) => {
    const { sendVerificationEmail } = useSendVerificationEmail()
+   const { nextStep } = useCreateAccountStore()
 
    const [isPending, startTransition] = useTransition()
 
    const handleOnClick = () => {
       startTransition(async () => {
-         await sendVerificationEmail(email, username)
+         const sendEmail = await sendVerificationEmail(email, username)
+         if (sendEmail.success) {
+            nextStep()
+         }
       })
    }
 

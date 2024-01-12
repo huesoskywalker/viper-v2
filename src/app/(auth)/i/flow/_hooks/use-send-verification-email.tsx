@@ -1,11 +1,9 @@
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { signIn } from 'next-auth/react'
-import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 
 export const useSendVerificationEmail = () => {
    const { toast } = useToast()
-   const { nextStep } = useCreateAccountStore()
 
    const sendVerificationEmail = async (email: string, username?: string) => {
       const sendEmail = await signIn('email', {
@@ -29,8 +27,9 @@ export const useSendVerificationEmail = () => {
                </ToastAction>
             ),
          })
+         return { success: false }
       } else {
-         nextStep()
+         return { success: true }
       }
    }
    return { sendVerificationEmail }
