@@ -19,6 +19,7 @@ export type Viper = {
    backgroundImage: Image
    shopify: Shopify
    events: MyEvents
+   // TODO: add followersCount and followingsCount for the viperBasic
    followers: Follow[]
    followings: Follow[]
    contentDiscovery: boolean
