@@ -3,14 +3,9 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
-import EmailSignUpForm from './email-sign-up-form'
+import RequestVerificationTokenButton from './request-verification-token-button'
 
-interface SignUpSection {
-   readonly email: string
-   disabled: boolean
-}
-
-export const EmailSignUpSection: React.FC<SignUpSection> = ({ email, disabled }) => {
+export const EmailSignUpSection = () => {
    const { redirectStep } = useCreateAccountStore()
    return (
       <>
@@ -39,7 +34,7 @@ export const EmailSignUpSection: React.FC<SignUpSection> = ({ email, disabled })
             </Button>
             .
          </TermsAndConditions>
-         <EmailSignUpForm email={email} disabled={disabled} />
+         <RequestVerificationTokenButton />
       </>
    )
 }

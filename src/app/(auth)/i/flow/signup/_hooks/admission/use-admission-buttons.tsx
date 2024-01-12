@@ -15,7 +15,6 @@ export const useAdmissionButtons = (
    const validStepMap = new Map<number, boolean>([
       [1, isPersonalInfoValid],
       [2, isPersonalInfoValid],
-      [3, isPersonalInfoValid],
       [4, isVerificationTokenValid],
    ])
 
@@ -27,7 +26,7 @@ export const useAdmissionButtons = (
          case 2:
             return <NextStepButton size={'lg'} disabled={disableButton} />
          case 3:
-            return <EmailSignUpSection email={getValues('email')} disabled={disableButton} />
+            return <EmailSignUpSection />
          case 4:
             return (
                <TokenVerificationForm
