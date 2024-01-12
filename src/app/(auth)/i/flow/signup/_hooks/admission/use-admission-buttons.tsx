@@ -4,18 +4,14 @@ import { TokenVerificationForm } from '../../_components/admission/token-verific
 import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
 import { AdmissionFieldState, AdmissionFieldValue } from './use-admission-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
+import AdmissionSubmitButton from '../../_components/admission/admission-submit-button'
 
-export const useAdmissionButtons = (
-   step: number,
-   getFieldState: AdmissionFieldState,
-   getValues: AdmissionFieldValue,
-) => {
-   const { isPersonalInfoValid, isVerificationTokenValid } = admissionFieldValidity(getFieldState)
+export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldState) => {
+   const { isPersonalInfoValid } = admissionFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([
       [1, isPersonalInfoValid],
       [2, isPersonalInfoValid],
-      [4, isVerificationTokenValid],
    ])
 
    const disableButton = !validStepMap.get(step)
@@ -28,15 +24,9 @@ export const useAdmissionButtons = (
          case 3:
             return <EmailSignUpSection />
          case 4:
-            return (
-               <TokenVerificationForm
-                  token={getValues('token')}
-                  email={getValues('email')}
-                  disabled={disableButton}
-               />
-            )
-         case 5:
             return null
+         case 5:
+            return <AdmissionSubmitButton />
          default:
             return null
       }

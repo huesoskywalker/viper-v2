@@ -79,7 +79,7 @@ export const admissionSchema = z.object({
 
             if (memoizedToken === value) return true
 
-            const isValid = await isValidVerificationToken(value)
+            const isValid = await isValidVerificationToken(value, memoizedEmail)
 
             if (isValid) {
                memoizedToken = value

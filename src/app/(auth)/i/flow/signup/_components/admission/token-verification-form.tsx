@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { validateVerificationToken } from '../../_actions/validate-verification-token'
 import { useFormState } from 'react-dom'
@@ -22,9 +22,12 @@ export const TokenVerificationForm = ({
 
    const { redirectStep } = useCreateAccountStore()
 
-   if (state.success) {
-      redirectStep(5)
-   }
+   useEffect(() => {
+      if (state.success) {
+         redirectStep(5)
+      }
+   }, [state.success])
+
    return (
       <>
          <form action={formAction}>

@@ -2,10 +2,7 @@ import crypto from 'crypto'
 import { getVerificationToken } from './get-verification-token'
 import { deletePrevToken } from './delete-prev-token'
 
-export const isValidVerificationToken = async (value: string) => {
-   const searchParams = new URLSearchParams(window.location.search)
-   const email = searchParams.get('email')
-
+export const isValidVerificationToken = async (token: string, email: string | null) => {
    const verification = await getVerificationToken(email)
 
    if (!verification.data) return false
@@ -30,7 +27,7 @@ export const isValidVerificationToken = async (value: string) => {
 
    const hashedInputToken = crypto
       .createHash('sha256')
-      .update(value + secret)
+      .update(token + secret)
       .digest('hex')
 
    const tokensMatch = hashedInputToken === verification.data.token
