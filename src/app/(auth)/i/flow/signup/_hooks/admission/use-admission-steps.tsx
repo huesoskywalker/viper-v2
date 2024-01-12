@@ -6,6 +6,7 @@ import AdmissionVerificationToken from '../../_components/admission/admission-ve
 import AdmissionPassword from '../../_components/admission/admission-password'
 import { AdmissionFormValues } from './use-admission-form'
 import { Control } from 'react-hook-form'
+import { FormDescription } from '@/components/ui/form'
 
 export const useAdmissionSteps = (step: number, formControl: Control<AdmissionFormValues>) => {
    const renderStep = useMemo(() => {
@@ -17,7 +18,12 @@ export const useAdmissionSteps = (step: number, formControl: Control<AdmissionFo
          case 3:
             return <AdmissionInfoCheck formControl={formControl} />
          case 4:
-            return <AdmissionVerificationToken formControl={formControl} />
+            const email = formControl._formValues['email']
+            return (
+               <AdmissionVerificationToken formControl={formControl} label={'Verification token'}>
+                  <FormDescription>Enter it below to verify {email}.</FormDescription>
+               </AdmissionVerificationToken>
+            )
          case 5:
             return <AdmissionPassword formControl={formControl} />
 

@@ -1,39 +1,45 @@
 import FormInput from '@/app/_components/form/form-input'
-import { FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import React from 'react'
-import { FormControlStep } from '@/types/forms/steps'
+import { ReactNode } from 'react'
 import ResendTokenButton from './resend-token-button'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { PasswordResetFormValues } from '../../../password_reset/_hooks/use-password-reset-form'
+import { Control, Path } from 'react-hook-form'
 
-const AdmissionVerificationToken: React.FC<FormControlStep<AdmissionFormValues>> = ({
+const AdmissionVerificationToken = <T extends AdmissionFormValues | PasswordResetFormValues>({
    formControl,
+   children,
+   label,
+}: {
+   formControl: Control<T>
+   children: ReactNode
+   label: string
 }) => {
-   const email = formControl._formValues['email']
-
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             We sent you a code
          </DialogDescription>
-         <FormDescription>Enter it below to verify {email}.</FormDescription>
+         {children}
          <FormField
             control={formControl}
-            name="token"
+            name={'token' as Path<T>}
             render={({ field }) => (
                <FormItem>
                   <FormInput
                      id={field.name}
                      type="string"
                      variant={'plain'}
-                     label="Verification token"
+                     label={label}
                      {...field}
+                     value={field.value as string}
                   />
                </FormItem>
             )}
          />
          <FormMessage className="text-viper-dodger-blue">
-            <ResendTokenButton email={email}> Didn&apos;t receive email?</ResendTokenButton>
+            <ResendTokenButton />
          </FormMessage>
       </>
    )

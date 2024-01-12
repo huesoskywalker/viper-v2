@@ -10,17 +10,19 @@ const RequestVerificationTokenButton: React.FC<
 
    const [isPending, startTransition] = useTransition()
 
+   const handleOnClick = () => {
+      startTransition(async () => {
+         await sendVerificationEmail(email, username)
+      })
+   }
+
    return (
       <>
          <Button
             type={'button'}
             variant={variant}
             size={size}
-            onClick={() => {
-               startTransition(async () => {
-                  await sendVerificationEmail(email, username)
-               })
-            }}
+            onClick={handleOnClick}
             disabled={isPending}
             {...props}
          >

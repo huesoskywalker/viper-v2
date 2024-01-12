@@ -3,13 +3,13 @@ import { useToast } from '@/components/ui/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 
 type ResendTokenHookReturn = {
-   handleResendEmail: () => Promise<void>
+   handleResendEmail: (email: string) => Promise<void>
 }
 
-export const useResendToken = (email: string): ResendTokenHookReturn => {
+export const useResendToken = (): ResendTokenHookReturn => {
    const { toast } = useToast()
 
-   const handleResendEmail = async () => {
+   const handleResendEmail = async (email: string) => {
       const sendEmail: SignInResponse | undefined = await signIn('email', {
          redirect: false,
          email: email,
@@ -22,7 +22,7 @@ export const useResendToken = (email: string): ResendTokenHookReturn => {
             title: 'Something went wrong',
             description: errorMessage,
             action: (
-               <ToastAction altText="Try Again" onClick={handleResendEmail}>
+               <ToastAction altText="Try Again" onClick={() => handleResendEmail(email)}>
                   Try Again
                </ToastAction>
             ),
