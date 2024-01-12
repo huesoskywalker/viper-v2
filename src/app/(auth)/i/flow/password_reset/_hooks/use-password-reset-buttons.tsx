@@ -5,7 +5,7 @@ import { passwordResetFieldValidity } from '../_utils/password-reset-field-valid
 import { emailRegex } from '../../_utils/regex'
 import FindAccountButton from '../_components/password-match-account-button'
 import CancelPasswordResetButton from '../_components/cancel-password-reset-button'
-import SendPasswordTokenButton from '../_components/send-password-token-button'
+import RequestVerificationTokenButton from '../../signup/_components/admission/request-verification-token-button'
 
 const usePasswordResetButtons = (
    step: number,
@@ -33,7 +33,13 @@ const usePasswordResetButtons = (
          case 3:
             return (
                <div className="space-y-4">
-                  <SendPasswordTokenButton />
+                  <RequestVerificationTokenButton
+                     variant={'default'}
+                     size={'lg'}
+                     label={'Next'}
+                     email={getValues('email')}
+                     username={getValues('username')}
+                  />
                   <CancelPasswordResetButton />
                </div>
             )
