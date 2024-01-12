@@ -43,6 +43,8 @@ const usePasswordResetButtons = (
                   <CancelPasswordResetButton />
                </div>
             )
+         case 4:
+            return null
          default:
             return null
       }

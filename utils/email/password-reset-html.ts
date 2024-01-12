@@ -49,7 +49,7 @@ export function passwordResetHtml(params: {
                       <td style="padding:0px;margin:0px auto;font-size:0px;line-height:1px;padding:0px">&nbsp;</td>
                     </tr>
                     <tr>
-                      <td align="left" dir="ltr" style="padding:0px;margin:0px auto;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:20px;padding:0px;margin:0px;font-weight:500;line-height:36px">
+                      <td align="left" dir="ltr" style="padding:0px;margin:0px auto;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:18px;padding:0px;margin:0px;font-weight:600;line-height:30px">
                         ${token}
                       </td>
                     </tr>

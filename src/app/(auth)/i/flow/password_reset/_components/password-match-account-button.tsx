@@ -45,7 +45,13 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
    }
 
    return (
-      <Button onClick={findAccount} variant={'default'} size={'lg'} disabled={disabled}>
+      <Button
+         type="button"
+         onClick={findAccount}
+         variant={'default'}
+         size={'lg'}
+         disabled={disabled}
+      >
          Next
       </Button>
    )

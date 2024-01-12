@@ -18,7 +18,6 @@ import { buildRandomUsername } from './utils/build-random-username'
 import { MongoError } from 'mongodb'
 import { logError, logMongoError } from '@/config/winstonLogger'
 import { passwordResetHtml } from './utils/email/password-reset-html'
-import { generateRandomString } from './utils/generate-random-string'
 
 declare module 'next-auth' {
    interface Session {
@@ -78,11 +77,9 @@ export default {
                ? 'Password reset request'
                : `${token} is your Viper verification code`
 
-            const emailToken = isCallbackUrlResetPassword ? generateRandomString() : token
-
             const emailHtml = isCallbackUrlResetPassword
-               ? passwordResetHtml({ username, token: emailToken, remainingHours })
-               : signUpEmailHTML({ token: emailToken, remainingHours, theme })
+               ? passwordResetHtml({ username, token, remainingHours })
+               : signUpEmailHTML({ token, remainingHours, theme })
 
             const mailOptions = {
                from: from,
