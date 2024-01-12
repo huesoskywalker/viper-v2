@@ -15,14 +15,7 @@ const TokenVerificationButton: React.FC<ButtonProps & { label: string }> = ({
    const disableButton = disabled || pending
    return (
       <>
-         <Button
-            className="text-md font-semibold"
-            type={'submit'}
-            variant={variant}
-            size={size}
-            disabled={disableButton}
-            {...props}
-         >
+         <Button type={'submit'} variant={variant} size={size} disabled={disableButton} {...props}>
             {label}
          </Button>
       </>

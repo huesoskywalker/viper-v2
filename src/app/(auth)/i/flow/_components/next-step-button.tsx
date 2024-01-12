@@ -13,7 +13,6 @@ const NextStepButton: React.FC<ButtonProps & { disabled: boolean; label?: string
    return (
       <>
          <Button
-            className="text-md  font-semibold"
             type={'button'}
             onClick={nextStep}
             variant={variant}
