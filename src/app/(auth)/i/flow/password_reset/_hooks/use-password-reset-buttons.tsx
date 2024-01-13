@@ -12,7 +12,7 @@ const usePasswordResetButtons = (
    getFieldState: PasswordResetFieldState,
    getValues: PasswordResetGetValues,
 ) => {
-   const { isFindByValid, isEmailValid, isUsernameValid, isConfirmPasswordValid } =
+   const { isFindByValid, isEmailValid, isUsernameValid, isConfirmPasswordValid, isMotiveValid } =
       passwordResetFieldValidity(getFieldState)
 
    const findByValue = getValues('findBy')
@@ -21,6 +21,7 @@ const usePasswordResetButtons = (
       [1, isFindByValid],
       [2, emailRegex.test(findByValue) ? isUsernameValid : isEmailValid],
       [5, isConfirmPasswordValid],
+      [6, isMotiveValid],
    ])
 
    const disableButton = !validStepMap.get(step)
@@ -55,6 +56,8 @@ const usePasswordResetButtons = (
                   disabled={disableButton}
                />
             )
+         case 6:
+            return <NextStepButton variant={'default'} size={'lg'} disabled={disableButton} />
          default:
             return null
       }

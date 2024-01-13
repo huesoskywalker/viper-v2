@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useCreateAccountStore } from '../(auth)/i/flow/signup/_stores/create-account-store'
 import { useSession } from 'next-auth/react'
@@ -6,6 +6,10 @@ import { useSession } from 'next-auth/react'
 const useHandleDialog = () => {
    const [openDialog, setOpenDialog] = useState<boolean>(false)
    const { step, redirectStep, prevStep } = useCreateAccountStore()
+
+   const pathname = usePathname()
+   const isPathnamePasswordReset = pathname.endsWith('/i/flow/password_reset')
+
    const { status } = useSession()
 
    const router = useRouter()
@@ -16,9 +20,7 @@ const useHandleDialog = () => {
    }, [])
 
    const closeDialog = (path: string, type?: 'error') => {
-      // check what will happen in another dialog
-      // or how do we reset the step after each form
-      if (!type) {
+      if (!type && !isPathnamePasswordReset) {
          if (step > 1) return prevStep()
       }
 

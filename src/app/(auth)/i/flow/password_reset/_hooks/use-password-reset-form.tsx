@@ -16,6 +16,25 @@ let memoizedEmail: string | null = null
 let memoizedToken: string | null = null
 let memoizedPassword: string | null = null
 
+type MotiveOption = {
+   id: string
+   label: string
+}
+export const motiveOptions: ReadonlyArray<MotiveOption> = [
+   {
+      id: 'forgot password',
+      label: 'I forgot my password',
+   },
+   {
+      id: 'suspicious activity',
+      label: 'There was suspicious activity on my account',
+   },
+   {
+      id: 'different reason',
+      label: 'I changed my password for a different reason',
+   },
+] as const
+
 const passwordResetSchema = z.object({
    findBy: z.string(),
    email: z
@@ -86,6 +105,9 @@ const passwordResetSchema = z.object({
          message: 'Passwords do not match.',
       },
    ),
+   resetPasswordMotive: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: 'You have to select one option',
+   }),
 })
 
 export const usePasswordResetForm = () => {
@@ -96,6 +118,7 @@ export const usePasswordResetForm = () => {
       token: '',
       password: '',
       confirmPassword: '',
+      motive: [],
    }
 
    const passwordResetForm = useForm<PasswordResetFormValues>({

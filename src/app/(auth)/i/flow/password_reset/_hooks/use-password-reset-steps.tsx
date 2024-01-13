@@ -9,6 +9,7 @@ import PasswordSendVerificationToken from '../_components/password-send-verifica
 import AdmissionVerificationToken from '../../signup/_components/admission/admission-verification-token'
 import { FormDescription } from '@/components/ui/form'
 import NewPassword from '../_components/new-password'
+import PasswordResetMotive from '../_components/password-reset-motive'
 
 const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFormValues>) => {
    const renderStep = useMemo(() => {
@@ -41,6 +42,8 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
             )
          case 5:
             return <NewPassword formControl={formControl} />
+         case 6:
+            return <PasswordResetMotive formControl={formControl} />
          default:
             return null
       }

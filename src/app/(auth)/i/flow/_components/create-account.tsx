@@ -40,7 +40,17 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
 
    const handleOnOpen = !session && step <= 4 ? () => closeDialog('/') : undefined
 
-   const stepIcon = !session && step <= 4 ? step : 'disabled'
+   const handleStepIcon = () => {
+      if (!session) {
+         if (isPathnamePassword) {
+            return undefined
+         }
+         if (step <= 4) {
+            return step
+         }
+      }
+      return 'disabled'
+   }
 
    const handleAutoFocus = (e: Event) => {
       if (!session && !isPathnameLogin) {
@@ -56,7 +66,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             open={openDialog}
             onOpenChange={handleOnOpen}
             onOpenAutoFocus={handleAutoFocus}
-            stepIcon={stepIcon}
+            stepIcon={handleStepIcon()}
          >
             <CreateAccountDialogHeader />
             {children}
