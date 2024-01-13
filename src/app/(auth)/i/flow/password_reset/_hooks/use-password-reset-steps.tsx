@@ -8,6 +8,7 @@ import { emailRegex } from '../../_utils/regex'
 import PasswordSendVerificationToken from '../_components/password-send-verification-token'
 import AdmissionVerificationToken from '../../signup/_components/admission/admission-verification-token'
 import { FormDescription } from '@/components/ui/form'
+import NewPassword from '../_components/new-password'
 
 const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFormValues>) => {
    const renderStep = useMemo(() => {
@@ -38,6 +39,8 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
                   </FormDescription>
                </AdmissionVerificationToken>
             )
+         case 5:
+            return <NewPassword formControl={formControl} />
          default:
             return null
       }

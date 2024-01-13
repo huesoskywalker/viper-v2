@@ -14,6 +14,7 @@ export type PasswordResetGetValues = UseFormGetValues<PasswordResetFormValues>
 
 let memoizedEmail: string | null = null
 let memoizedToken: string | null = null
+let memoizedPassword: string | null = null
 
 const passwordResetSchema = z.object({
    findBy: z.string(),
@@ -23,7 +24,7 @@ const passwordResetSchema = z.object({
       .refine((value) => {
          if (!emailRegex.test(value)) return
          memoizedEmail = value
-         return true
+         return !!value
       }),
    username: z.string(),
    token: z
@@ -49,8 +50,42 @@ const passwordResetSchema = z.object({
             message: 'Invalid code.',
          },
       ),
-   // password: z.string(),
-   // confirmPassword: z.string(),
+   password: z
+      .string({
+         required_error: 'Please provide a new password.',
+      })
+      .min(8, {
+         message: 'Password must be at least 8 characters',
+      })
+      .refine((value) => /[A-Z]/.test(value), {
+         message: 'Include at least one uppercase letter',
+      })
+      .refine((value) => /[a-z]/.test(value), {
+         message: 'Include at least one lowercase letter',
+      })
+      .refine((value) => /\d/.test(value), {
+         message: 'Include at least one digit',
+      })
+      .refine((value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value), {
+         message: 'Include at least one special character',
+      })
+      .refine(
+         (value) => {
+            memoizedPassword = value
+            return !!value
+         },
+         {
+            message: 'Please provide a new password',
+         },
+      ),
+   confirmPassword: z.string({ required_error: 'Please confirm the password.' }).refine(
+      (value) => {
+         return memoizedPassword === value
+      },
+      {
+         message: 'Passwords do not match.',
+      },
+   ),
 })
 
 export const usePasswordResetForm = () => {
@@ -59,8 +94,8 @@ export const usePasswordResetForm = () => {
       email: '',
       username: '',
       token: '',
-      // password: '',
-      // confirmPassword: '',
+      password: '',
+      confirmPassword: '',
    }
 
    const passwordResetForm = useForm<PasswordResetFormValues>({

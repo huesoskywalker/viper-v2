@@ -35,8 +35,8 @@ const PasswordReset = () => {
       <>
          <DialogForm formReturn={passwordResetForm} handleSubmit={onSubmit}>
             <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
-            <DialogFormFooter>{step !== 4 && renderButton}</DialogFormFooter>
             <Toaster />
+            <DialogFormFooter>{step !== 4 && renderButton}</DialogFormFooter>
          </DialogForm>
          {step === 4 && (
             <GlobalDialogFooter>
