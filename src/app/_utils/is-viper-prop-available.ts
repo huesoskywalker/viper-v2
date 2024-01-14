@@ -1,4 +1,5 @@
 import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
+import { ApiResponse } from '@/types/api/response'
 
 export const isViperPropAvailable = async (
    field: 'email' | 'username',
@@ -15,11 +16,13 @@ export const isViperPropAvailable = async (
             method: 'GET',
          },
       )
+
+      const { data, error }: ApiResponse<boolean> = await res.json()
+
       if (!res.ok) {
-         const { error } = await res.json()
          throw new Error(error)
       }
-      const { data } = await res.json()
+
       return data
    } catch (error) {
       throw new Error(`Unable to check field availability, ${error}`)

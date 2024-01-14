@@ -1,4 +1,6 @@
 import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
+import { ApiResponse } from '@/types/api/response'
+import { ObjectId } from 'mongodb'
 
 export const getVerificationToken = async (
    email: string | null,
@@ -16,15 +18,24 @@ export const getVerificationToken = async (
          method: 'GET',
       })
 
+      const {
+         data,
+         toDeleteTokens,
+         error,
+      }: ApiResponse<{ _id: string; token: string; expires: string } | null> & {
+         toDeleteTokens: Array<{ _id: string }> | []
+      } = await res.json()
+
       if (!res.ok) {
-         const { error } = await res.json()
          throw new Error(error)
       }
 
-      const { data, toDeleteTokens } = await res.json()
-
       return { data, toDeleteTokens }
    } catch (error) {
-      throw new Error(`Unable to fetch verification token, ${error}`)
+      throw new Error(
+         `Unable to fetch verification token, ${
+            error instanceof Error ? error.message : 'Unknown error'
+         }`,
+      )
    }
 }

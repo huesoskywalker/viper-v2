@@ -17,30 +17,34 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
    const username = getValues('username')
 
    const findAccount = async () => {
-      const response = await fetch(
-         `${PUBLIC_API_URL}/i/flow/password_reset/api/?email=${email}&username=${username}`,
-         {
-            headers: {
-               'Content-Type': 'application/json',
-               'Api-Key': `${PUBLIC_VIPER_API_KEY}`,
+      try {
+         const response = await fetch(
+            `${PUBLIC_API_URL}/i/flow/password_reset/api?email=${email}&username=${username}`,
+            {
+               headers: {
+                  'Content-Type': 'application/json',
+                  'Api-Key': `${PUBLIC_VIPER_API_KEY}`,
+               },
+               method: 'GET',
             },
-            method: 'GET',
-         },
-      )
-      const { data, error }: ApiResponse<{ username: string }> = await response.json()
+         )
+         const { data, error }: ApiResponse<{ username: string }> = await response.json()
 
-      if (!response.ok) {
-         toast({
-            variant: 'sky',
-            size: 'sm',
-            title: error,
-            className: 'self-center text-center right-16',
-         })
-      }
+         if (!response.ok) {
+            toast({
+               variant: 'sky',
+               size: 'sm',
+               title: error,
+               className: 'self-center text-center right-16',
+            })
+         }
 
-      if (data) {
-         setValue('username', data.username)
-         nextStep()
+         if (data) {
+            setValue('username', data.username)
+            nextStep()
+         }
+      } catch (error) {
+         throw new Error(error instanceof Error ? error.message : 'Unknown error')
       }
    }
 

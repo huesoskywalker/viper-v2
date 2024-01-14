@@ -15,12 +15,11 @@ const updateProfileEndpoint = async (
          body: JSON.stringify({ formData }),
       })
 
+      const { data, error }: BasicViperResponse = await updateViper.json()
+
       if (!updateViper.ok) {
-         const { error }: BasicViperResponse = await updateViper.json()
          throw new Error(error)
       }
-
-      const { data }: BasicViperResponse = await updateViper.json()
 
       return { data }
    } catch (error) {

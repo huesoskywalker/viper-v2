@@ -27,12 +27,12 @@ const useSubmitAdmissionAcc = (password: string) => {
                restForm,
             }),
          })
-         if (!updateViper.ok) {
-            const { error }: ApiResponse<{ username: string }> = await updateViper.json()
 
+         const { data, error }: ApiResponse<{ username: string }> = await updateViper.json()
+
+         if (!updateViper.ok) {
             throw new Error(error)
          }
-         const { data }: ApiResponse<{ username: string }> = await updateViper.json()
 
          await signIn('credentials', {
             identifier: data.username,

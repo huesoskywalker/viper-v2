@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { PUBLIC_API_URL } from '@/config/env'
 import { cn } from '@/lib/utils'
+import { ApiResponse } from '@/types/api/response'
 import { useRouter } from 'next/navigation'
 import { useOptimistic, useState, useTransition } from 'react'
 
@@ -42,7 +43,7 @@ const ToggleFollowButton = ({
          })
 
          if (!res.ok) {
-            const { error } = await res.json()
+            const { error }: { error: string } = await res.json()
             throw new Error(error)
          }
 
