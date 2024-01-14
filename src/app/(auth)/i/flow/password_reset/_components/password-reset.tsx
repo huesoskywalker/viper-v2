@@ -12,6 +12,7 @@ import GlobalDialogFooter from '@/app/_components/dialog/global-dialog-footer'
 import { TokenVerificationForm } from '../../signup/_components/admission/token-verification-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const PasswordReset = () => {
    const { step, prevStep } = useCreateAccountStore()
@@ -33,8 +34,14 @@ const PasswordReset = () => {
 
    return (
       <>
-         <DialogForm formReturn={passwordResetForm} handleSubmit={onSubmit}>
-            <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
+         <DialogForm
+            formReturn={passwordResetForm}
+            handleSubmit={onSubmit}
+            className={cn(step === 7 && 'justify-stretch pt-5')}
+         >
+            <CreateAccountFormBody className={cn(step === 7 && 'h-[250px]')}>
+               {renderStep}
+            </CreateAccountFormBody>
             <Toaster />
             <DialogFormFooter>{step !== 4 && renderButton}</DialogFormFooter>
          </DialogForm>

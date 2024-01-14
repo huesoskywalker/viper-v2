@@ -1,10 +1,9 @@
 import { useMemo } from 'react'
 import NextStepButton from '../../../_components/next-step-button'
-import { TokenVerificationForm } from '../../_components/admission/token-verification-form'
 import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
-import { AdmissionFieldState, AdmissionFieldValue } from './use-admission-form'
+import { AdmissionFieldState } from './use-admission-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
-import AdmissionSubmitButton from '../../_components/admission/admission-submit-button'
+import CreateAccountSubmitButton from '../../../_components/create-account-submit-button'
 
 export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldState) => {
    const { isPersonalInfoValid } = admissionFieldValidity(getFieldState)
@@ -26,7 +25,7 @@ export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldS
          case 4:
             return null
          case 5:
-            return <AdmissionSubmitButton />
+            return <CreateAccountSubmitButton label={'Next'} />
          default:
             return null
       }

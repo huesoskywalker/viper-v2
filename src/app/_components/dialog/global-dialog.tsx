@@ -1,4 +1,5 @@
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { cn } from '@/lib/utils'
 import React, { ReactNode } from 'react'
 
 type DialogContentProps = {
@@ -21,7 +22,9 @@ const GlobalDialog = ({
          <DialogContent
             onOpenAutoFocus={onOpenAutoFocus}
             steps={stepIcon}
-            className="flex h-full max-w-sm flex-col items-start justify-center rounded-lg border-none md:h-[575px] md:max-w-[600px] xl:h-[650px]"
+            className={cn(
+               'flex h-full max-w-sm flex-col items-start justify-center rounded-lg border-none md:h-[575px] md:max-w-[600px] xl:h-[650px]',
+            )}
          >
             {children}
          </DialogContent>

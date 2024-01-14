@@ -19,7 +19,10 @@ const CreateAccountDialogHeader = () => {
    const getHeaderClass = () => {
       if (!session) {
          if (isPathnameLogin || isPathnamePassword) {
-            return 'self-center'
+            if (step !== 7) {
+               return 'self-center'
+            }
+            return 'self-center pt-16'
          }
          if (step < 5) {
             return 'pl-16'

@@ -4,7 +4,7 @@ import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { useSession } from 'next-auth/react'
 import { PropsWithChildren, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import GlobalDialog from '@/app/_components/dialog/global-dialog-content'
+import GlobalDialog from '@/app/_components/dialog/global-dialog'
 import CreateAccountDialogHeader from './create-account-dialog-header'
 
 export const CreateAccount = ({ children }: PropsWithChildren) => {
@@ -43,7 +43,10 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
    const handleStepIcon = () => {
       if (!session) {
          if (isPathnamePassword) {
-            return undefined
+            if (step !== 7) {
+               return undefined
+            }
+            return 'disabled'
          }
          if (step <= 4) {
             return step
