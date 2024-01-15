@@ -15,6 +15,7 @@ export type Viper = {
    birthDate: BirthDate
    blogs: Blog
    password: string | undefined
+   passwordResetMotive: string[]
    image: Image
    backgroundImage: Image
    shopify: Shopify

@@ -3,9 +3,13 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { isValidApiKey } from '../../_utils/is-valid-api-key'
 import bcrypt from 'bcrypt'
 import { buildRandomUsername } from '../../../../../../../../utils/build-random-username'
-import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 import { logError, logMongoError } from '@/config/winstonLogger'
 import { MongoError } from 'mongodb'
+import { determineUpdateProfileSchema } from '@/app/_utils/determine-update-profile-schema'
+import {
+   isAdmissionFormValues,
+   isPasswordResetFormValues,
+} from '../../../_utils/is-form-type-values'
 
 export async function GET(request: NextRequest) {
    const params = request.nextUrl.searchParams
@@ -64,16 +68,26 @@ export async function PATCH(request: NextRequest) {
 
    const { restForm } = await request.json()
 
+   const formSchema = determineUpdateProfileSchema(restForm)
+
+   const isAdmissionSchema = isAdmissionFormValues(formSchema)
+
+   if (!isPasswordResetFormValues(formSchema) && !isAdmissionSchema) {
+      return NextResponse.json({ error: 'Unexpected form schema' }, { status: 400 })
+   }
+
    try {
-      const username = await buildRandomUsername(restForm.name)
-
       const saltRounds = 10
-      const hashedPassword = await bcrypt.hash(restForm.password, saltRounds)
-      restForm.password = hashedPassword
+      const hashedPassword = await bcrypt.hash(formSchema.password, saltRounds)
+      formSchema.password = hashedPassword
 
-      const updateViper: Omit<AdmissionFormValues, 'token'> & { username: string } = {
-         ...restForm,
-         username,
+      const updateViper: typeof formSchema & { username?: string } = {
+         ...formSchema,
+      }
+
+      if (isAdmissionSchema) {
+         const username = await buildRandomUsername(formSchema.name)
+         updateViper.username = username
       }
 
       const data = await viperService.update(
@@ -86,7 +100,7 @@ export async function PATCH(request: NextRequest) {
             status: 422,
          })
 
-      return NextResponse.json({ data: { username: username } }, { status: 200 })
+      return NextResponse.json({ data: { username: data.username } }, { status: 200 })
    } catch (error) {
       if (error instanceof MongoError) {
          logMongoError({ action: `Update user on create account`, email: restForm.email }, error)

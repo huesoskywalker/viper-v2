@@ -148,7 +148,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                projection: VIPER_BASIC_PROPS,
-               // // returnDocument: 'after'
+               returnDocument: 'after',
             },
          )
 

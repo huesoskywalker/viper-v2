@@ -1,6 +1,5 @@
 'use client'
 import DialogForm from '@/app/_components/form/dialog-form'
-import React, { BaseSyntheticEvent } from 'react'
 import { PasswordResetFormValues, usePasswordResetForm } from '../_hooks/use-password-reset-form'
 import CreateAccountFormBody from '../../_components/create-account-form-body'
 import usePasswordRestSteps from '../_hooks/use-password-reset-steps'
@@ -13,6 +12,7 @@ import { TokenVerificationForm } from '../../signup/_components/admission/token-
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import useSubmitAdmissionAcc from '../../_hooks/use-submit-admission-acc'
 
 const PasswordReset = () => {
    const { step, prevStep } = useCreateAccountStore()
@@ -27,16 +27,17 @@ const PasswordReset = () => {
 
    const { isTokenDirty, isTokenValid } = passwordResetFieldValidity(getFieldState)
 
-   const onSubmit = async (formData: PasswordResetFormValues, e?: BaseSyntheticEvent) => {
-      console.log({ formData })
-      if (e) e.preventDefault()
-   }
+   const { onSubmit } = useSubmitAdmissionAcc()
 
+   const handleOnSubmit = async (formData: PasswordResetFormValues) => {
+      const { findBy, token, confirmPassword, ...restForm } = formData
+      await onSubmit(restForm)
+   }
    return (
       <>
          <DialogForm
             formReturn={passwordResetForm}
-            handleSubmit={onSubmit}
+            handleSubmit={handleOnSubmit}
             className={cn(step === 7 && 'justify-stretch pt-5')}
          >
             <CreateAccountFormBody className={cn(step === 7 && 'h-[250px]')}>

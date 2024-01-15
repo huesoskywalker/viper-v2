@@ -36,7 +36,7 @@ export const motiveOptions: ReadonlyArray<MotiveOption> = [
 ] as const
 
 const passwordResetSchema = z.object({
-   findBy: z.string(),
+   findBy: z.string().min(0),
    email: z
       .string()
       .email()
@@ -45,7 +45,7 @@ const passwordResetSchema = z.object({
          memoizedEmail = value
          return !!value
       }),
-   username: z.string(),
+   username: z.string().min(0),
    token: z
       .string({
          required_error: 'Please provide the token',
@@ -105,9 +105,15 @@ const passwordResetSchema = z.object({
          message: 'Passwords do not match.',
       },
    ),
-   resetPasswordMotive: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: 'You have to select one option',
-   }),
+   passwordResetMotive: z.array(z.string()).refine(
+      (value) => {
+         value.some((item) => item)
+         return !!value
+      },
+      {
+         message: 'You have to select one option',
+      },
+   ),
 })
 
 export const usePasswordResetForm = () => {
@@ -118,7 +124,7 @@ export const usePasswordResetForm = () => {
       token: '',
       password: '',
       confirmPassword: '',
-      motive: [],
+      passwordResetMotive: [],
    }
 
    const passwordResetForm = useForm<PasswordResetFormValues>({

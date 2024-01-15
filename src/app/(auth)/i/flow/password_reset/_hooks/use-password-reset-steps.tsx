@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Control } from 'react-hook-form'
-import { PasswordResetFormValues } from './use-password-reset-form'
+import { PasswordResetFormValues, PasswordResetSetValue } from './use-password-reset-form'
 import PasswordFindAccount from '../_components/password-find-account'
 import PasswordConfirmUsername from '../_components/password-confirm-username'
 import PasswordConfirmEmail from '../_components/password-confirm-email'
@@ -46,6 +46,7 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
          case 6:
             return <PasswordResetMotive formControl={formControl} />
          case 7:
+            formControl._updateValid(true)
             return <PasswordResetSuccess />
          default:
             return null

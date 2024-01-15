@@ -6,7 +6,7 @@ export const passwordResetFieldValidity = (getFieldState: PasswordResetFieldStat
    const usernameFieldState = getFieldState('username')
    const tokenFieldState = getFieldState('token')
    const confirmPasswordFieldState = getFieldState('confirmPassword')
-   const motiveFieldState = getFieldState('resetPasswordMotive')
+   const motiveFieldState = getFieldState('passwordResetMotive')
 
    const isFindByFieldValid = !findByFieldState.invalid
    const isEmailFieldValid = !emailFieldState.invalid

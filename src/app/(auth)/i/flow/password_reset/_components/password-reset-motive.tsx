@@ -22,7 +22,7 @@ const PasswordResetMotive: React.FC<FormControlStep<PasswordResetFormValues>> = 
          </DialogDescription>
          <FormField
             control={formControl}
-            name={'resetPasswordMotive'}
+            name={'passwordResetMotive'}
             render={() => (
                <FormItem>
                   <FormDescription className="mb-4">
@@ -34,7 +34,7 @@ const PasswordResetMotive: React.FC<FormControlStep<PasswordResetFormValues>> = 
                         <FormField
                            key={item.id}
                            control={formControl}
-                           name={'resetPasswordMotive'}
+                           name={'passwordResetMotive'}
                            render={({ field }) => (
                               <FormItem
                                  key={item.id}

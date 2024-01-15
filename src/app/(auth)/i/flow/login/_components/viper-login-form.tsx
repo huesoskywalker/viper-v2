@@ -23,7 +23,6 @@ const ViperLoginForm = () => {
          identifier: formData.identifier,
          password: formData.password,
          redirect: false,
-         callbackUrl: '/home',
       })
 
       if (!login) throw new Error(`Unexpected login error. Please try again later.`)

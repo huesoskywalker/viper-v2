@@ -7,7 +7,7 @@ import { logError, logMongoError } from '@/config/winstonLogger'
 
 export async function GET(request: NextRequest) {
    const headers = request.headers
-   const apiKey = headers.get('Api-Key')
+   const apiKey = headers.get('API-Key')
 
    if (!isValidApiKey(apiKey)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

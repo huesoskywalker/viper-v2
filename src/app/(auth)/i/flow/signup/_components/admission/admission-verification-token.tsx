@@ -7,7 +7,7 @@ import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 import { PasswordResetFormValues } from '../../../password_reset/_hooks/use-password-reset-form'
 import { Control, Path } from 'react-hook-form'
 
-const isAdmissionFormValue = <T extends AdmissionFormValues | PasswordResetFormValues>(
+const isAdmissionFormControl = <T extends AdmissionFormValues | PasswordResetFormValues>(
    formControl: Control<T>,
 ): formControl is Control<T> => {
    return 'name' in formControl._fields
@@ -45,7 +45,7 @@ const AdmissionVerificationToken = <T extends AdmissionFormValues | PasswordRese
             )}
          />
          <FormMessage className="text-viper-dodger-blue">
-            {isAdmissionFormValue(formControl) ? <ResendTokenButton /> : null}
+            {isAdmissionFormControl(formControl) ? <ResendTokenButton /> : null}
          </FormMessage>
       </>
    )

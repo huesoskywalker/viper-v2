@@ -23,7 +23,7 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
             {
                headers: {
                   'Content-Type': 'application/json',
-                  'Api-Key': `${PUBLIC_VIPER_API_KEY}`,
+                  'API-Key': `${PUBLIC_VIPER_API_KEY}`,
                },
                method: 'GET',
             },
@@ -40,7 +40,7 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
          }
 
          if (data) {
-            setValue('username', data.username)
+            setValue('username', data.username, { shouldValidate: true })
             nextStep()
          }
       } catch (error) {

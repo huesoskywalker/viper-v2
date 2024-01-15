@@ -3,18 +3,14 @@ import { AdmissionFormValues } from '../signup/_hooks/admission/use-admission-fo
 import { PUBLIC_API_URL, PUBLIC_VIPER_API_KEY } from '@/config/env'
 import { ApiResponse } from '@/types/api/response'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useCreateAccountStore } from '../signup/_stores/create-account-store'
+import { PasswordResetFormValues } from '../password_reset/_hooks/use-password-reset-form'
 
-const useSubmitAdmissionAcc = (password: string) => {
-   const { redirectStep } = useCreateAccountStore()
-
-   const { refresh } = useRouter()
-
-   const onSubmit = async (formData: AdmissionFormValues, e?: BaseSyntheticEvent) => {
+const useSubmitAdmissionAcc = () => {
+   const onSubmit = async (
+      restForm: Partial<AdmissionFormValues | PasswordResetFormValues>,
+      e?: BaseSyntheticEvent,
+   ) => {
       if (e) e.preventDefault
-
-      const { token, ...restForm } = formData
 
       try {
          const updateViper = await fetch(`${PUBLIC_API_URL}/i/flow/signup/api/verify`, {
@@ -36,10 +32,9 @@ const useSubmitAdmissionAcc = (password: string) => {
 
          await signIn('credentials', {
             identifier: data.username,
-            password: password,
+            password: restForm.password,
             redirect: false,
-         }),
-            await Promise.all([redirectStep(1), refresh()])
+         })
       } catch (error) {
          throw new Error(`${error instanceof Error ? error.message : 'Unknown error'}`)
       }
