@@ -20,14 +20,15 @@ const useSubmitCreateProfile = () => {
 
       const { data } = await updateProfileEndpoint(formData)
 
-      await update({
-         username: data.username,
-         image: data.image,
-         role: data.role,
-         followings: data.followings.length,
-      })
-
-      push('/home')
+      await Promise.all([
+         await update({
+            username: data.username,
+            image: data.image,
+            role: data.role,
+            followings: data.followings.length,
+         }),
+         push('/home'),
+      ])
    }
    return { onSubmit }
 }

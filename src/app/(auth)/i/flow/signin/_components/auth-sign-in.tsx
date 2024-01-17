@@ -1,11 +1,11 @@
 'use client'
 import { signIn, useSession } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 const AuthSignIn = () => {
    const params = useSearchParams()
-   const provider = params.get('provider') as string
+   const provider = useMemo(() => params.get('provider') as string, [params])
 
    const { status } = useSession()
 
@@ -14,7 +14,7 @@ const AuthSignIn = () => {
          window.close()
       }
       void signIn(provider)
-   }, [status])
+   }, [status, params])
 
    return <></>
 }

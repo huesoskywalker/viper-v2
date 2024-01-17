@@ -24,7 +24,7 @@ export const TokenVerificationForm = ({
 
    useEffect(() => {
       if (state.success) {
-         redirectStep(5)
+         void redirectStep(5)
       }
    }, [state.success])
 

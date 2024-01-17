@@ -14,11 +14,11 @@ const useOnChangeState = (
    const onChangeDebounce = useCallback(
       debounce((event: ChangeEvent<ChangeEventElement>) => {
          if (!onChange) return
-         clearErrors(name)
-         setIsChanging(false)
-         onChange(event)
+         void clearErrors(name)
+         void setIsChanging(false)
+         void onChange(event)
       }, 500),
-      [],
+      [onChange],
    )
 
    const handleOnChange = async (event: ChangeEvent<ChangeEventElement>) => {

@@ -4,7 +4,7 @@ import { viperService } from '@/services/servicesInitializer'
 import { MongoError } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const PATCH = async (request: NextRequest) => {
+export async function PATCH(request: NextRequest) {
    const session = await auth()
 
    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

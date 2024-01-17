@@ -8,7 +8,7 @@ const RedirectOnAuthentication = () => {
    const { status } = useSession()
    useEffect(() => {
       if (status === 'authenticated') {
-         push('/home')
+         void push('/home')
       }
    }, [status])
    return <></>

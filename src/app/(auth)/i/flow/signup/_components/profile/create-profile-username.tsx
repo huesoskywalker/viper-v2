@@ -22,7 +22,7 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfi
    formControl._defaultValues['username'] = username
 
    useEffect(() => {
-      trigger('username')
+      void trigger('username')
    }, [])
 
    return (
@@ -33,7 +33,7 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfi
          <FormDescription>
             Your
             <AtSymbol />
-            always change it later.
+            username is unique. You can always change it later.
          </FormDescription>
          <FormField
             control={formControl}

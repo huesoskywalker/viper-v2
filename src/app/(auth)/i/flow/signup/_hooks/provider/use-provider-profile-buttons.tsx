@@ -51,7 +51,7 @@ const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileF
          default:
             return null
       }
-   }, [step, disableButton, isBioDirty, isUsernameDirty])
+   }, [step, disableButton, bioVariant, bioLabel, usernameVariant, usernameLabel])
 
    return { renderButton }
 }

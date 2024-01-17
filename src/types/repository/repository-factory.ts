@@ -1,5 +1,5 @@
 import { EventRepository } from '@/repositories/EventRepository'
-import { ViperRepository } from '@/repositories/ViperRespository'
+import { ViperRepository } from '@/repositories/ViperRepository'
 import { MongoClient } from 'mongodb'
 
 export type RepositoryInitializer = {

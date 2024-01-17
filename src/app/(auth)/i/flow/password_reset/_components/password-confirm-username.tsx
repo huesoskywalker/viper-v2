@@ -12,7 +12,7 @@ const PasswordConfirmUsername: React.FC<FormControlStep<PasswordResetFormValues>
    const { setFocus } = useFormContext<PasswordResetFormValues>()
 
    useEffect(() => {
-      setFocus('username')
+      void setFocus('username')
    }, [])
 
    return (

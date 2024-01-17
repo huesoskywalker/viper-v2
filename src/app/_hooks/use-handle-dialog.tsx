@@ -16,8 +16,8 @@ const useHandleDialog = () => {
 
    useEffect(() => {
       if (status === 'unauthenticated') redirectStep(1)
-      setOpenDialog(true)
-   }, [])
+      void setOpenDialog(true)
+   }, [status])
 
    const closeDialog = (path: string, type?: 'error') => {
       if (!type && !isPathnamePasswordReset) {

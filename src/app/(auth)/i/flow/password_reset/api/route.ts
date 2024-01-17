@@ -1,4 +1,3 @@
-import { mongoAdapter } from '@/lib/auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { isValidApiKey } from '../../signup/_utils/is-valid-api-key'
 import { viperService } from '@/services/servicesInitializer'

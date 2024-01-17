@@ -1,5 +1,5 @@
 'use client'
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useMemo } from 'react'
 import { AdmissionFormValues, useAdmissionForm } from '../../_hooks/admission/use-admission-form'
 import { FocusElement, useCreateAccountStore } from '../../_stores/create-account-store'
 import { useAdmissionButtons } from '../../_hooks/admission/use-admission-buttons'
@@ -28,13 +28,13 @@ const CreateAccountAdmission = () => {
 
    const { isVerificationTokenValid } = admissionFieldValidity(getFieldState)
 
-   const validFocusElem: FocusElement[] = ['email', 'name', 'birthDate.month']
+   const validFocusElem: FocusElement[] = useMemo(() => ['email', 'name', 'birthDate.month'], [])
 
    useLayoutEffect(() => {
       if (focusElem && validFocusElem.includes(focusElem)) {
-         setFocus(focusElem)
+         void setFocus(focusElem)
       }
-   }, [focusElem])
+   }, [focusElem, validFocusElem])
 
    const { onSubmit } = useSubmitAdmissionAcc()
 

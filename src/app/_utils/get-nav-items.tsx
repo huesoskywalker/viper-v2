@@ -11,7 +11,7 @@ export type NavItem = {
 export const getNavItems = (): {
    navItems: ReadonlyArray<NavItem>
 } => {
-   const navItems: Array<NavItem> = [
+   const navItems: ReadonlyArray<NavItem> = [
       {
          name: 'Home',
          slug: 'home',
@@ -49,7 +49,7 @@ export const getNavItems = (): {
 }
 
 export const getMobileNavMenu = (): { mobileNavItems: ReadonlyArray<NavItem> } => {
-   const mobileNavItems: Array<NavItem> = [
+   const mobileNavItems: ReadonlyArray<NavItem> = [
       {
          name: 'Profile',
          slug: 'profile',

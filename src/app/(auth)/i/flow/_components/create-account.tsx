@@ -2,7 +2,7 @@
 import { useCreateAccountStore } from '../signup/_stores/create-account-store'
 import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { useSession } from 'next-auth/react'
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren, useEffect, useMemo } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import GlobalDialog from '@/app/_components/dialog/global-dialog'
 import CreateAccountDialogHeader from './create-account-dialog-header'
@@ -18,15 +18,16 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
 
    const { push } = useRouter()
 
+   const viperRole = useMemo(() => session?.user.role, [session?.user.role])
+
    useEffect(() => {
       if (status === 'authenticated') {
          if (step === 0) {
-            const viperRole = session.user.role
             const isViper = viperRole === 'viper' || viperRole === 'admin'
             if (isViper) {
-               push('/home')
+               void push('/home')
             } else {
-               redirectStep(1)
+               void redirectStep(1)
             }
          }
 
@@ -34,7 +35,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             push('/home')
          }
       }
-   }, [status, isPathnameLogin, isPathnamePassword])
+   }, [status, viperRole, isPathnameLogin, isPathnamePassword])
 
    const { openDialog, closeDialog } = useHandleDialog()
 
