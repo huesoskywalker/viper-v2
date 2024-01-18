@@ -17,7 +17,7 @@ export type Viper = {
    password: string | undefined
    passwordResetMotive: string[]
    image: Image
-   backgroundImage: Image
+   backgroundImage: Image | null
    shopify: Shopify
    events: MyEvents
    // TODO: add followersCount and followingsCount for the viperBasic

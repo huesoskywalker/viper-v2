@@ -41,10 +41,10 @@ export function ViperMobileNavMenu() {
             </SheetHeader>
             {mobileNavItems.map((item) => (
                <SheetClose asChild key={item.name}>
-                  <TopNavItem key={item.slug} item={item} />
+                  <TopNavItem key={item.slug} item={item} username={session?.user.username} />
                </SheetClose>
             ))}
-            <Separator orientation="horizontal" />
+            <Separator orientation="horizontal" className="m-2" />
             <SheetFooter>
                <AccordionNavMenu />
             </SheetFooter>

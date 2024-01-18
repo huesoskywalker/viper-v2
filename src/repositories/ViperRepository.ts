@@ -100,7 +100,7 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                   password: undefined,
                   image: image,
-                  backgroundImage: '',
+                  backgroundImage: null,
                   shopify: {
                      customerAccessToken: '',
                      customerId: '',

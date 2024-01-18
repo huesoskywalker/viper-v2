@@ -1,4 +1,4 @@
-import { GlobalNavItem } from './global-nav-items'
+import { GlobalNavItem } from './global-nav-item'
 import Link from 'next/link'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
@@ -6,9 +6,11 @@ import { MoreNavMenu } from './more-nav-menu'
 import MobileNavBar from './mobile-nav-bar'
 import ViperNavMenu from './viper-nav-menu'
 import { getNavItems } from '@/app/_utils/get-nav-items'
+import { useSession } from 'next-auth/react'
 
 export function GlobalNav() {
    const { navItems } = getNavItems()
+   const { data: session } = useSession()
 
    const linkClass =
       'block rounded-full p-3 w-fit text-md font-medium text-foreground hover:bg-accent'
@@ -30,7 +32,7 @@ export function GlobalNav() {
                   />
                </Link>
                {navItems.map((item) => (
-                  <GlobalNavItem key={item.slug} item={item} />
+                  <GlobalNavItem key={item.slug} item={item} username={session?.user.username} />
                ))}
                <MoreNavMenu />
             </div>

@@ -5,19 +5,21 @@ import { NavItem } from '../../_utils/get-nav-items'
 import { cn } from '@/lib/utils'
 import { HTMLAttributes } from 'react'
 
-type TopNavItem = HTMLAttributes<HTMLAnchorElement> & { item: NavItem }
+type TopNavItem = HTMLAttributes<HTMLAnchorElement> & { item: NavItem; username?: string }
 
-export const TopNavItem: React.FC<TopNavItem> = ({ item, ...props }) => {
+export const TopNavItem: React.FC<TopNavItem> = ({ item, username, ...props }) => {
    const LucideIcon = item.icon
+
+   const itemSlug = item.slug === 'profile' ? `${username}` : item.slug
 
    return (
       <>
          <Link
             data-test="nav-item"
-            href={`/${item.slug}`}
+            href={itemSlug}
             aria-label={item.description}
             className={cn(
-               'transition-all flex w-full items-center justify-start gap-5 rounded-full p-3.5 duration-100 ease-in hover:bg-accent',
+               'transition-all flex w-full items-center justify-start gap-5 rounded-full p-2.5 duration-100 ease-in hover:bg-accent',
             )}
             {...props}
          >

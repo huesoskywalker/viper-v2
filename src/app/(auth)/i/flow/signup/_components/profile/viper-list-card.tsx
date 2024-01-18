@@ -1,15 +1,13 @@
 import ToggleFollowButton from '@/app/_components/viper/toggle-follow-button'
+import { getCurrentSession } from '@/app/_utils/get-current-viper'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
-import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
 import { ViperBasic } from '@/types/viper'
 
 const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
-   const session = await auth()
-   if (!session) {
-      throw new Error(`Authentication session not found. Please log in.`)
-   }
+   const session = await getCurrentSession()
+
    const isFollowing = await viperService.isFollowing(String(viper._id), session.user.id)
 
    const viperBio = viper.bio.length > 80 ? viper.bio.slice(0, 80) + '...' : viper.bio
