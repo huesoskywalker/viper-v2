@@ -83,7 +83,7 @@ const config: Config = {
          backgroundImage: ({ theme }) => ({
             'vp-border-gradient': `radial-gradient(at left top, ${theme(
                'colors.gray.500',
-            )}, 50px, ${theme('colors.gray.800')} 50%)`,
+            )}, 50px, ${theme('colors.gray.700')} 60%)`,
          }),
          keyframes: ({ theme }) => ({
             'accordion-down': {
