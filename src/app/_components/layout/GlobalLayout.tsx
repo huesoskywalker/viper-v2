@@ -3,9 +3,11 @@ import React, { HTMLAttributes } from 'react'
 type GlobalLayoutProps = HTMLAttributes<HTMLDivElement>
 const GlobalLayout: React.FC<GlobalLayoutProps> = ({ className, children, ...props }) => {
    return (
-      <div className="mx-auto max-w-5xl space-y-8 px-2 py-4 lg:px-8">
-         <div className="rounded-lg bg-vp-border-gradient p-px shadow-lg shadow-secondary/20">
-            <div className="rounded-lg bg-background p-3.5 lg:p-6">{children}</div>
+      <div className="mx-auto max-w-full space-y-8 pt-14 sm:px-2 sm:py-4 lg:px-6 xl:px-8">
+         <div className="border-none sm:rounded-lg sm:bg-vp-border-gradient sm:p-px sm:shadow-lg sm:shadow-secondary/20">
+            <div className="border-none bg-background sm:rounded-lg sm:p-3.5 lg:p-6">
+               {children}
+            </div>
          </div>
       </div>
    )
