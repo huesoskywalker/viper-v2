@@ -9,7 +9,7 @@ import {
    SheetTrigger,
 } from '@/components/ui/sheet'
 import { useSession } from 'next-auth/react'
-import ViperCard from '../viper/viper-card'
+import ViperMobileCard from '../viper/viper-mobile-card'
 import { AccordionNavMenu } from './accordion-nav-menu'
 import { Separator } from '@/components/ui/separator'
 import { getMobileNavMenu } from '@/app/_utils/get-nav-items'
@@ -37,7 +37,7 @@ export function ViperMobileNavMenu() {
          </SheetTrigger>
          <SheetContent side={'left'} className="mr-0 w-4/6 p-0">
             <SheetHeader className="p-4">
-               <ViperCard />
+               <ViperMobileCard />
             </SheetHeader>
             {mobileNavItems.map((item) => (
                <SheetClose asChild key={item.name}>

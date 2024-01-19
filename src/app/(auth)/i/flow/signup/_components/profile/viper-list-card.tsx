@@ -1,3 +1,8 @@
+import ViperBio from '@/app/[username]/_components/viper-bio'
+import ViperName from '@/app/[username]/_components/viper-name'
+import ViperUsername from '@/app/[username]/_components/viper-username'
+import ViperVerified from '@/app/[username]/_components/viper-verified'
+import AtSymbol from '@/app/_components/viper/at-symbol'
 import ToggleFollowButton from '@/app/_components/viper/toggle-follow-button'
 import { getCurrentSession } from '@/app/_utils/get-current-viper'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -30,22 +35,22 @@ const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
                   <div className="flex w-full flex-col overflow-hidden">
                      <div className="mb-1 flex items-center justify-between ">
                         <div className="flex flex-col overflow-hidden">
-                           <span className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold sm:text-base">
-                              {viper.name}
-                           </span>
-                           <span className="flex-1 overflow-hidden overflow-ellipsis text-[17px] text-muted-foreground sm:text-sm">
-                              <span className="align-text-top text-xs text-muted-foreground">
-                                 @
-                              </span>
-                              {viper.username}
-                           </span>
+                           <ViperName name={viper.name} className="text-sm sm:text-base">
+                              <ViperVerified isVerified={viper.verified} />
+                           </ViperName>
+                           <ViperUsername
+                              username={viper.username}
+                              className="text-[17px] sm:text-sm"
+                           >
+                              <AtSymbol />
+                           </ViperUsername>
                         </div>
                         <ToggleFollowButton
                            isFollowing={isFollowing}
                            viperId={String(viper._id)}
                         />
                      </div>
-                     <p className="text-[17px] text-gray-200">{viperBio}</p>
+                     <ViperBio bio={viperBio} className="text-[17px] text-gray-200" />
                   </div>
                </div>
             </CardContent>
