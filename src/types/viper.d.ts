@@ -8,6 +8,8 @@ export type Viper = {
    email: Email
    emailVerified: Date | null
    username: Username
+   verified: boolean
+   website: string
    role: Role
    bio: Biography
    location: Location
@@ -17,7 +19,7 @@ export type Viper = {
    password: string | undefined
    passwordResetMotive: string[]
    image: Image
-   backgroundImage: Image | null
+   backgroundImage: Image
    shopify: Shopify
    events: MyEvents
    // TODO: add followersCount and followingsCount for the viperBasic
@@ -54,7 +56,7 @@ export type ContactInfo = {
    address: string
    // city: string
    // zip: string
-   website: string
+   // website: string
 }
 
 type Biography = string
@@ -155,6 +157,8 @@ export type ViperBasic = Pick<
    | 'name'
    | 'email'
    | 'username'
+   | 'verified'
+   | 'website'
    | 'role'
    | 'bio'
    | 'location'
@@ -162,6 +166,7 @@ export type ViperBasic = Pick<
    | 'backgroundImage'
    | 'followers'
    | 'followings'
+   | 'createdAt'
 >
 
 // most probably we should do something like this -> (_id needed?)

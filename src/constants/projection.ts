@@ -5,11 +5,14 @@ export const VIPER_BASIC_PROPS = {
    email: 1,
    role: 1,
    username: 1,
+   verified: 1,
+   website: 1,
    name: 1,
    image: 1,
    backgroundImage: 1,
    followers: 1,
    followings: 1,
+   createdAt: 1,
 }
 
 export const VIPER_WITHOUT_PASSWORD = {

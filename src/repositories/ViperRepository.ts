@@ -80,13 +80,14 @@ export class ViperRepository implements ViperRepositorySource {
                   email: email,
                   emailVerified: emailVerified,
                   username: username,
+                  verified: false,
+                  website: '',
                   role: role,
                   bio: '',
                   location: '',
                   contactInfo: {
                      phone: null,
                      address: '',
-                     website: '',
                   },
                   birthDate: {
                      day: '',
@@ -100,7 +101,7 @@ export class ViperRepository implements ViperRepositorySource {
                   },
                   password: undefined,
                   image: image,
-                  backgroundImage: null,
+                  backgroundImage: '',
                   shopify: {
                      customerAccessToken: '',
                      customerId: '',
@@ -227,6 +228,26 @@ export class ViperRepository implements ViperRepositorySource {
          if (!viperBasic) throw new Error(`User not found or does not exist.`)
 
          return viperBasic as WithId<ViperBasic>
+      } catch (error: unknown) {
+         throw error
+      }
+   }
+
+   async getByUsername(username: string): Promise<WithId<ViperBasic>> {
+      try {
+         const viper: WithId<Viper> | null = await this.viperCollection.findOne(
+            {
+               username,
+            },
+            {
+               collation: { locale: 'en', strength: 2 },
+               projection: VIPER_BASIC_PROPS,
+            },
+         )
+
+         if (!viper) throw new Error(`User not found or does not exist.`)
+
+         return viper
       } catch (error: unknown) {
          throw error
       }

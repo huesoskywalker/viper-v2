@@ -26,6 +26,7 @@ declare module 'next-auth' {
          name: string
          email: string
          username: string
+         verified: boolean
          role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
          bio: string
          location: string
@@ -164,6 +165,7 @@ export default {
          } else {
             session.user.id = user.id
             session.user.username = user.username
+            session.user.verified = user.verified
             session.user.role = user.role
             session.user.bio = user.bio
             session.user.followers = user.followers.length

@@ -154,6 +154,15 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
+   async getByUsername(username: string): Promise<WithId<ViperBasic>> {
+      try {
+         const viperBasic = await this.viperRepository.getByUsername(username)
+         return viperBasic
+      } catch (error: unknown) {
+         throw error
+      }
+   }
+
    async matchEmailAndUsername(
       email: string,
       username: string,
