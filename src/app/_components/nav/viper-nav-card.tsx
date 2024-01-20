@@ -14,7 +14,7 @@ const ViperNavCard = () => {
    }
 
    return (
-      <Card className="rounded-full border-none p-1 hover:bg-accent">
+      <Card className="rounded-full border-none p-3 hover:bg-accent">
          <CardContent className="flex flex-row justify-between p-0 sm:items-center xl:gap-2">
             <Avatar className="flex items-center justify-center">
                <AvatarImage
@@ -27,12 +27,12 @@ const ViperNavCard = () => {
                />
             </Avatar>
             <div className="flex flex-col items-start justify-start text-sm">
-               <ViperName name={session.user.name} className="hidden text-lg xl:block">
+               <ViperName name={session.user.name} className="hidden text-base xl:block">
                   <ViperVerified isVerified={session.user.verified} />
                </ViperName>
                <ViperUsername
                   username={session.user.username}
-                  className="hidden text-base font-normal xl:block"
+                  className="hidden text-sm font-normal xl:block"
                >
                   <AtSymbol />
                </ViperUsername>

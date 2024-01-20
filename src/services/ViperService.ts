@@ -243,13 +243,17 @@ export class ViperService implements ViperServiceSource {
       try {
          const operation = isFollowing ? '$pull' : '$push'
 
+         const incCount = isFollowing ? -1 : 1
+
          const toggleFollower = this.viperRepository.toggleFollower(
             operation,
+            incCount,
             viperId,
             currentViperId,
          )
          const toggleFollowing = this.viperRepository.toggleFollowing(
             operation,
+            incCount,
             viperId,
             currentViperId,
          )

@@ -7,6 +7,7 @@ import ViperName from '@/app/[username]/_components/viper-name'
 import { redirect } from 'next/navigation'
 import ViperUsername from '@/app/[username]/_components/viper-username'
 import ViperVerified from '@/app/[username]/_components/viper-verified'
+import ViperFollowCount from '@/app/[username]/_components/viper-follow-count'
 
 const ViperMobileCard = () => {
    const { data: session } = useSession()
@@ -39,14 +40,16 @@ const ViperMobileCard = () => {
                </div>
             </div>
             <div className="grid-2 grid w-full grid-flow-col items-start justify-items-start">
-               <div className="flex items-center space-x-1 text-xs font-normal">
-                  <span className="font-semibold text-foreground">{session?.user.followings}</span>
-                  <span className=" text-muted-foreground">Following</span>
-               </div>
-               <div className="flex items-center space-x-1 text-xs font-normal">
-                  <span className="font-semibold text-foreground">{session?.user.followers}</span>
-                  <span className=" text-muted-foreground">Followers</span>
-               </div>
+               <ViperFollowCount
+                  followCount={session.user.followings}
+                  label="Following"
+                  className="text-xs"
+               />
+               <ViperFollowCount
+                  followCount={session.user.followers}
+                  label="Followers"
+                  className="text-xs"
+               />
             </div>
          </CardContent>
       </Card>

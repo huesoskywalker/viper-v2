@@ -112,7 +112,9 @@ export class ViperRepository implements ViperRepositorySource {
                      likes: [],
                   },
                   followers: [],
+                  followersCount: 0,
                   followings: [],
+                  followingsCount: 0,
                   contentDiscovery: true,
                   createdAt: new Date(),
                },
@@ -368,6 +370,7 @@ export class ViperRepository implements ViperRepositorySource {
 
    async toggleFollower(
       operation: '$push' | '$pull',
+      incCount: 1 | -1,
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
@@ -380,6 +383,7 @@ export class ViperRepository implements ViperRepositorySource {
                [operation]: {
                   followers: { _id: new ObjectId(currentViperId) },
                },
+               $inc: { followersCount: incCount },
             },
             {
                projection: {
@@ -400,6 +404,7 @@ export class ViperRepository implements ViperRepositorySource {
 
    async toggleFollowing(
       operation: '$push' | '$pull',
+      incCount: 1 | -1,
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
@@ -412,6 +417,7 @@ export class ViperRepository implements ViperRepositorySource {
                [operation]: {
                   followings: { _id: new ObjectId(viperId) },
                },
+               $inc: { followingsCount: incCount },
             },
             {
                projection: {

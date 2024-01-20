@@ -50,11 +50,13 @@ interface ViperFollowRepository {
    isFollowing(viperId: string, currentViperId: string): Promise<boolean>
    toggleFollower(
       operation: '$push' | '$pull',
+      incCount: 1 | -1,
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>>
    toggleFollowing(
       operation: '$push' | '$pull',
+      incCount: 1 | -1,
       viperId: string,
       currentViperId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>>

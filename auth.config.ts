@@ -168,8 +168,8 @@ export default {
             session.user.verified = user.verified
             session.user.role = user.role
             session.user.bio = user.bio
-            session.user.followers = user.followers.length
-            session.user.followings = user.followings.length
+            session.user.followers = user.followersCount
+            session.user.followings = user.followingsCount
          }
 
          return session

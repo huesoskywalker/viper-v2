@@ -10,8 +10,8 @@ export const VIPER_BASIC_PROPS = {
    name: 1,
    image: 1,
    backgroundImage: 1,
-   followers: 1,
-   followings: 1,
+   followersCount: 1,
+   followingsCount: 1,
    createdAt: 1,
 }
 

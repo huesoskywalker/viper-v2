@@ -22,9 +22,10 @@ export type Viper = {
    backgroundImage: Image
    shopify: Shopify
    events: MyEvents
-   // TODO: add followersCount and followingsCount for the viperBasic
    followers: Follow[]
-   followings: Follow[]
+   followersCount: number
+   following: Follow[]
+   followingsCount: number
    contentDiscovery: boolean
    createdAt: Date
 }
@@ -164,8 +165,8 @@ export type ViperBasic = Pick<
    | 'location'
    | 'image'
    | 'backgroundImage'
-   | 'followers'
-   | 'followings'
+   | 'followersCount'
+   | 'followingsCount'
    | 'createdAt'
 >
 

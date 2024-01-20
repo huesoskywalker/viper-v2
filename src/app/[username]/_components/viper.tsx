@@ -10,6 +10,7 @@ import ViperVerified from './viper-verified'
 import ViperUsername from './viper-username'
 import AtSymbol from '@/app/_components/viper/at-symbol'
 import ViperBio from './viper-bio'
+import ViperFollowCount from './viper-follow-count'
 
 export const Viper = async ({ username }: { username: string }) => {
    const viper: ViperBasic | null = await viperService.getByUsername(username)
@@ -36,12 +37,16 @@ export const Viper = async ({ username }: { username: string }) => {
                   <AtSymbol className="text-sm" />
                </ViperUsername>
             </div>
-            <div className={`mt-3`}>
+            <div className={'mt-3'}>
                <ViperBio bio={viper.bio} />
             </div>
             <div className="mt-3 flex flex-row gap-3">
                {viper.website && <ViperWebsite website={viper.website} />}
                <ViperJoinDate createdAt={viper.createdAt} />
+            </div>
+            <div className="mt-3 flex flex-row gap-5">
+               <ViperFollowCount followCount={viper.followingsCount} label="Followings" />
+               <ViperFollowCount followCount={viper.followersCount} label="Followers" />
             </div>
          </div>
       </div>

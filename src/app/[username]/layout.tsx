@@ -7,9 +7,11 @@ import GlobalLayout from '../_components/layout/GlobalLayout'
 
 export default async function Layout({
    children,
+   searchViper,
    params,
 }: {
    children: ReactNode
+   searchViper: ReactNode
    params: { username: string }
 }) {
    // TODO:
@@ -29,9 +31,7 @@ export default async function Layout({
                </div>
                <div className="mt-3">{children}</div>
             </div>
-            <div className="hidden w-1/3 lg:flex">
-               <span className="text-foreground">Helloooooooooooooooooooooooooo</span>
-            </div>
+            <div className="hidden w-1/3 lg:flex">{searchViper}</div>
          </div>
       </GlobalLayout>
    )
