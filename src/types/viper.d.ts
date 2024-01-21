@@ -170,6 +170,8 @@ export type ViperBasic = Pick<
    | 'createdAt'
 >
 
+export type ViperSimple = Pick<Viper, '_id' | 'name' | 'username' | 'image' | 'verified'>
+
 // most probably we should do something like this -> (_id needed?)
 // Like this will be more clean, pick what we would like to update and then make them optional
 export type UpdateViper = Partial<UpdateViperType>

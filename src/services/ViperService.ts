@@ -9,6 +9,7 @@ import {
    UpdateViper,
    Viper,
    ViperBasic,
+   ViperSimple,
    _ID,
 } from '@/types/viper'
 import { MongoError, ObjectId, WithId } from 'mongodb'
@@ -185,9 +186,10 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async searchByUsername(username: string): Promise<WithId<ViperBasic>[]> {
+   async searchByUsernameOrName(username: string): Promise<WithId<ViperSimple>[]> {
       try {
-         const vipers: WithId<ViperBasic>[] = await this.viperRepository.searchByUsername(username)
+         const vipers: WithId<ViperSimple>[] =
+            await this.viperRepository.searchByUsernameOrName(username)
 
          return vipers
       } catch (error: unknown) {

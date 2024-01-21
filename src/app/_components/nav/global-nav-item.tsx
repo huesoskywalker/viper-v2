@@ -30,6 +30,7 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
                   hidden: item?.hideOnMobile,
                },
             )}
+            scroll={false}
             {...props}
          >
             <div className="flex w-full flex-row items-center justify-start gap-3">

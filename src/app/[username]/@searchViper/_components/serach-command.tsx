@@ -1,7 +1,4 @@
 'use client'
-
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
-
 import {
    Command,
    CommandEmpty,
@@ -10,40 +7,42 @@ import {
    CommandItem,
    CommandList,
    CommandSeparator,
-   CommandShortcut,
 } from '@/components/ui/command'
 
 import Link from 'next/link'
-import FormInput from '@/app/_components/form/form-input'
 import useFocusBlurState from '@/app/_hooks/use-focus-blur-states'
-import { FocusEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import ViperName from '../../_components/viper-name'
+import ViperUsername from '../../_components/viper-username'
+import AtSymbol from '@/app/_components/viper/at-symbol'
+import ViperVerified from '../../_components/viper-verified'
+import useOnValueChange from '../_hooks/use-on-value-change'
 
 export function SearchCommand() {
    const [open, setOpen] = useState(false)
+
+   const { newValue, vipers, handleValueChange } = useOnValueChange()
+
+   const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState(newValue)
 
    const commandRef = useRef<HTMLDivElement | null>(null)
 
    useEffect(() => {
       const mouseDown = (e: MouseEvent) => {
-         if (open) {
-            if (!commandRef.current?.contains(e.target as Node)) {
-               setOpen(false)
-            }
+         if (open && !commandRef.current?.contains(e.target as Node)) {
+            setOpen(false)
          }
       }
+
       document.addEventListener('mousedown', mouseDown)
+
       return () => {
          document.removeEventListener('mousedown', mouseDown)
       }
    }, [open])
 
-   const [value, setValue] = useState<string>()
-   const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState(value)
-
-   const handleValueChange = (e: string) => {
-      setValue(e)
-   }
    const handleFocus = () => {
       handleOnFocus()
       setOpen(true)
@@ -66,45 +65,45 @@ export function SearchCommand() {
          </div>
          {open && (
             <CommandList className="z-50 mx-1 rounded-lg shadow-rounded">
-               <CommandEmpty>No results found.</CommandEmpty>
-               <CommandGroup
-                  heading="Try searching for people"
-                  className="flex items-center justify-center"
-               />
-               <CommandGroup heading="Suggestions">
-                  <CommandItem>
-                     <Calendar className="mr-2 h-4 w-4" />
-                     <span>Calendar</span>
-                  </CommandItem>
-                  <CommandItem>
-                     <Smile className="mr-2 h-4 w-4" />
-                     <span>Search Emoji</span>
-                  </CommandItem>
-                  <CommandItem>
-                     <Link href={'/home'}>
-                        <Calculator className="mr-2 h-4 w-4" />
-                        <span>Calculator</span>
-                     </Link>
-                  </CommandItem>
-               </CommandGroup>
+               {!vipers.length && <CommandEmpty>No results found.</CommandEmpty>}
+               {!newValue ? (
+                  <CommandGroup
+                     heading="Try searching for people"
+                     className="flex items-center justify-center py-3"
+                  />
+               ) : (
+                  <CommandGroup className="p-0">
+                     {vipers.map((viper) => (
+                        <CommandItem value={viper.username && viper.name} className="px-3 py-2.5 ">
+                           <Link
+                              href={`/${viper.username}`}
+                              className="flex flex-row"
+                              scroll={false}
+                           >
+                              <Avatar>
+                                 <AvatarImage
+                                    src={viper.image}
+                                    alt="Viper profile"
+                                    loading="lazy"
+                                    width={40}
+                                    height={40}
+                                 />
+                                 <AvatarFallback>Profile</AvatarFallback>
+                              </Avatar>
+                              <div className="flex flex-col pl-2">
+                                 <ViperName name={viper.name} className="text-[17px] font-bold">
+                                    <ViperVerified isVerified={viper.verified} />
+                                 </ViperName>
+                                 <ViperUsername username={viper.username}>
+                                    <AtSymbol />
+                                 </ViperUsername>
+                              </div>
+                           </Link>
+                        </CommandItem>
+                     ))}
+                  </CommandGroup>
+               )}
                <CommandSeparator />
-               <CommandGroup heading="Settings">
-                  <CommandItem>
-                     <User className="mr-2 h-4 w-4" />
-                     <span>Profile</span>
-                     <CommandShortcut>⌘P</CommandShortcut>
-                  </CommandItem>
-                  <CommandItem>
-                     <CreditCard className="mr-2 h-4 w-4" />
-                     <span>Billing</span>
-                     <CommandShortcut>⌘B</CommandShortcut>
-                  </CommandItem>
-                  <CommandItem>
-                     <Settings className="mr-2 h-4 w-4" />
-                     <span>Settings</span>
-                     <CommandShortcut>⌘S</CommandShortcut>
-                  </CommandItem>
-               </CommandGroup>
             </CommandList>
          )}
       </Command>

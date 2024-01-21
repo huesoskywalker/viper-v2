@@ -1,3 +1,5 @@
+import { ViperSimple } from '../viper'
+
 interface ViperCRUDService {
    initSearchIndexes(): Promise<void>
    login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null>
@@ -20,7 +22,7 @@ interface ViperCRUDService {
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    getByUsername(username: string): Promise<WithId<ViperBasic>>
    matchEmailAndUsername(email: string, username: string): Promise<{ username: string } | null>
-   searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
+   searchByUsernameOrName(username: string): Promise<WithId<ViperSimple>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 

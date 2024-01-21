@@ -11,7 +11,8 @@ import {
    _ID,
 } from '@/types/viper'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
-import { VIPER_BASIC_PROPS, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
+import { VIPER_BASIC_PROPS, VIPER_SIMPLE, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
+import { logError } from '@/config/winstonLogger'
 
 export class ViperRepository implements ViperRepositorySource {
    private viperCollection: Collection<Viper>
@@ -22,18 +23,35 @@ export class ViperRepository implements ViperRepositorySource {
 
    async initSearchIndexes(): Promise<void> {
       try {
+         const existingIndexes = await this.viperCollection.indexes()
+
+         const createdIndexNames = existingIndexes.map((index) => index.name)
+         const indexNames = ['_id_', 'getUsername', 'getEmail', 'search']
+
+         const allIndexCreated = indexNames.every((indexName) =>
+            createdIndexNames.includes(indexName),
+         )
+
+         if (allIndexCreated) {
+            return
+         }
+
          const usernameIndex = this.viperCollection.createIndex(
             { username: 1 },
-            { name: 'searchUsername', collation: { locale: 'en', strength: 2 }, unique: true },
+            { name: 'getUsername', collation: { locale: 'en', strength: 2 }, unique: true },
          )
-
          const emailIndex = this.viperCollection.createIndex(
             { email: 1 },
-            { name: 'searchEmail', collation: { locale: 'en', strength: 2 }, unique: true },
+            { name: 'getEmail', collation: { locale: 'en', strength: 2 }, unique: true },
+         )
+         const searchIndex = this.viperCollection.createIndex(
+            { username: 'text', name: 'text' },
+            { name: 'search' },
          )
 
-         await Promise.all([usernameIndex, emailIndex])
+         await Promise.all([usernameIndex, emailIndex, searchIndex])
       } catch (error) {
+         logError({ s: 'something' }, error)
          throw error
       }
    }
@@ -273,20 +291,53 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async searchByUsername(username: string): Promise<WithId<ViperBasic>[]> {
+   // TODO: change to aggregate when we use mongo Atlas, so we can perform fuzzy find and recommendations
+   //  https://www.youtube.com/watch?v=Z05rVI5mhzE
+   async searchByUsernameOrName(username: string): Promise<WithId<ViperBasic>[]> {
       try {
-         const vipers: Viper[] = await this.viperCollection
+         const vipers = await this.viperCollection
             .find<Viper>(
                {
-                  username: username,
+                  $text: {
+                     $search: username,
+                  },
                },
                {
-                  projection: VIPER_BASIC_PROPS,
+                  projection: {
+                     score: { $meta: 'textScore' },
+                     ...VIPER_SIMPLE,
+                  },
                },
             )
-            .collation({ locale: 'en', strength: 2 })
+            .sort({ score: { $meta: 'textScore' } })
             .limit(20)
             .toArray()
+
+         // This is only available on MongoAtlas, fuzzy search
+         // .aggregate([
+         //    {
+         //       $search: {
+         //          index: 'search',
+         //          // compound: {
+         //          // must: [
+         //          //    {
+         //          //       text: {
+         //          //          query: username,
+         //          //          path: ['username', 'email'],
+         //          //          fuzzy: {},
+         //          //       },
+         //          //    },
+         //          // ],
+         //          // },
+         //          text: {
+         //             query: username,
+         //             path: ['username', 'email'],
+         //             fuzzy: {},
+         //          },
+         //       },
+         //    },
+         // ])
+         // .toArray()
 
          return vipers as WithId<ViperBasic>[]
       } catch (error: unknown) {

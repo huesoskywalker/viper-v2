@@ -14,7 +14,6 @@ const ViperMobileCard = () => {
    if (!session) {
       redirect('/i/flow/login')
    }
-   // TODO: viper mobile card? viper card sounds more reusable
 
    return (
       <Card className="border-none bg-background">
@@ -42,7 +41,7 @@ const ViperMobileCard = () => {
             <div className="grid-2 grid w-full grid-flow-col items-start justify-items-start">
                <ViperFollowCount
                   followCount={session.user.followings}
-                  label="Following"
+                  label="Followings"
                   className="text-xs"
                />
                <ViperFollowCount

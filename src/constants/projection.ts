@@ -1,3 +1,5 @@
+import { Verified } from 'lucide-react'
+
 export const VIPER_BASIC_PROPS = {
    _id: 1,
    location: 1,
@@ -13,6 +15,14 @@ export const VIPER_BASIC_PROPS = {
    followersCount: 1,
    followingsCount: 1,
    createdAt: 1,
+}
+
+export const VIPER_SIMPLE = {
+   _id: 1,
+   username: 1,
+   verified: 1,
+   name: 1,
+   image: 1,
 }
 
 export const VIPER_WITHOUT_PASSWORD = {

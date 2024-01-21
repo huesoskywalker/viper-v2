@@ -8,6 +8,7 @@ import {
    UpdateViper,
    Viper,
    ViperBasic,
+   ViperSimple,
    _ID,
 } from '../viper'
 
@@ -37,7 +38,7 @@ interface ViperCRUDRepository {
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    getByUsername(username: string): Promise<WithId<ViperBasic>>
    getByEmail(email: string): Promise<WithId<ViperBasic> | null>
-   searchByUsername(username: string): Promise<WithId<ViperBasic>[]>
+   searchByUsernameOrName(username: string): Promise<WithId<ViperSimple>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 
