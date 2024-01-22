@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
-import GlobalLayout from '../_components/layout/GlobalLayout'
 
 export const metadata: Metadata = {
    title: 'Viper',
@@ -9,9 +8,5 @@ export const metadata: Metadata = {
 
 // check what can we do with this layout
 export default function RootLayout({ children }: PropsWithChildren) {
-   return (
-      <>
-         <GlobalLayout>{children}</GlobalLayout>
-      </>
-   )
+   return <div className="min-h-screen bg-background">{children}</div>
 }

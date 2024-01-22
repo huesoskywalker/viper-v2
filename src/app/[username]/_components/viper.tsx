@@ -18,7 +18,7 @@ export const Viper = async ({ username }: { username: string }) => {
    // TODO:
    //    preloadViperFollowed(viperId)
    return (
-      <div className="min-h-screen px-1">
+      <div className="min-h-fit">
          <ViperBackgroundImage backgroundImage={viper.backgroundImage} />
          <div
             className={`-mt-12 justify-between px-4 sm:flex sm:items-end sm:space-x-5 lg:px-6 xl:-mt-14`}
@@ -26,7 +26,7 @@ export const Viper = async ({ username }: { username: string }) => {
             <ViperImage username={username} image={viper.image} />
             <ViperSwitchButton username={username} viperId={String(viper._id)} />
          </div>
-         <div className="px-3">
+         <div className="pl-5">
             <div className={'mt-2 flex flex-col items-start justify-center pb-1'}>
                <div className="flex min-w-0 flex-1 items-center space-x-2">
                   <ViperName name={viper.name}>

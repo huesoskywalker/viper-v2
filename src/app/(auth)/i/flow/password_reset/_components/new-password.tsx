@@ -43,7 +43,7 @@ const NewPassword: React.FC<FormControlStep<PasswordResetFormValues>> = ({ formC
                      id={field.name}
                      type={'password'}
                      variant={'plain'}
-                     label="Password"
+                     label="Confirm password"
                      {...field}
                   />
                </FormItem>

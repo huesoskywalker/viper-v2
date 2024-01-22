@@ -20,7 +20,7 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
       <>
          <Link
             data-test="nav-item"
-            href={itemSlug}
+            href={`/${itemSlug}`}
             aria-label={item.description}
             className={cn(
                'transition-all w-fit items-center justify-center rounded-full duration-100 ease-in hover:bg-accent sm:flex sm:p-3.5',

@@ -17,12 +17,12 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
                   loading="lazy"
                   blurDataURL={backgroundImage}
                   quality={100}
-                  className="-z-10 h-full w-full object-cover object-center sm:rounded-xl"
+                  className="-z-10 h-full w-full object-cover object-center"
                />
             </AspectRatio>
          ) : (
-            <AspectRatio ratio={16 / 6}>
-               <div className="-z-10 h-full w-full bg-vp-border-gradient object-cover object-center sm:rounded-xl"></div>
+            <AspectRatio ratio={3 / 1}>
+               <div className="-z-10 h-full w-full bg-vp-border-gradient object-cover object-center"></div>
             </AspectRatio>
          )}
       </>
