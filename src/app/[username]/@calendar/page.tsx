@@ -1,7 +1,12 @@
 import React from 'react'
+import ProfileCalendar from './_components/profile-calendar'
 
 const CalendarPage = () => {
-   return <div className="text-3xl text-yellow-500">Calendar Page</div>
+   return (
+      <div className="flex items-center justify-center">
+         <ProfileCalendar />
+      </div>
+   )
 }
 
 export default CalendarPage
