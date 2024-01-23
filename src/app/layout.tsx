@@ -4,8 +4,9 @@ import '@uploadthing/react/styles.css'
 import AuthProvider from './_providers/auth-provider'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import type { PropsWithChildren } from 'react'
+import { Suspense, type PropsWithChildren } from 'react'
 import { ThemeProvider } from './_providers/theme-provider'
+import ViperLoading from './_components/loading/loading-viper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,12 +18,14 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
    return (
       <html suppressHydrationWarning>
-         <body className={`${inter.className} overflow-y-scroll bg-accent `}>
-            <ThemeProvider>
-               <main>
-                  <AuthProvider>{children}</AuthProvider>
-               </main>
-            </ThemeProvider>
+         <body className={`${inter.className} overflow-y-scroll bg-background `}>
+            <Suspense fallback={<ViperLoading />}>
+               <ThemeProvider>
+                  <main>
+                     <AuthProvider>{children}</AuthProvider>
+                  </main>
+               </ThemeProvider>
+            </Suspense>
          </body>
       </html>
    )

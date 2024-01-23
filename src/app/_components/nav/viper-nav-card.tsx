@@ -28,7 +28,7 @@ const ViperNavCard = () => {
             </Avatar>
             <div className="flex flex-col items-start justify-start text-sm">
                <ViperName name={session.user.name} className="hidden text-base xl:block">
-                  <ViperVerified isVerified={session.user.verified} />
+                  <ViperVerified isVerified={session.user.verified} className="hidden xl:block" />
                </ViperName>
                <ViperUsername
                   username={session.user.username}

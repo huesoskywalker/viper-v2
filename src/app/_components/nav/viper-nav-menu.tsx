@@ -28,7 +28,7 @@ const ViperNavMenu = () => {
                <DropdownMenuItem className="py-2 pl-3">
                   <Link href="/i/flow/logout" className={'text-sm font-semibold text-foreground'}>
                      Log out
-                     <AtSymbol className="pl-1" />
+                     <AtSymbol className="pl-1 text-foreground" />
                      {session?.user.username}
                   </Link>
                </DropdownMenuItem>

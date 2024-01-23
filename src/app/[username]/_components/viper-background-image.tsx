@@ -6,7 +6,7 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
    return (
       <>
          {backgroundImage ? (
-            <AspectRatio ratio={16 / 6}>
+            <AspectRatio ratio={3 / 1}>
                <Image
                   data-test="background-image"
                   alt={'Viper background image'}
