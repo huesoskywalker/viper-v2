@@ -18,14 +18,17 @@ const ProfileNavTabs = ({
 
    return (
       <Tabs defaultValue={`${value}`} className="relative mt-7 w-full">
-         <TabsList className="flex items-center justify-evenly border-b border-gray-700 ">
-            <Link href={`/${username}`}>
+         <TabsList
+            className="flex items-center justify-evenly border-b border-gray-700 "
+            autoFocus={false}
+         >
+            <Link href={`/${username}`} scroll={false}>
                <TabsTrigger value="calendar">Calendar</TabsTrigger>
             </Link>
-            <Link href={`/${username}/listings`}>
+            <Link href={`/${username}/listings`} scroll={false}>
                <TabsTrigger value="listings">Listings</TabsTrigger>
             </Link>
-            <Link href={`/${username}/dashboard`}>
+            <Link href={`/${username}/dashboard`} scroll={false}>
                <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             </Link>
          </TabsList>

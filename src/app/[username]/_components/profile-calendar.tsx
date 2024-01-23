@@ -10,7 +10,7 @@ const ProfileCalendar = () => {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-lg bg-overlay/20 "
+            className="rounded-lg bg-overlay/20"
          />
       </>
    )
