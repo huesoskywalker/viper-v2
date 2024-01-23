@@ -1,7 +1,6 @@
-import React from 'react'
 import { SearchCommand } from './_components/serach-command'
 
-const SearchViper = () => {
+const Default = () => {
    return (
       <>
          <SearchCommand />
@@ -9,4 +8,4 @@ const SearchViper = () => {
    )
 }
 
-export default SearchViper
+export default Default

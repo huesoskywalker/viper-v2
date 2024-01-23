@@ -1,5 +1,3 @@
-import { Verified } from 'lucide-react'
-
 export const VIPER_BASIC_PROPS = {
    _id: 1,
    location: 1,

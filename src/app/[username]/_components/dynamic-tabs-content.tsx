@@ -1,14 +1,22 @@
 'use client'
-import { PropsWithChildren } from 'react'
-
+import { ReactNode } from 'react'
 import { TabsContent } from '@/components/ui/tabs'
-import { usePathname } from 'next/navigation'
-const DynamicTabsContent = ({ children }: PropsWithChildren) => {
-   const pathname = usePathname()
-   const path = pathname.split('/').at(-1)
+import { useSelectedLayoutSegment } from 'next/navigation'
+
+const DynamicTabsContent = ({
+   defaultValue,
+   children,
+}: {
+   children: ReactNode
+   defaultValue: string
+}) => {
+   const segment = useSelectedLayoutSegment('children')
+
+   const value = segment ? segment : defaultValue
+
    return (
       <>
-         <TabsContent value={`${path}`}>{children}</TabsContent>
+         <TabsContent value={`${value}`}>{children}</TabsContent>
       </>
    )
 }
