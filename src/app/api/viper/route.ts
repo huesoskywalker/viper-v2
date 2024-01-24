@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest) {
    const formSchema = determineUpdateProfileSchema(formData)
 
    try {
-      const data = await viperService.update({ field: '_id', value: session.user.id }, formSchema)
+      const data = await viperService.update({ field: '_id', value: session.user._id }, formSchema)
 
       if (!data)
          return NextResponse.json({
@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
       if (error instanceof MongoError) {
-         logMongoError({ action: `Update User`, viperId: session.user.id }, error)
+         logMongoError({ action: `Update User`, viperId: session.user._id }, error)
          return NextResponse.json(
             {
                error: `Internal server error: Unable to update the user. Please try again later.`,
@@ -38,7 +38,7 @@ export async function PATCH(request: NextRequest) {
             { status: 500 },
          )
       } else {
-         logError({ action: `Update User`, viperId: session.user.id }, error)
+         logError({ action: `Update User`, viperId: session.user._id }, error)
          return NextResponse.json(
             { error: `Failed to update the user. Please try again later.` },
             { status: 400 },

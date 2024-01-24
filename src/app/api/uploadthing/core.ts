@@ -10,13 +10,11 @@ export const ourFileRouter = {
       // this is to z.validate a schema and pass it to the middleware
       // )
       .middleware(async ({ req }) => {
-         //  I'd like to add the middleware
-         //   const user = await authMiddleware(req)
          const session = await auth()
          if (!session) throw new Error('Unauthorized')
 
          // Whatever is returned here is accessible in onUploadComplete as `metadata`
-         return { userId: session.user.id }
+         return { userId: session.user._id }
       })
       .onUploadError(async ({ error, fileKey }) => {
          winstonLogger.error('Profile image upload', {

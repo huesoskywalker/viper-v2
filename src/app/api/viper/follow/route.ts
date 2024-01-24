@@ -11,7 +11,7 @@ export async function PATCH(request: NextRequest) {
    const { isFollowing, viperId } = await request.json()
 
    try {
-      await viperService.toggleFollow(isFollowing, viperId, session.user.id)
+      await viperService.toggleFollow(isFollowing, viperId, session.user._id)
 
       return NextResponse.json({ status: 204 })
    } catch (error: unknown) {
@@ -20,7 +20,7 @@ export async function PATCH(request: NextRequest) {
             {
                action: `${isFollowing === true ? 'dislike' : 'like'} follow`,
                viperId: viperId,
-               currentViperId: session.user.id,
+               currentViperId: session.user._id,
             },
             error,
          )
@@ -34,7 +34,7 @@ export async function PATCH(request: NextRequest) {
             {
                action: `${isFollowing === true ? 'dislike' : 'like'} follower/following`,
                viperId: viperId,
-               currentViperId: session.user.id,
+               currentViperId: session.user._id,
             },
             error,
          )
