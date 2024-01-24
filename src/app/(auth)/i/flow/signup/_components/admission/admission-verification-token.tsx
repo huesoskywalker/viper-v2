@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import ResendTokenButton from './resend-token-button'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 import { PasswordResetFormValues } from '../../../password_reset/_hooks/use-password-reset-form'
-import { Control, Path } from 'react-hook-form'
+import { Control, useFormContext } from 'react-hook-form'
 
 const isAdmissionFormControl = <T extends AdmissionFormValues | PasswordResetFormValues>(
    formControl: Control<T>,
@@ -13,15 +13,17 @@ const isAdmissionFormControl = <T extends AdmissionFormValues | PasswordResetFor
    return 'name' in formControl._fields
 }
 
-const AdmissionVerificationToken = <T extends AdmissionFormValues | PasswordResetFormValues>({
-   formControl,
+type FormContextValues = AdmissionFormValues | PasswordResetFormValues
+
+const AdmissionVerificationToken = ({
    children,
    label,
 }: {
-   formControl: Control<T>
    children: ReactNode
    label: string
 }) => {
+   const { control } = useFormContext<FormContextValues>()
+
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
@@ -29,8 +31,8 @@ const AdmissionVerificationToken = <T extends AdmissionFormValues | PasswordRese
          </DialogDescription>
          {children}
          <FormField
-            control={formControl}
-            name={'token' as Path<T>}
+            control={control}
+            name={'token'}
             render={({ field }) => (
                <FormItem>
                   <FormInput
@@ -39,13 +41,12 @@ const AdmissionVerificationToken = <T extends AdmissionFormValues | PasswordRese
                      variant={'plain'}
                      label={label}
                      {...field}
-                     value={field.value as string}
                   />
                </FormItem>
             )}
          />
          <FormMessage className="text-viper-dodger-blue">
-            {isAdmissionFormControl(formControl) ? <ResendTokenButton /> : null}
+            {isAdmissionFormControl(control) ? <ResendTokenButton /> : null}
          </FormMessage>
       </>
    )

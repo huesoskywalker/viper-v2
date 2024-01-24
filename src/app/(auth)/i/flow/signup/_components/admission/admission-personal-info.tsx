@@ -1,48 +1,17 @@
-import { FormDescription, FormField, FormItem } from '@/components/ui/form'
-import FormInput from '@/app/_components/form/form-input'
-import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
-import { FormControlStep } from '@/types/forms/steps'
-import BirthDateSelector from '@/app/_components/form/birth-date-selector'
+import { FormDescription } from '@/components/ui/form'
 import { DialogDescription } from '@radix-ui/react-dialog'
+import NameFormField from '@/app/_components/form/name-form-field'
+import EmailFormField from '@/app/_components/form/email-form-field'
+import BirthDateFormField from '@/app/_components/form/birth-date-form-field'
 
-const AdmissionPersonalInfo: React.FC<FormControlStep<AdmissionFormValues>> = ({
-   formControl,
-}) => {
+const AdmissionPersonalInfo = () => {
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             Create your account
          </DialogDescription>
-         <FormField
-            control={formControl}
-            name="name"
-            render={({ field }) => (
-               <FormItem>
-                  <FormInput
-                     id={field.name}
-                     type="text"
-                     variant={'plain'}
-                     label="Name"
-                     {...field}
-                  />
-               </FormItem>
-            )}
-         />
-         <FormField
-            control={formControl}
-            name="email"
-            render={({ field }) => (
-               <FormItem>
-                  <FormInput
-                     id={field.name}
-                     type="email"
-                     variant={'plain'}
-                     label="Email"
-                     {...field}
-                  />
-               </FormItem>
-            )}
-         />
+         <NameFormField />
+         <EmailFormField />
          <div className="space-y-4">
             <FormDescription className="flex flex-col items-start justify-center gap-1">
                <span className="text-md font-semibold text-primary">Date of birth</span>
@@ -51,7 +20,7 @@ const AdmissionPersonalInfo: React.FC<FormControlStep<AdmissionFormValues>> = ({
                   business, a beloved pet, or any other venture.
                </span>
             </FormDescription>
-            <BirthDateSelector formControl={formControl} />
+            <BirthDateFormField />
          </div>
       </>
    )

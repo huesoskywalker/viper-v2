@@ -4,16 +4,13 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
-import { Control, FieldPath } from 'react-hook-form'
+import { Control, FieldPath, useFormContext } from 'react-hook-form'
 import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 
-const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderProfileFormValues>({
-   formControl,
-}: {
-   formControl: Control<T>
-}) => {
-   const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
+type FormContextValues = AdmissionFormValues | ProviderProfileFormValues
 
+const AdmissionContentDiscovery = () => {
+   const { control } = useFormContext<FormContextValues>()
    return (
       <div className="flex flex-col space-y-6">
          <DialogDescription className="mt-3 text-2xl font-semibold text-primary sm:text-3xl">
@@ -21,8 +18,8 @@ const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderProfi
          </DialogDescription>
          <div className="space-y-2">
             <FormField
-               control={formControl}
-               name={'contentDiscovery' as FieldPath<T>}
+               control={control}
+               name={'contentDiscovery'}
                render={({ field }) => (
                   <FormItem className="space-y-2">
                      <FormLabel
@@ -53,7 +50,11 @@ const AdmissionContentDiscovery = <T extends AdmissionFormValues | ProviderProfi
             <TermsAndConditions className="text-[17px] leading-4">
                Viper may use your contact information, including your email address and phone
                number for purposes outlined in our Privacy Policy.{' '}
-               <Link href="/privacy" target="_blank" className={linkClass}>
+               <Link
+                  href="/privacy"
+                  target="_blank"
+                  className={'text-viper-dodger-blue hover:underline hover:underline-offset-4 '}
+               >
                   Learn more
                </Link>
                .

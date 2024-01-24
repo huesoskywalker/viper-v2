@@ -1,7 +1,17 @@
 import { useFormContext } from 'react-hook-form'
+import { AdmissionFormValues } from './use-admission-form'
+import { EditViperFormValues } from '@/app/[username]/profile/_hooks/use-edit-viper-form'
 
-export const useBirthDate = () => {
-   const { getValues } = useFormContext()
+type FormContextValues = AdmissionFormValues | EditViperFormValues
+
+type BirthDateFormat = {
+   monthFormat: Intl.DateTimeFormatOptions['month']
+   dayFormat: Intl.DateTimeFormatOptions['day']
+   yearFormat: Intl.DateTimeFormatOptions['year']
+}
+
+export const useBirthDate = ({ monthFormat, dayFormat, yearFormat }: BirthDateFormat) => {
+   const { getValues } = useFormContext<FormContextValues>()
 
    const month = getValues('birthDate.month')
    const day = getValues('birthDate.day')
@@ -10,9 +20,9 @@ export const useBirthDate = () => {
    const date = new Date(`${year}-${month}-${day}T00:00:00`)
 
    const dateOfBirth = date.toLocaleDateString(undefined, {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric',
+      month: monthFormat,
+      day: dayFormat,
+      year: yearFormat,
    })
 
    return { dateOfBirth }

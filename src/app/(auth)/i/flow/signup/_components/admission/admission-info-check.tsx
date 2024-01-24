@@ -1,19 +1,22 @@
-import { FormDescription, FormField, FormItem } from '@/components/ui/form'
+import { FormDescription } from '@/components/ui/form'
 import React from 'react'
-import { useCreateAccountStore } from '../../_stores/create-account-store'
-import { useBirthDate } from '../../_hooks/admission/use-birth-date'
-import FormInput from '@/app/_components/form/form-input'
-import { FormControlStep } from '@/types/forms/steps'
-import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { FocusElement, useCreateAccountStore } from '../../_stores/create-account-store'
+import NameFormField from '@/app/_components/form/name-form-field'
+import EmailFormField from '@/app/_components/form/email-form-field'
+import FormattedBirthDateFormField from '@/app/_components/form/formatted-birthdate-form-field'
 
-const AdmissionInfoCheck: React.FC<FormControlStep<AdmissionFormValues>> = ({ formControl }) => {
+const AdmissionInfoCheck = () => {
    const { redirectStep, setFocusElem } = useCreateAccountStore()
 
-   const { dateOfBirth } = useBirthDate()
-
-   const handlePrevState = (event: any) => {
+   const handlePrevState = (e: React.FocusEvent<HTMLDivElement, Element>) => {
       redirectStep(1)
-      setFocusElem(event.target.id)
+
+      const validFocusElem: FocusElement[] = ['email', 'name', 'birthDate.month']
+
+      const matchedFocusElem = validFocusElem.find((elem) => e.target.id.includes(elem))
+      if (matchedFocusElem) {
+         setFocusElem(matchedFocusElem)
+      }
    }
 
    return (
@@ -21,55 +24,9 @@ const AdmissionInfoCheck: React.FC<FormControlStep<AdmissionFormValues>> = ({ fo
          <FormDescription className="mt-3 text-2xl font-bold text-primary sm:text-3xl">
             Create your account
          </FormDescription>
-         <FormField
-            control={formControl}
-            name="name"
-            render={({ field }) => (
-               <FormItem className="relative" onFocus={handlePrevState}>
-                  <FormInput
-                     id={field.name}
-                     type="text"
-                     variant={'plain'}
-                     label="Name"
-                     {...field}
-                     checkbox={true}
-                  />
-               </FormItem>
-            )}
-         />
-         <FormField
-            control={formControl}
-            name="email"
-            render={({ field }) => (
-               <FormItem className="relative" onFocus={handlePrevState}>
-                  <FormInput
-                     id={field.name}
-                     type="text"
-                     variant={'plain'}
-                     label="Email"
-                     {...field}
-                     checkbox={true}
-                  />
-               </FormItem>
-            )}
-         />{' '}
-         <FormField
-            control={formControl}
-            name="birthDate"
-            render={({ field }) => (
-               <FormItem className="relative" onFocus={handlePrevState}>
-                  <FormInput
-                     {...field}
-                     id={'birthDate.month'}
-                     type="text"
-                     variant={'plain'}
-                     label="Date of birth"
-                     value={dateOfBirth}
-                     checkbox={true}
-                  />
-               </FormItem>
-            )}
-         />
+         <NameFormField checkbox={true} itemOnFocus={handlePrevState} />
+         <EmailFormField checkbox={true} itemOnFocus={handlePrevState} />
+         <FormattedBirthDateFormField checkbox={true} itemOnFocus={handlePrevState} />
       </>
    )
 }

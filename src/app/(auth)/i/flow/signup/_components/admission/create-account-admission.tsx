@@ -18,23 +18,21 @@ const CreateAccountAdmission = () => {
 
    const { admissionForm } = useAdmissionForm()
 
-   const { control, setFocus, getFieldState, getValues } = admissionForm
+   const { setFocus, getFieldState, getValues } = admissionForm
 
    const { focusElem } = useCreateAccountStore()
 
-   const { renderStep } = useAdmissionSteps(step, control)
+   const { renderStep } = useAdmissionSteps(step, getValues('email'))
 
    const { renderButton } = useAdmissionButtons(step, getFieldState)
 
    const { isVerificationTokenValid } = admissionFieldValidity(getFieldState)
 
-   const validFocusElem: FocusElement[] = useMemo(() => ['email', 'name', 'birthDate.month'], [])
-
    useLayoutEffect(() => {
-      if (focusElem && validFocusElem.includes(focusElem)) {
+      if (focusElem) {
          void setFocus(focusElem)
       }
-   }, [focusElem, validFocusElem])
+   }, [focusElem])
 
    const { onSubmit } = useSubmitAdmissionAcc()
 
