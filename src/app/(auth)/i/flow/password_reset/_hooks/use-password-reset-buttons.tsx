@@ -6,7 +6,7 @@ import { emailRegex } from '../../_utils/regex'
 import FindAccountButton from '../_components/password-match-account-button'
 import CancelPasswordResetButton from '../_components/cancel-password-reset-button'
 import RequestVerificationTokenButton from '../../signup/_components/admission/request-verification-token-button'
-import CreateAccountSubmitButton from '../../_components/create-account-submit-button'
+import ValidFormSubmitButton from '@/app/_components/form/valid-form-submit-button'
 
 const usePasswordResetButtons = (
    step: number,
@@ -60,7 +60,13 @@ const usePasswordResetButtons = (
          case 6:
             return <NextStepButton variant={'default'} size={'lg'} disabled={disableButton} />
          case 7:
-            return <CreateAccountSubmitButton label={'Continue to Viper'} />
+            return (
+               <ValidFormSubmitButton
+                  label={'Continue to Viper'}
+                  variant={'default'}
+                  size={'lg'}
+               />
+            )
          default:
             return null
       }

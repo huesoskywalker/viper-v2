@@ -1,6 +1,5 @@
 'use client'
 import { useCreateProfileForm } from '../../_hooks/profile/use-create-profile-form'
-import { Button } from '@/components/ui/button'
 import { useCreateProfileSteps } from '../../_hooks/profile/use-create-profile-steps'
 import { useCreateProfileButtons } from '../../_hooks/profile/use-create-profile-buttons'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
@@ -8,6 +7,7 @@ import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
+import SubmitButton from '@/app/_components/form/submit-button'
 
 const CreateAccountProfile = ({
    children,
@@ -38,14 +38,12 @@ const CreateAccountProfile = ({
                {step < 5 ? (
                   renderButton
                ) : (
-                  <Button
-                     type="submit"
+                  <SubmitButton
+                     label="Next"
                      variant={'default'}
                      size={'lg'}
                      disabled={viperFollowings === 0 || isSubmitting}
-                  >
-                     Next
-                  </Button>
+                  />
                )}
             </DialogFormFooter>
          </DialogForm>

@@ -3,7 +3,7 @@ import NextStepButton from '../../../_components/next-step-button'
 import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
 import { AdmissionFieldState } from './use-admission-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
-import CreateAccountSubmitButton from '../../../_components/create-account-submit-button'
+import ValidFormSubmitButton from '@/app/_components/form/valid-form-submit-button'
 
 export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldState) => {
    const { isPersonalInfoValid } = admissionFieldValidity(getFieldState)
@@ -25,7 +25,7 @@ export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldS
          case 4:
             return null
          case 5:
-            return <CreateAccountSubmitButton label={'Next'} />
+            return <ValidFormSubmitButton label={'Next'} variant={'default'} size={'lg'} />
          default:
             return null
       }

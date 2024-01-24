@@ -4,11 +4,11 @@ import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useProviderProfileForm } from '../../_hooks/provider/use-provider-profile-form'
 import useProviderProfileSteps from '../../_hooks/provider/use-provider-profile-steps'
 import useProviderProfileButtons from '../../_hooks/provider/use-provider-profile-buttons'
-import { Button } from '@/components/ui/button'
 import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
+import SubmitButton from '@/app/_components/form/submit-button'
 
 const CreateAccountProvider = ({
    children,
@@ -34,14 +34,12 @@ const CreateAccountProvider = ({
                {step < 6 ? (
                   renderButton
                ) : (
-                  <Button
-                     type="submit"
+                  <SubmitButton
+                     label="Next"
                      variant={'default'}
                      size={'lg'}
                      disabled={viperFollowings === 0 || isSubmitting}
-                  >
-                     Next
-                  </Button>
+                  />
                )}
             </DialogFormFooter>
          </DialogForm>
