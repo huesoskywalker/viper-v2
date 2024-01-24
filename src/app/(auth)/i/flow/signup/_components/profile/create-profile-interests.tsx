@@ -16,13 +16,13 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
 import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
-import { Control, FieldPath } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
-const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderProfileFormValues>({
-   formControl,
-}: {
-   formControl: Control<T>
-}) => {
+type FormContextValues = CreateProfileFormValues | ProviderProfileFormValues
+
+const CreateProfileInterests = () => {
+   const { control } = useFormContext<FormContextValues>()
+
    const { setInterest, removeInterest } = useCreateProfileStore()
 
    return (
@@ -31,8 +31,8 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderProf
             What do you want to see on Viper?
          </DialogDescription>
          <FormField
-            control={formControl}
-            name={'interests' as FieldPath<T>}
+            control={control}
+            name={'interests'}
             render={() => (
                <FormItem>
                   <FormDescription className="mb-4">
@@ -43,8 +43,8 @@ const CreateProfileInterests = <T extends CreateProfileFormValues | ProviderProf
                      {interestItems.map((item) => (
                         <FormField
                            key={item.id}
-                           control={formControl}
-                           name={'interests' as FieldPath<T>}
+                           control={control}
+                           name={'interests'}
                            render={({ field }) => (
                               <FormItem key={item.id}>
                                  <FormLabel className="flex h-full w-full cursor-pointer rounded-lg text-secondary-foreground hover:bg-viper-dodger-blue-hover/10">

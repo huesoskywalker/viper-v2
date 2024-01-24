@@ -1,23 +1,16 @@
 import React from 'react'
 import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
-import { Control, FieldPath } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { DialogDescription } from '@/components/ui/dialog'
-import {
-   FormControl,
-   FormDescription,
-   FormField,
-   FormItem,
-   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import { FormTextarea } from '@/app/_components/form/form-textarea'
 
-const CreateProfileBio = <T extends CreateProfileFormValues | ProviderProfileFormValues>({
-   formControl,
-}: {
-   formControl: Control<T>
-}) => {
+type FormContextValues = CreateProfileFormValues | ProviderProfileFormValues
+
+const CreateProfileBio = () => {
+   const { control } = useFormContext<FormContextValues>()
+
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
@@ -27,8 +20,8 @@ const CreateProfileBio = <T extends CreateProfileFormValues | ProviderProfileFor
             What makes you special? Don&apos;t think too hard, just have fun with it.
          </FormDescription>
          <FormField
-            control={formControl}
-            name={'bio' as FieldPath<T>}
+            control={control}
+            name={'bio'}
             render={({ field }) => (
                <FormItem className="relative">
                   <FormTextarea
@@ -36,7 +29,6 @@ const CreateProfileBio = <T extends CreateProfileFormValues | ProviderProfileFor
                      label="Your bio"
                      className="resize-none"
                      {...field}
-                     value={field.value as string}
                   />
                </FormItem>
             )}

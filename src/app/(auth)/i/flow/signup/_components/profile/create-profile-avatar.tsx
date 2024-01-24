@@ -1,12 +1,8 @@
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormControl, FormDescription, FormField, FormItem } from '@/components/ui/form'
-import UpdateAvatar from '@/app/_components/viper/update-avatar'
-import { FormControlStep } from '@/types/forms/steps'
-import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
+import { FormDescription } from '@/components/ui/form'
+import AvatarImageFormField from '@/app/_components/form/avatar-image-form-field'
 
-const CreateProfileAvatar: React.FC<FormControlStep<CreateProfileFormValues>> = ({
-   formControl,
-}) => {
+const CreateProfileAvatar = () => {
    return (
       <div className="relative flex flex-col justify-center space-y-14">
          <div className="space-y-2 self-start">
@@ -16,17 +12,7 @@ const CreateProfileAvatar: React.FC<FormControlStep<CreateProfileFormValues>> = 
             <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>
          </div>
          <div className="self-center">
-            <FormField
-               control={formControl}
-               name="image"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormControl>
-                        <UpdateAvatar id={field.name} />
-                     </FormControl>
-                  </FormItem>
-               )}
-            />
+            <AvatarImageFormField />
          </div>
       </div>
    )

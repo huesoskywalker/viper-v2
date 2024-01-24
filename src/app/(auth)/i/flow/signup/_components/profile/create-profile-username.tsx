@@ -1,23 +1,9 @@
-import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormDescription, FormField, FormItem } from '@/components/ui/form'
-import { useSession } from 'next-auth/react'
-import { Control, FieldPath } from 'react-hook-form'
-import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
-import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
+import { FormDescription } from '@/components/ui/form'
 import AtSymbol from '@/app/_components/viper/at-symbol'
+import UsernameFormField from '@/app/_components/form/username-form-field'
 
-const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfileFormValues>({
-   formControl,
-}: {
-   formControl: Control<T>
-}) => {
-   const { data: session } = useSession()
-
-   const username = session?.user.username
-
-   formControl._defaultValues['username'] = username
-
+const CreateProfileUsername = () => {
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
@@ -28,23 +14,7 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfi
             <AtSymbol />
             username is unique. You can always change it later.
          </FormDescription>
-         <FormField
-            control={formControl}
-            name={'username' as FieldPath<T>}
-            render={({ field }) => (
-               <FormItem className="relative">
-                  <FormInput
-                     id={field.name}
-                     type={'text'}
-                     variant={'plain'}
-                     label="Username"
-                     checkbox={true}
-                     {...field}
-                     value={field.value as string}
-                  />
-               </FormItem>
-            )}
-         />
+         <UsernameFormField checkbox={true} />
       </>
    )
 }

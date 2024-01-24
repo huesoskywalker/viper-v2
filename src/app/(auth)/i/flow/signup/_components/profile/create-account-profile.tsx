@@ -20,13 +20,11 @@ const CreateAccountProfile = ({
 
    const { createProfileForm } = useCreateProfileForm()
 
-   const { control, getFieldState, formState } = createProfileForm
-
-   const { isSubmitting } = formState
+   const { getFieldState } = createProfileForm
 
    const { onSubmit } = useSubmitCreateProfile()
 
-   const { renderStep } = useCreateProfileSteps(step, control)
+   const { renderStep } = useCreateProfileSteps(step)
 
    const { renderButton } = useCreateProfileButtons(step, getFieldState)
 
@@ -42,7 +40,7 @@ const CreateAccountProfile = ({
                      label="Next"
                      variant={'default'}
                      size={'lg'}
-                     disabled={viperFollowings === 0 || isSubmitting}
+                     disabled={viperFollowings === 0}
                   />
                )}
             </DialogFormFooter>
