@@ -1,28 +1,23 @@
 import React, { useMemo } from 'react'
-import { Control } from 'react-hook-form'
-import { ProviderProfileFormValues } from './use-provider-profile-form'
 import ProfileContentDiscovery from '../../_components/admission/admission-content-discovery'
 import CreateProfileUsername from '../../_components/profile/create-profile-username'
 import CreateProfileInterests from '../../_components/profile/create-profile-interests'
 import CreateProfileBio from '../../_components/profile/create-profile-bio'
 import ProviderProfileBirthDate from '../../_components/provider/provider-profile-birth-date'
 
-const useProviderProfileSteps = (
-   step: number,
-   formControl: Control<ProviderProfileFormValues>,
-) => {
+const useProviderProfileSteps = (step: number) => {
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:
-            return <ProviderProfileBirthDate formControl={formControl} />
+            return <ProviderProfileBirthDate />
          case 2:
-            return <ProfileContentDiscovery formControl={formControl} />
+            return <ProfileContentDiscovery />
          case 3:
-            return <CreateProfileBio formControl={formControl} />
+            return <CreateProfileBio />
          case 4:
-            return <CreateProfileUsername formControl={formControl} />
+            return <CreateProfileUsername />
          case 5:
-            return <CreateProfileInterests formControl={formControl} />
+            return <CreateProfileInterests />
          default:
             return null
       }

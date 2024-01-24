@@ -3,6 +3,7 @@ import { admissionSchema } from '../admission/use-admission-form'
 import { createProfileSchema } from '../profile/use-create-profile-form'
 import { UseFormGetFieldState, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSession } from 'next-auth/react'
 
 export type ProviderProfileFormValues = z.infer<typeof providerProfileSchema>
 
@@ -18,6 +19,8 @@ const providerProfileSchema = z.object({
 })
 
 export const useProviderProfileForm = () => {
+   const { data: session } = useSession()
+
    const defaultValues = {
       birthDate: {
          month: '',
@@ -26,7 +29,7 @@ export const useProviderProfileForm = () => {
       },
       contentDiscovery: true,
       bio: '',
-      //   username: '',
+      username: session?.user.username,
       interests: [],
       role: 'viper',
    }

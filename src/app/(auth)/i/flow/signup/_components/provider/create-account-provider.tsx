@@ -17,10 +17,9 @@ const CreateAccountProvider = ({
    const { step } = useCreateAccountStore()
 
    const { providerProfileForm } = useProviderProfileForm()
-   const { control, getFieldState, formState } = providerProfileForm
-   const { isSubmitting } = formState
+   const { getFieldState } = providerProfileForm
 
-   const { renderStep } = useProviderProfileSteps(step, control)
+   const { renderStep } = useProviderProfileSteps(step)
 
    const { renderButton } = useProviderProfileButtons(step, getFieldState)
 
@@ -38,7 +37,7 @@ const CreateAccountProvider = ({
                      label="Next"
                      variant={'default'}
                      size={'lg'}
-                     disabled={viperFollowings === 0 || isSubmitting}
+                     disabled={viperFollowings === 0}
                   />
                )}
             </DialogFormFooter>

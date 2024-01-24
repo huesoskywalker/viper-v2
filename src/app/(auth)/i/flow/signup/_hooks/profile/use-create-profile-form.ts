@@ -1,5 +1,6 @@
 import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSession } from 'next-auth/react'
 import { UseFormGetFieldState, UseFormGetValues, UseFormSetValue, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -100,8 +101,11 @@ export const createProfileSchema = z.object({
 })
 
 export const useCreateProfileForm = () => {
+   const { data: session } = useSession()
+
    const defaultValues = {
       bio: '',
+      username: session?.user.username,
       image: '/default-user.png',
       interests: [],
       role: 'viper',
