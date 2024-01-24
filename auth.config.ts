@@ -1,4 +1,4 @@
-import { _ID, Viper } from '@/types/viper'
+import { _ID, BirthDate, Viper } from '@/types/viper'
 import type { NextAuthConfig, User } from 'next-auth'
 import GitHub from '@auth/core/providers/github'
 import Credential from '@auth/core/providers/credentials'
@@ -22,15 +22,17 @@ import { passwordResetHtml } from './utils/email/password-reset-html'
 declare module 'next-auth' {
    interface Session {
       user: {
-         id: string
+         _id: string
          name: string
          email: string
          username: string
          verified: boolean
          role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
          bio: string
-         location: string
          image: string
+         website: string
+         location: string
+         birthDate: BirthDate
          followers: number
          followings: number
       }
@@ -163,11 +165,14 @@ export default {
                session.user.followings = followings
             }
          } else {
-            session.user.id = user.id
+            session.user._id = user.id
             session.user.username = user.username
             session.user.verified = user.verified
             session.user.role = user.role
             session.user.bio = user.bio
+            session.user.website = user.website
+            session.user.location = user.location
+            session.user.birthDate = user.birthDate
             session.user.followers = user.followersCount
             session.user.followings = user.followingsCount
          }

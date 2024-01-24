@@ -19,7 +19,7 @@ export default function Error({
    }, [error])
 
    return (
-      <Dialog open={openDialog} onOpenChange={() => closeDialog('/', 'error')}>
+      <Dialog open={openDialog} onOpenChange={() => closeDialog('error')}>
          <DialogContent className="h-fit max-w-md px-16 py-8">
             <div className="flex flex-col items-center justify-center space-y-6">
                <h2 className="text-primary">{error.message}</h2>

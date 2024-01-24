@@ -9,7 +9,7 @@ const SingleSignOnPage = async () => {
    return (
       <>
          <CreateAccount>
-            <CreateAccountProvider viperFollowings={session.user.followings}>
+            <CreateAccountProvider viperFollowings={session.followings}>
                <ProfileFirstFollowing />
             </CreateAccountProvider>
          </CreateAccount>

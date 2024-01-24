@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ data }, { status: 200 })
    } catch (error) {
       if (error instanceof MongoError) {
-         logMongoError({ action: `Search username`, viperId: session.user.id }, error)
+         logMongoError({ action: `Search username`, viperId: session.user._id }, error)
          return NextResponse.json(
             {
                error: `Internal server error: Unable to update the user. Please try again later.`,
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
             { status: 500 },
          )
       } else {
-         logError({ action: `Search username`, viperId: session.user.id }, error)
+         logError({ action: `Search username`, viperId: session.user._id }, error)
          return NextResponse.json(
             { error: `Failed to update the user. Please try again later.` },
             { status: 400 },

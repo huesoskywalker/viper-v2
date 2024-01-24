@@ -39,7 +39,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
 
    const { openDialog, closeDialog } = useHandleDialog()
 
-   const handleOnOpen = !session && step <= 4 ? () => closeDialog('/') : undefined
+   const handleOnOpen = !session && step <= 4 ? () => closeDialog() : undefined
 
    const handleStepIcon = () => {
       if (!session) {

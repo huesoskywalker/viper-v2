@@ -1,3 +1,4 @@
+'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useCreateAccountStore } from '../(auth)/i/flow/signup/_stores/create-account-store'
@@ -12,20 +13,20 @@ const useHandleDialog = () => {
 
    const { status } = useSession()
 
-   const router = useRouter()
+   const { back } = useRouter()
 
    useEffect(() => {
       if (status === 'unauthenticated') redirectStep(1)
       void setOpenDialog(true)
    }, [status])
 
-   const closeDialog = (path: string, type?: 'error') => {
+   const closeDialog = (type?: 'error') => {
       if (!type && !isPathnamePasswordReset) {
          if (step > 1) return prevStep()
       }
 
       setOpenDialog(false)
-      router.push(path)
+      back()
    }
    return { openDialog, closeDialog }
 }

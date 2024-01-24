@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react'
 type DialogContentProps = {
    open: boolean
    onOpenChange: (() => void) | undefined
-   onOpenAutoFocus: (e: Event) => void
+   onOpenAutoFocus?: (e: Event) => void
    stepIcon?: string | number
    children: ReactNode
 }

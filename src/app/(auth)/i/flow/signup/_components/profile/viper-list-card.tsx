@@ -13,7 +13,7 @@ import { ViperBasic } from '@/types/viper'
 const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
    const session = await getCurrentSession()
 
-   const isFollowing = await viperService.isFollowing(String(viper._id), session.user.id)
+   const isFollowing = await viperService.isFollowing(String(viper._id), session._id)
 
    const viperBio = viper.bio.length > 80 ? viper.bio.slice(0, 80) + '...' : viper.bio
 
