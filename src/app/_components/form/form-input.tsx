@@ -21,7 +21,7 @@ const FormInput = React.forwardRef<
 
    const inputType = props.type === 'password' ? showPassword : props.type
 
-   const { type, onBlur, onFocus, onChange, defaultValue, ...restProps } = props
+   const { type, onBlur, onFocus, onChange, ...restProps } = props
 
    return (
       <>
@@ -79,7 +79,6 @@ const FormInput = React.forwardRef<
                         }
                         handleOnChange(e)
                      }}
-                     defaultValue={props.value}
                      {...restProps}
                   />
                </FormControl>{' '}

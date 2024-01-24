@@ -2,8 +2,7 @@ import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
 import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
-import { Control, FieldPath, useFormContext } from 'react-hook-form'
+import { Control, FieldPath } from 'react-hook-form'
 import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 import { CreateProfileFormValues } from '../../_hooks/profile/use-create-profile-form'
 import AtSymbol from '@/app/_components/viper/at-symbol'
@@ -13,17 +12,11 @@ const CreateProfileUsername = <T extends CreateProfileFormValues | ProviderProfi
 }: {
    formControl: Control<T>
 }) => {
-   const { trigger } = useFormContext()
-
    const { data: session } = useSession()
 
    const username = session?.user.username
 
    formControl._defaultValues['username'] = username
-
-   useEffect(() => {
-      void trigger('username')
-   }, [])
 
    return (
       <>
