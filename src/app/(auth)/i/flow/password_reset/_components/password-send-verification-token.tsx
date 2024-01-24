@@ -1,4 +1,3 @@
-import { FormControlStep } from '@/types/forms/steps'
 import React from 'react'
 import { PasswordResetFormValues } from '../_hooks/use-password-reset-form'
 import { DialogDescription } from '@/components/ui/dialog'
@@ -6,10 +5,12 @@ import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { hideEmail } from '../_utils/hide-email'
+import { useFormContext } from 'react-hook-form'
 
-const PasswordSendVerificationToken: React.FC<FormControlStep<PasswordResetFormValues>> = ({
-   formControl,
-}) => {
+type FormContextValues = PasswordResetFormValues
+const PasswordSendVerificationToken = () => {
+   const { control } = useFormContext<FormContextValues>()
+
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
@@ -22,7 +23,7 @@ const PasswordSendVerificationToken: React.FC<FormControlStep<PasswordResetFormV
             Start by choosing where to send a confirmation code.
          </FormDescription>
          <FormField
-            control={formControl}
+            control={control}
             name="email"
             render={({ field }) => (
                <FormItem className="relative">

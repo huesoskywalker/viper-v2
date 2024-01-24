@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react'
 import { PasswordResetFormValues } from '../_hooks/use-password-reset-form'
-import { FormControlStep } from '@/types/forms/steps'
 import { FormDescription, FormField, FormItem } from '@/components/ui/form'
 import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
 import { useFormContext } from 'react-hook-form'
+import EmailFormField from '@/app/_components/form/email-form-field'
 
-const PasswordConfirmEmail: React.FC<FormControlStep<PasswordResetFormValues>> = ({
-   formControl,
-}) => {
+const PasswordConfirmEmail = () => {
    const { setFocus } = useFormContext<PasswordResetFormValues>()
 
    useEffect(() => {
@@ -23,21 +21,7 @@ const PasswordConfirmEmail: React.FC<FormControlStep<PasswordResetFormValues>> =
          <FormDescription className="pb-3">
             Verify your identity by entering the email address associated with your Viper account.
          </FormDescription>
-         <FormField
-            control={formControl}
-            name="email"
-            render={({ field }) => (
-               <FormItem className="relative">
-                  <FormInput
-                     id={field.name}
-                     type="text"
-                     variant={'plain'}
-                     label="Email"
-                     {...field}
-                  />
-               </FormItem>
-            )}
-         />
+         <EmailFormField />
       </>
    )
 }

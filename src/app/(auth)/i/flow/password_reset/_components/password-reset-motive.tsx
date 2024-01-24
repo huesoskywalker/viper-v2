@@ -1,4 +1,3 @@
-import { FormControlStep } from '@/types/forms/steps'
 import React from 'react'
 import { PasswordResetFormValues, motiveOptions } from '../_hooks/use-password-reset-form'
 import { DialogDescription } from '@/components/ui/dialog'
@@ -11,17 +10,18 @@ import {
    FormMessage,
 } from '@/components/ui/form'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useFormContext } from 'react-hook-form'
 
-const PasswordResetMotive: React.FC<FormControlStep<PasswordResetFormValues>> = ({
-   formControl,
-}) => {
+const PasswordResetMotive = () => {
+   const { control } = useFormContext<PasswordResetFormValues>()
+
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-3xl ">
             What do you want to see on Viper?
          </DialogDescription>
          <FormField
-            control={formControl}
+            control={control}
             name={'passwordResetMotive'}
             render={() => (
                <FormItem>
@@ -33,7 +33,7 @@ const PasswordResetMotive: React.FC<FormControlStep<PasswordResetFormValues>> = 
                      {motiveOptions.map((item) => (
                         <FormField
                            key={item.id}
-                           control={formControl}
+                           control={control}
                            name={'passwordResetMotive'}
                            render={({ field }) => (
                               <FormItem

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import { Control } from 'react-hook-form'
-import { PasswordResetFormValues, PasswordResetSetValue } from './use-password-reset-form'
+import { PasswordResetSetValue } from './use-password-reset-form'
 import PasswordFindAccount from '../_components/password-find-account'
 import PasswordConfirmUsername from '../_components/password-confirm-username'
 import PasswordConfirmEmail from '../_components/password-confirm-email'
@@ -12,29 +11,23 @@ import NewPassword from '../_components/new-password'
 import PasswordResetMotive from '../_components/password-reset-motive'
 import PasswordResetSuccess from '../_components/password-reset-success'
 
-const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFormValues>) => {
+const usePasswordRestSteps = (step: number, findBy: string, setValue: PasswordResetSetValue) => {
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:
-            return <PasswordFindAccount formControl={formControl} />
+            return <PasswordFindAccount />
          case 2:
-            const findByValue = formControl._fields['findBy']?._f.value
-
-            const isEmailValue = emailRegex.test(findByValue)
+            const isEmailValue = emailRegex.test(findBy)
             const formField = isEmailValue ? 'email' : 'username'
 
-            formControl._formValues[formField] = findByValue
+            setValue(formField, findBy)
 
-            return isEmailValue ? (
-               <PasswordConfirmUsername formControl={formControl} />
-            ) : (
-               <PasswordConfirmEmail formControl={formControl} />
-            )
+            return isEmailValue ? <PasswordConfirmUsername /> : <PasswordConfirmEmail />
          case 3:
-            return <PasswordSendVerificationToken formControl={formControl} />
+            return <PasswordSendVerificationToken />
          case 4:
             return (
-               <AdmissionVerificationToken formControl={formControl} label={'Enter your code'}>
+               <AdmissionVerificationToken label={'Enter your code'}>
                   <FormDescription>
                      Check your email to get your confirmation code. If you need to request a new
                      code, go back and reselect a confirmation.
@@ -42,11 +35,10 @@ const usePasswordRestSteps = (step: number, formControl: Control<PasswordResetFo
                </AdmissionVerificationToken>
             )
          case 5:
-            return <NewPassword formControl={formControl} />
+            return <NewPassword />
          case 6:
-            return <PasswordResetMotive formControl={formControl} />
+            return <PasswordResetMotive />
          case 7:
-            formControl._updateValid(true)
             return <PasswordResetSuccess />
          default:
             return null

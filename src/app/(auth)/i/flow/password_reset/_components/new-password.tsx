@@ -1,11 +1,9 @@
-import FormInput from '@/app/_components/form/form-input'
 import { DialogDescription } from '@/components/ui/dialog'
-import { FormDescription, FormField, FormItem } from '@/components/ui/form'
-import { FormControlStep } from '@/types/forms/steps'
+import { FormDescription } from '@/components/ui/form'
 import React from 'react'
-import { PasswordResetFormValues } from '../_hooks/use-password-reset-form'
+import PasswordFormField from '@/app/_components/form/password-form-field'
 
-const NewPassword: React.FC<FormControlStep<PasswordResetFormValues>> = ({ formControl }) => {
+const NewPassword = () => {
    return (
       <>
          <DialogDescription className="mt-3 text-2xl font-bold text-foreground sm:text-[36px] ">
@@ -19,36 +17,8 @@ const NewPassword: React.FC<FormControlStep<PasswordResetFormValues>> = ({ formC
             <br />
             You&apos;ll be logged out of all active Viper sessions after your password is changed.
          </FormDescription>
-         <FormField
-            control={formControl}
-            name="password"
-            render={({ field }) => (
-               <FormItem className="relative">
-                  <FormInput
-                     id={field.name}
-                     type={'password'}
-                     variant={'plain'}
-                     label="Password"
-                     {...field}
-                  />
-               </FormItem>
-            )}
-         />
-         <FormField
-            control={formControl}
-            name="confirmPassword"
-            render={({ field }) => (
-               <FormItem className="relative">
-                  <FormInput
-                     id={field.name}
-                     type={'password'}
-                     variant={'plain'}
-                     label="Confirm password"
-                     {...field}
-                  />
-               </FormItem>
-            )}
-         />
+         <PasswordFormField fieldName="password" label="Password" />
+         <PasswordFormField fieldName="confirmPassword" label="ConfirmPassword " />
       </>
    )
 }

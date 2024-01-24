@@ -19,9 +19,9 @@ const PasswordReset = () => {
 
    const { passwordResetForm } = usePasswordResetForm()
 
-   const { control, getFieldState, getValues } = passwordResetForm
+   const { control, getFieldState, getValues, setValue } = passwordResetForm
 
-   const { renderStep } = usePasswordRestSteps(step, control)
+   const { renderStep } = usePasswordRestSteps(step, getValues('findBy'), setValue)
 
    const { renderButton } = usePasswordResetButtons(step, getFieldState, getValues)
 
