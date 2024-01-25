@@ -4,7 +4,7 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Link from 'next/link'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
-import { Control, FieldPath, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { ProviderProfileFormValues } from '../../_hooks/provider/use-provider-profile-form'
 
 type FormContextValues = AdmissionFormValues | ProviderProfileFormValues

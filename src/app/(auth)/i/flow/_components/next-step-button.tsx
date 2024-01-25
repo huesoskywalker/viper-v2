@@ -18,6 +18,7 @@ const NextStepButton: React.FC<ButtonProps & { disabled: boolean; label?: string
             variant={variant}
             size={size}
             disabled={disabled}
+            {...props}
          >
             {label ? label : 'Next'}
          </Button>

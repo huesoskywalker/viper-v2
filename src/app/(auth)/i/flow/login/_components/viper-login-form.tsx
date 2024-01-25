@@ -6,6 +6,7 @@ import { Form, FormField, FormItem } from '@/components/ui/form'
 import { signIn } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
+import PasswordFormField from '@/app/_components/form/password-form-field'
 
 const ViperLoginForm = () => {
    const { loginForm } = useLoginForm()
@@ -56,21 +57,7 @@ const ViperLoginForm = () => {
                   </FormItem>
                )}
             />
-            <FormField
-               control={control}
-               name="password"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormInput
-                        id={field.name}
-                        type="password"
-                        variant={'plain'}
-                        label="Password"
-                        {...field}
-                     />
-                  </FormItem>
-               )}
-            />
+            <PasswordFormField fieldName="password" label="Password" />
             <div className="pt-4">
                <Button variant={'default'} size={'provider'} type="submit" disabled={!isValid}>
                   {' '}

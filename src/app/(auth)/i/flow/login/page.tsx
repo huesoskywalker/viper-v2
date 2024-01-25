@@ -1,14 +1,15 @@
 import React from 'react'
 import { Toaster } from '@/components/ui/toaster'
 import ViperLogin from './_components/viper-login'
-import { CreateAccount } from '../_components/create-account'
+import CreateAccountDialogHeader from '../_components/create-account-dialog-header'
 
 const LogInPage = () => {
    return (
-      <CreateAccount>
+      <>
+         <CreateAccountDialogHeader />
          <ViperLogin />
          <Toaster />
-      </CreateAccount>
+      </>
    )
 }
 

@@ -72,7 +72,6 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             onOpenAutoFocus={handleAutoFocus}
             stepIcon={handleStepIcon()}
          >
-            <CreateAccountDialogHeader />
             {children}
          </GlobalDialog>
       </>

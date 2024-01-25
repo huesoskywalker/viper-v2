@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 
 // check what can we do with this layout
 export default function RootLayout({ children }: PropsWithChildren) {
-   return <div className="min-h-screen">{children}</div>
+   return <div className="mt-14 min-h-screen sm:mt-0">{children}</div>
 }
