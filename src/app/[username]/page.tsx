@@ -1,7 +1,5 @@
-import { Suspense } from 'react'
 import ProfileCalendar from './_components/profile-calendar'
 // import { preloadViperBlogs } from '../../lib/vipers'
-// import Loading from './loading'
 
 export default function ProfilePage() {
    // preloadViperBlogs(viperId)
