@@ -33,7 +33,7 @@ const CreateAccountProfile = ({
 
    const { renderButton } = useCreateProfileButtons(step, getFieldState)
 
-   const { startUpload } = useUploadThing('profileAvatar')
+   const { startUpload } = useUploadThing('profile')
 
    const { images, removeImages } = useCreateProfileStore()
 

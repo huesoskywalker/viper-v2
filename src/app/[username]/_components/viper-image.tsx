@@ -5,7 +5,14 @@ import React from 'react'
 const ViperImage = ({ image }: { image: string }) => {
    return (
       <Avatar className="h-full w-full">
-         <AvatarImage width={135} height={135} src={image} alt="Profile Image" loading="lazy" />
+         <AvatarImage
+            width={135}
+            height={135}
+            src={image}
+            alt="Profile Image"
+            loading="lazy"
+            className="object-cover"
+         />
          <AvatarFallback className="bg-background">
             <LoadingSpinner></LoadingSpinner>
          </AvatarFallback>

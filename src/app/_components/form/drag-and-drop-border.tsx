@@ -8,7 +8,7 @@ const DragAndDropBorder: React.FC<DragAndDrop> = ({ className, isDragActive, ...
       <div
          className={cn(
             isDragActive &&
-               `absolute inset-0 z-30 h-full w-full rounded-full border-4 border-dashed border-viper-blue`,
+               `absolute inset-0 z-30 h-full w-full  border-[3px] border-dashed border-viper-blue`,
             className,
          )}
       />

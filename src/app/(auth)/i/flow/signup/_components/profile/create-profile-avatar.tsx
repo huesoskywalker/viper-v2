@@ -11,9 +11,7 @@ const CreateProfileAvatar = () => {
             </DialogDescription>
             <FormDescription>Have a favorite selfie? Upload it now.</FormDescription>
          </div>
-         <div className="self-center">
-            <AvatarImageFormField />
-         </div>
+         <AvatarImageFormField className="h-36 w-36 self-center rounded-full border-2 border-white" />
       </div>
    )
 }

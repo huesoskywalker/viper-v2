@@ -1,6 +1,9 @@
+import { he } from 'date-fns/locale'
+
 export const resizeImage = async (
    originalImage: File,
    resize: { width: number; height: number },
+   cropAsAvatar: boolean,
 ): Promise<File> => {
    const resizedImage = await resizeToWidth(originalImage, 800)
 
@@ -21,10 +24,11 @@ export const resizeImage = async (
             offsetX = drawWidth > 300 ? -75 : -50
             offsetY = 0
          } else {
+            const height = cropAsAvatar ? img.height * (resize.width / img.width) : img.height / 2
             drawWidth = resize.width
-            drawHeight = img.height * (resize.width / img.width)
+            drawHeight = height
             offsetX = 0
-            offsetY = 0
+            offsetY = cropAsAvatar ? 0 : resize.height / -8
          }
 
          const canvas = document.createElement('canvas')
@@ -34,16 +38,18 @@ export const resizeImage = async (
          const ctx = canvas.getContext('2d')
 
          if (ctx) {
-            ctx.beginPath()
-            ctx.arc(
-               resize.width / 2,
-               resize.height / 2,
-               Math.min(resize.width, resize.height) / 2,
-               0,
-               2 * Math.PI,
-            )
-            ctx.closePath()
-            ctx.clip()
+            if (cropAsAvatar) {
+               ctx.beginPath()
+               ctx.arc(
+                  resize.width / 2,
+                  resize.height / 2,
+                  Math.min(resize.width, resize.height) / 2,
+                  0,
+                  2 * Math.PI,
+               )
+               ctx.closePath()
+               ctx.clip()
+            }
 
             ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight)
             canvas.toBlob(

@@ -10,14 +10,14 @@ import ViperImage from '@/app/[username]/_components/viper-image'
 import CameraEditIcon from '../form/camera-edit-icon'
 import DragAndDropBorder from '../form/drag-and-drop-border'
 
-const UpdateAvatar = ({ imageSrc }: { imageSrc: string }) => {
+const UpdateAvatar = ({ id, imageSrc }: { id: string; imageSrc: string }) => {
    const { setImages } = useCreateProfileStore()
 
    const [objectURL, setObjectURL] = useState<string>(imageSrc)
 
    const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
       const resizedFiles = await Promise.all(
-         acceptedFiles.map((image) => resizeImage(image, { width: 200, height: 200 })),
+         acceptedFiles.map((image) => resizeImage(image, { width: 200, height: 200 }, true)),
       )
 
       setObjectURL(URL.createObjectURL(resizedFiles[0]))
@@ -37,12 +37,13 @@ const UpdateAvatar = ({ imageSrc }: { imageSrc: string }) => {
    return (
       <>
          <div
+            id={id}
             {...getRootProps()}
             className={cn(
-               ` relative z-0 flex h-36 w-36 items-center justify-center  overflow-hidden rounded-full border-2 border-white`,
+               ` relative z-0 flex items-center justify-center overflow-hidden  rounded-full object-contain`,
             )}
          >
-            <DragAndDropBorder isDragActive={isDragActive} />
+            <DragAndDropBorder isDragActive={isDragActive} className="rounded-full" />
             <ViperImage image={objectURL} />
             <input {...getInputProps()} />
             <CameraEditIcon />

@@ -18,7 +18,7 @@ const UpdateBackgroundImage = ({ imageSrc }: { imageSrc: string }) => {
    const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
       const resizedFiles = await Promise.all(
          // TODO: resize this for the dimensions of the background
-         acceptedFiles.map((image) => resizeImage(image, { width: 200, height: 200 })),
+         acceptedFiles.map((image) => resizeImage(image, { width: 700, height: 230 }, false)),
       )
 
       setObjectURL(URL.createObjectURL(resizedFiles[0]))
@@ -39,7 +39,7 @@ const UpdateBackgroundImage = ({ imageSrc }: { imageSrc: string }) => {
       <>
          <div
             {...getRootProps()}
-            className={cn(` relative z-0 flex items-center justify-center  overflow-hidden`)}
+            className={cn(`relative z-0 flex items-center justify-center overflow-hidden`)}
          >
             <DragAndDropBorder isDragActive={isDragActive} />
             <ViperBackgroundImage backgroundImage={objectURL} />

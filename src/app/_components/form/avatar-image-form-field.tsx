@@ -7,7 +7,7 @@ import { EditViperFormValues } from '@/app/[username]/profile/_hooks/use-edit-vi
 
 type FormContextValues = CreateProfileFormValues | EditViperFormValues
 
-const AvatarImageFormField = () => {
+const AvatarImageFormField = ({ className }: { className?: string }) => {
    const { control, getValues } = useFormContext<FormContextValues>()
 
    return (
@@ -15,9 +15,9 @@ const AvatarImageFormField = () => {
          control={control}
          name="image"
          render={({ field }) => (
-            <FormItem>
+            <FormItem className={className}>
                <FormControl>
-                  <UpdateAvatar imageSrc={getValues('image')} />
+                  <UpdateAvatar id={field.name} imageSrc={getValues('image')} />
                </FormControl>
             </FormItem>
          )}
