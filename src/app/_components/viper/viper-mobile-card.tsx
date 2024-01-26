@@ -40,12 +40,12 @@ const ViperMobileCard = () => {
             </div>
             <div className="grid-2 grid w-full grid-flow-col items-start justify-items-start">
                <ViperFollowCount
-                  followCount={session.user.followings}
+                  followCount={session.user.followingsCount}
                   label="Followings"
                   className="text-xs"
                />
                <ViperFollowCount
-                  followCount={session.user.followers}
+                  followCount={session.user.followersCount}
                   label="Followers"
                   className="text-xs"
                />

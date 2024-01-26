@@ -13,7 +13,7 @@ export default async function SignUpPage() {
          {!session ? (
             <CreateAccountAdmission />
          ) : (
-            <CreateAccountProfile viperFollowings={session.user.followings}>
+            <CreateAccountProfile viperFollowings={session.user.followingsCount}>
                <ProfileFirstFollowing />
             </CreateAccountProfile>
          )}

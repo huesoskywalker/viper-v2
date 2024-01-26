@@ -2,7 +2,7 @@ import { BaseSyntheticEvent } from 'react'
 import { ProviderProfileFormValues } from '../signup/_hooks/provider/use-provider-profile-form'
 import { useCreateProfileStore } from '../signup/_stores/create-profile-store'
 import { useSession } from 'next-auth/react'
-import updateProfileEndpoint from '@/app/_utils/update-profile-endpoint'
+import updateProfileEndpoint from '@/app/_utils/viper/update-profile-endpoint'
 import { CreateProfileFormValues } from '../signup/_hooks/profile/use-create-profile-form'
 import { useRouter } from 'next/navigation'
 
@@ -25,7 +25,7 @@ const useSubmitCreateProfile = () => {
             username: data.username,
             image: data.image,
             role: data.role,
-            followings: data.followings.length,
+            followingsCount: data.followingsCount,
          }),
          push('/home'),
       ])

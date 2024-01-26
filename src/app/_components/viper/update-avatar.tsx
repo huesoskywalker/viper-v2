@@ -1,6 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
-import { Camera } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { FileWithPath } from '@uploadthing/react'
 import { resizeImage } from '../../_utils/resize-image'
@@ -8,11 +6,14 @@ import { useCreateProfileStore } from '../../(auth)/i/flow/signup/_stores/create
 import { generateClientDropzoneAccept } from 'uploadthing/client'
 import { useDropzone } from '@uploadthing/react/hooks'
 import { useUploadThing } from '@/utils/uploadthing'
+import ViperImage from '@/app/[username]/_components/viper-image'
+import CameraEditIcon from '../form/camera-edit-icon'
+import DragAndDropBorder from '../form/drag-and-drop-border'
 
-const UpdateAvatar = ({ id }: { id: string }) => {
+const UpdateAvatar = ({ imageSrc }: { imageSrc: string }) => {
    const { setImages } = useCreateProfileStore()
 
-   const [objectURL, setObjectURL] = useState<string | null>(null)
+   const [objectURL, setObjectURL] = useState<string>(imageSrc)
 
    const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
       const resizedFiles = await Promise.all(
@@ -24,7 +25,7 @@ const UpdateAvatar = ({ id }: { id: string }) => {
       setImages(resizedFiles, 'profile')
    }, [])
 
-   const { permittedFileInfo } = useUploadThing('profileAvatar')
+   const { permittedFileInfo } = useUploadThing('profile')
 
    const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : []
 
@@ -41,27 +42,10 @@ const UpdateAvatar = ({ id }: { id: string }) => {
                ` relative z-0 flex h-36 w-36 items-center justify-center  overflow-hidden rounded-full border-2 border-white`,
             )}
          >
-            <div
-               className={cn(
-                  isDragActive &&
-                     `absolute inset-0 z-30 h-full w-full rounded-full border-4 border-dashed border-viper-blue`,
-               )}
-            />
-            <Avatar className="h-full w-full">
-               <AvatarImage
-                  width={150}
-                  height={150}
-                  loading="lazy"
-                  className="object-cover"
-                  src={objectURL ?? '/default-user.png'}
-                  alt="Profile preview"
-               />
-               <AvatarFallback>Profile</AvatarFallback>
-            </Avatar>
-            <input {...getInputProps()} id={id} />
-            <div className=" absolute z-10 flex cursor-pointer items-center justify-center rounded-full  bg-black/50 p-[1.35rem] duration-300 ease-in-out hover:bg-black/30">
-               <Camera className="absolute z-20 text-gray-300" size={27} strokeWidth={1.5} />
-            </div>
+            <DragAndDropBorder isDragActive={isDragActive} />
+            <ViperImage image={objectURL} />
+            <input {...getInputProps()} />
+            <CameraEditIcon />
          </div>
       </>
    )

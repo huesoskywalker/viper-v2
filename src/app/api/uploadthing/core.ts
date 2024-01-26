@@ -5,7 +5,7 @@ import { createUploadthing, type FileRouter } from 'uploadthing/next'
 const f = createUploadthing()
 
 export const ourFileRouter = {
-   profileAvatar: f({ image: { maxFileSize: '2MB', maxFileCount: 1 } })
+   profile: f({ image: { maxFileSize: '2MB', maxFileCount: 1 } })
       // .input(
       // this is to z.validate a schema and pass it to the middleware
       // )

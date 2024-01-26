@@ -26,15 +26,17 @@ declare module 'next-auth' {
          name: string
          email: string
          username: string
+         createdAt: Date
          verified: boolean
          role: 'admin' | 'viper' | 'newViper' | 'needUpdate'
          bio: string
          image: string
+         backgroundImage: string
          website: string
          location: string
          birthDate: BirthDate
-         followers: number
-         followings: number
+         followersCount: number
+         followingsCount: number
       }
    }
    // Need to check this, if this user is just for the session or the database
@@ -115,7 +117,7 @@ export default {
       // newUser: '/i/flow/single_sign_on',
       // verifyRequest: '/verify',
       signOut: '/i/flow/signout',
-      signIn: '/i/flow/login',
+      signIn: '/i/flow/signin',
       // error: '/i/flow/error',
    },
    callbacks: {
@@ -157,24 +159,26 @@ export default {
       // },
       session: async ({ session, token, user, trigger, newSession }) => {
          if (trigger) {
-            const { username, image, role, followings } = newSession
-            if (username && image && role && followings) {
+            const { username, image, role, followingsCount } = newSession
+            if (username && image && role && followingsCount) {
                session.user.username = username
                session.user.image = image
                session.user.role = role
-               session.user.followings = followings
+               session.user.followingsCount = followingsCount
             }
          } else {
             session.user._id = user.id
             session.user.username = user.username
             session.user.verified = user.verified
             session.user.role = user.role
+            session.user.createdAt = user.createdAt
+            session.user.backgroundImage = user.backgroundImage
             session.user.bio = user.bio
             session.user.website = user.website
             session.user.location = user.location
             session.user.birthDate = user.birthDate
-            session.user.followers = user.followersCount
-            session.user.followings = user.followingsCount
+            session.user.followersCount = user.followersCount
+            session.user.followingsCount = user.followingsCount
          }
 
          return session
