@@ -8,19 +8,17 @@ import Link from 'next/link'
 import React from 'react'
 
 const ViperSwitchButton = async ({ username, viperId }: { username: string; viperId: string }) => {
-   const session: Session = await getCurrentSession()
+   const session: Session['user'] = await getCurrentSession()
 
-   const isCurrentViper = username.toLowerCase() === session.user.username.toLowerCase()
+   const isCurrentViper = username.toLowerCase() === session.username.toLowerCase()
 
-   const isFollowing =
-      !isCurrentViper && (await viperService.isFollowing(viperId, session.user.id))
+   const isFollowing = !isCurrentViper && (await viperService.isFollowing(viperId, session._id))
    return (
       <>
          {isCurrentViper ? (
             <div className="self-flex flex-col justify-stretch sm:flex-row">
                <Link
-                  // TODO: check if we will need the username in this component
-                  href={`/${username}/settings/profile`}
+                  href={`/settings/profile`}
                   className={cn(
                      buttonVariants({ variant: 'outline', size: 'md' }),
                      'rounded-3xl px-4 text-sm lg:text-[17px] xl:px-5',

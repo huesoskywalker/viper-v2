@@ -2,7 +2,7 @@ import { CalendarDays } from 'lucide-react'
 import React from 'react'
 
 const ViperJoinDate = ({ createdAt }: { createdAt: Date }) => {
-   const joinedAt = createdAt.toLocaleDateString(undefined, {
+   const joinedAt = new Date(createdAt).toLocaleDateString(undefined, {
       month: 'long',
       year: 'numeric',
    })
