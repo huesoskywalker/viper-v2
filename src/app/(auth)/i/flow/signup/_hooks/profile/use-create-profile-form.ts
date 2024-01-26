@@ -93,7 +93,7 @@ export const createProfileSchema = z.object({
             message: 'Username has already been taken.',
          },
       ),
-   image: z.string().optional(),
+   image: z.string(),
    interests: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: 'You have to select at least one item.',
    }),
