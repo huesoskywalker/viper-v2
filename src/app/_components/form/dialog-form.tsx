@@ -21,7 +21,7 @@ const DialogForm = <T extends FieldValues>({
          <form
             onSubmit={formReturn.handleSubmit(handleSubmit)}
             className={cn(
-               'flex h-full w-full flex-col items-center justify-between overflow-hidden px-1',
+               'flex h-full w-full flex-col items-center justify-between overflow-hidden px-0.5',
                className,
             )}
             {...props}
