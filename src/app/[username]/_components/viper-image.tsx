@@ -4,7 +4,7 @@ import React from 'react'
 
 const ViperImage = ({ image }: { image: string }) => {
    return (
-      <Avatar className="h-full w-full">
+      <Avatar className="h-full w-full bg-background">
          <AvatarImage
             width={135}
             height={135}
@@ -13,7 +13,7 @@ const ViperImage = ({ image }: { image: string }) => {
             loading="lazy"
             className="object-cover"
          />
-         <AvatarFallback className="bg-background">
+         <AvatarFallback>
             <LoadingSpinner></LoadingSpinner>
          </AvatarFallback>
       </Avatar>

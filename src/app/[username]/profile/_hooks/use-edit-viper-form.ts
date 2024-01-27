@@ -5,8 +5,6 @@ import { z } from 'zod'
 
 export type EditViperFormValues = z.infer<typeof editViperSchema>
 
-// export type EditViperSetValue = UseFormSetValue<EditViperFormValues>
-
 const editViperSchema = z.object({
    backgroundImage: z.string(),
    image: z.string(),
@@ -16,8 +14,8 @@ const editViperSchema = z.object({
    website: z.string(),
    birthDate: z.object({
       month: z.string(),
-      day: z.string({ required_error: 'Please select a day.' }),
-      year: z.string({ required_error: 'Please select a year.' }),
+      day: z.string(),
+      year: z.string(),
    }),
 })
 

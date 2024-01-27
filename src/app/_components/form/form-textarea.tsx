@@ -29,7 +29,7 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps & { lab
                <FormLabel
                   htmlFor={props.id}
                   className={cn(
-                     'text-md absolute transform  px-2 pt-1 transition-transform duration-200 ',
+                     'text-md transition-transform absolute  transform px-2 pt-1 duration-200 ',
                      isFocused
                         ? 'translate-y-0 text-sm  text-viper-dodger-blue'
                         : 'text-md translate-y-2  text-muted-foreground',
@@ -66,10 +66,14 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps & { lab
                         handleOnBlur(e)
                      }}
                      onChange={(e) => {
-                        if (props.onChange) {
-                           props.onChange(e)
+                        if (e.currentTarget.textLength <= 160) {
+                           if (props.onChange) {
+                              props.onChange(e)
+                           }
+                           handleOnChange(e)
+                        } else {
+                           return
                         }
-                        handleOnChange(e)
                      }}
                      defaultValue={props.value}
                      {...restProps}
