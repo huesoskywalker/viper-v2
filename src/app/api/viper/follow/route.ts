@@ -1,13 +1,16 @@
+import { manageEndpointSession } from '@/app/_utils/viper/manage-endpoint-session'
 import { logError, logMongoError } from '@/config/winstonLogger'
-import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
 import { MongoError } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(request: NextRequest) {
-   const session = await auth()
+   const { session, error, status } = await manageEndpointSession()
 
-   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+   if (!session) {
+      return NextResponse.json({ error: error }, { status: status })
+   }
+
    const { isFollowing, viperId } = await request.json()
 
    try {

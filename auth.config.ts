@@ -234,7 +234,7 @@ export default {
                throw new Error(`Internal server error: Failed to create the user`)
             } else {
                logError({ action: 'Populate new user', viperId: user.id }, error)
-               throw new Error(`Oops something wen't wrong. Please try again later.`)
+               throw new Error(`Oops something went wrong. Please try again later.`)
             }
          }
       },

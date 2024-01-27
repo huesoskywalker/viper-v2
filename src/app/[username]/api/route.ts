@@ -1,16 +1,15 @@
+import { manageEndpointSession } from '@/app/_utils/viper/manage-endpoint-session'
 import { logError, logMongoError } from '@/config/winstonLogger'
-import { auth } from '@/lib/auth'
 import { viperService } from '@/services/servicesInitializer'
 import { MongoError } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-   const session = await auth()
-   if (!session)
-      return NextResponse.json(
-         { error: 'User session not found, Please log in or try again later' },
-         { status: 401 },
-      )
+   const { session, error, status } = await manageEndpointSession()
+
+   if (!session) {
+      return NextResponse.json({ error: error }, { status: status })
+   }
 
    const searchParams = request.nextUrl.searchParams
    const search = searchParams.get('search')
