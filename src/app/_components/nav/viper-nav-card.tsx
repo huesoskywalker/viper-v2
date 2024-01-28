@@ -26,13 +26,13 @@ const ViperNavCard = () => {
                   loading="eager"
                />
             </Avatar>
-            <div className="flex flex-col items-start justify-start text-sm">
-               <ViperName name={session.user.name} className="hidden text-base xl:block">
+            <div className="flex flex-col items-start justify-start ">
+               <ViperName name={session.user.name} className="hidden text-sm xl:block">
                   <ViperVerified isVerified={session.user.verified} className="hidden xl:block" />
                </ViperName>
                <ViperUsername
                   username={session.user.username}
-                  className="hidden text-sm font-normal xl:block"
+                  className="hidden text-sm font-normal leading-none xl:block"
                >
                   <AtSymbol />
                </ViperUsername>

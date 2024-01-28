@@ -23,7 +23,7 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
             href={`/${itemSlug}`}
             aria-label={item.description}
             className={cn(
-               'transition-all w-fit items-center justify-center rounded-full duration-100 ease-in hover:bg-accent sm:flex sm:p-3.5',
+               'transition-all w-fit items-center justify-center rounded-full duration-100 ease-in hover:bg-accent sm:flex sm:px-3 sm:py-2 sm:pr-7 ',
                {
                   'font-normal ': !isActive,
                   'font-semibold': isActive,
@@ -35,9 +35,7 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
          >
             <div className="flex w-full flex-row items-center justify-start gap-3">
                <LucideIcon className="text-foreground" strokeWidth={isActive ? 3 : 2} size={30} />
-               <span className={'hidden text-lg text-foreground sm:text-xl xl:block'}>
-                  {item.name}
-               </span>
+               <span className={'hidden text-foreground xl:block xl:text-lg'}>{item.name}</span>
             </div>
          </Link>
       </>

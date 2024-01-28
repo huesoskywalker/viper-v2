@@ -18,7 +18,7 @@ export const MoreNavMenu = () => {
             >
                <div className="flex flex-row items-center justify-center gap-3">
                   <CircleEllipsisIcon className="text-foreground" strokeWidth={1.5} size={30} />
-                  <span className="hidden pr-3 text-xl text-foreground xl:block">More</span>
+                  <span className="hidden pr-3 text-lg text-foreground xl:block">More</span>
                </div>
             </Button>
          </DropdownMenuTrigger>

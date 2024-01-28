@@ -21,7 +21,7 @@ export function GlobalNav() {
       <div className="relative z-10">
          <MobileNavBar />
          <div className="fixed bottom-0 flex w-full flex-col justify-between bg-background py-2 sm:top-0 sm:w-24 sm:items-center sm:border-r sm:border-gray-700 xl:w-72 xl:pl-6 ">
-            <nav className="flex w-full flex-col sm:items-center xl:px-8">
+            <nav className="flex w-full flex-col sm:items-center xl:px-10 xl:pl-16">
                <div className="mx-8 flex flex-row items-center justify-between py-2 sm:mx-0 sm:w-full sm:flex-col sm:py-0 xl:items-start">
                   <Link href="/" className={cn(linkClass, 'hidden sm:block')}>
                      <Image
