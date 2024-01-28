@@ -16,37 +16,39 @@ import ViperLocation from './viper-location'
 import Link from 'next/link'
 import { Session } from 'next-auth/types'
 import { WithId } from 'mongodb'
+import { notFound } from 'next/navigation'
 
 export const Viper = async ({ username }: { username: string }) => {
-   const viper: WithId<ViperBasic> | Session['user'] =
+   // TODO: (.)Intercept route at app/ @parallel route
+   const viper: WithId<ViperBasic> | Session['user'] | null =
       username === 'settings'
          ? await getCurrentSession()
          : await viperService.getByUsername(username)
 
+   // const viper: WithId<ViperBasic> | null = await viperService.getByUsername(username)
+
+   if (!viper) notFound()
    // TODO: preloadViperFollowed(viperId)
    return (
       <div className="min-h-fit">
          <ViperBackgroundImage backgroundImage={viper.backgroundImage} />
-         <div
-            className={`-mt-12 justify-between px-4 sm:flex sm:items-end sm:space-x-5 lg:px-6 xl:-mt-14`}
-         >
-            {/* this is nice, clicking the image and opening it to catch a view */}
-            <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-[3px] border-solid border-primary-foreground align-middle sm:h-24 sm:w-24 sm:border-4 xl:h-28 xl:w-28">
-               <Link href={`${username}/photo`}>
-                  <ViperImage image={viper.image} />
-               </Link>
-            </div>
-            <ViperSwitchButton username={viper.username} viperId={String(viper._id)} />
-         </div>
-         <div className="pl-5">
-            <div className={'mt-2 flex flex-col items-start justify-center pb-1'}>
-               <div className="flex min-w-0 flex-1 items-center space-x-2">
-                  <ViperName name={viper.name}>
-                     <ViperVerified isVerified={viper.verified} className="h-6 w-6" />
-                  </ViperName>
+         <div className="mb-3 px-4 pt-3">
+            <div className={`items-start justify-between sm:flex sm:space-x-5`}>
+               {/* this is nice, clicking the image and opening it to catch a view */}
+               <div className="relative -mt-12 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-[3px] border-solid border-primary-foreground align-middle sm:-mt-14 sm:h-24 sm:w-24 sm:border-4 xl:-mt-16 xl:h-28 xl:w-28">
+                  <Link href={`${username}/photo`}>
+                     <ViperImage image={viper.image} />
+                  </Link>
                </div>
+               <ViperSwitchButton username={viper.username} viperId={String(viper._id)} />
+            </div>
+            {/* <div className="pl-5"> */}
+            <div className={'mt-2 flex flex-col items-start justify-center truncate '}>
+               <ViperName name={viper.name}>
+                  <ViperVerified isVerified={viper.verified} />
+               </ViperName>
                <ViperUsername username={viper.username}>
-                  <AtSymbol className="text-sm" />
+                  <AtSymbol />
                </ViperUsername>
             </div>
             <div className={'mt-3'}>
@@ -61,6 +63,7 @@ export const Viper = async ({ username }: { username: string }) => {
                <ViperFollowCount followCount={viper.followingsCount} label="Followings" />
                <ViperFollowCount followCount={viper.followersCount} label="Followers" />
             </div>
+            {/* </div> */}
          </div>
       </div>
    )

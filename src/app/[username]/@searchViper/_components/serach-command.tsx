@@ -28,6 +28,7 @@ export function SearchCommand() {
    const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState(newValue)
 
    const commandRef = useRef<HTMLDivElement | null>(null)
+   const inputRef = useRef<HTMLInputElement | null>(null)
 
    useEffect(() => {
       const mouseDown = (e: MouseEvent) => {
@@ -49,22 +50,31 @@ export function SearchCommand() {
    }
 
    return (
-      <Command ref={commandRef} className="relative mx-8 rounded-lg shadow-md">
+      <Command ref={commandRef} className="relative h-fit overflow-visible rounded-lg ">
          <div
-            className={cn('flex items-center justify-center rounded-full bg-accent px-2 ', {
+            className={cn('z-50 flex items-center justify-start rounded-full bg-accent px-2 ', {
                'border border-viper-dodger-blue bg-background': isFocused,
             })}
          >
             <CommandInput
+               ref={inputRef}
                onValueChange={handleValueChange}
                onBlur={handleOnBlur}
                onFocus={handleFocus}
                placeholder="Search"
-               className="text-[17px]"
+               className=" h-9 self-start text-[17px]"
             />
          </div>
          {open && (
-            <CommandList className="z-50 mx-1 rounded-lg shadow-rounded">
+            <CommandList
+               className={cn(
+                  `absolute z-10 mx-4 mb-4 w-[90%] self-center rounded-lg bg-background shadow-rounded `,
+               )}
+               style={{
+                  top: inputRef.current?.offsetHeight,
+                  // left: 0,
+               }}
+            >
                {!vipers.length && <CommandEmpty>No results found.</CommandEmpty>}
                {!newValue ? (
                   <CommandGroup
@@ -74,7 +84,11 @@ export function SearchCommand() {
                ) : (
                   <CommandGroup className="p-0">
                      {vipers.map((viper) => (
-                        <CommandItem value={viper.username && viper.name} className="px-3 py-2.5 ">
+                        <CommandItem
+                           key={viper.username}
+                           value={viper.username && viper.name}
+                           className="px-3 py-2.5 "
+                        >
                            <Link
                               href={`/${viper.username}`}
                               className="flex flex-row"

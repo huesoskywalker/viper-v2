@@ -1,4 +1,3 @@
-import AtSymbol from '@/app/_components/viper/at-symbol'
 import { cn } from '@/lib/utils'
 import React, { HTMLAttributes } from 'react'
 
@@ -11,7 +10,7 @@ const ViperUsername: React.FC<ViperUsernameProps> = ({
    ...props
 }) => {
    return (
-      <span className={cn('flex-1 truncate text-muted-foreground', className)} {...props}>
+      <span className={cn('flex-1 truncate text-sm text-muted-foreground', className)} {...props}>
          {children}
          {username}
       </span>

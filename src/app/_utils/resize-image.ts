@@ -1,5 +1,3 @@
-import { he } from 'date-fns/locale'
-
 export const resizeImage = async (
    originalImage: File,
    resize: { width: number; height: number },
@@ -28,7 +26,7 @@ export const resizeImage = async (
             drawWidth = resize.width
             drawHeight = height
             offsetX = 0
-            offsetY = cropAsAvatar ? 0 : resize.height / -8
+            offsetY = cropAsAvatar ? 0 : resize.height / -4
          }
 
          const canvas = document.createElement('canvas')

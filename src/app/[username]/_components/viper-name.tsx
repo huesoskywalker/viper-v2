@@ -4,9 +4,9 @@ import React, { HTMLAttributes } from 'react'
 type ViperNameProps = HTMLAttributes<HTMLSpanElement> & { name: string }
 const ViperName: React.FC<ViperNameProps> = ({ className, children, name, ...props }) => {
    return (
-      <div className="flex min-w-0 flex-1 items-center space-x-2">
+      <div className="flex flex-1 items-center space-x-2 truncate">
          <span
-            className={cn('truncate text-xl font-semibold text-foreground', className)}
+            className={cn('text-lg font-semibold leading-5 text-foreground', className)}
             {...props}
          >
             {name}

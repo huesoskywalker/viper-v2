@@ -5,7 +5,7 @@ type ViperBioProps = HTMLAttributes<HTMLParagraphElement> & { bio: string }
 
 const ViperBio: React.FC<ViperBioProps> = ({ className, bio, ...props }) => {
    return (
-      <p className={cn('w-full text-base text-foreground', className)} {...props}>
+      <p className={cn('w-full text-sm text-foreground', className)} {...props}>
          {bio}
       </p>
    )

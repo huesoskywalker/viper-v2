@@ -4,7 +4,6 @@ import { EditViperFormValues, useEditViperForm } from '../_hooks/use-edit-viper-
 import DialogForm from '@/app/_components/form/dialog-form'
 import EditViperFormHeader from './edit-viper-form-header'
 import EditViperFormBody from './edit-viper-form-body'
-import { PUBLIC_API_URL } from '@/config/env'
 import { useCreateProfileStore } from '@/app/(auth)/i/flow/signup/_stores/create-profile-store'
 import updateProfileEndpoint from '@/app/_utils/viper/update-profile-endpoint'
 import { useSession } from 'next-auth/react'
@@ -19,28 +18,28 @@ const EditViperForm = () => {
    const { editViperForm } = useEditViperForm()
 
    const { control } = editViperForm
+   const { _updateValid } = control
 
    const { images, removeImages } = useCreateProfileStore()
 
    useEffect(() => {
-      control._updateValid(true)
-   }, [])
+      _updateValid(true)
+   }, [_updateValid])
 
    const { startUpload } = useUploadThing('profile')
 
    const handleOnSubmit = async (formData: EditViperFormValues) => {
       if (images.profile) {
          try {
-            // const deleteImage = deleteViperImageEndpoint('image')
+            const deleteImage = deleteViperImageEndpoint('image')
 
             const uploadImage = startUpload(images.profile)
 
-            // const [deletedImage, uploadedImage] = await Promise.all([deleteImage, uploadImage])
-            const [uploadedImage] = await Promise.all([uploadImage])
+            const [deletedImage, uploadedImage] = await Promise.all([deleteImage, uploadImage])
 
-            // if (deletedImage.error) {
-            //    throw new Error(deletedImage.error)
-            // }
+            if (deletedImage.error) {
+               throw new Error(deletedImage.error)
+            }
 
             if (uploadedImage) {
                const image = uploadedImage.map((image) => image.url)

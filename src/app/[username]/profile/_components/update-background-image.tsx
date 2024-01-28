@@ -17,8 +17,7 @@ const UpdateBackgroundImage = ({ imageSrc }: { imageSrc: string }) => {
 
    const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
       const resizedFiles = await Promise.all(
-         // TODO: resize this for the dimensions of the background
-         acceptedFiles.map((image) => resizeImage(image, { width: 700, height: 230 }, false)),
+         acceptedFiles.map((image) => resizeImage(image, { width: 800, height: 200 }, false)),
       )
 
       setObjectURL(URL.createObjectURL(resizedFiles[0]))

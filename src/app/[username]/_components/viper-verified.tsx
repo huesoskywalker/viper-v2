@@ -7,7 +7,7 @@ const ViperVerified = ({ isVerified, className }: { isVerified: boolean; classNa
       <>
          {isVerified && (
             <BadgeCheck
-               className={cn('h-5 w-5', className)}
+               className={cn('h-4 w-4', className)}
                color="black"
                fill="hsl(204, 87.6%, 52.7%)"
             />

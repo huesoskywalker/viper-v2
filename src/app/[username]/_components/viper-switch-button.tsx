@@ -16,19 +16,19 @@ const ViperSwitchButton = async ({ username, viperId }: { username: string; vipe
    return (
       <>
          {isCurrentViper ? (
-            <div className="self-flex flex-col justify-stretch sm:flex-row">
+            <div className="flex flex-col justify-stretch sm:flex-row">
                <Link
                   href={`/settings/profile`}
                   className={cn(
-                     buttonVariants({ variant: 'outline', size: 'md' }),
-                     'rounded-3xl px-4 text-sm lg:text-[17px] xl:px-5',
+                     buttonVariants({ variant: 'outline', size: 'sm' }),
+                     'h-8 rounded-3xl px-5 text-sm lg:text-[17px]',
                   )}
                >
                   Edit profile
                </Link>
             </div>
          ) : (
-            <div className="self-flex flex-col justify-stretch sm:flex-row">
+            <div className="flex flex-col justify-stretch sm:flex-row">
                <ToggleFollowButton isFollowing={isFollowing} viperId={viperId} />
             </div>
          )}
