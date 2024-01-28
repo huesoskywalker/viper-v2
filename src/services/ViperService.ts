@@ -155,7 +155,7 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getByUsername(username: string): Promise<WithId<ViperBasic>> {
+   async getByUsername(username: string): Promise<WithId<ViperBasic> | null> {
       try {
          const viperBasic = await this.viperRepository.getByUsername(username)
          return viperBasic

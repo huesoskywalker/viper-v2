@@ -253,7 +253,7 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async getByUsername(username: string): Promise<WithId<ViperBasic>> {
+   async getByUsername(username: string): Promise<WithId<ViperBasic> | null> {
       try {
          const viper: WithId<Viper> | null = await this.viperCollection.findOne(
             {
@@ -265,7 +265,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
          )
 
-         if (!viper) throw new Error(`User not found or does not exist.`)
+         // if (!viper) throw new Error(`User not found or does not exist.`)
 
          return viper
       } catch (error: unknown) {
