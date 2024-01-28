@@ -43,7 +43,7 @@ const usePasswordRestSteps = (step: number, findBy: string, setValue: PasswordRe
          default:
             return null
       }
-   }, [step])
+   }, [step, findBy])
 
    return { renderStep }
 }

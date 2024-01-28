@@ -27,7 +27,7 @@ export const useAdmissionSteps = (step: number, email: string) => {
          default:
             return null
       }
-   }, [step])
+   }, [step, email])
 
    return { renderStep }
 }

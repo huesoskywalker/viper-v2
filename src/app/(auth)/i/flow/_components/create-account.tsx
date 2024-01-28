@@ -35,7 +35,7 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
             push('/home')
          }
       }
-   }, [status, viperRole, isPathnameLogin, isPathnamePassword])
+   }, [status, step, viperRole, isPathnameLogin, isPathnamePassword])
 
    const { openDialog, closeDialog } = useHandleDialog()
 
