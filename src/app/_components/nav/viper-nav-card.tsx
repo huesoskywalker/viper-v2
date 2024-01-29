@@ -1,4 +1,3 @@
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import { useSession } from 'next-auth/react'
 import { Card, CardContent } from '@/components/ui/card'
 import AtSymbol from '../viper/at-symbol'

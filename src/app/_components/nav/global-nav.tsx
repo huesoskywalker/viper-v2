@@ -7,8 +7,6 @@ import MobileNavBar from './mobile-nav-bar'
 import ViperNavMenu from './viper-nav-menu'
 import { getNavItems } from '@/app/_utils/get-nav-items'
 import { useSession } from 'next-auth/react'
-import { Suspense } from 'react'
-import ViperNavSkeleton from './viper-nav-skeleton'
 
 export function GlobalNav() {
    const { navItems } = getNavItems()
@@ -43,9 +41,7 @@ export function GlobalNav() {
                   <MoreNavMenu />
                </div>
             </nav>
-            <Suspense fallback={<ViperNavSkeleton />}>
-               <ViperNavMenu />
-            </Suspense>
+            <ViperNavMenu />
          </div>
       </div>
    )

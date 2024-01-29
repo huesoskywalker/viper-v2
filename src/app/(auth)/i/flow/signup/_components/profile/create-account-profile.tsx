@@ -25,7 +25,7 @@ const CreateAccountProfile = ({
 
    const { createProfileForm } = useCreateProfileForm()
 
-   const { getFieldState, setValue } = createProfileForm
+   const { getFieldState } = createProfileForm
 
    const { onSubmit } = useSubmitCreateProfile()
 

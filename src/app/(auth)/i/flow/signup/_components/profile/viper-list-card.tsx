@@ -3,19 +3,21 @@ import ViperName from '@/app/[username]/_components/viper-name'
 import ViperUsername from '@/app/[username]/_components/viper-username'
 import ViperVerified from '@/app/[username]/_components/viper-verified'
 import AtSymbol from '@/app/_components/viper/at-symbol'
-import ToggleFollowButton from '@/app/_components/viper/toggle-follow-button'
+import ToggleFollow from '@/app/_components/viper/toggle-follow'
 import { getCurrentSession } from '@/app/_utils/get-current-viper'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
-import { viperService } from '@/services/servicesInitializer'
+import { Skeleton } from '@/components/ui/skeleton'
+import { preloadViperService } from '@/services/servicesInitializer'
 import { ViperBasic } from '@/types/viper'
+import { Suspense } from 'react'
 
 const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
    const session = await getCurrentSession()
 
-   const isFollowing = await viperService.isFollowing(String(viper._id), session._id)
-
    const viperBio = viper.bio.length > 80 ? viper.bio.slice(0, 80) + '...' : viper.bio
+
+   preloadViperService.isFollowing(String(viper._id), session._id)
 
    return (
       <>
@@ -45,10 +47,9 @@ const ViperListCard = async ({ viper }: { viper: ViperBasic }) => {
                               <AtSymbol />
                            </ViperUsername>
                         </div>
-                        <ToggleFollowButton
-                           isFollowing={isFollowing}
-                           viperId={String(viper._id)}
-                        />
+                        <Suspense fallback={<Skeleton className={'h-8 w-20 rounded-3xl'} />}>
+                           <ToggleFollow viperId={String(viper._id)} sessionId={session._id} />
+                        </Suspense>
                      </div>
                      <ViperBio bio={viperBio} className="text-[17px] text-gray-200" />
                   </div>

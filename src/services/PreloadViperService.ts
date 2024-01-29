@@ -1,4 +1,4 @@
-import { PreloadViperServiceSource } from '@/types/repository/viper-repository'
+import { PreloadViperServiceSource } from '@/types/preload/perload-viper'
 import { ViperService } from './ViperService'
 
 export class PreloadViperService implements PreloadViperServiceSource {
@@ -6,11 +6,15 @@ export class PreloadViperService implements PreloadViperServiceSource {
    constructor(viperService: ViperService) {
       this.viperService = viperService
    }
-   async preloadGetById(viperId: string): Promise<void> {
-      void (await this.viperService.getById(viperId))
+   getByUsername(username: string): void {
+      void this.viperService.getByUsername(username)
    }
 
-   async preloadBasic(viperId: string): Promise<void> {
-      void (await this.viperService.getByIdBasic(viperId))
+   getById(viperId: string): void {
+      void this.viperService.getById(viperId)
+   }
+
+   isFollowing(viperId: string, sessionId: string): void {
+      void this.viperService.isFollowing(viperId, sessionId)
    }
 }

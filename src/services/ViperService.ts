@@ -221,12 +221,9 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async isFollowing(viperId: string, currentViperId: string): Promise<boolean> {
+   async isFollowing(viperId: string, sessionId: string): Promise<boolean> {
       try {
-         const isFollowing: boolean = await this.viperRepository.isFollowing(
-            viperId,
-            currentViperId,
-         )
+         const isFollowing: boolean = await this.viperRepository.isFollowing(viperId, sessionId)
 
          return isFollowing
       } catch (error: unknown) {
@@ -237,7 +234,7 @@ export class ViperService implements ViperServiceSource {
    async toggleFollow(
       isFollowing: boolean,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<{
       follower: Pick<WithId<Viper>, '_id'>
       following: Pick<WithId<Viper>, '_id'>
@@ -251,13 +248,13 @@ export class ViperService implements ViperServiceSource {
             operation,
             incCount,
             viperId,
-            currentViperId,
+            sessionId,
          )
          const toggleFollowing = this.viperRepository.toggleFollowing(
             operation,
             incCount,
             viperId,
-            currentViperId,
+            sessionId,
          )
 
          const [follower, following] = await Promise.all([toggleFollower, toggleFollowing])
@@ -288,12 +285,12 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async isBlogLiked(blogId: string, viperId: string, currentViperId: string): Promise<boolean> {
+   async isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean> {
       try {
          const isLiked: boolean = await this.viperRepository.isBlogLiked(
             blogId,
             viperId,
-            currentViperId,
+            sessionId,
          )
 
          return isLiked
@@ -306,14 +303,14 @@ export class ViperService implements ViperServiceSource {
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const toggleLike = await this.viperRepository.toggleBlogLike(
             isLiked,
             blogId,
             viperId,
-            currentViperId,
+            sessionId,
          )
 
          return toggleLike
@@ -326,14 +323,14 @@ export class ViperService implements ViperServiceSource {
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const toggleLikedBlog = await this.viperRepository.toggleFeedBlogLike(
             isLiked,
             blogId,
             viperId,
-            currentViperId,
+            sessionId,
          )
 
          return toggleLikedBlog
@@ -345,7 +342,7 @@ export class ViperService implements ViperServiceSource {
    async addBlogReply(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
       // change this to content or reply as well
       comment: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
@@ -353,7 +350,7 @@ export class ViperService implements ViperServiceSource {
          const addBlogComment = await this.viperRepository.addBlogReply(
             blogId,
             viperId,
-            currentViperId,
+            sessionId,
             comment,
          )
 
@@ -366,13 +363,13 @@ export class ViperService implements ViperServiceSource {
    async addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          const addFeedBlog = await this.viperRepository.addWithReplyBlogToFeed(
             blogId,
             viperId,
-            currentViperId,
+            sessionId,
          )
 
          return addFeedBlog

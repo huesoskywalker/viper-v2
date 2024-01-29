@@ -15,7 +15,7 @@ const ViperImage = ({
    className?: string
 }) => {
    return (
-      <Avatar className="h-fit w-fit bg-background">
+      <Avatar className="h-full w-full bg-background">
          <AvatarImage
             width={width}
             height={height}

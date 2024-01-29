@@ -26,7 +26,7 @@ export const Viper = async ({ username }: { username: string }) => {
       : await viperService.getByUsername(username)
 
    if (!viper) notFound()
-   // TODO: preloadViperFollowed(viperId)
+
    return (
       <div className="min-h-fit">
          <ViperBackgroundImage backgroundImage={viper.backgroundImage} />

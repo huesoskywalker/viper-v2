@@ -1,7 +1,7 @@
-// import { preloadViperService } from '@/services/servicesInitializer'
 import { ReactNode } from 'react'
 import { Viper } from './_components/viper'
 import ProfileNavTabs from './_components/profile-nav-tabs'
+import { preloadViperService } from '@/services/servicesInitializer'
 
 export default async function Layout({
    children,
@@ -15,7 +15,8 @@ export default async function Layout({
    params: { username: string }
 }) {
    const username = params.username
-   // TODO: preloadViperByUsername()
+   preloadViperService.getByUsername(username)
+
    return (
       <div className="flex min-h-screen w-full flex-row gap-5 overflow-x-clip ">
          <div className="w-full lg:w-2/3 lg:border-r lg:border-gray-700">

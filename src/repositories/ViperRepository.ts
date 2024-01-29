@@ -399,11 +399,11 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async isFollowing(viperId: string, currentViperId: string): Promise<boolean> {
+   async isFollowing(viperId: string, sessionId: string): Promise<boolean> {
       try {
          const isFollowing: WithId<Viper> | null = await this.viperCollection.findOne(
             {
-               _id: new ObjectId(currentViperId),
+               _id: new ObjectId(sessionId),
                'followings._id': new ObjectId(viperId),
             },
             {
@@ -423,7 +423,7 @@ export class ViperRepository implements ViperRepositorySource {
       operation: '$push' | '$pull',
       incCount: 1 | -1,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
       try {
          const toggleFollower: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
@@ -432,7 +432,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                [operation]: {
-                  followers: { _id: new ObjectId(currentViperId) },
+                  followers: { _id: new ObjectId(sessionId) },
                },
                $inc: { followersCount: incCount },
             },
@@ -457,12 +457,12 @@ export class ViperRepository implements ViperRepositorySource {
       operation: '$push' | '$pull',
       incCount: 1 | -1,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>> {
       try {
          const toggleFollowing: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
-               _id: new ObjectId(currentViperId),
+               _id: new ObjectId(sessionId),
             },
             {
                [operation]: {
@@ -560,14 +560,14 @@ export class ViperRepository implements ViperRepositorySource {
       }
    }
 
-   async isBlogLiked(blogId: string, viperId: string, currentViperId: string): Promise<boolean> {
+   async isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean> {
       try {
          const isLiked: WithId<Viper> | null = await this.viperCollection.findOne({
             _id: new ObjectId(viperId),
             'blogs.personal': {
                $elemMatch: {
                   _id: new ObjectId(blogId),
-                  'likes._id': new ObjectId(currentViperId),
+                  'likes._id': new ObjectId(sessionId),
                },
             },
 
@@ -585,7 +585,7 @@ export class ViperRepository implements ViperRepositorySource {
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       const operation: string = isLiked ? '$pull' : '$push'
       try {
@@ -596,7 +596,7 @@ export class ViperRepository implements ViperRepositorySource {
             },
             {
                [operation]: {
-                  'blogs.personal.$.likes': { _id: new ObjectId(currentViperId) },
+                  'blogs.personal.$.likes': { _id: new ObjectId(sessionId) },
                },
             },
             {
@@ -621,15 +621,15 @@ export class ViperRepository implements ViperRepositorySource {
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       // TODO: if it is our own Blog we should not push it to our feed since it will be already there
-      // if(viperId === currentViperId) return
+      // if(viperId === sessionId) return
       const operation: string = isLiked ? '$pull' : '$push'
       try {
          const toggleLikedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
-               _id: new ObjectId(currentViperId),
+               _id: new ObjectId(sessionId),
             },
             {
                [operation]: {
@@ -660,7 +660,7 @@ export class ViperRepository implements ViperRepositorySource {
    async addBlogReply(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
       // change this to reply or content when the time comes
       comment: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
@@ -674,7 +674,7 @@ export class ViperRepository implements ViperRepositorySource {
                $push: {
                   'blogs.$.replies': {
                      _id: new ObjectId(),
-                     viperId: new ObjectId(currentViperId),
+                     viperId: new ObjectId(sessionId),
                      content: comment,
                      likes: [],
                      timestamp: Date.now(),
@@ -700,14 +700,14 @@ export class ViperRepository implements ViperRepositorySource {
    async addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>> {
       try {
          // TODO: if the it is our own blog we should not push it to the feed
-         // if(viperId === currentViperId) return
+         // if(viperId === sessionId) return
          const addFeedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
             {
-               _id: new ObjectId(currentViperId),
+               _id: new ObjectId(sessionId),
             },
             {
                $push: {

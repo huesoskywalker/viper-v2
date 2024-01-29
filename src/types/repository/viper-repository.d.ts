@@ -48,49 +48,49 @@ interface ViperFollowRepository {
    // getFollowers(viperId: string): Promise<Follow[]>
    // =========================================
    getFollowings(viperId: string): Promise<Follow[]>
-   isFollowing(viperId: string, currentViperId: string): Promise<boolean>
+   isFollowing(viperId: string, sessionId: string): Promise<boolean>
    toggleFollower(
       operation: '$push' | '$pull',
       incCount: 1 | -1,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>>
    toggleFollowing(
       operation: '$push' | '$pull',
       incCount: 1 | -1,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<Pick<WithId<Viper>, '_id'>>
    // ======IMPORTANT=====
    // We need to add a initChat type and function
-   // initChat(viperId: string, currentViperId: string): Promise
+   // initChat(viperId: string, sessionId: string): Promise
 }
 interface ViperBlogRepository {
    getBlogs(viperId: string): Promise<Blog[]>
    createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null>
-   isBlogLiked(blogId: string, viperId: string, currentViperId: string): Promise<boolean>
+   isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean>
    toggleBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>>
    toggleFeedBlogLike(
       isLiked: boolean,
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>>
    addBlogReply(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
       comment: string,
    ): Promise<WithId<Pick<Viper, '_id'>>>
    addWithReplyBlogToFeed(
       blogId: string,
       viperId: string,
-      currentViperId: string,
+      sessionId: string,
    ): Promise<WithId<Pick<Viper, '_id'>>>
 }
 
@@ -118,8 +118,3 @@ export type ViperRepositorySource = ViperCRUDRepository &
    ViperFollowRepository &
    ViperBlogRepository &
    ViperEventRepository
-
-export type PreloadViperServiceSource = {
-   preloadGetById(viperId: string): Promise<void>
-   preloadBasic(viperId: string): Promise<void>
-}
