@@ -6,11 +6,11 @@ import { useDropzone } from '@uploadthing/react/hooks'
 import { useUploadThing } from '@/utils/uploadthing'
 import { useCreateProfileStore } from '@/app/(auth)/i/flow/signup/_stores/create-profile-store'
 import { resizeImage } from '@/app/_utils/resize-image'
-import ViperBackgroundImage from '../../_components/viper-background-image'
 import CameraEditIcon from '@/app/_components/form/camera-edit-icon'
 import DragAndDropBorder from '@/app/_components/form/drag-and-drop-border'
+import ViperBackgroundImage from '@/app/[username]/_components/viper-background-image'
 
-const UpdateBackgroundImage = ({ imageSrc }: { imageSrc: string }) => {
+const UpdateBackgroundImage = ({ id, imageSrc }: { id: string; imageSrc: string }) => {
    const { setImages } = useCreateProfileStore()
 
    const [objectURL, setObjectURL] = useState<string>(imageSrc)
@@ -38,6 +38,7 @@ const UpdateBackgroundImage = ({ imageSrc }: { imageSrc: string }) => {
       <>
          <div
             {...getRootProps()}
+            id={id}
             className={cn(`relative z-0 flex items-center justify-center overflow-hidden`)}
          >
             <DragAndDropBorder isDragActive={isDragActive} />

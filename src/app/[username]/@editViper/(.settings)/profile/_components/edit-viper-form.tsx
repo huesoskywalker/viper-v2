@@ -24,7 +24,7 @@ const EditViperForm = () => {
 
    useEffect(() => {
       _updateValid(true)
-   }, [_updateValid])
+   }, [])
 
    const { startUpload } = useUploadThing('profile')
 

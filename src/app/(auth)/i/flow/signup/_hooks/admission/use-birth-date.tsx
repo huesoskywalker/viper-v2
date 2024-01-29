@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 import { AdmissionFormValues } from './use-admission-form'
-import { EditViperFormValues } from '@/app/[username]/profile/_hooks/use-edit-viper-form'
+import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/profile/_hooks/use-edit-viper-form'
 
 type FormContextValues = AdmissionFormValues | EditViperFormValues
 

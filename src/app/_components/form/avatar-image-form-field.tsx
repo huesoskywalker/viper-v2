@@ -3,7 +3,7 @@ import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import React from 'react'
 import UpdateAvatar from '../viper/update-avatar'
 import { useFormContext } from 'react-hook-form'
-import { EditViperFormValues } from '@/app/[username]/profile/_hooks/use-edit-viper-form'
+import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/profile/_hooks/use-edit-viper-form'
 
 type FormContextValues = CreateProfileFormValues | EditViperFormValues
 

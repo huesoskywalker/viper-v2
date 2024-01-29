@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
-import EditViperCloseButton from './edit-viper-close-button'
 import SubmitButton from '@/app/_components/form/submit-button'
 import { cn } from '@/lib/utils'
+import CloseButton from '@/app/_components/dialog/close-button'
 
 const EditViperFormHeader = () => {
    return (
@@ -13,10 +13,15 @@ const EditViperFormHeader = () => {
             )}
          >
             <div className="flex flex-row gap-5">
-               <EditViperCloseButton variant={'ghost'} size={'fit'} />
+               <CloseButton variant={'ghost'} size={'fit'} />
                <span className="text-lg font-semibold text-foreground/80">Edit profile</span>
             </div>
-            <SubmitButton label="Save" />
+            <SubmitButton
+               variant={'default'}
+               size={'sm'}
+               className={'h-7 rounded-3xl'}
+               label="Save"
+            />
          </div>
       </>
    )

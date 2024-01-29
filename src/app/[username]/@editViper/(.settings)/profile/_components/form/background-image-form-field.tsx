@@ -13,7 +13,7 @@ const BackgroundImageFormField = () => {
          render={({ field }) => (
             <FormItem>
                <FormControl>
-                  <UpdateBackgroundImage imageSrc={getValues('backgroundImage')} />
+                  <UpdateBackgroundImage id={field.name} imageSrc={getValues('backgroundImage')} />
                </FormControl>
             </FormItem>
          )}

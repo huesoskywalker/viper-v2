@@ -3,8 +3,8 @@ import React from 'react'
 import { FormTextarea } from './form-textarea'
 import { CreateProfileFormValues } from '@/app/(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
 import { ProviderProfileFormValues } from '@/app/(auth)/i/flow/signup/_hooks/provider/use-provider-profile-form'
-import { EditViperFormValues } from '@/app/[username]/profile/_hooks/use-edit-viper-form'
 import { useFormContext } from 'react-hook-form'
+import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/profile/_hooks/use-edit-viper-form'
 
 type FormContextValues = CreateProfileFormValues | ProviderProfileFormValues | EditViperFormValues
 

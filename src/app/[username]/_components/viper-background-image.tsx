@@ -14,10 +14,6 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
                   width={600}
                   height={200}
                   loading="lazy"
-                  fetchPriority="high"
-                  // -----------------need a base 64 encoded image of 10px
-                  // placeholder="blur"
-                  // blurDataURL={}
                   quality={100}
                   className="-z-10 h-full w-full object-cover object-center"
                />

@@ -2,7 +2,7 @@ import { PUBLIC_API_URL } from '@/config/env'
 import { CreateProfileFormValues } from '../../(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
 import { ProviderProfileFormValues } from '../../(auth)/i/flow/signup/_hooks/provider/use-provider-profile-form'
 import { BasicViperResponse } from '@/types/api/response'
-import { EditViperFormValues } from '../../[username]/profile/_hooks/use-edit-viper-form'
+import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/profile/_hooks/use-edit-viper-form'
 
 const updateProfileEndpoint = async (
    formData: CreateProfileFormValues | ProviderProfileFormValues | EditViperFormValues,

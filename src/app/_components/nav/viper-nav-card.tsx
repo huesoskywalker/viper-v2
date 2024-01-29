@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import ViperName from '@/app/[username]/_components/viper-name'
 import ViperVerified from '@/app/[username]/_components/viper-verified'
 import ViperUsername from '@/app/[username]/_components/viper-username'
+import ViperImage from '@/app/[username]/_components/viper-image'
 
 const ViperNavCard = () => {
    const { data: session } = useSession()
@@ -16,16 +17,9 @@ const ViperNavCard = () => {
    return (
       <Card className="rounded-full border-none p-3 hover:bg-accent">
          <CardContent className="flex flex-row justify-between p-0 sm:items-center xl:gap-2">
-            <Avatar className="flex items-center justify-center">
-               <AvatarImage
-                  width={44}
-                  height={44}
-                  className="h-9 w-9 rounded-full p-0 xl:h-10 xl:w-10"
-                  src={session.user.image}
-                  alt="Profile preview"
-                  loading="eager"
-               />
-            </Avatar>
+            <div className="flex items-center justify-center">
+               <ViperImage width={44} height={44} image={session.user.image} className="h-9 w-9" />
+            </div>
             <div className="flex flex-col items-start justify-start ">
                <ViperName name={session.user.name} className="hidden text-sm xl:block">
                   <ViperVerified isVerified={session.user.verified} className="hidden xl:block" />

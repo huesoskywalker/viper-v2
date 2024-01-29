@@ -19,13 +19,11 @@ import { WithId } from 'mongodb'
 import { notFound } from 'next/navigation'
 
 export const Viper = async ({ username }: { username: string }) => {
-   // TODO: (.)Intercept route at app/ @parallel route
-   const viper: WithId<ViperBasic> | Session['user'] | null =
-      username === 'settings'
-         ? await getCurrentSession()
-         : await viperService.getByUsername(username)
+   const isSettings = username === 'settings'
 
-   // const viper: WithId<ViperBasic> | null = await viperService.getByUsername(username)
+   const viper: WithId<ViperBasic> | Session['user'] | null = isSettings
+      ? await getCurrentSession()
+      : await viperService.getByUsername(username)
 
    if (!viper) notFound()
    // TODO: preloadViperFollowed(viperId)
@@ -37,12 +35,11 @@ export const Viper = async ({ username }: { username: string }) => {
                {/* this is nice, clicking the image and opening it to catch a view */}
                <div className="relative -mt-12 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-[3px] border-solid border-primary-foreground align-middle sm:-mt-14 sm:h-24 sm:w-24 sm:border-4 xl:-mt-16 xl:h-28 xl:w-28">
                   <Link href={`${username}/photo`}>
-                     <ViperImage image={viper.image} />
+                     <ViperImage image={viper.image} width={135} height={135} />
                   </Link>
                </div>
                <ViperSwitchButton username={viper.username} viperId={String(viper._id)} />
             </div>
-            {/* <div className="pl-5"> */}
             <div className={'mt-2 flex flex-col items-start justify-center truncate '}>
                <ViperName name={viper.name}>
                   <ViperVerified isVerified={viper.verified} />
@@ -63,7 +60,6 @@ export const Viper = async ({ username }: { username: string }) => {
                <ViperFollowCount followCount={viper.followingsCount} label="Followings" />
                <ViperFollowCount followCount={viper.followersCount} label="Followers" />
             </div>
-            {/* </div> */}
          </div>
       </div>
    )

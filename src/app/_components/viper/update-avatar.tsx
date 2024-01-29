@@ -44,7 +44,7 @@ const UpdateAvatar = ({ id, imageSrc }: { id: string; imageSrc: string }) => {
             )}
          >
             <DragAndDropBorder isDragActive={isDragActive} className="rounded-full" />
-            <ViperImage image={objectURL} />
+            <ViperImage image={objectURL} width={135} height={135} />
             <input {...getInputProps()} />
             <CameraEditIcon />
          </div>

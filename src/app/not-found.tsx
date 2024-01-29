@@ -9,14 +9,14 @@ export default function NotFound() {
          <DialogContent steps={'disabled'} className="h-fit max-w-md px-16 py-8">
             <div className="flex flex-col items-center justify-center space-y-6">
                <div className="flex flex-col items-center justify-center space-y-2">
-                  <h2 className="text-foreground">Not Found</h2>
-                  <p className="text-foreground">Could not find requested resource</p>
+                  <h2 className="text-sm text-foreground">Not Found</h2>
+                  <p className="text-sm text-foreground">Could not find requested resource</p>
                </div>
                <Link
                   href={'/'}
                   className={cn(
                      buttonVariants({ variant: 'destructive', size: 'sm' }),
-                     'text-primary',
+                     'text-sm text-primary',
                   )}
                >
                   Return home

@@ -13,12 +13,12 @@ import Link from 'next/link'
 import useFocusBlurState from '@/app/_hooks/use-focus-blur-states'
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import ViperName from '../../_components/viper-name'
 import ViperUsername from '../../_components/viper-username'
 import AtSymbol from '@/app/_components/viper/at-symbol'
 import ViperVerified from '../../_components/viper-verified'
 import useOnValueChange from '../_hooks/use-on-value-change'
+import ViperImage from '../../_components/viper-image'
 
 export function SearchCommand() {
    const [open, setOpen] = useState(false)
@@ -72,7 +72,6 @@ export function SearchCommand() {
                )}
                style={{
                   top: inputRef.current?.offsetHeight,
-                  // left: 0,
                }}
             >
                {!vipers.length && <CommandEmpty>No results found.</CommandEmpty>}
@@ -94,16 +93,12 @@ export function SearchCommand() {
                               className="flex flex-row"
                               scroll={false}
                            >
-                              <Avatar>
-                                 <AvatarImage
-                                    src={viper.image}
-                                    alt="Viper profile"
-                                    loading="lazy"
-                                    width={40}
-                                    height={40}
-                                 />
-                                 <AvatarFallback>Profile</AvatarFallback>
-                              </Avatar>
+                              <ViperImage
+                                 image={viper.image}
+                                 width={40}
+                                 height={40}
+                                 className="h-9 w-9"
+                              />
                               <div className="flex flex-col pl-2">
                                  <ViperName name={viper.name} className="text-[17px] font-bold">
                                     <ViperVerified isVerified={viper.verified} />

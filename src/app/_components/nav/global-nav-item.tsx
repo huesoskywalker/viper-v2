@@ -23,7 +23,7 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
             href={`/${itemSlug}`}
             aria-label={item.description}
             className={cn(
-               'transition-all w-fit items-center justify-center rounded-full duration-100 ease-in hover:bg-accent sm:flex sm:px-3 sm:py-2 sm:pr-7 ',
+               'transition-all w-fit items-center justify-center rounded-full duration-100 ease-in hover:bg-accent sm:flex sm:px-3 sm:py-2 xl:pr-7 ',
                {
                   'font-normal ': !isActive,
                   'font-semibold': isActive,

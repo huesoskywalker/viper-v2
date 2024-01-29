@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { PUBLIC_API_URL } from '@/config/env'
 import { cn } from '@/lib/utils'
-import { ApiResponse } from '@/types/api/response'
 import { useRouter } from 'next/navigation'
 import { useOptimistic, useState, useTransition } from 'react'
 
@@ -71,9 +70,9 @@ const ToggleFollowButton = ({
       <>
          <Button
             variant={!optimisticFollowing || clicked ? 'default' : 'outline'}
-            size={'default'}
+            size={'sm'}
             type={'button'}
-            className={cn('h-8 rounded-3xl', {
+            className={cn('rounded-3xl', {
                'hover:border-destructive hover:bg-destructive/20 hover:text-viper-red':
                   optimisticFollowing && !clicked,
             })}

@@ -6,11 +6,12 @@ import ProfileNavTabs from './_components/profile-nav-tabs'
 export default async function Layout({
    children,
    searchViper,
+   editViper,
    params,
 }: {
    children: ReactNode
+   editViper: ReactNode
    searchViper: ReactNode
-   testing: ReactNode
    params: { username: string }
 }) {
    const username = params.username
@@ -19,6 +20,7 @@ export default async function Layout({
       <div className="flex min-h-screen w-full flex-row gap-5 overflow-x-clip ">
          <div className="w-full lg:w-2/3 lg:border-r lg:border-gray-700">
             <Viper username={username} />
+            {editViper}
             <ProfileNavTabs defaultValue="calendar" username={username}>
                {children}
             </ProfileNavTabs>
