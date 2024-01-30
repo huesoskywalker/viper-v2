@@ -1,4 +1,3 @@
-import React from 'react'
 import NameFormField from '@/app/_components/form/name-form-field'
 import BirthDateFormField from '@/app/_components/form/birth-date-form-field'
 import AvatarImageFormField from '@/app/_components/form/avatar-image-form-field'
