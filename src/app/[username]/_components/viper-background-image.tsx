@@ -6,7 +6,7 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
    return (
       <>
          {backgroundImage ? (
-            <AspectRatio ratio={7 / 2}>
+            <AspectRatio ratio={7 / 2} className="overflow-hidden">
                <Image
                   data-test="background-image"
                   alt={'Viper background image'}
@@ -14,8 +14,9 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
                   width={600}
                   height={200}
                   loading="lazy"
+                  fetchPriority="high"
                   quality={100}
-                  className="-z-10 h-full w-full object-cover object-center"
+                  className="-z-10 h-auto w-full object-contain object-center"
                />
             </AspectRatio>
          ) : (

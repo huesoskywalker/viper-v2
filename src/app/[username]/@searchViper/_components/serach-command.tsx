@@ -93,13 +93,8 @@ export function SearchCommand() {
                               className="flex flex-row"
                               scroll={false}
                            >
-                              <div className="h-fit w-fit">
-                                 <ViperImage
-                                    image={viper.image}
-                                    width={40}
-                                    height={40}
-                                    className="h-9 w-9"
-                                 />
+                              <div className="h-9 w-9">
+                                 <ViperImage image={viper.image} width={40} height={40} />
                               </div>
                               <div className="flex flex-col pl-2">
                                  <ViperName name={viper.name} className="text-[17px] font-bold">

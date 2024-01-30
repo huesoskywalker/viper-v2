@@ -15,7 +15,7 @@ const ViperImage = ({
    className?: string
 }) => {
    return (
-      <Avatar className="h-full w-full bg-background">
+      <Avatar className="h-full w-full">
          <AvatarImage
             width={width}
             height={height}
@@ -25,7 +25,7 @@ const ViperImage = ({
             className={cn('object-cover', className)}
          />
          <AvatarFallback>
-            <Skeleton className={`h-full w-full rounded-full  `} />
+            <Skeleton className={`h-full w-full rounded-full`} />
          </AvatarFallback>
       </Avatar>
    )

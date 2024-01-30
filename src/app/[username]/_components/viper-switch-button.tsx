@@ -1,12 +1,14 @@
-import ToggleFollow from '@/app/_components/viper/toggle-follow'
 import { getCurrentSession } from '@/app/_utils/get-current-viper'
 import { buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { preloadViperService } from '@/services/servicesInitializer'
 import { Session } from 'next-auth/types'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React, { Suspense } from 'react'
+
+const ToggleFollow = dynamic(() => import('@/app/_components/viper/toggle-follow'))
 
 const ViperSwitchButton = async ({ username, viperId }: { username: string; viperId: string }) => {
    const session: Session['user'] = await getCurrentSession()
