@@ -1,3 +1,4 @@
+'use client'
 import { FormField, FormItem } from '@/components/ui/form'
 import React from 'react'
 import { FormTextarea } from './form-textarea'

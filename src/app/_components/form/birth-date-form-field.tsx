@@ -1,3 +1,4 @@
+'use client'
 import { FormField, FormItem, FormMessage } from '@/components/ui/form'
 import FormSelect from './form-select'
 import getMonths from '@/app/(auth)/i/flow/signup/_utils/get-months'

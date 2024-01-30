@@ -16,8 +16,8 @@ const ViperNavCard = () => {
    return (
       <Card className="rounded-full border-none p-3 hover:bg-accent">
          <CardContent className="flex flex-row justify-between p-0 sm:items-center xl:gap-2">
-            <div className="flex items-center justify-center">
-               <ViperImage width={44} height={44} image={session.user.image} className="h-9 w-9" />
+            <div className="relative flex h-9 w-9 items-center justify-center">
+               <ViperImage width={44} height={44} image={session.user.image} />
             </div>
             <div className="flex flex-col items-start justify-start ">
                <ViperName name={session.user.name} className="hidden text-sm xl:block">

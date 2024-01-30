@@ -1,6 +1,6 @@
+'use client'
 import { CreateProfileFormValues } from '@/app/(auth)/i/flow/signup/_hooks/profile/use-create-profile-form'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
-import React from 'react'
 import UpdateAvatar from '../viper/update-avatar'
 import { useFormContext } from 'react-hook-form'
 import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/profile/_hooks/use-edit-viper-form'

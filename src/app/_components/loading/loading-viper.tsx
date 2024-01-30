@@ -11,6 +11,7 @@ const ViperLoading = () => {
             height={250}
             quality={100}
             loading="eager"
+            fetchPriority="high"
             priority={true}
             className="invert-image"
          />

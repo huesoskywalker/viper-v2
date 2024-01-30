@@ -1,12 +1,15 @@
+'use client'
 import { FormControl, FormLabel, FormMessage, useFormField } from '@/components/ui/form'
 import { Input, InputProps } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import React from 'react'
 import useOnChangeState from '../../_hooks/use-on-change-state'
 import useFocusBlurState from '../../_hooks/use-focus-blur-states'
-import { PasswordToggle } from './password-toggle'
 import useShowPassword from '../../_hooks/use-show-password'
+import dynamic from 'next/dynamic'
 import { Checkbox } from '@/components/ui/checkbox'
+
+const PasswordToggle = dynamic(() => import('./password-toggle'))
 
 const FormInput = React.forwardRef<
    HTMLInputElement,

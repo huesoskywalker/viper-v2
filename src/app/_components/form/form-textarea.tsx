@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Textarea, TextareaProps } from '@/components/ui/textarea'
 import { FormControl, FormLabel, FormMessage, useFormField } from '@/components/ui/form'

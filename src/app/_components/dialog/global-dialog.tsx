@@ -23,7 +23,7 @@ const GlobalDialog = ({
             onOpenAutoFocus={onOpenAutoFocus}
             steps={stepIcon}
             className={cn(
-               'flex h-full max-w-sm flex-col items-start justify-center rounded-lg border-none md:h-[575px] md:max-w-[600px] xl:h-[650px]',
+               'flex h-full max-w-sm flex-col items-start justify-center overflow-hidden rounded-lg border-none md:h-[575px] md:max-w-[600px] xl:h-[650px]',
             )}
          >
             {children}

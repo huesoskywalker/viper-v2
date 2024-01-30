@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
@@ -8,7 +10,7 @@ interface PasswordToggleProps {
    onToggle: () => void
 }
 
-export const PasswordToggle: React.FC<PasswordToggleProps> = ({ showPassword, onToggle }) => {
+const PasswordToggle: React.FC<PasswordToggleProps> = ({ showPassword, onToggle }) => {
    const [displaySpan, setDisplaySpan] = useState<boolean>(false)
 
    const handleMouseEnter = () => {
@@ -50,3 +52,5 @@ export const PasswordToggle: React.FC<PasswordToggleProps> = ({ showPassword, on
       </>
    )
 }
+
+export default PasswordToggle

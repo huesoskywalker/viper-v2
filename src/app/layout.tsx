@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
    return (
       <html suppressHydrationWarning>
-         <body className={`${inter.className} overflow-y-scroll bg-background `}>
+         <body className={`${inter.className} mt-14 overflow-y-scroll bg-background sm:mt-0 `}>
             <Suspense fallback={<ViperLoading />}>
                <ThemeProvider>
                   <main>

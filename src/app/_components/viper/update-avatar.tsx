@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@/lib/utils'
 import { useCallback, useState } from 'react'
 import { FileWithPath } from '@uploadthing/react'
@@ -8,7 +9,9 @@ import { useDropzone } from '@uploadthing/react/hooks'
 import { useUploadThing } from '@/utils/uploadthing'
 import ViperImage from '@/app/[username]/_components/viper-image'
 import CameraEditIcon from '../form/camera-edit-icon'
-import DragAndDropBorder from '../form/drag-and-drop-border'
+import dynamic from 'next/dynamic'
+
+const DragAndDropBorder = dynamic(() => import('../form/drag-and-drop-border'))
 
 const UpdateAvatar = ({ id, imageSrc }: { id: string; imageSrc: string }) => {
    const { setImages } = useCreateProfileStore()
@@ -40,10 +43,10 @@ const UpdateAvatar = ({ id, imageSrc }: { id: string; imageSrc: string }) => {
             id={id}
             {...getRootProps()}
             className={cn(
-               ` relative z-0 flex items-center justify-center overflow-hidden  rounded-full object-contain`,
+               ` relative z-0 flex items-center justify-center overflow-hidden rounded-full object-contain`,
             )}
          >
-            <DragAndDropBorder isDragActive={isDragActive} className="rounded-full" />
+            {isDragActive && <DragAndDropBorder className="rounded-full" />}
             <ViperImage image={objectURL} width={135} height={135} />
             <input {...getInputProps()} />
             <CameraEditIcon />
