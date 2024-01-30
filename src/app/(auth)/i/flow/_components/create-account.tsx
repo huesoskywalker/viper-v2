@@ -4,8 +4,9 @@ import useHandleDialog from '@/app/_hooks/use-handle-dialog'
 import { useSession } from 'next-auth/react'
 import { PropsWithChildren, useEffect, useMemo } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import GlobalDialog from '@/app/_components/dialog/global-dialog'
-import CreateAccountDialogHeader from './create-account-dialog-header'
+import dynamic from 'next/dynamic'
+
+const GlobalDialog = dynamic(() => import('@/app/_components/dialog/global-dialog'))
 
 export const CreateAccount = ({ children }: PropsWithChildren) => {
    const { data: session, status } = useSession()

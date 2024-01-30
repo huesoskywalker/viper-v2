@@ -77,7 +77,7 @@ const useSubmitEditViper = () => {
                location: data.location,
                website: data.website,
             }),
-            push(`/${data.username}`),
+            push(`/${data.username}`, { scroll: false }),
          ])
       } catch (error) {
          throw new Error(

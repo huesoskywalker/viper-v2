@@ -1,12 +1,25 @@
 import { useMemo } from 'react'
-import NextStepButton from '../../_components/next-step-button'
 import { PasswordResetFieldState, PasswordResetGetValues } from './use-password-reset-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { emailRegex } from '../../_utils/regex'
-import FindAccountButton from '../_components/password-match-account-button'
-import CancelPasswordResetButton from '../_components/cancel-password-reset-button'
-import RequestVerificationTokenButton from '../../signup/_components/admission/request-verification-token-button'
-import ValidFormSubmitButton from '@/app/_components/form/valid-form-submit-button'
+import dynamic from 'next/dynamic'
+
+const NextStepButton = dynamic(() => import('../../_components/next-step-button'), { ssr: false })
+const PasswordMatchAccountButton = dynamic(
+   () => import('../_components/password-match-account-button'),
+   { ssr: false },
+)
+const RequestVerificationTokenButton = dynamic(
+   () => import('../../signup/_components/admission/request-verification-token-button'),
+   { ssr: false },
+)
+const CancelPasswordResetButton = dynamic(
+   () => import('../_components/cancel-password-reset-button'),
+)
+const ValidFormSubmitButton = dynamic(
+   () => import('@/app/_components/form/valid-form-submit-button'),
+   { ssr: false },
+)
 
 const usePasswordResetButtons = (
    step: number,
@@ -32,7 +45,7 @@ const usePasswordResetButtons = (
          case 1:
             return <NextStepButton variant={'default'} size={'lg'} disabled={disableButton} />
          case 2:
-            return <FindAccountButton disabled={disableButton} />
+            return <PasswordMatchAccountButton disabled={disableButton} />
          case 3:
             return (
                <div className="space-y-4">

@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
 import { ApiResponse } from '@/types/api/response'
 
-const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
+const PasswordMatchAccountButton = ({ disabled }: { disabled: boolean }) => {
    const { nextStep } = useCreateAccountStore()
    const { getValues, setValue } = useFormContext<PasswordResetFormValues>()
 
@@ -61,4 +61,4 @@ const FindAccountButton = ({ disabled }: { disabled: boolean }) => {
    )
 }
 
-export default FindAccountButton
+export default PasswordMatchAccountButton

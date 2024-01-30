@@ -4,14 +4,18 @@ import { AdmissionFormValues, useAdmissionForm } from '../../_hooks/admission/us
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useAdmissionButtons } from '../../_hooks/admission/use-admission-buttons'
 import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
-import GlobalDialogFooter from '../../../../../../_components/dialog/global-dialog-footer'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import useSubmitAdmissionAcc from '../../../_hooks/use-submit-admission-acc'
 import DialogForm from '@/app/_components/form/dialog-form'
-import { TokenVerificationForm } from './token-verification-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
+
+const GlobalDialogFooter = dynamic(
+   () => import('../../../../../../_components/dialog/global-dialog-footer'),
+)
+const TokenVerificationForm = dynamic(() => import('./token-verification-form'))
 
 const CreateAccountAdmission = () => {
    const { step, redirectStep } = useCreateAccountStore()

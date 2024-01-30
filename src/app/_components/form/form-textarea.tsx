@@ -16,7 +16,7 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps & { lab
 
       const { handleOnChange, isChanging } = useOnChangeState(props.onChange, props.name)
 
-      const { onBlur, onFocus, onChange, defaultValue, ...restProps } = props
+      const { onBlur, onFocus, onChange, ...restProps } = props
 
       return (
          <>
@@ -76,7 +76,6 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps & { lab
                            return
                         }
                      }}
-                     defaultValue={props.value}
                      {...restProps}
                   />
                </FormControl>

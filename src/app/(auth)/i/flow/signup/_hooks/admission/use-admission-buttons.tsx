@@ -1,9 +1,18 @@
 import { useMemo } from 'react'
-import NextStepButton from '../../../_components/next-step-button'
-import { EmailSignUpSection } from '../../_components/admission/email-sign-up-section'
 import { AdmissionFieldState } from './use-admission-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
-import ValidFormSubmitButton from '@/app/_components/form/valid-form-submit-button'
+import dynamic from 'next/dynamic'
+
+const NextStepButton = dynamic(() => import('../../../_components/next-step-button'), {
+   ssr: false,
+})
+const EmailSignUpSection = dynamic(
+   () => import('../../_components/admission/email-sign-up-section'),
+)
+const ValidFormSubmitButton = dynamic(
+   () => import('@/app/_components/form/valid-form-submit-button'),
+   { ssr: false },
+)
 
 export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldState) => {
    const { isPersonalInfoValid } = admissionFieldValidity(getFieldState)

@@ -16,7 +16,7 @@ const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) 
                   loading="lazy"
                   fetchPriority="high"
                   quality={100}
-                  className="-z-10 h-auto w-full object-contain object-center"
+                  className="-z-10 h-full w-full object-cover object-center"
                />
             </AspectRatio>
          ) : (

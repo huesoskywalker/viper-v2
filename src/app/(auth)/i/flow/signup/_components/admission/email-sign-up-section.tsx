@@ -7,7 +7,7 @@ import RequestVerificationTokenButton from './request-verification-token-button'
 import { useFormContext } from 'react-hook-form'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 
-export const EmailSignUpSection = () => {
+const EmailSignUpSection = () => {
    const { redirectStep } = useCreateAccountStore()
 
    const { getValues } = useFormContext<AdmissionFormValues>()
@@ -48,3 +48,5 @@ export const EmailSignUpSection = () => {
       </>
    )
 }
+
+export default EmailSignUpSection

@@ -2,26 +2,30 @@
 import DialogForm from '@/app/_components/form/dialog-form'
 import { PasswordResetFormValues, usePasswordResetForm } from '../_hooks/use-password-reset-form'
 import CreateAccountFormBody from '../../_components/create-account-form-body'
-import usePasswordRestSteps from '../_hooks/use-password-reset-steps'
+import usePasswordResetSteps from '../_hooks/use-password-reset-steps'
 import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
-import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import usePasswordResetButtons from '../_hooks/use-password-reset-buttons'
 import { Toaster } from '@/components/ui/toaster'
-import GlobalDialogFooter from '@/app/_components/dialog/global-dialog-footer'
-import { TokenVerificationForm } from '../../signup/_components/admission/token-verification-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import useSubmitAdmissionAcc from '../../_hooks/use-submit-admission-acc'
+import dynamic from 'next/dynamic'
+
+const GlobalDialogFooter = dynamic(() => import('@/app/_components/dialog/global-dialog-footer'))
+const TokenVerificationForm = dynamic(
+   () => import('../../signup/_components/admission/token-verification-form'),
+)
+const DialogFormFooter = dynamic(() => import('@/app/_components/form/dialog-form-footer'))
 
 const PasswordReset = () => {
    const { step, prevStep } = useCreateAccountStore()
 
    const { passwordResetForm } = usePasswordResetForm()
 
-   const { control, getFieldState, getValues, setValue } = passwordResetForm
+   const { getFieldState, getValues, setValue } = passwordResetForm
 
-   const { renderStep } = usePasswordRestSteps(step, getValues('findBy'), setValue)
+   const { renderStep } = usePasswordResetSteps(step, getValues('findBy'), setValue)
 
    const { renderButton } = usePasswordResetButtons(step, getFieldState, getValues)
 
@@ -44,7 +48,7 @@ const PasswordReset = () => {
                {renderStep}
             </CreateAccountFormBody>
             <Toaster />
-            <DialogFormFooter>{step !== 4 && renderButton}</DialogFormFooter>
+            {step !== 4 && <DialogFormFooter>{renderButton}</DialogFormFooter>}
          </DialogForm>
          {step === 4 && (
             <GlobalDialogFooter>

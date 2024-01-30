@@ -9,22 +9,6 @@ const CalendarPage = () => {
             <div className="flex w-full self-start">Listings page</div>
             <div className="flex w-full self-start">Listings page</div>
             <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
-            <div className="flex w-full self-start">Listings page</div>
          </div>
       </>
    )

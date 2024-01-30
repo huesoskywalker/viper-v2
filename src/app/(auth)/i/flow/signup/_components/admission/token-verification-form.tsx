@@ -9,7 +9,7 @@ const initialState = {
    message: null,
 }
 
-export const TokenVerificationForm = ({
+const TokenVerificationForm = ({
    token,
    email,
    disabled,
@@ -43,3 +43,5 @@ export const TokenVerificationForm = ({
       </>
    )
 }
+
+export default TokenVerificationForm

@@ -1,17 +1,23 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { PasswordResetSetValue } from './use-password-reset-form'
-import PasswordFindAccount from '../_components/password-find-account'
-import PasswordConfirmUsername from '../_components/password-confirm-username'
-import PasswordConfirmEmail from '../_components/password-confirm-email'
 import { emailRegex } from '../../_utils/regex'
-import PasswordSendVerificationToken from '../_components/password-send-verification-token'
-import AdmissionVerificationToken from '../../signup/_components/admission/admission-verification-token'
 import { FormDescription } from '@/components/ui/form'
-import NewPassword from '../_components/new-password'
-import PasswordResetMotive from '../_components/password-reset-motive'
-import PasswordResetSuccess from '../_components/password-reset-success'
+import dynamic from 'next/dynamic'
 
-const usePasswordRestSteps = (step: number, findBy: string, setValue: PasswordResetSetValue) => {
+const PasswordFindAccount = dynamic(() => import('../_components/password-find-account'))
+const PasswordConfirmEmail = dynamic(() => import('../_components/password-confirm-email'))
+const PasswordConfirmUsername = dynamic(() => import('../_components/password-confirm-username'))
+const PasswordSendVerificationToken = dynamic(
+   () => import('../_components/password-send-verification-token'),
+)
+const AdmissionVerificationToken = dynamic(
+   () => import('../../signup/_components/admission/admission-verification-token'),
+)
+const NewPassword = dynamic(() => import('../_components/new-password'))
+const PasswordResetMotive = dynamic(() => import('../_components/password-reset-motive'))
+const PasswordResetSuccess = dynamic(() => import('../_components/password-reset-success'))
+
+const usePasswordResetSteps = (step: number, findBy: string, setValue: PasswordResetSetValue) => {
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:
@@ -48,4 +54,4 @@ const usePasswordRestSteps = (step: number, findBy: string, setValue: PasswordRe
    return { renderStep }
 }
 
-export default usePasswordRestSteps
+export default usePasswordResetSteps

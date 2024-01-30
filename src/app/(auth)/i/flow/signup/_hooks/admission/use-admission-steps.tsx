@@ -1,10 +1,20 @@
-import React, { useMemo } from 'react'
-import AdmissionPersonalInfo from '../../_components/admission/admission-personal-info'
-import AdmissionContentDiscovery from '../../_components/admission/admission-content-discovery'
-import AdmissionInfoCheck from '../../_components/admission/admission-info-check'
-import AdmissionVerificationToken from '../../_components/admission/admission-verification-token'
-import AdmissionPassword from '../../_components/admission/admission-password'
+import { useMemo } from 'react'
 import { FormDescription } from '@/components/ui/form'
+import dynamic from 'next/dynamic'
+
+const AdmissionPersonalInfo = dynamic(
+   () => import('../../_components/admission/admission-personal-info'),
+)
+const AdmissionContentDiscovery = dynamic(
+   () => import('../../_components/admission/admission-content-discovery'),
+)
+const AdmissionInfoCheck = dynamic(
+   () => import('../../_components/admission/admission-info-check'),
+)
+const AdmissionVerificationToken = dynamic(
+   () => import('../../_components/admission/admission-verification-token'),
+)
+const AdmissionPassword = dynamic(() => import('../../_components/admission/admission-password'))
 
 export const useAdmissionSteps = (step: number, email: string) => {
    const renderStep = useMemo(() => {
