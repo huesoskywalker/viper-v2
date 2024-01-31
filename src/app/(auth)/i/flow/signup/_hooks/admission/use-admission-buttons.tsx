@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { AdmissionFieldState } from './use-admission-form'
 import { admissionFieldValidity } from '../../_utils/admission-field-validity'
 import dynamic from 'next/dynamic'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 
 const NextStepButton = dynamic(() => import('../../../_components/next-step-button'), {
    ssr: false,
@@ -14,7 +15,9 @@ const ValidFormSubmitButton = dynamic(
    { ssr: false },
 )
 
-export const useAdmissionButtons = (step: number, getFieldState: AdmissionFieldState) => {
+export const useAdmissionButtons = (getFieldState: AdmissionFieldState) => {
+   const { step } = useCreateAccountStore()
+
    const { isPersonalInfoValid } = admissionFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([

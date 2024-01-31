@@ -8,7 +8,9 @@ import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
-import SubmitButton from '@/app/_components/form/submit-button'
+import dynamic from 'next/dynamic'
+
+const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), { ssr: false })
 
 const CreateAccountProvider = ({
    children,
@@ -19,9 +21,9 @@ const CreateAccountProvider = ({
    const { providerProfileForm } = useProviderProfileForm()
    const { getFieldState } = providerProfileForm
 
-   const { renderStep } = useProviderProfileSteps(step)
+   const { renderStep } = useProviderProfileSteps()
 
-   const { renderButton } = useProviderProfileButtons(step, getFieldState)
+   const { renderButton } = useProviderProfileButtons(getFieldState)
 
    const { onSubmit } = useSubmitCreateProfile()
 

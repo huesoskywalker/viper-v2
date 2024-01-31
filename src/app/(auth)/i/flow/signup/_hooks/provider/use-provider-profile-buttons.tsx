@@ -3,8 +3,11 @@ import NextStepButton from '../../../_components/next-step-button'
 import { ProviderProfileFieldState } from './use-provider-profile-form'
 import providerProfileFieldValidity from '../../_utils/provider-profile-field-validity'
 import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 
-const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileFieldState) => {
+const useProviderProfileButtons = (getFieldState: ProviderProfileFieldState) => {
+   const { step } = useCreateAccountStore()
+
    const { isBirthDateValid, isBioDirty, isBioValid, isUsernameDirty, isUsernameValid } =
       providerProfileFieldValidity(getFieldState)
 
@@ -17,18 +20,15 @@ const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileF
 
    const disableButton = !validStepMap.get(step)
 
-   const bioVariant = isBioDirty ? 'default' : 'outline'
-   const bioLabel = isBioDirty ? undefined : 'Skip for now'
-
-   const usernameVariant = isUsernameDirty ? 'default' : 'outline'
-   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
-
    const renderButton = useMemo(() => {
       switch (step) {
          case 1:
          case 2:
             return <NextStepButton size={'lg'} disabled={disableButton} />
          case 3:
+            const bioVariant = isBioDirty ? 'default' : 'outline'
+            const bioLabel = isBioDirty ? undefined : 'Skip for now'
+
             return (
                <NextStepButton
                   variant={bioVariant}
@@ -38,6 +38,9 @@ const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileF
                />
             )
          case 4:
+            const usernameVariant = isUsernameDirty ? 'default' : 'outline'
+            const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
+
             return (
                <NextStepButton
                   variant={usernameVariant}
@@ -51,7 +54,7 @@ const useProviderProfileButtons = (step: number, getFieldState: ProviderProfileF
          default:
             return null
       }
-   }, [step, disableButton, bioVariant, bioLabel, usernameVariant, usernameLabel])
+   }, [step, disableButton, isBioDirty, isUsernameDirty])
 
    return { renderButton }
 }

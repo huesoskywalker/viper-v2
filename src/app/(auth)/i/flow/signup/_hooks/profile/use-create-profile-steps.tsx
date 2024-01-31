@@ -1,10 +1,27 @@
 import React, { useMemo } from 'react'
-import CreateProfileUsername from '../../_components/profile/create-profile-username'
-import CreateProfileAvatar from '../../_components/profile/create-profile-avatar'
-import CreateProfileInterests from '../../_components/profile/create-profile-interests'
-import CreateProfileBio from '../../_components/profile/create-profile-bio'
+import dynamic from 'next/dynamic'
+import LoadingSpinner from '@/app/_components/loading/loading-spinner'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 
-export const useCreateProfileSteps = (step: number) => {
+const CreateProfileBio = dynamic(() => import('../../_components/profile/create-profile-bio'), {
+   loading: () => <LoadingSpinner className="h-full" />,
+})
+const CreateProfileUsername = dynamic(
+   () => import('../../_components/profile/create-profile-username'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
+)
+const CreateProfileAvatar = dynamic(
+   () => import('../../_components/profile/create-profile-avatar'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
+)
+const CreateProfileInterests = dynamic(
+   () => import('../../_components/profile/create-profile-interests'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
+)
+
+export const useCreateProfileSteps = () => {
+   const { step } = useCreateAccountStore()
+
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:

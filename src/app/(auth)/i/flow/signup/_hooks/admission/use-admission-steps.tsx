@@ -1,22 +1,32 @@
 import { useMemo } from 'react'
 import { FormDescription } from '@/components/ui/form'
 import dynamic from 'next/dynamic'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
+import LoadingSpinner from '@/app/_components/loading/loading-spinner'
 
 const AdmissionPersonalInfo = dynamic(
    () => import('../../_components/admission/admission-personal-info'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
 )
 const AdmissionContentDiscovery = dynamic(
    () => import('../../_components/admission/admission-content-discovery'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
 )
 const AdmissionInfoCheck = dynamic(
    () => import('../../_components/admission/admission-info-check'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
 )
 const AdmissionVerificationToken = dynamic(
    () => import('../../_components/admission/admission-verification-token'),
+   { loading: () => <LoadingSpinner className="h-full" /> },
 )
-const AdmissionPassword = dynamic(() => import('../../_components/admission/admission-password'))
+const AdmissionPassword = dynamic(() => import('../../_components/admission/admission-password'), {
+   loading: () => <LoadingSpinner className="h-full" />,
+})
 
-export const useAdmissionSteps = (step: number, email: string) => {
+export const useAdmissionSteps = (email: string) => {
+   const { step } = useCreateAccountStore()
+
    const renderStep = useMemo(() => {
       switch (step) {
          case 1:

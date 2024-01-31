@@ -10,9 +10,11 @@ import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
-import SubmitButton from '@/app/_components/form/submit-button'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
 import { useUploadThing } from '@/utils/uploadthing'
+import dynamic from 'next/dynamic'
+
+const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), { ssr: false })
 
 const CreateAccountProfile = ({
    children,
@@ -29,9 +31,9 @@ const CreateAccountProfile = ({
 
    const { onSubmit } = useSubmitCreateProfile()
 
-   const { renderStep } = useCreateProfileSteps(step)
+   const { renderStep } = useCreateProfileSteps()
 
-   const { renderButton } = useCreateProfileButtons(step, getFieldState)
+   const { renderButton } = useCreateProfileButtons(getFieldState)
 
    const { startUpload } = useUploadThing('profile')
 

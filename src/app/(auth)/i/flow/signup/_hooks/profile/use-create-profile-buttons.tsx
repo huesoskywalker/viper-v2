@@ -1,11 +1,18 @@
 import { useMemo } from 'react'
-import NextStepButton from '../../../_components/next-step-button'
 import { CreateProfileFieldState } from './use-create-profile-form'
-import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 import { createProfileFieldValidity } from '../../_utils/create-profile-field-validity'
 import { useCreateProfileStore } from '../../_stores/create-profile-store'
+import dynamic from 'next/dynamic'
+import { useCreateAccountStore } from '../../_stores/create-account-store'
 
-export const useCreateProfileButtons = (step: number, getFieldState: CreateProfileFieldState) => {
+const NextStepButton = dynamic(() => import('../../../_components/next-step-button'))
+const ProfileInterestsButton = dynamic(
+   () => import('../../_components/profile/profile-interests-button'),
+)
+
+export const useCreateProfileButtons = (getFieldState: CreateProfileFieldState) => {
+   const { step } = useCreateAccountStore()
+
    const { images } = useCreateProfileStore()
 
    const { isBioValid, isBioDirty, isUsernameValid, isUsernameDirty, isImageValid } =
@@ -19,17 +26,14 @@ export const useCreateProfileButtons = (step: number, getFieldState: CreateProfi
 
    const disableButton = !validStepMap.get(step)
 
-   const bioVariant = isBioDirty ? 'default' : 'outline'
-   const bioLabel = isBioDirty ? undefined : 'Skip for now'
-
-   const usernameVariant = isUsernameDirty ? 'default' : 'outline'
-   const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
-
    const profileImage = images.profile
 
    const renderButton = useMemo(() => {
       switch (step) {
          case 1:
+            const bioVariant = isBioDirty ? 'default' : 'outline'
+            const bioLabel = isBioDirty ? undefined : 'Skip for now'
+
             return (
                <NextStepButton
                   variant={bioVariant}
@@ -39,6 +43,9 @@ export const useCreateProfileButtons = (step: number, getFieldState: CreateProfi
                />
             )
          case 2:
+            const usernameVariant = isUsernameDirty ? 'default' : 'outline'
+            const usernameLabel = isUsernameDirty ? undefined : 'Skip for now'
+
             return (
                <NextStepButton
                   variant={usernameVariant}
@@ -63,7 +70,7 @@ export const useCreateProfileButtons = (step: number, getFieldState: CreateProfi
          default:
             return null
       }
-   }, [step, disableButton, bioVariant, bioLabel, usernameVariant, usernameLabel, profileImage])
+   }, [step, disableButton, isBioDirty, isUsernameDirty, profileImage])
 
    return { renderButton }
 }
