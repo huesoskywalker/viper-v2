@@ -7,9 +7,9 @@ import useOnChangeState from '../../_hooks/use-on-change-state'
 import useFocusBlurState from '../../_hooks/use-focus-blur-states'
 import useShowPassword from '../../_hooks/use-show-password'
 import dynamic from 'next/dynamic'
-import { Checkbox } from '@/components/ui/checkbox'
 
 const PasswordToggle = dynamic(() => import('./password-toggle'))
+const Checkbox = dynamic(() => import('@/components/ui/checkbox').then((mod) => mod.Checkbox))
 
 const FormInput = React.forwardRef<
    HTMLInputElement,

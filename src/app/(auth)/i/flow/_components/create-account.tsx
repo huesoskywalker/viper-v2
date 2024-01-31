@@ -6,9 +6,9 @@ import { PropsWithChildren, useEffect, useMemo } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-const GlobalDialog = dynamic(() => import('@/app/_components/dialog/global-dialog'))
+const GlobalDialog = dynamic(() => import('@/app/_components/dialog/global-dialog'), {})
 
-export const CreateAccount = ({ children }: PropsWithChildren) => {
+const CreateAccount = ({ children }: PropsWithChildren) => {
    const { data: session, status } = useSession()
 
    const { step, redirectStep } = useCreateAccountStore()
@@ -78,3 +78,5 @@ export const CreateAccount = ({ children }: PropsWithChildren) => {
       </>
    )
 }
+
+export default CreateAccount

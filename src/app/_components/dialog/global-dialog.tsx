@@ -1,6 +1,11 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import React, { ReactNode } from 'react'
+import dynamic from 'next/dynamic'
+import { ReactNode } from 'react'
+
+const Dialog = dynamic(() => import('@/components/ui/dialog').then((mod) => mod.Dialog))
+const DialogContent = dynamic(() =>
+   import('@/components/ui/dialog').then((mod) => mod.DialogContent),
+)
 
 type DialogContentProps = {
    open: boolean
