@@ -8,15 +8,15 @@ import usePasswordResetButtons from '../_hooks/use-password-reset-buttons'
 import { Toaster } from '@/components/ui/toaster'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import useSubmitAdmissionAcc from '../../_hooks/use-submit-admission-acc'
 import dynamic from 'next/dynamic'
+import { BaseSyntheticEvent } from 'react'
 
 const GlobalDialogFooter = dynamic(() => import('@/app/_components/dialog/global-dialog-footer'))
+const DialogFormFooter = dynamic(() => import('@/app/_components/form/dialog-form-footer'))
 const TokenVerificationForm = dynamic(
    () => import('../../signup/_components/admission/token-verification-form'),
 )
-const DialogFormFooter = dynamic(() => import('@/app/_components/form/dialog-form-footer'))
 
 const PasswordReset = () => {
    const { step, prevStep } = useCreateAccountStore()
@@ -25,28 +25,31 @@ const PasswordReset = () => {
 
    const { getFieldState, getValues, setValue } = passwordResetForm
 
-   const { renderStep } = usePasswordResetSteps(step, getValues('findBy'), setValue)
+   const { renderStep } = usePasswordResetSteps(getValues('findBy'), setValue)
 
-   const { renderButton } = usePasswordResetButtons(step, getFieldState, getValues)
+   const { renderButton } = usePasswordResetButtons(getFieldState, getValues)
 
    const { isTokenDirty, isTokenValid } = passwordResetFieldValidity(getFieldState)
 
    const { onSubmit } = useSubmitAdmissionAcc()
 
-   const handleOnSubmit = async (formData: PasswordResetFormValues) => {
+   const handleOnSubmit = async (formData: PasswordResetFormValues, e?: BaseSyntheticEvent) => {
+      if (e) e.preventDefault()
+
       const { findBy, token, confirmPassword, ...restForm } = formData
-      await onSubmit(restForm)
+
+      try {
+         await onSubmit(restForm)
+      } catch (error) {
+         throw new Error(
+            error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+         )
+      }
    }
    return (
       <>
-         <DialogForm
-            formReturn={passwordResetForm}
-            handleSubmit={handleOnSubmit}
-            className={cn(step === 7 && 'justify-stretch pt-5')}
-         >
-            <CreateAccountFormBody className={cn(step === 7 && 'h-[250px]')}>
-               {renderStep}
-            </CreateAccountFormBody>
+         <DialogForm formReturn={passwordResetForm} handleSubmit={handleOnSubmit}>
+            <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
             <Toaster />
             {step !== 4 && <DialogFormFooter>{renderButton}</DialogFormFooter>}
          </DialogForm>

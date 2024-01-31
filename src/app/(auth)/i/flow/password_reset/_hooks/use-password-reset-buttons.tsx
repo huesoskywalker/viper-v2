@@ -3,6 +3,7 @@ import { PasswordResetFieldState, PasswordResetGetValues } from './use-password-
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
 import { emailRegex } from '../../_utils/regex'
 import dynamic from 'next/dynamic'
+import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
 
 const NextStepButton = dynamic(() => import('../../_components/next-step-button'), { ssr: false })
 const PasswordMatchAccountButton = dynamic(
@@ -22,10 +23,11 @@ const ValidFormSubmitButton = dynamic(
 )
 
 const usePasswordResetButtons = (
-   step: number,
    getFieldState: PasswordResetFieldState,
    getValues: PasswordResetGetValues,
 ) => {
+   const { step } = useCreateAccountStore()
+
    const { isFindByValid, isEmailValid, isUsernameValid, isConfirmPasswordValid, isMotiveValid } =
       passwordResetFieldValidity(getFieldState)
 
