@@ -20,13 +20,12 @@ const useHandleDialog = () => {
       void setOpenDialog(true)
    }, [status])
 
-   const closeDialog = (type?: 'error') => {
+   const closeDialog = async (type?: 'error') => {
       if (!type && !isPathnamePasswordReset) {
          if (step > 1) return prevStep()
       }
 
-      setOpenDialog(false)
-      back()
+      await Promise.all([setOpenDialog(false), back()])
    }
    return { openDialog, closeDialog }
 }

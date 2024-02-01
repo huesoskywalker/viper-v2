@@ -1,6 +1,5 @@
 import { DialogFooter } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import React, { PropsWithChildren } from 'react'
 
 const GlobalDialogFooter = ({
    className,
