@@ -4,13 +4,9 @@ import Link from 'next/link'
 import React from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import RequestVerificationTokenButton from './request-verification-token-button'
-import { useFormContext } from 'react-hook-form'
-import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
 
 const EmailSignUpSection = () => {
    const { redirectStep } = useCreateAccountStore()
-
-   const { getValues } = useFormContext<AdmissionFormValues>()
 
    return (
       <>
@@ -39,12 +35,7 @@ const EmailSignUpSection = () => {
             </Button>
             .
          </TermsAndConditions>
-         <RequestVerificationTokenButton
-            variant={'sky'}
-            size={'lg'}
-            label={'Sign up'}
-            email={getValues('email')}
-         />
+         <RequestVerificationTokenButton variant={'sky'} size={'lg'} label={'Sign up'} />
       </>
    )
 }

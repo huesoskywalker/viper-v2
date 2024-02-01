@@ -6,19 +6,14 @@ import { useAdmissionButtons } from '../../_hooks/admission/use-admission-button
 import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
-import { admissionFieldValidity } from '../../_utils/admission-field-validity'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import useSubmitAdmissionAcc from '../../../_hooks/use-submit-admission-acc'
 
 const DialogFormFooter = dynamic(() => import('@/app/_components/form/dialog-form-footer'))
-const GlobalDialogFooter = dynamic(
-   () => import('../../../../../../_components/dialog/global-dialog-footer'),
-)
-const TokenVerificationForm = dynamic(() => import('./token-verification-form'))
 
 const CreateAccountAdmission = () => {
-   const { step, redirectStep } = useCreateAccountStore()
+   const { redirectStep } = useCreateAccountStore()
 
    const { admissionForm } = useAdmissionForm()
 
@@ -29,8 +24,6 @@ const CreateAccountAdmission = () => {
    const { renderStep } = useAdmissionSteps(getValues('email'))
 
    const { renderButton } = useAdmissionButtons(getFieldState)
-
-   const { isVerificationTokenValid } = admissionFieldValidity(getFieldState)
 
    useLayoutEffect(() => {
       if (focusElem) {
@@ -59,17 +52,8 @@ const CreateAccountAdmission = () => {
       <>
          <DialogForm formReturn={admissionForm} handleSubmit={handleOnSubmit}>
             <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
-            {step !== 4 && <DialogFormFooter>{renderButton}</DialogFormFooter>}
+            <DialogFormFooter>{renderButton}</DialogFormFooter>
          </DialogForm>
-         {step === 4 && (
-            <GlobalDialogFooter>
-               <TokenVerificationForm
-                  token={getValues('token')}
-                  email={getValues('email')}
-                  disabled={!isVerificationTokenValid}
-               />
-            </GlobalDialogFooter>
-         )}
       </>
    )
 }

@@ -1,35 +1,37 @@
 'use client'
 import { Button, ButtonProps } from '@/components/ui/button'
-import React, { useTransition } from 'react'
-import { useSendVerificationEmail } from '../../../_hooks/use-send-verification-email'
+import { useTransition } from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useFormContext } from 'react-hook-form'
 import { PasswordResetFormValues } from '../../../password_reset/_hooks/use-password-reset-form'
 import { AdmissionFormValues } from '../../_hooks/admission/use-admission-form'
+import { PUBLIC_API_URL } from '@/config/env'
 
-const RequestVerificationTokenButton: React.FC<ButtonProps & { label: string }> = ({
+const ConfirmTokenVerificationButton: React.FC<ButtonProps> = ({
    variant,
    size,
-   label,
+   disabled,
    ...props
 }) => {
-   const { sendVerificationEmail } = useSendVerificationEmail()
+   const { getValues } = useFormContext<PasswordResetFormValues | AdmissionFormValues>()
 
    const { nextStep } = useCreateAccountStore()
-
-   const { getValues } = useFormContext<PasswordResetFormValues | AdmissionFormValues>()
 
    const [isPending, startTransition] = useTransition()
 
    const handleOnClick = () => {
       startTransition(async () => {
+         const token = getValues('token')
          const email = getValues('email')
-         const username = getValues('username') ?? undefined
 
-         const sendEmail = await sendVerificationEmail(email, username)
-         if (sendEmail.success) {
-            nextStep()
+         const magicLink = await fetch(
+            `${PUBLIC_API_URL}/api/auth/callback/email?callbackUrl=%2F&token=${token}&email=${email}`,
+         )
+         if (!magicLink.ok) {
+            const { error } = await magicLink.json()
+            throw new Error(error)
          }
+         nextStep()
       })
    }
 
@@ -40,13 +42,13 @@ const RequestVerificationTokenButton: React.FC<ButtonProps & { label: string }> 
             variant={variant}
             size={size}
             onClick={handleOnClick}
-            disabled={isPending}
+            disabled={disabled || isPending}
             {...props}
          >
-            {label}
+            Next
          </Button>
       </>
    )
 }
 
-export default RequestVerificationTokenButton
+export default ConfirmTokenVerificationButton
