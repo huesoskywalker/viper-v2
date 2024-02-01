@@ -21,7 +21,7 @@ const LogOutPage = () => {
             >
                <DialogHeader className={cn('mb-4 self-center')}>
                   <Image
-                     src={'/viper.png'}
+                     src={'/viper-small.png'}
                      alt="Viper logo"
                      width={40}
                      height={50}

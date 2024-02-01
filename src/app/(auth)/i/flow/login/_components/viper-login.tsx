@@ -1,13 +1,10 @@
-import OrSeparator from '@/app/_components/or-separator'
 import { DialogDescription, DialogFooter } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import React from 'react'
-import { ViperAuthForm } from '@/app/_components/form/viper-auth-form'
-import ViperLoginForm from './viper-login-form'
+import React, { ReactNode } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 
-const ViperLogin = () => {
+const ViperLogin = ({ children }: { children: ReactNode }) => {
    return (
       <div className="flex h-full w-full flex-col items-center justify-between overflow-hidden px-1">
          <div
@@ -19,9 +16,7 @@ const ViperLogin = () => {
                <DialogDescription className="m-3 text-3xl font-bold text-foreground ">
                   Sign in to V
                </DialogDescription>
-               <ViperAuthForm className="grid gap-4" />
-               <OrSeparator />
-               <ViperLoginForm />
+               {children}
                <DialogFooter className="pt-2">
                   <Link
                      href={'/i/flow/password_reset'}

@@ -1,25 +1,14 @@
 import React from 'react'
-import { Toaster } from '@/components/ui/toaster'
-import ViperLogin from './_components/viper-login'
-import Image from 'next/image'
-import DialogViperHeader from '../_components/dialog-viper-header'
+import OrSeparator from '@/app/_components/or-separator'
+import { ViperAuthForm } from '@/app/_components/form/viper-auth-form'
+import ViperLoginForm from './_components/viper-login-form'
 
 const LogInPage = () => {
    return (
       <>
-         <DialogViperHeader className="self-center pt-3">
-            <Image
-               src={'/viper-small.png'}
-               alt="Viper logo"
-               width={40}
-               height={40}
-               loading="lazy"
-               quality={100}
-               className="invert-image"
-            />
-         </DialogViperHeader>
-         <ViperLogin />
-         <Toaster />
+         <ViperAuthForm className="grid gap-4" />
+         <OrSeparator />
+         <ViperLoginForm />
       </>
    )
 }

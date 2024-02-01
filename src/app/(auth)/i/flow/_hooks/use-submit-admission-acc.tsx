@@ -4,7 +4,7 @@ import { ApiResponse } from '@/types/api/response'
 import { PasswordResetFormValues } from '../password_reset/_hooks/use-password-reset-form'
 import { signIn } from 'next-auth/react'
 
-const useSubmitAdmissionAcc = () => {
+export const useSubmitAdmissionAcc = () => {
    const onSubmit = async (restForm: Partial<AdmissionFormValues | PasswordResetFormValues>) => {
       try {
          const updateViper = await fetch(`${PUBLIC_API_URL}/i/flow/signup/api/verify`, {
@@ -35,5 +35,3 @@ const useSubmitAdmissionAcc = () => {
    }
    return { onSubmit }
 }
-
-export default useSubmitAdmissionAcc
