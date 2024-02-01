@@ -4,7 +4,6 @@ import { PasswordResetFormValues, usePasswordResetForm } from '../_hooks/use-pas
 import CreateAccountFormBody from '../../_components/create-account-form-body'
 import usePasswordResetSteps from '../_hooks/use-password-reset-steps'
 import usePasswordResetButtons from '../_hooks/use-password-reset-buttons'
-import useSubmitAdmissionAcc from '../../_hooks/use-submit-admission-acc'
 import dynamic from 'next/dynamic'
 import { BaseSyntheticEvent } from 'react'
 
@@ -21,14 +20,16 @@ const PasswordReset = () => {
 
    const { renderButton } = usePasswordResetButtons(getFieldState)
 
-   const { onSubmit } = useSubmitAdmissionAcc()
-
    const handleOnSubmit = async (formData: PasswordResetFormValues, e?: BaseSyntheticEvent) => {
       if (e) e.preventDefault()
 
       const { findBy, token, confirmPassword, ...restForm } = formData
 
       try {
+         const { onSubmit } = await import('../../_hooks/use-submit-admission-acc').then(
+            (module) => module.useSubmitAdmissionAcc(),
+         )
+
          await onSubmit(restForm)
       } catch (error) {
          throw new Error(
