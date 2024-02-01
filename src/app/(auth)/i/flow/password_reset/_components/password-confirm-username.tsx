@@ -1,3 +1,4 @@
+'use client'
 import { PasswordResetFormValues } from '../_hooks/use-password-reset-form'
 import { FormDescription } from '@/components/ui/form'
 import { DialogDescription } from '@/components/ui/dialog'

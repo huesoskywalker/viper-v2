@@ -8,16 +8,12 @@ export const passwordResetFieldValidity = (getFieldState: PasswordResetFieldStat
    const confirmPasswordFieldState = getFieldState('confirmPassword')
    const motiveFieldState = getFieldState('passwordResetMotive')
 
-   const isFindByFieldValid = !findByFieldState.invalid
    const isEmailFieldValid = !emailFieldState.invalid
-   const isUsernameFieldValid = !usernameFieldState.invalid
    const isTokenFieldValid = !tokenFieldState.invalid
    const isConfirmPasswordFieldValid = !confirmPasswordFieldState.invalid
    const isMotiveFieldValid = !motiveFieldState.invalid
 
-   const hasFindByError = findByFieldState.error
    const hasEmailError = emailFieldState.error
-   const hasUsernameError = usernameFieldState.error
    const hasTokenError = tokenFieldState.error
    const hasConfirmPasswordError = confirmPasswordFieldState.error
    const hasMotiveError = motiveFieldState.error
@@ -29,18 +25,16 @@ export const passwordResetFieldValidity = (getFieldState: PasswordResetFieldStat
    const isConfirmPasswordDirty = confirmPasswordFieldState.isDirty
    const isMotiveDirty = motiveFieldState.isDirty
 
-   const isFindByValid = isFindByFieldValid && isFindByDirty && !hasFindByError
    const isEmailValid = isEmailFieldValid && isEmailDirty && !hasEmailError
-   const isUsernameValid = isUsernameFieldValid && isUsernameDirty && !hasUsernameError
    const isTokenValid = isTokenFieldValid && isTokenDirty && !hasTokenError
    const isConfirmPasswordValid =
       isConfirmPasswordFieldValid && isConfirmPasswordDirty && !hasConfirmPasswordError
    const isMotiveValid = isMotiveFieldValid && isMotiveDirty && !hasMotiveError
 
    return {
-      isFindByValid,
+      isFindByDirty,
       isEmailValid,
-      isUsernameValid,
+      isUsernameDirty,
       isTokenDirty,
       isTokenValid,
       isConfirmPasswordValid,

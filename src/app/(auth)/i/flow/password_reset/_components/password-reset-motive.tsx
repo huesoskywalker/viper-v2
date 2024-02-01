@@ -59,7 +59,7 @@ const PasswordResetMotive = () => {
                                           }}
                                        />
                                     </FormControl>
-                                    <span className="flex-1 self-end overflow-ellipsis text-left text-[19px] font-semibold sm:flex sm:overflow-visible">
+                                    <span className="flex-1 self-end overflow-ellipsis pl-2 text-left text-[19px] font-semibold sm:flex sm:overflow-visible">
                                        {item.label}
                                     </span>
                                  </FormLabel>

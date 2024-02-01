@@ -1,6 +1,4 @@
 import { useMemo } from 'react'
-import { PasswordResetSetValue } from './use-password-reset-form'
-import { emailRegex } from '../../_utils/regex'
 import { FormDescription } from '@/components/ui/form'
 import dynamic from 'next/dynamic'
 import LoadingSpinner from '@/app/_components/loading/loading-spinner'
@@ -9,12 +7,12 @@ import { useCreateAccountStore } from '../../signup/_stores/create-account-store
 const PasswordFindAccount = dynamic(() => import('../_components/password-find-account'), {
    loading: () => <LoadingSpinner className="h-full" />,
 })
-const PasswordConfirmEmail = dynamic(() => import('../_components/password-confirm-email'), {
-   loading: () => <LoadingSpinner className="h-full" />,
-})
-const PasswordConfirmUsername = dynamic(() => import('../_components/password-confirm-username'), {
-   loading: () => <LoadingSpinner className="h-full" />,
-})
+const PasswordConfirmCredential = dynamic(
+   () => import('../_components/password-confirm-credential'),
+   {
+      loading: () => <LoadingSpinner className="h-full" />,
+   },
+)
 const PasswordSendVerificationToken = dynamic(
    () => import('../_components/password-send-verification-token'),
    { loading: () => <LoadingSpinner className="h-full" /> },
@@ -33,7 +31,7 @@ const PasswordResetSuccess = dynamic(() => import('../_components/password-reset
    loading: () => <LoadingSpinner className="h-full" />,
 })
 
-const usePasswordResetSteps = (findBy: string, setValue: PasswordResetSetValue) => {
+const usePasswordResetSteps = () => {
    const { step } = useCreateAccountStore()
 
    const renderStep = useMemo(() => {
@@ -41,12 +39,7 @@ const usePasswordResetSteps = (findBy: string, setValue: PasswordResetSetValue) 
          case 1:
             return <PasswordFindAccount />
          case 2:
-            const isEmailValue = emailRegex.test(findBy)
-            const formField = isEmailValue ? 'email' : 'username'
-
-            setValue(formField, findBy)
-
-            return isEmailValue ? <PasswordConfirmUsername /> : <PasswordConfirmEmail />
+            return <PasswordConfirmCredential />
          case 3:
             return <PasswordSendVerificationToken />
          case 4:
@@ -67,7 +60,7 @@ const usePasswordResetSteps = (findBy: string, setValue: PasswordResetSetValue) 
          default:
             return null
       }
-   }, [step, findBy])
+   }, [step])
 
    return { renderStep }
 }

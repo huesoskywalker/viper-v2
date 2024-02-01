@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormGetFieldState, UseFormGetValues, UseFormSetValue, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { emailRegex } from '../../_utils/regex'
-import { isValidVerificationToken } from '../../signup/_utils/is-valid-verification-token'
 
 export type PasswordResetFormValues = z.infer<typeof passwordResetSchema>
 
@@ -40,7 +39,8 @@ const passwordResetSchema = z.object({
    email: z
       .string()
       .email()
-      .refine((value) => {
+      .refine(async (value) => {
+         if (!value) return
          if (!emailRegex.test(value)) return
          memoizedEmail = value
          return !!value
@@ -57,13 +57,25 @@ const passwordResetSchema = z.object({
 
             if (memoizedToken === value) return true
 
-            const isValid = await isValidVerificationToken(value, memoizedEmail)
+            try {
+               const { isValidVerificationToken } = await import(
+                  '../../signup/_utils/is-valid-verification-token'
+               )
 
-            if (isValid) {
-               memoizedToken = value
+               const isValid = await isValidVerificationToken(value, memoizedEmail)
+
+               if (isValid) {
+                  memoizedToken = value
+               }
+
+               return isValid
+            } catch (error) {
+               throw new Error(
+                  error instanceof Error
+                     ? error.message
+                     : 'Something went wrong. Please try again.',
+               )
             }
-
-            return isValid
          },
          {
             message: 'Invalid code.',
@@ -90,6 +102,7 @@ const passwordResetSchema = z.object({
       })
       .refine(
          (value) => {
+            if (!value) return
             memoizedPassword = value
             return !!value
          },
@@ -99,6 +112,7 @@ const passwordResetSchema = z.object({
       ),
    confirmPassword: z.string({ required_error: 'Please confirm the password.' }).refine(
       (value) => {
+         if (!value) return
          return memoizedPassword === value
       },
       {

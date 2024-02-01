@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { PasswordResetFieldState, PasswordResetGetValues } from './use-password-reset-form'
+import { PasswordResetFieldState } from './use-password-reset-form'
 import { passwordResetFieldValidity } from '../_utils/password-reset-field-validity'
-import { emailRegex } from '../../_utils/regex'
 import dynamic from 'next/dynamic'
 import { useCreateAccountStore } from '../../signup/_stores/create-account-store'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const NextStepButton = dynamic(() => import('../../_components/next-step-button'), { ssr: false })
 const PasswordMatchAccountButton = dynamic(
@@ -17,25 +17,36 @@ const RequestVerificationTokenButton = dynamic(
 const CancelPasswordResetButton = dynamic(
    () => import('../_components/cancel-password-reset-button'),
 )
+const ConfirmTokenVerificationButton = dynamic(
+   () => import('../../signup/_components/admission/confirm-token-verification-button'),
+   {
+      loading: () => <Skeleton className={'h-11 w-full rounded-3xl'} />,
+      ssr: false,
+   },
+)
+const Button = dynamic(() => import('@/components/ui/button').then((mod) => mod.Button), {})
 const ValidFormSubmitButton = dynamic(
    () => import('@/app/_components/form/valid-form-submit-button'),
    { ssr: false },
 )
 
-const usePasswordResetButtons = (
-   getFieldState: PasswordResetFieldState,
-   getValues: PasswordResetGetValues,
-) => {
-   const { step } = useCreateAccountStore()
+const usePasswordResetButtons = (getFieldState: PasswordResetFieldState) => {
+   const { step, prevStep } = useCreateAccountStore()
 
-   const { isFindByValid, isEmailValid, isUsernameValid, isConfirmPasswordValid, isMotiveValid } =
-      passwordResetFieldValidity(getFieldState)
-
-   const findByValue = getValues('findBy')
+   const {
+      isFindByDirty,
+      isEmailValid,
+      isUsernameDirty,
+      isTokenValid,
+      isConfirmPasswordValid,
+      isMotiveValid,
+      isTokenDirty,
+   } = passwordResetFieldValidity(getFieldState)
 
    const validStepMap = new Map<number, boolean>([
-      [1, isFindByValid],
-      [2, emailRegex.test(findByValue) ? isUsernameValid : isEmailValid],
+      [1, isFindByDirty],
+      [2, isUsernameDirty || isEmailValid],
+      [4, isTokenValid],
       [5, isConfirmPasswordValid],
       [6, isMotiveValid],
    ])
@@ -51,18 +62,22 @@ const usePasswordResetButtons = (
          case 3:
             return (
                <div className="space-y-4">
-                  <RequestVerificationTokenButton
-                     variant={'default'}
-                     size={'lg'}
-                     label={'Next'}
-                     email={getValues('email')}
-                     username={getValues('username')}
-                  />
+                  <RequestVerificationTokenButton variant={'default'} size={'lg'} label={'Next'} />
                   <CancelPasswordResetButton />
                </div>
             )
          case 4:
-            return null
+            return isTokenDirty ? (
+               <ConfirmTokenVerificationButton
+                  variant={'default'}
+                  size={'lg'}
+                  disabled={disableButton}
+               />
+            ) : (
+               <Button onClick={prevStep} type="button" variant={'outline'} size={'lg'}>
+                  Back
+               </Button>
+            )
          case 5:
             return (
                <NextStepButton
@@ -85,7 +100,7 @@ const usePasswordResetButtons = (
          default:
             return null
       }
-   }, [step, disableButton])
+   }, [step, disableButton, isTokenDirty])
 
    return { renderButton }
 }

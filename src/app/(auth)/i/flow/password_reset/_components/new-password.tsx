@@ -18,7 +18,7 @@ const NewPassword = () => {
             You&apos;ll be logged out of all active Viper sessions after your password is changed.
          </FormDescription>
          <PasswordFormField fieldName="password" label="Password" />
-         <PasswordFormField fieldName="confirmPassword" label="ConfirmPassword " />
+         <PasswordFormField fieldName="confirmPassword" label="Confirm Password " />
       </>
    )
 }
