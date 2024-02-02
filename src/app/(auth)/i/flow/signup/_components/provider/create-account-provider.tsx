@@ -1,16 +1,22 @@
 'use client'
-import { PropsWithChildren } from 'react'
+import { BaseSyntheticEvent, PropsWithChildren } from 'react'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
-import { useProviderProfileForm } from '../../_hooks/provider/use-provider-profile-form'
+import {
+   ProviderProfileFormValues,
+   useProviderProfileForm,
+} from '../../_hooks/provider/use-provider-profile-form'
 import useProviderProfileSteps from '../../_hooks/provider/use-provider-profile-steps'
 import useProviderProfileButtons from '../../_hooks/provider/use-provider-profile-buttons'
-import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
 import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), { ssr: false })
+const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), {
+   ssr: false,
+   loading: () => <Skeleton className={'h-11 w-full rounded-3xl'} />,
+})
 
 const CreateAccountProvider = ({
    children,
@@ -25,11 +31,24 @@ const CreateAccountProvider = ({
 
    const { renderButton } = useProviderProfileButtons(getFieldState)
 
-   const { onSubmit } = useSubmitCreateProfile()
+   const handleOnSubmit = async (formData: ProviderProfileFormValues, e?: BaseSyntheticEvent) => {
+      if (e) e.preventDefault()
+      try {
+         const { onSubmit } = (
+            await import('../../../_hooks/use-submit-create-profile')
+         ).useSubmitCreateProfile()
+
+         await onSubmit(formData)
+      } catch (error) {
+         throw new Error(
+            error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+         )
+      }
+   }
 
    return (
       <>
-         <DialogForm formReturn={providerProfileForm} handleSubmit={onSubmit}>
+         <DialogForm formReturn={providerProfileForm} handleSubmit={handleOnSubmit}>
             <CreateAccountFormBody>{step < 6 ? renderStep : children}</CreateAccountFormBody>
             <DialogFormFooter>
                {step < 6 ? (

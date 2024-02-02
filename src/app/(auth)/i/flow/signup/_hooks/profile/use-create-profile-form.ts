@@ -1,4 +1,3 @@
-import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSession } from 'next-auth/react'
 import { UseFormGetFieldState, UseFormGetValues, UseFormSetValue, useForm } from 'react-hook-form'
@@ -84,6 +83,8 @@ export const createProfileSchema = z.object({
             if (value === memoizedUsername) return true
 
             if (value.length < 3) return
+
+            const { isViperPropAvailable } = await import('@/app/_utils/is-viper-prop-available')
 
             const isTaken = await isViperPropAvailable('username', value)
 

@@ -6,15 +6,17 @@ import {
 import { useCreateProfileSteps } from '../../_hooks/profile/use-create-profile-steps'
 import { useCreateProfileButtons } from '../../_hooks/profile/use-create-profile-buttons'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
-import useSubmitCreateProfile from '../../../_hooks/use-submit-create-profile'
 import DialogFormFooter from '@/app/_components/form/dialog-form-footer'
 import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
-import { useCreateProfileStore } from '../../_stores/create-profile-store'
-import { useUploadThing } from '@/utils/uploadthing'
+import { BaseSyntheticEvent } from 'react'
 import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), { ssr: false })
+const SubmitButton = dynamic(() => import('@/app/_components/form/submit-button'), {
+   ssr: false,
+   loading: () => <Skeleton className={'h-11 w-full rounded-3xl'} />,
+})
 
 const CreateAccountProfile = ({
    children,
@@ -29,27 +31,40 @@ const CreateAccountProfile = ({
 
    const { getFieldState } = createProfileForm
 
-   const { onSubmit } = useSubmitCreateProfile()
-
    const { renderStep } = useCreateProfileSteps()
 
    const { renderButton } = useCreateProfileButtons(getFieldState)
 
-   const { startUpload } = useUploadThing('profile')
+   const handleOnSubmit = async (formData: CreateProfileFormValues, e?: BaseSyntheticEvent) => {
+      if (e) e.preventDefault()
 
-   const { images, removeImages } = useCreateProfileStore()
+      const { images, removeImages } = (
+         await import('../../_stores/create-profile-store')
+      ).useCreateProfileStore()
 
-   const handleOnSubmit = async (formData: CreateProfileFormValues) => {
-      if (images.profile) {
-         const uploadedImage = await startUpload(images.profile)
-         if (uploadedImage) {
-            const image = uploadedImage.map((image) => image.url)
+      try {
+         if (images.profile) {
+            const { startUpload } = (await import('@/utils/uploadthing')).useUploadThing('profile')
 
-            formData.image = image[0]
+            const uploadedImage = await startUpload(images.profile)
+
+            if (uploadedImage) {
+               const image = uploadedImage.map((image) => image.url)
+
+               formData.image = image[0]
+            }
+            removeImages('profile')
          }
-         removeImages('profile')
+         const { onSubmit } = (
+            await import('../../../_hooks/use-submit-create-profile')
+         ).useSubmitCreateProfile()
+
+         await onSubmit(formData)
+      } catch (error) {
+         throw new Error(
+            error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+         )
       }
-      await onSubmit(formData)
    }
 
    return (

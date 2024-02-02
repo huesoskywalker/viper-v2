@@ -4,7 +4,7 @@ import { EditViperFormValues } from '@/app/[username]/@editViper/(.settings)/pro
 
 type FormContextValues = AdmissionFormValues | EditViperFormValues
 
-type BirthDateFormat = {
+export type BirthDateFormat = {
    monthFormat: Intl.DateTimeFormatOptions['month']
    dayFormat: Intl.DateTimeFormatOptions['day']
    yearFormat: Intl.DateTimeFormatOptions['year']

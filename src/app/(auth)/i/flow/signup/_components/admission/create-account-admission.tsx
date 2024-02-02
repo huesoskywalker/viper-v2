@@ -4,13 +4,15 @@ import { AdmissionFormValues, useAdmissionForm } from '../../_hooks/admission/us
 import { useCreateAccountStore } from '../../_stores/create-account-store'
 import { useAdmissionButtons } from '../../_hooks/admission/use-admission-buttons'
 import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
-import CreateAccountFormBody from '../../../_components/create-account-form-body'
 import DialogForm from '@/app/_components/form/dialog-form'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
-import useSubmitAdmissionAcc from '../../../_hooks/use-submit-admission-acc'
 
+const CreateAccountFormBody = dynamic(
+   () => import('../../../_components/create-account-form-body'),
+)
 const DialogFormFooter = dynamic(() => import('@/app/_components/form/dialog-form-footer'))
+const Toaster = dynamic(() => import('@/components/ui/toaster').then((mod) => mod.Toaster))
 
 const CreateAccountAdmission = () => {
    const { redirectStep } = useCreateAccountStore()
@@ -31,7 +33,6 @@ const CreateAccountAdmission = () => {
       }
    }, [focusElem])
 
-   const { onSubmit } = useSubmitAdmissionAcc()
    const { refresh } = useRouter()
 
    const handleOnSubmit = async (formData: AdmissionFormValues, e?: BaseSyntheticEvent) => {
@@ -39,6 +40,10 @@ const CreateAccountAdmission = () => {
       const { token, ...restForm } = formData
 
       try {
+         const { onSubmit } = await import('../../../_hooks/use-submit-admission-acc').then(
+            (module) => module.useSubmitAdmissionAcc(),
+         )
+
          await onSubmit(restForm)
          await Promise.all([redirectStep(1), refresh()])
       } catch (error) {
@@ -54,6 +59,7 @@ const CreateAccountAdmission = () => {
             <CreateAccountFormBody>{renderStep}</CreateAccountFormBody>
             <DialogFormFooter>{renderButton}</DialogFormFooter>
          </DialogForm>
+         <Toaster />
       </>
    )
 }

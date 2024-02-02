@@ -1,9 +1,6 @@
-import { isViperPropAvailable } from '@/app/_utils/is-viper-prop-available'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UseFormGetFieldState, UseFormGetValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { isValidVerificationToken } from '../../_utils/is-valid-verification-token'
-import { emailRegex } from '../../../_utils/regex'
 
 export type AdmissionFormValues = z.infer<typeof admissionSchema>
 
@@ -32,9 +29,14 @@ export const admissionSchema = z.object({
       })
       .refine(
          async (value) => {
+            if (!value) return
+
+            const { emailRegex } = await import('../../../_utils/regex')
             if (!emailRegex.test(value)) return
 
             if (memoizedEmail === value) return true
+
+            const { isViperPropAvailable } = await import('@/app/_utils/is-viper-prop-available')
 
             const isTaken = await isViperPropAvailable('email', value)
 
@@ -78,6 +80,10 @@ export const admissionSchema = z.object({
             if (value.length !== 6) return
 
             if (memoizedToken === value) return true
+
+            const { isValidVerificationToken } = await import(
+               '../../_utils/is-valid-verification-token'
+            )
 
             const isValid = await isValidVerificationToken(value, memoizedEmail)
 

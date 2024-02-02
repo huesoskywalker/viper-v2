@@ -1,10 +1,13 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import CreateAccount from '../_components/create-account'
-
-const SignUpLayout = ({ children }: { children: ReactNode }) => {
+import SwitchDialogHeader from '../_components/switch-dialog-header'
+const SignUpLayout = async ({ children }: { children: ReactNode }) => {
    return (
       <>
-         <CreateAccount>{children}</CreateAccount>
+         <CreateAccount>
+            <SwitchDialogHeader />
+            {children}
+         </CreateAccount>
       </>
    )
 }

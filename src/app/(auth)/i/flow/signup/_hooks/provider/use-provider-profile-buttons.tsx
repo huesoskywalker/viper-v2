@@ -1,9 +1,13 @@
-import React, { useMemo } from 'react'
-import NextStepButton from '../../../_components/next-step-button'
+import { useMemo } from 'react'
 import { ProviderProfileFieldState } from './use-provider-profile-form'
 import providerProfileFieldValidity from '../../_utils/provider-profile-field-validity'
-import ProfileInterestsButton from '../../_components/profile/profile-interests-button'
 import { useCreateAccountStore } from '../../_stores/create-account-store'
+import dynamic from 'next/dynamic'
+
+const NextStepButton = dynamic(() => import('../../../_components/next-step-button'))
+const ProfileInterestsButton = dynamic(
+   () => import('../../_components/profile/profile-interests-button'),
+)
 
 const useProviderProfileButtons = (getFieldState: ProviderProfileFieldState) => {
    const { step } = useCreateAccountStore()
