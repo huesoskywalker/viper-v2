@@ -24,7 +24,7 @@ const ConfirmTokenVerificationButton = dynamic(
       ssr: false,
    },
 )
-const Button = dynamic(() => import('@/components/ui/button').then((mod) => mod.Button), {})
+const Button = dynamic(() => import('@/components/ui/button').then((mod) => mod.Button))
 const ValidFormSubmitButton = dynamic(
    () => import('@/app/_components/form/valid-form-submit-button'),
    { ssr: false },
