@@ -1,6 +1,6 @@
 import ProfileHeader from '@/app/[username]/_components/profile-header'
 import EditViperForm from './_components/edit-viper-form'
-import EditViperFormBody from './_components/edit-viper-form-body'
+import EditViperFormBody from './_components/form/edit-viper-form-body'
 import RouterBackButton from '@/app/_components/dialog/router-back-button'
 import SubmitButton from '@/app/_components/form/submit-button'
 

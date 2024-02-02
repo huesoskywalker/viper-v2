@@ -1,29 +1,27 @@
 import { AspectRatio } from '@/components/ui/aspect-ratio'
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import React from 'react'
+const Image = dynamic(() => import('next/image'))
 
 const ViperBackgroundImage = ({ backgroundImage }: { backgroundImage: string }) => {
    return (
       <>
-         {backgroundImage ? (
-            <AspectRatio ratio={7 / 2} className="overflow-hidden">
+         <AspectRatio ratio={7 / 2} className="overflow-hidden">
+            {backgroundImage ? (
                <Image
                   data-test="background-image"
                   alt={'Viper background image'}
                   src={backgroundImage}
-                  width={600}
-                  height={200}
+                  width={60}
+                  height={20}
                   loading="lazy"
                   fetchPriority="high"
-                  quality={100}
                   className="-z-10 h-full w-full object-cover object-center"
                />
-            </AspectRatio>
-         ) : (
-            <AspectRatio ratio={7 / 2}>
-               <div className="-z-10 h-full w-full bg-vp-border-gradient object-cover object-center"></div>
-            </AspectRatio>
-         )}
+            ) : (
+               <div className="-z-10 h-full w-full bg-vp-border-gradient object-cover object-center" />
+            )}
+         </AspectRatio>
       </>
    )
 }

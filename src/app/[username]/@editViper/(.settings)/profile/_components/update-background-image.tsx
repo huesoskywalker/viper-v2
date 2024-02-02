@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@/lib/utils'
 import { useCallback, useState } from 'react'
 import { FileWithPath } from '@uploadthing/react'

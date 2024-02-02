@@ -6,7 +6,7 @@ import updateProfileEndpoint from '@/app/_utils/viper/update-profile-endpoint'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
-const useSubmitEditViper = () => {
+export const useSubmitEditViper = () => {
    const { images, removeImages } = useCreateProfileStore()
 
    const { startUpload } = useUploadThing('profile')
@@ -15,7 +15,7 @@ const useSubmitEditViper = () => {
 
    const { push } = useRouter()
 
-   const handleOnSubmit = async (formData: EditViperFormValues) => {
+   const onSubmit = async (formData: EditViperFormValues) => {
       if (images.profile) {
          try {
             const deleteImage = deleteViperImageEndpoint('image')
@@ -85,7 +85,5 @@ const useSubmitEditViper = () => {
          )
       }
    }
-   return { handleOnSubmit }
+   return { onSubmit }
 }
-
-export default useSubmitEditViper
