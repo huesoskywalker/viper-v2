@@ -43,7 +43,6 @@ export const useAdmissionSteps = (email: string) => {
             )
          case 5:
             return <AdmissionPassword />
-
          default:
             return null
       }

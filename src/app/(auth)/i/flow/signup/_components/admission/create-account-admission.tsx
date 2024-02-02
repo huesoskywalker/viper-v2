@@ -7,6 +7,7 @@ import { useAdmissionSteps } from '../../_hooks/admission/use-admission-steps'
 import DialogForm from '@/app/_components/form/dialog-form'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import { ApiResponse } from '@/types/api/response'
 
 const CreateAccountFormBody = dynamic(
    () => import('../../../_components/create-account-form-body'),
@@ -35,8 +36,14 @@ const CreateAccountAdmission = () => {
 
    const { refresh } = useRouter()
 
+   type SubmitResponse<> = {
+      success: boolean
+      error?: string
+   }
+
    const handleOnSubmit = async (formData: AdmissionFormValues, e?: BaseSyntheticEvent) => {
-      if (e) e.preventDefault
+      if (e) e.preventDefault()
+
       const { token, ...restForm } = formData
 
       try {
@@ -45,6 +52,7 @@ const CreateAccountAdmission = () => {
          )
 
          await onSubmit(restForm)
+
          await Promise.all([redirectStep(1), refresh()])
       } catch (error) {
          throw new Error(

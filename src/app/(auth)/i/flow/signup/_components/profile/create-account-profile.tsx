@@ -48,13 +48,14 @@ const CreateAccountProfile = ({
 
             const uploadedImage = await startUpload(images.profile)
 
-            if (uploadedImage) {
-               const image = uploadedImage.map((image) => image.url)
+            if (!uploadedImage) throw new Error(`Something went wrong. Please try again.`)
 
-               formData.image = image[0]
-            }
+            const image = uploadedImage.map((image) => image.url)
+
+            formData.image = image[0]
             removeImages('profile')
          }
+
          const { onSubmit } = (
             await import('../../../_hooks/use-submit-create-profile')
          ).useSubmitCreateProfile()

@@ -81,17 +81,25 @@ export const admissionSchema = z.object({
 
             if (memoizedToken === value) return true
 
-            const { isValidVerificationToken } = await import(
-               '../../_utils/is-valid-verification-token'
-            )
+            try {
+               const { isValidVerificationToken } = await import(
+                  '../../_utils/is-valid-verification-token'
+               )
 
-            const isValid = await isValidVerificationToken(value, memoizedEmail)
+               const isValid = await isValidVerificationToken(value, memoizedEmail)
 
-            if (isValid) {
-               memoizedToken = value
+               if (isValid) {
+                  memoizedToken = value
+               }
+
+               return isValid
+            } catch (error) {
+               throw new Error(
+                  error instanceof Error
+                     ? error.message
+                     : 'Something went wrong. Please try again.',
+               )
             }
-
-            return isValid
          },
          {
             message: 'Invalid verification token',
