@@ -1,17 +1,17 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-interface TermsAndConditionsProps extends HTMLAttributes<HTMLParagraphElement> {}
+type TermsAndConditionsProps = ComponentPropsWithoutRef<'p'>
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
    children,
    className,
-   ...rest
+   ...props
 }) => {
    const linkClass = 'text-viper-dodger-blue hover:underline hover:underline-offset-4 '
    return (
-      <p className={cn('w-full text-muted-foreground', className)}>
+      <p className={cn('w-full text-muted-foreground', className)} {...props}>
          By signin up, you agree to the{' '}
          <Link href="/tos" target="_blank" className={linkClass}>
             Terms of Service

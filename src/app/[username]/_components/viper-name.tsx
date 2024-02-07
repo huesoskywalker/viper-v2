@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type ViperNameProps = HTMLAttributes<HTMLSpanElement> & { name: string }
+type ViperNameProps = ComponentPropsWithoutRef<'span'> & { name: string }
+
 const ViperName: React.FC<ViperNameProps> = ({ className, children, name, ...props }) => {
    return (
       <div className="flex flex-1 items-center space-x-2 truncate">

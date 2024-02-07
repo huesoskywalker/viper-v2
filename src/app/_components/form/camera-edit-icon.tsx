@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
 import { Camera } from 'lucide-react'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type CameraIcon = HTMLAttributes<HTMLDivElement>
+type CameraIcon = ComponentPropsWithoutRef<'div'>
 
 const CameraEditIcon: React.FC<CameraIcon> = ({ className, ...props }) => {
    return (

@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-type ProfileHeader = HTMLAttributes<HTMLDivElement>
+type ProfileHeader = ComponentPropsWithoutRef<'div'>
 
 const ProfileHeader: React.FC<ProfileHeader> = ({ className, children, ...props }) => {
    return (

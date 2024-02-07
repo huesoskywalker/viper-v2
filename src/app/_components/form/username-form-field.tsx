@@ -11,7 +11,9 @@ type FormContextValues =
    | ProviderProfileFormValues
    | PasswordResetFormValues
 
-const UsernameFormField = ({ checkbox }: { checkbox?: true }) => {
+// TODO: <T extends FieldValues>
+// <UsernameFormField<PasswordResetFormValues>>
+function UsernameFormField({ checkbox }: { checkbox?: true }) {
    const { control } = useFormContext<FormContextValues>()
 
    return (

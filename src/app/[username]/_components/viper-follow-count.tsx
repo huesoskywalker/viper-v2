@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type FollowCount = HTMLAttributes<HTMLDivElement> & {
+type FollowCount = ComponentPropsWithoutRef<'div'> & {
    followCount: number
    label: 'Followings' | 'Followers'
 }

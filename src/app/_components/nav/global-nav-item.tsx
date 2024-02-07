@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { NavItem } from '../../_utils/get-nav-items'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-type GlobalNavItem = HTMLAttributes<HTMLAnchorElement> & { item: NavItem; username?: string }
+type GlobalNavItem = ComponentPropsWithoutRef<'a'> & { item: NavItem; username?: string }
 
 export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...props }) => {
    const segment = useSelectedLayoutSegment()

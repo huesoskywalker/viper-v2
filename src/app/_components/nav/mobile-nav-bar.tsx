@@ -1,15 +1,15 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ViperMobileNavMenu } from './viper-mobile-nav-menu'
 import { cn } from '@/lib/utils'
 
-// TODO: does not work in profile (CHECK where else)
+// TODO: this mobile nav does not work in profile (CHECK where else)
 // Also use a children for the for the middle search bar or logo
 // at the right settings
 
 const MobileNavBar = () => {
-   const ref = useRef<HTMLElement>(null)
+   const ref = useRef<ElementRef<'header'>>(null)
    const [isIntersecting, setIntersecting] = useState<boolean>(true)
 
    useEffect(() => {
@@ -24,8 +24,8 @@ const MobileNavBar = () => {
       <header ref={ref}>
          <nav
             className={cn(
-               'fixed inset-x-0 top-0 flex w-full items-center justify-between bg-background p-4 py-2 backdrop-blur duration-200 sm:hidden sm:h-fit sm:w-fit',
-               isIntersecting ? 'bg-background' : 'bg-background/80 ',
+               'fixed inset-x-0 top-0 flex w-full items-center justify-between p-4 py-2 sm:hidden sm:h-fit sm:w-fit',
+               isIntersecting ? 'bg-background' : 'bg-background/80 backdrop-blur',
             )}
          >
             <ViperMobileNavMenu />

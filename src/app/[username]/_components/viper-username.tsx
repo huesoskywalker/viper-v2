@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type ViperUsernameProps = HTMLAttributes<HTMLSpanElement> & { username: string }
+type ViperUsernameProps = ComponentPropsWithoutRef<'span'> & { username: string }
 
 const ViperUsername: React.FC<ViperUsernameProps> = ({
    className,

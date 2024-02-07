@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-type ViperHeader = HTMLAttributes<HTMLDivElement>
+type ViperHeader = ComponentPropsWithoutRef<'div'>
+
 const DialogViperHeader: React.FC<ViperHeader> = ({ className, children, ...props }) => {
    return (
       <div

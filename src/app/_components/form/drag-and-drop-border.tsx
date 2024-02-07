@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type DragAndDrop = HTMLAttributes<HTMLDivElement>
+type DragAndDrop = ComponentPropsWithoutRef<'div'>
 
 const DragAndDropBorder: React.FC<DragAndDrop> = ({ className, ...props }) => {
    return (

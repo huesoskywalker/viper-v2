@@ -1,9 +1,9 @@
 import { Form } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
-import React, { BaseSyntheticEvent, HTMLAttributes } from 'react'
+import React, { BaseSyntheticEvent, ComponentPropsWithoutRef } from 'react'
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 
-type DialogFormProps<T extends FieldValues> = HTMLAttributes<HTMLFormElement> & {
+type DialogFormProps<T extends FieldValues> = ComponentPropsWithoutRef<'form'> & {
    children: React.ReactNode
    formReturn: UseFormReturn<T>
    handleSubmit: (formData: T, e?: BaseSyntheticEvent) => Promise<void>

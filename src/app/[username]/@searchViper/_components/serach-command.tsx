@@ -11,7 +11,7 @@ import {
 
 import Link from 'next/link'
 import useFocusBlurState from '@/app/_hooks/use-focus-blur-states'
-import { useEffect, useRef, useState } from 'react'
+import { ElementRef, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import ViperName from '../../_components/viper-name'
 import ViperUsername from '../../_components/viper-username'
@@ -21,14 +21,14 @@ import useOnValueChange from '../_hooks/use-on-value-change'
 import ViperImage from '../../_components/viper-image'
 
 export function SearchCommand() {
-   const [open, setOpen] = useState(false)
+   const [open, setOpen] = useState<boolean>(false)
 
    const { newValue, vipers, handleValueChange } = useOnValueChange()
 
    const { isFocused, handleOnFocus, handleOnBlur } = useFocusBlurState(newValue)
 
-   const commandRef = useRef<HTMLDivElement | null>(null)
-   const inputRef = useRef<HTMLInputElement | null>(null)
+   const commandRef = useRef<ElementRef<'div'> | null>(null)
+   const inputRef = useRef<ElementRef<'input'> | null>(null)
 
    useEffect(() => {
       const mouseDown = (e: MouseEvent) => {

@@ -1,8 +1,9 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 import { Icons } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 
-type Loading = HTMLAttributes<HTMLDivElement>
+type Loading = ComponentPropsWithoutRef<'div'>
+
 const LoadingSpinner: React.FC<Loading> = ({ className, ...props }) => {
    return (
       <div

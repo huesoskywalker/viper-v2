@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { NavItem } from '../../_utils/get-nav-items'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-type TopNavItem = HTMLAttributes<HTMLAnchorElement> & { item: NavItem; username?: string }
+type TopNavItem = ComponentPropsWithoutRef<'a'> & { item: NavItem; username?: string }
 
 export const TopNavItem: React.FC<TopNavItem> = ({ item, username, ...props }) => {
    const LucideIcon = item.icon

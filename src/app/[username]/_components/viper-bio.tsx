@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type ViperBioProps = HTMLAttributes<HTMLParagraphElement> & { bio: string }
+type ViperBioProps = ComponentPropsWithoutRef<'p'> & { bio: string }
 
 const ViperBio: React.FC<ViperBioProps> = ({ className, bio, ...props }) => {
    return (

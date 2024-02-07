@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React, { HTMLAttributes } from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 
-type FormBody = HTMLAttributes<HTMLDivElement>
+type FormBody = ComponentPropsWithoutRef<'div'>
 
 const CreateAccountFormBody: React.FC<FormBody> = ({ children, className, ...props }) => {
    return (
