@@ -13,7 +13,7 @@ import { remainingExpirationTime } from './utils/remaining-expiration-time'
 import { NextResponse } from 'next/server'
 import { mongoAdapter } from '@/lib/auth'
 import { cookies } from 'next/headers'
-import { randomBytes, randomUUID } from 'crypto'
+import { randomBytes, randomUUID, randomInt } from 'crypto'
 import { buildRandomUsername } from './utils/build-random-username'
 import { MongoError } from 'mongodb'
 import { logError, logMongoError } from '@/config/winstonLogger'
@@ -56,7 +56,7 @@ export default {
          maxAge: 60 * 60 * 2,
          generateVerificationToken: async () => {
             const max = 1000000
-            const number = Math.floor(Math.random() * max)
+            const number = Math.floor(randomInt(max))
             const token = number.toString().padStart(6, '0')
             return token
          },

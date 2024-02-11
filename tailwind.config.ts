@@ -26,10 +26,12 @@ const config: Config = {
             'gray-1100': 'rgb(10,10,11)',
             viper: {
                pink: '#FF0080',
+               // pink: '#F91880',
                blue: '#003FCD',
                cyan: '#50E3C2',
                orange: '#F5A623',
                violet: '#7928CA',
+               yellow: '#FFD400',
                // me
                'dodger-blue': 'hsl(var(--dodger-blue))',
                'dodger-blue-hover': 'hsl(var(--dodger-blue-hover))',

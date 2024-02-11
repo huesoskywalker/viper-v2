@@ -2,8 +2,6 @@ import { ReactNode } from 'react'
 import { Viper } from './_components/viper'
 import ProfileNavTabs from './_components/profile-nav-tabs'
 import { preloadViperService } from '@/services/servicesInitializer'
-import ProfileHeader from './_components/profile-header'
-import RouterBackButton from '../_components/dialog/router-back-button'
 
 export default async function Layout({
    children,
