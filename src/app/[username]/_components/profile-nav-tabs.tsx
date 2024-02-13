@@ -28,8 +28,8 @@ const ProfileNavTabs = ({
             <Link href={`/${username}/listings`} scroll={false}>
                <TabsTrigger value="listings">Listings</TabsTrigger>
             </Link>
-            <Link href={`/${username}/dashboard`} scroll={false}>
-               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <Link href={`/${username}/tickets`} scroll={false}>
+               <TabsTrigger value="dashboard">Tickets</TabsTrigger>
             </Link>
          </TabsList>
          <div className="mt-5">{children}</div>
