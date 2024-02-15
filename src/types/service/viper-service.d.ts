@@ -1,7 +1,6 @@
 import { ViperSimple } from '../viper'
 
 interface ViperCRUDService {
-   initSearchIndexes(): Promise<void>
    login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null>
    populateNewViper(
       _id: _ID,
@@ -45,35 +44,6 @@ interface ViperFollowService {
    // We need to add a initChat type and function
    // initChat(viperId: string, sessionId: string): Promise
 }
-interface ViperBlogService {
-   getBlogs(viperId: string): Promise<Blog[]>
-   createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null>
-   isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean>
-   toggleBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   toggleFeedBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   addBlogReply(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-      comment: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   addWithReplyBlogToFeed(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-}
-
 interface ViperEventService {
    toggleFeedEventLike(
       isLiked: boolean,
@@ -94,7 +64,5 @@ interface ViperEventService {
    getCreatedEvents(viperId: string): Promise<CreatedEvent[]>
 }
 
-export type ViperServiceSource = ViperCRUDService &
-   ViperFollowService &
-   ViperBlogService &
-   ViperEventService
+export type ViperServiceSource = ViperCRUDService & ViperFollowService & ViperEventService
+// ViperBlogService &

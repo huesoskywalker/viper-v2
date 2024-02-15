@@ -16,7 +16,7 @@ export const { handlers, auth, signIn, signOut, update } = NextAuth({
    session: {
       strategy: 'database',
       maxAge: 30 * 24 * 60 * 60,
-      updateAge: 24 * 60 * 60,
+      updateAge: 7 * 24 * 60 * 60,
       generateSessionToken: () => {
          return randomUUID?.() ?? randomBytes(32).toString('hex')
       },

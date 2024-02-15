@@ -1,6 +1,5 @@
 import { ViperRepositorySource } from '@/types/repository/viper-repository'
 import {
-   Blog,
    CreatedEvent,
    EventCollection,
    Follow,
@@ -12,8 +11,8 @@ import {
 } from '@/types/viper'
 import { Collection, Db, ObjectId, WithId } from 'mongodb'
 import { VIPER_BASIC_PROPS, VIPER_SIMPLE, VIPER_WITHOUT_PASSWORD } from '@/constants/projection'
-import { logError } from '@/config/winstonLogger'
 
+const isDevEnvironment = process.env.NODE_ENV === 'development'
 export class ViperRepository implements ViperRepositorySource {
    private viperCollection: Collection<Viper>
 
@@ -21,58 +20,45 @@ export class ViperRepository implements ViperRepositorySource {
       this.viperCollection = database.collection<Viper>('users')
    }
 
-   async initSearchIndexes(): Promise<void> {
-      try {
-         const existingIndexes = await this.viperCollection.indexes()
-
-         const createdIndexNames = existingIndexes.map((index) => index.name)
-         const indexNames = ['_id_', 'getUsername', 'getEmail', 'search']
-
-         const allIndexCreated = indexNames.every((indexName) =>
-            createdIndexNames.includes(indexName),
-         )
-
-         if (allIndexCreated) {
-            return
-         }
-
-         const usernameIndex = this.viperCollection.createIndex(
-            { username: 1 },
-            { name: 'getUsername', collation: { locale: 'en', strength: 2 }, unique: true },
-         )
-         const emailIndex = this.viperCollection.createIndex(
-            { email: 1 },
-            { name: 'getEmail', collation: { locale: 'en', strength: 2 }, unique: true },
-         )
-         const searchIndex = this.viperCollection.createIndex(
-            { username: 'text', name: 'text' },
-            { name: 'search' },
-         )
-
-         await Promise.all([usernameIndex, emailIndex, searchIndex])
-      } catch (error) {
-         logError({ s: 'something' }, error)
-         throw error
-      }
-   }
-
    async login(identifier: {
       field: 'email' | 'username'
       value: string
    }): Promise<WithId<ViperBasic & { password: string }> | null> {
       const { field, value } = identifier
-      try {
-         const viper = await this.viperCollection.findOne(
-            {
-               [field]: value,
-            },
-            {
-               collation: { locale: 'en', strength: 2 },
-               projection: { ...VIPER_BASIC_PROPS, password: 1 },
-            },
-         )
 
-         return viper as WithId<ViperBasic & { password: string }> | null
+      try {
+         if (isDevEnvironment) {
+            const viper = await this.viperCollection.findOne(
+               {
+                  [field]: value,
+               },
+               {
+                  projection: { ...VIPER_BASIC_PROPS, password: 1 },
+               },
+            )
+            return viper as WithId<ViperBasic & { password: string }> | null
+         } else {
+            const searchIndex = field === 'email' ? 'getEmail' : 'getUsername'
+
+            const viper = await this.viperCollection
+               .aggregate([
+                  {
+                     $search: {
+                        index: searchIndex,
+                        text: {
+                           query: value,
+                           path: field,
+                        },
+                     },
+                  },
+                  {
+                     $project: { ...VIPER_BASIC_PROPS, password: 1 },
+                  },
+               ])
+               .toArray()
+
+            return viper.length ? (viper[0] as WithId<ViperBasic & { password: string }>) : null
+         }
       } catch (error: unknown) {
          throw error
       }
@@ -103,32 +89,14 @@ export class ViperRepository implements ViperRepositorySource {
                   role: role,
                   bio: '',
                   location: '',
-                  contactInfo: {
-                     phone: null,
-                     address: '',
-                  },
                   birthDate: {
                      day: '',
                      month: '',
                      year: '',
                   },
-                  blogs: {
-                     personal: [],
-                     likes: [],
-                     withReplies: [],
-                  },
                   password: undefined,
                   image: image,
                   backgroundImage: '',
-                  shopify: {
-                     customerAccessToken: '',
-                     customerId: '',
-                  },
-                  events: {
-                     created: [],
-                     collection: [],
-                     likes: [],
-                  },
                   followers: [],
                   followersCount: 0,
                   followings: [],
@@ -255,19 +223,37 @@ export class ViperRepository implements ViperRepositorySource {
 
    async getByUsername(username: string): Promise<WithId<ViperBasic> | null> {
       try {
-         const viper: WithId<Viper> | null = await this.viperCollection.findOne(
-            {
-               username,
-            },
-            {
-               collation: { locale: 'en', strength: 2 },
-               projection: VIPER_BASIC_PROPS,
-            },
-         )
+         if (isDevEnvironment) {
+            const viper: WithId<Viper> | null = await this.viperCollection.findOne(
+               {
+                  username,
+               },
+               {
+                  projection: VIPER_BASIC_PROPS,
+               },
+            )
 
-         // if (!viper) throw new Error(`User not found or does not exist.`)
+            return viper
+         } else {
+            const viper = await this.viperCollection
+               .aggregate([
+                  {
+                     $search: {
+                        index: 'getUsername',
+                        text: {
+                           query: username,
+                           path: 'username',
+                        },
+                     },
+                  },
+                  {
+                     $project: VIPER_BASIC_PROPS,
+                  },
+               ])
+               .toArray()
 
-         return viper
+            return viper.length ? (viper[0] as WithId<ViperBasic>) : null
+         }
       } catch (error: unknown) {
          throw error
       }
@@ -275,71 +261,105 @@ export class ViperRepository implements ViperRepositorySource {
 
    async getByEmail(email: string): Promise<WithId<ViperBasic> | null> {
       try {
-         const viper: WithId<Viper> | null = await this.viperCollection.findOne(
-            {
-               email,
-            },
-            {
-               collation: { locale: 'en', strength: 2 },
-               projection: VIPER_BASIC_PROPS,
-            },
-         )
+         if (isDevEnvironment) {
+            const viper: WithId<Viper> | null = await this.viperCollection.findOne(
+               {
+                  email,
+               },
+               {
+                  projection: VIPER_BASIC_PROPS,
+               },
+            )
 
-         return viper
+            return viper
+         } else {
+            const viper = await this.viperCollection
+               .aggregate([
+                  {
+                     $search: {
+                        index: 'getEmail',
+                        text: {
+                           query: email,
+                           path: 'email',
+                        },
+                     },
+                  },
+                  {
+                     $project: VIPER_BASIC_PROPS,
+                  },
+               ])
+               .toArray()
+
+            return viper.length ? (viper[0] as WithId<ViperBasic>) : null
+         }
       } catch (error: unknown) {
          throw error
       }
    }
 
-   // TODO: change to aggregate when we use mongo Atlas, so we can perform fuzzy find and recommendations
-   //  https://www.youtube.com/watch?v=Z05rVI5mhzE
    async searchByUsernameOrName(username: string): Promise<WithId<ViperBasic>[]> {
       try {
-         const vipers = await this.viperCollection
-            .find<Viper>(
-               {
-                  $text: {
-                     $search: username,
+         if (isDevEnvironment) {
+            const vipers = await this.viperCollection
+               .find<Viper>(
+                  {
+                     $text: {
+                        $search: username,
+                     },
                   },
-               },
-               {
-                  projection: {
-                     score: { $meta: 'textScore' },
-                     ...VIPER_SIMPLE,
+                  {
+                     projection: {
+                        score: { $meta: 'textScore' },
+                        ...VIPER_SIMPLE,
+                     },
                   },
-               },
-            )
-            .sort({ score: { $meta: 'textScore' } })
-            .limit(20)
-            .toArray()
+               )
+               .sort({ score: { $meta: 'textScore' } })
+               .limit(20)
+               .toArray()
 
-         // This is only available on MongoAtlas, fuzzy search
-         // .aggregate([
-         //    {
-         //       $search: {
-         //          index: 'search',
-         //          // compound: {
-         //          // must: [
-         //          //    {
-         //          //       text: {
-         //          //          query: username,
-         //          //          path: ['username', 'email'],
-         //          //          fuzzy: {},
-         //          //       },
-         //          //    },
-         //          // ],
-         //          // },
-         //          text: {
-         //             query: username,
-         //             path: ['username', 'email'],
-         //             fuzzy: {},
-         //          },
-         //       },
-         //    },
-         // ])
-         // .toArray()
+            return vipers
+         } else {
+            const vipers = await this.viperCollection
+               .aggregate([
+                  {
+                     $search: {
+                        index: 'searchUserAutocomplete',
+                        compound: {
+                           should: [
+                              {
+                                 autocomplete: {
+                                    query: username,
+                                    path: 'username',
+                                    tokenOrder: 'sequential',
+                                    fuzzy: {},
+                                 },
+                              },
+                              {
+                                 autocomplete: {
+                                    query: username,
+                                    path: 'name',
+                                    tokenOrder: 'sequential',
+                                    fuzzy: {},
+                                 },
+                              },
+                           ],
+                        },
+                     },
+                  },
+                  {
+                     $project: {
+                        score: { $meta: 'searchScore' },
+                        ...VIPER_SIMPLE,
+                     },
+                  },
+               ])
+               .sort({ score: -1 })
+               .limit(10)
+               .toArray()
 
-         return vipers as WithId<ViperBasic>[]
+            return vipers as WithId<ViperBasic>[]
+         }
       } catch (error: unknown) {
          throw error
       }
@@ -350,23 +370,46 @@ export class ViperRepository implements ViperRepositorySource {
       value: string
    }): Promise<boolean> {
       try {
-         const isAvailable: WithId<Viper> | null = await this.viperCollection.findOne(
-            {
-               [findQuery.field]: findQuery.value,
-            },
-            {
-               collation: {
-                  locale: 'en',
-                  strength: 2,
+         if (isDevEnvironment) {
+            const isAvailable: WithId<Viper> | null = await this.viperCollection.findOne(
+               {
+                  [findQuery.field]: findQuery.value,
                },
-               projection: {
-                  _id: 0,
-                  [findQuery.field]: 1,
+               {
+                  collation: {
+                     locale: 'en',
+                     strength: 2,
+                  },
+                  projection: {
+                     _id: 0,
+                     [findQuery.field]: 1,
+                  },
                },
-            },
-         )
+            )
 
-         return !!isAvailable
+            return !!isAvailable
+         } else {
+            const searchIndex = findQuery.field === 'email' ? 'getEmail' : 'getUsername'
+
+            const isAvailable = await this.viperCollection
+               .aggregate([
+                  {
+                     $search: {
+                        index: searchIndex,
+                        text: {
+                           query: findQuery.value,
+                           path: findQuery.field,
+                        },
+                     },
+                  },
+                  {
+                     $project: VIPER_BASIC_PROPS,
+                  },
+               ])
+               .toArray()
+
+            return !!isAvailable.length
+         }
       } catch (error: unknown) {
          throw error
       }
@@ -480,253 +523,6 @@ export class ViperRepository implements ViperRepositorySource {
          if (!toggleFollowing) throw new Error(`No matching user to toggle following`)
 
          return toggleFollowing as Pick<WithId<Viper>, '_id'>
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async getBlogs(viperId: string): Promise<Blog[]> {
-      try {
-         // TODO: use cursor .next() hasNext() for pagination
-         // change this to find?
-         const viperBlogs: Blog[] = await this.viperCollection
-            .aggregate<Blog>([
-               {
-                  $match: {
-                     _id: new ObjectId(viperId),
-                  },
-               },
-               {
-                  $unwind: '$blogs',
-               },
-               { $unwind: '$blogs.personal' },
-               {
-                  $project: {
-                     _id: 0,
-                     'blogs.personal': 1,
-                  },
-                  // $project: {
-                  //    _id: '$blogs.personal._id',
-                  //    content: '$blogs.personal.content',
-                  //    likes: '$blogs.personal.likes',
-                  //    comments: '$blogs.personal.replies',
-                  //    timestamp: '$blogs.personal.timestamp',
-                  // },
-               },
-
-               { $sort: { timestamp: 1 } },
-            ])
-            .limit(15)
-            .toArray()
-
-         return viperBlogs
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null> {
-      try {
-         const newBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(viperId),
-            },
-            {
-               $push: {
-                  'blogs.personal': {
-                     _id: new ObjectId(),
-                     content: comment,
-                     likes: [],
-                     replies: [],
-                     // rePosts: [],
-                     timestamp: Date.now(),
-                  },
-               },
-            },
-            {
-               projection: {
-                  _id: 1,
-               },
-            },
-         )
-
-         // TODO: refactor the database, different collection for different issues
-         // then refactor this stuff, the return of the func is viper | null and we are telling here not to be null
-         // if (!newBlog) throw new Error(`User not found or does not exist.`)
-
-         return newBlog
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean> {
-      try {
-         const isLiked: WithId<Viper> | null = await this.viperCollection.findOne({
-            _id: new ObjectId(viperId),
-            'blogs.personal': {
-               $elemMatch: {
-                  _id: new ObjectId(blogId),
-                  'likes._id': new ObjectId(sessionId),
-               },
-            },
-
-            projection: {
-               _id: 'likes._id',
-            },
-         })
-         return !!isLiked
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async toggleBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      const operation: string = isLiked ? '$pull' : '$push'
-      try {
-         const toggleLike: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(viperId),
-               'blogs.personal._id': new ObjectId(blogId),
-            },
-            {
-               [operation]: {
-                  'blogs.personal.$.likes': { _id: new ObjectId(sessionId) },
-               },
-            },
-            {
-               projection: {
-                  _id: 1,
-               },
-            },
-         )
-
-         if (!toggleLike)
-            throw new Error(
-               `No matching user or blog to  ${operation === '$push' ? 'like' : 'dislike'}`,
-            )
-
-         return toggleLike
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async toggleFeedBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      // TODO: if it is our own Blog we should not push it to our feed since it will be already there
-      // if(viperId === sessionId) return
-      const operation: string = isLiked ? '$pull' : '$push'
-      try {
-         const toggleLikedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(sessionId),
-            },
-            {
-               [operation]: {
-                  'blogs.likes': {
-                     _id: new ObjectId(blogId),
-                     viperId: new ObjectId(viperId),
-                  },
-               },
-            },
-            {
-               projection: {
-                  _id: 1,
-               },
-            },
-         )
-
-         if (!toggleLikedBlog)
-            throw new Error(
-               `No matching user to ${operation === '$push' ? 'like' : 'dislike'} feed blog`,
-            )
-
-         return toggleLikedBlog
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async addBlogReply(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-      // change this to reply or content when the time comes
-      comment: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         const newReply: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(viperId),
-               'blogs._id': new ObjectId(blogId),
-            },
-            {
-               $push: {
-                  'blogs.$.replies': {
-                     _id: new ObjectId(),
-                     viperId: new ObjectId(sessionId),
-                     content: comment,
-                     likes: [],
-                     timestamp: Date.now(),
-                  },
-               },
-            },
-            {
-               projection: {
-                  _id: 1,
-               },
-            },
-         )
-
-         // same here, maybe return null and status: 404 ?
-         if (!newReply) throw new Error(`No matching user or blog to add a reply`)
-
-         return newReply
-      } catch (error: unknown) {
-         throw error
-      }
-   }
-
-   async addWithReplyBlogToFeed(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         // TODO: if the it is our own blog we should not push it to the feed
-         // if(viperId === sessionId) return
-         const addFeedBlog: WithId<Viper> | null = await this.viperCollection.findOneAndUpdate(
-            {
-               _id: new ObjectId(sessionId),
-            },
-            {
-               $push: {
-                  'blogs.with_replies': {
-                     _id: new ObjectId(blogId),
-                     viperId: new ObjectId(viperId),
-                  },
-               },
-            },
-            {
-               projection: {
-                  _id: 1,
-               },
-            },
-         )
-
-         if (!addFeedBlog) throw new Error(`No matching user to add blog to feed`)
-
-         return addFeedBlog
       } catch (error: unknown) {
          throw error
       }

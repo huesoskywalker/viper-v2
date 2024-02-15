@@ -13,7 +13,6 @@ import {
 } from '../viper'
 
 interface ViperCRUDRepository {
-   initSearchIndexes(): Promise<void>
    login(identifier: {
       field: 'email' | 'username'
       value: string
@@ -38,7 +37,7 @@ interface ViperCRUDRepository {
    getByIdBasic(viperId: string): Promise<WithId<ViperBasic>>
    getByUsername(username: string): Promise<WithId<ViperBasic> | null>
    getByEmail(email: string): Promise<WithId<ViperBasic> | null>
-   searchByUsernameOrName(username: string): Promise<WithId<ViperSimple>[]>
+   searchByUsernameOrName(usernameOrName: string): Promise<WithId<ViperSimple>[]>
    isPropAvailable(findQuery: { field: 'email' | 'username'; value: string }): Promise<boolean>
 }
 
@@ -65,34 +64,6 @@ interface ViperFollowRepository {
    // We need to add a initChat type and function
    // initChat(viperId: string, sessionId: string): Promise
 }
-interface ViperBlogRepository {
-   getBlogs(viperId: string): Promise<Blog[]>
-   createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null>
-   isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean>
-   toggleBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   toggleFeedBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   addBlogReply(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-      comment: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-   addWithReplyBlogToFeed(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>>
-}
 
 interface ViperEventRepository {
    toggleFeedEventLike(
@@ -116,5 +87,4 @@ interface ViperEventRepository {
 
 export type ViperRepositorySource = ViperCRUDRepository &
    ViperFollowRepository &
-   ViperBlogRepository &
    ViperEventRepository

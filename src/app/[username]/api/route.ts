@@ -26,14 +26,14 @@ export async function GET(request: NextRequest) {
          logMongoError({ action: `Search username`, viperId: session.user._id }, error)
          return NextResponse.json(
             {
-               error: `Internal server error: Unable to update the user. Please try again later.`,
+               error: `Internal server error: Unable to search users. Please try again later.`,
             },
             { status: 500 },
          )
       } else {
          logError({ action: `Search username`, viperId: session.user._id }, error)
          return NextResponse.json(
-            { error: `Failed to update the user. Please try again later.` },
+            { error: `Failed to search users. Please try again later.` },
             { status: 400 },
          )
       }

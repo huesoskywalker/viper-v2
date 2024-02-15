@@ -16,8 +16,6 @@ const eventService = new EventService(eventRepository)
 
 const viperService = new ViperService(viperRepository)
 
-await viperService.initSearchIndexes()
-
 const preloadViperService = new PreloadViperService(viperService)
 
 export { clientPromise, eventService, viperService, preloadViperService }

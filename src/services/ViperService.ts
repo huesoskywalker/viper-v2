@@ -1,7 +1,5 @@
-import { logError, logMongoError } from '@/config/winstonLogger'
 import { ViperRepositorySource } from '@/types/repository/viper-repository'
 import {
-   Blog,
    CreatedEvent,
    EventCollection,
    Follow,
@@ -12,7 +10,7 @@ import {
    ViperSimple,
    _ID,
 } from '@/types/viper'
-import { MongoError, ObjectId, WithId } from 'mongodb'
+import { ObjectId, WithId } from 'mongodb'
 import bcrypt from 'bcrypt'
 import { ViperServiceSource } from '@/types/service/viper-service'
 import { emailRegex } from '@/app/(auth)/i/flow/_utils/regex'
@@ -22,31 +20,6 @@ export class ViperService implements ViperServiceSource {
 
    constructor(viperRepository: ViperRepositorySource) {
       this.viperRepository = viperRepository
-   }
-
-   async initSearchIndexes(): Promise<void> {
-      try {
-         await this.viperRepository.initSearchIndexes()
-      } catch (error) {
-         if (error instanceof MongoError) {
-            logMongoError(
-               { action: 'Initialize search Indexes', indexes: ['searchUsername', 'searchEmail'] },
-               error,
-            )
-
-            throw new Error(`Unable to initialize search indexes: ${error.message}`)
-         } else {
-            logError(
-               { action: 'Init search Indexes', indexes: ['searchUsername', 'searchEmail'] },
-               error,
-            )
-            throw new Error(
-               `Failed to initialize search indexes: ${
-                  error instanceof Error ? error.message : 'Unknown error'
-               }`,
-            )
-         }
-      }
    }
 
    async login(identifier: string, plainPassword: string): Promise<WithId<ViperBasic> | null> {
@@ -265,118 +238,118 @@ export class ViperService implements ViperServiceSource {
       }
    }
 
-   async getBlogs(viperId: string): Promise<Blog[]> {
-      try {
-         const viperBlogs: Blog[] = await this.viperRepository.getBlogs(viperId)
+   // async getBlogs(viperId: string): Promise<Blog[]> {
+   //    try {
+   //       const viperBlogs: Blog[] = await this.viperRepository.getBlogs(viperId)
 
-         return viperBlogs
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return viperBlogs
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null> {
-      try {
-         const blogContent = await this.viperRepository.createBlog(viperId, comment)
+   // async createBlog(viperId: string, comment: string): Promise<WithId<Pick<Viper, '_id'>> | null> {
+   //    try {
+   //       const blogContent = await this.viperRepository.createBlog(viperId, comment)
 
-         return blogContent
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return blogContent
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean> {
-      try {
-         const isLiked: boolean = await this.viperRepository.isBlogLiked(
-            blogId,
-            viperId,
-            sessionId,
-         )
+   // async isBlogLiked(blogId: string, viperId: string, sessionId: string): Promise<boolean> {
+   //    try {
+   //       const isLiked: boolean = await this.viperRepository.isBlogLiked(
+   //          blogId,
+   //          viperId,
+   //          sessionId,
+   //       )
 
-         return isLiked
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return isLiked
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async toggleBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         const toggleLike = await this.viperRepository.toggleBlogLike(
-            isLiked,
-            blogId,
-            viperId,
-            sessionId,
-         )
+   // async toggleBlogLike(
+   //    isLiked: boolean,
+   //    blogId: string,
+   //    viperId: string,
+   //    sessionId: string,
+   // ): Promise<WithId<Pick<Viper, '_id'>>> {
+   //    try {
+   //       const toggleLike = await this.viperRepository.toggleBlogLike(
+   //          isLiked,
+   //          blogId,
+   //          viperId,
+   //          sessionId,
+   //       )
 
-         return toggleLike
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return toggleLike
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async toggleFeedBlogLike(
-      isLiked: boolean,
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         const toggleLikedBlog = await this.viperRepository.toggleFeedBlogLike(
-            isLiked,
-            blogId,
-            viperId,
-            sessionId,
-         )
+   // async toggleFeedBlogLike(
+   //    isLiked: boolean,
+   //    blogId: string,
+   //    viperId: string,
+   //    sessionId: string,
+   // ): Promise<WithId<Pick<Viper, '_id'>>> {
+   //    try {
+   //       const toggleLikedBlog = await this.viperRepository.toggleFeedBlogLike(
+   //          isLiked,
+   //          blogId,
+   //          viperId,
+   //          sessionId,
+   //       )
 
-         return toggleLikedBlog
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return toggleLikedBlog
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async addBlogReply(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-      // change this to content or reply as well
-      comment: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         const addBlogComment = await this.viperRepository.addBlogReply(
-            blogId,
-            viperId,
-            sessionId,
-            comment,
-         )
+   // async addBlogReply(
+   //    blogId: string,
+   //    viperId: string,
+   //    sessionId: string,
+   //    // change this to content or reply as well
+   //    comment: string,
+   // ): Promise<WithId<Pick<Viper, '_id'>>> {
+   //    try {
+   //       const addBlogComment = await this.viperRepository.addBlogReply(
+   //          blogId,
+   //          viperId,
+   //          sessionId,
+   //          comment,
+   //       )
 
-         return addBlogComment
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return addBlogComment
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
-   async addWithReplyBlogToFeed(
-      blogId: string,
-      viperId: string,
-      sessionId: string,
-   ): Promise<WithId<Pick<Viper, '_id'>>> {
-      try {
-         const addFeedBlog = await this.viperRepository.addWithReplyBlogToFeed(
-            blogId,
-            viperId,
-            sessionId,
-         )
+   // async addWithReplyBlogToFeed(
+   //    blogId: string,
+   //    viperId: string,
+   //    sessionId: string,
+   // ): Promise<WithId<Pick<Viper, '_id'>>> {
+   //    try {
+   //       const addFeedBlog = await this.viperRepository.addWithReplyBlogToFeed(
+   //          blogId,
+   //          viperId,
+   //          sessionId,
+   //       )
 
-         return addFeedBlog
-      } catch (error: unknown) {
-         throw error
-      }
-   }
+   //       return addFeedBlog
+   //    } catch (error: unknown) {
+   //       throw error
+   //    }
+   // }
 
    async toggleFeedEventLike(
       isLiked: boolean,
