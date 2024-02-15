@@ -13,14 +13,11 @@ export type Viper = {
    role: Role
    bio: Biography
    location: Location
-   contactInfo: ContactInfo
    birthDate: BirthDate
-   blogs: Blog
    password: string | undefined
    passwordResetMotive: string[]
    image: Image
    backgroundImage: Image
-   shopify: Shopify
    events: MyEvents
    followers: Follow[]
    followersCount: number
@@ -52,14 +49,6 @@ export type _ID = ObjectId | Hex24String
 
 export type Location = string
 
-export type ContactInfo = {
-   phone: number | null
-   address: string
-   // city: string
-   // zip: string
-   // website: string
-}
-
 type Biography = string
 
 type BirthDate = {
@@ -78,10 +67,11 @@ type Image = string
 
 type Name = string
 
+// TODO: fix this types
 export type MyEvents = {
-   created: CreatedEvent[]
-   collection: EventCollection[]
-   likes: Like[]
+   listings: CreatedEvent[]
+   going: EventCollection[]
+   interested: Like[]
 }
 export type CreatedEvent = {
    readonly _id: _ID
@@ -89,7 +79,7 @@ export type CreatedEvent = {
 
 export type EventCollection = {
    readonly _id: _ID
-   readonly checkoutId: string
+   // readonly checkoutId: string
 }
 
 export type Like = {
@@ -98,37 +88,6 @@ export type Like = {
 
 export type Follow = {
    readonly _id: _ID
-}
-
-export type Blog = {
-   personal: PersonalBlog[]
-   likes: ExternalBlog[]
-   withReplies: ExternalBlog[]
-}
-
-export type PersonalBlog = {
-   readonly _id: _ID
-   content: string
-   likes: Like[]
-   replies: Reply[]
-   timestamp: number
-}
-
-export type Reply = {
-   readonly _id: _ID
-   viperId: _ID
-   content: string
-   likes: Like[]
-   // if we want to keep nesting we should uncomment the following
-   // comments: BlogComment[]
-   timestamp: number
-}
-// Should be great if we add another DB or Collection for Blogs, and mostly everything
-// So we can store only the _id and then map through the blogs and retrieve the comments
-// That will make the docs lighter
-export type ExternalBlog = {
-   readonly _id: _ID
-   readonly viperId: _ID
 }
 
 export type Chats = {
@@ -146,10 +105,6 @@ export type Message = {
 export type Sender = {
    readonly _id: _ID
    name: string
-}
-export type Shopify = {
-   customerAccessToken: string
-   customerId: string
 }
 
 export type ViperBasic = Pick<
