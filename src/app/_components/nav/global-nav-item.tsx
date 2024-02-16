@@ -16,6 +16,9 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
 
    const LucideIcon = item.icon
 
+   const disableItems = ['explore', 'notifications', 'messages']
+   const disable = disableItems.includes(item.slug)
+
    return (
       <>
          <Link
@@ -33,9 +36,14 @@ export const GlobalNavItem: React.FC<GlobalNavItem> = ({ item, username, ...prop
             scroll={false}
             {...props}
          >
-            <div className="flex w-full flex-row items-center justify-start gap-3">
-               <LucideIcon className="text-foreground" strokeWidth={isActive ? 3 : 2} size={30} />
-               <span className={'hidden text-foreground xl:block xl:text-lg'}>{item.name}</span>
+            <div
+               className={cn(
+                  'flex w-full flex-row items-center justify-start gap-3 text-foreground',
+                  disable && 'cursor-not-allowed text-muted-foreground',
+               )}
+            >
+               <LucideIcon strokeWidth={isActive ? 3 : 2} size={30} />
+               <span className={'hidden xl:block xl:text-lg'}>{item.name}</span>
             </div>
          </Link>
       </>

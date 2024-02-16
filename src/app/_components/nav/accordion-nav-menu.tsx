@@ -5,7 +5,7 @@ import {
    AccordionTrigger,
 } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
-import { BarChart3, LogOut, Settings } from 'lucide-react'
+import { LogOut, Settings } from 'lucide-react'
 import ThemeSwitch from '../theme-switch'
 import Link from 'next/link'
 
@@ -16,15 +16,12 @@ export const AccordionNavMenu = () => {
 
    return (
       <Accordion type="multiple" className="w-full text-foreground">
-         <AccordionItem value="item-1">
-            <AccordionTrigger className={triggerClass}>Viper Studio</AccordionTrigger>
-            <AccordionContent className={contentClass}>
-               <BarChart3 size={20} /> Analytics
-            </AccordionContent>
-         </AccordionItem>
          <AccordionItem value="item-2">
             <AccordionTrigger className={triggerClass}>Settings and Support</AccordionTrigger>
-            <AccordionContent className={contentClass}>
+            <AccordionContent
+               className={cn(contentClass, 'cursor-not-allowed text-muted-foreground')}
+               aria-disabled
+            >
                <Settings size={20} />
                Settings and privacy
             </AccordionContent>{' '}
